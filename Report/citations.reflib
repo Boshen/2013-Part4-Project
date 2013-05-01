@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+<manage_target braces="false" utf8="false"></manage_target>
+<library_folder monitor="false"></library_folder>
+<taglist>
+</taglist>
+<doclist>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Sheffi</key>
+    <notes></notes>
+    <bib_type>Book</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Urban Transportation Networks: Equilibrium Analysis With Mathematical Programming Methods</bib_title>
+    <bib_authors>Sheffi, Yosef</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year></bib_year>
+    <bib_extra key="Citeulike-article-id">2342811</bib_extra>
+    <bib_extra key="Citeulike-linkout-0">http://web.mit.edu/sheffi/www/urbanTransportation.html</bib_extra>
+    <bib_extra key="Citeulike-linkout-1">http://www.amazon.ca/exec/obidos/redirect?tag=citeulike09-20&amp;amp;path=ASIN/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-10">http://www.librarything.com/isbn/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-2">http://www.amazon.de/exec/obidos/redirect?tag=citeulike01-21&amp;amp;path=ASIN/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-3">http://www.amazon.fr/exec/obidos/redirect?tag=citeulike06-21&amp;amp;path=ASIN/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-4">http://www.amazon.jp/exec/obidos/ASIN/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-5">http://www.amazon.co.uk/exec/obidos/ASIN/0139397299/citeulike00-21</bib_extra>
+    <bib_extra key="Citeulike-linkout-6">http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20&amp;path=ASIN/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-7">http://www.worldcat.org/isbn/0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-8">http://books.google.com/books?vid=ISBN0139397299</bib_extra>
+    <bib_extra key="Citeulike-linkout-9">http://www.amazon.com/gp/search?keywords=0139397299&amp;index=books&amp;linkCode=qs</bib_extra>
+    <bib_extra key="Isbn">0139397299</bib_extra>
+    <bib_extra key="Keywords">books, traffic</bib_extra>
+    <bib_extra key="Posted-at">2008-02-06 17:34:35</bib_extra>
+    <bib_extra key="Priority">2</bib_extra>
+    <bib_extra key="Publisher">Prentice Hall</bib_extra>
+    <bib_extra key="Series"></bib_extra>
+    <bib_extra key="Url">http://web.mit.edu/sheffi/www/urbanTransportation.html</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Florian1995</key>
+    <notes></notes>
+    <bib_type>Inbook</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Handbooks in Operations Research and Management Science</bib_title>
+    <bib_authors>Florian, Michael and Hearn, Donald</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume>Volume 8</bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>485-550</bib_pages>
+    <bib_year>1995</bib_year>
+    <bib_extra key="Added-at">2008-04-22T15:17:45.000+0200</bib_extra>
+    <bib_extra key="Biburl">http://www.bibsonomy.org/bibtex/2a8965f3ba8fa2bfd52e4f3f622a236eb/smicha</bib_extra>
+    <bib_extra key="Chapter">Chapter 6 Network equilibrium models and algorithms</bib_extra>
+    <bib_extra key="Interhash">fd53f32389e144ea3fd54beaa45994f9</bib_extra>
+    <bib_extra key="Intrahash">a8965f3ba8fa2bfd52e4f3f622a236eb</bib_extra>
+    <bib_extra key="Keywords">imported</bib_extra>
+    <bib_extra key="Publisher">Elsevier</bib_extra>
+    <bib_extra key="Timestamp">2008-04-22T15:17:45.000+0200</bib_extra>
+    <bib_extra key="Url">http://www.sciencedirect.com/science/article/B7P6G-4FKY22V-S/1/2d71e5d83c74e838b7b6b583a3c488e9</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>journals/networks/KlunderP06</key>
+    <notes></notes>
+    <bib_type>Article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>The shortest path problem on large-scale real-road networks.</bib_title>
+    <bib_authors>Klunder, G. A. and Post, H. N.</bib_authors>
+    <bib_journal>Networks</bib_journal>
+    <bib_volume>48</bib_volume>
+    <bib_number>4</bib_number>
+    <bib_pages>182-194</bib_pages>
+    <bib_year>2006</bib_year>
+    <bib_extra key="Added-at">2007-01-30T00:00:00.000+0100</bib_extra>
+    <bib_extra key="Biburl">http://www.bibsonomy.org/bibtex/2cfaf11c926ffce1b4446f8380110747a/dblp</bib_extra>
+    <bib_extra key="Date">2007-01-30</bib_extra>
+    <bib_extra key="Description">dblp</bib_extra>
+    <bib_extra key="Ee">http://dx.doi.org/10.1002/net.20131</bib_extra>
+    <bib_extra key="Interhash">380c5356a4a8ed179655bc2e110f5f39</bib_extra>
+    <bib_extra key="Intrahash">cfaf11c926ffce1b4446f8380110747a</bib_extra>
+    <bib_extra key="Keywords">dblp</bib_extra>
+    <bib_extra key="Timestamp">2007-01-30T00:00:00.000+0100</bib_extra>
+    <bib_extra key="Url">http://dblp.uni-trier.de/db/journals/networks/networks48.html#KlunderP06</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Goldberg06reachfor</key>
+    <notes></notes>
+    <bib_type>InProceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Reach for A∗: Efficient point-to-point shortest path algorithms</bib_title>
+    <bib_authors>Goldberg, Andrew V. and Kaplan, Haim and Werneck, Renato F.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>129-143</bib_pages>
+    <bib_year>2006</bib_year>
+    <bib_extra key="BookTitle">IN WORKSHOP ON ALGORITHM ENGINEERING &amp; EXPERIMENTS</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Inoka:dijkstra2</key>
+    <notes></notes>
+    <bib_type>Article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Dijkstra’s algorithm revisited: the dynamic programming connexion</bib_title>
+    <bib_authors>Sniedovich, M.</bib_authors>
+    <bib_journal>Control and cybernetics</bib_journal>
+    <bib_volume>35</bib_volume>
+    <bib_number>3</bib_number>
+    <bib_pages>599-620</bib_pages>
+    <bib_year>2006</bib_year>
+    <bib_extra key="Citeulike-article-id">6901043</bib_extra>
+    <bib_extra key="Keywords">heuristics</bib_extra>
+    <bib_extra key="Posted-at">2010-03-24 15:45:05</bib_extra>
+    <bib_extra key="Priority">2</bib_extra>
+  </doc>
+</doclist>
+</library>

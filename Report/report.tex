@@ -1,0 +1,87 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[11pt, a4paper, oneside]{report}
+
+\usepackage[left=30mm, right=20mm]{geometry}
+
+\usepackage{microtype}
+\usepackage{fixltx2e}
+
+\usepackage{parskip}
+\usepackage[compact]{titlesec}
+
+\usepackage[nottoc]{tocbibind}
+\usepackage[sort,authoryear]{natbib}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage[titletoc]{appendix}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usepackage{verbatim}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+%\usepackage{tikz}
+\usepackage{pgfplots}
+%\usetikzlibrary{shapes.multipart,chains,arrows}
+
+%\setlength\parindent{0pt}
+\setlength{\marginparwidth}{2cm}
+\reversemarginpar
+\lstset{
+    language=C++, numbers=left, numberstyle=\tiny, stepnumber=1,
+    frame=single, breaklines=true, showstringspaces=false, tabsize=4,
+    commentstyle=\itshape\color{gray}, basicstyle=\footnotesize\ttfamily\bfseries, morekeywords={def}
+}
+
+\begin{document}
+\thispagestyle{empty}
+\include{./contents/titlepage}
+
+\newpage
+\thispagestyle{empty}
+\include{./contents/abstract}
+
+\newpage
+\thispagestyle{empty}
+\include{./contents/acknowledgement}
+
+\thispagestyle{empty}
+\tableofcontents 
+\thispagestyle{empty}
+\listoffigures
+\thispagestyle{empty}
+\listoftables
+
+\thispagestyle{empty}
+\setcounter{page}{0}
+\include{./contents/introduction}
+
+\newpage
+\include{./contents/chapter2} % the shortest path problem
+
+\newpage
+\include{./contents/chapter3} % the shortest path problem
+
+\newpage
+\include{./contents/conclusions}
+
+\newpage
+\include{./contents/appendix}
+
+\newpage
+\bibliographystyle{agsm}
+\bibliography{citations}
+
+\end{document}

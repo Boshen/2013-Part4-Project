@@ -1,0 +1,27 @@
+\begin{abstract}
+One of the major concerns of commuters in Auckland (and all over the world!) is road traffic
+and traffic congestion. Both the design of the road network and determining the best way to
+use it are complex questions that can be addressed based on so-called traffic assignment (TA)
+models, which are network equilibrium problems. These models can be used to assess the
+benefit of road upgrades or adding new roads to the network.
+A TA problem models the route choice of users of a network with nonlinear travel time
+functions to capture congestion effects as more traffic flow on a road means slower travel time.
+The aim of TA is to identify how many network users end up choosing to travel along each
+individual arc in the network. This is done by assuming network users are selfish and choose to
+travel along their shortest path between origin and destination.
+In solving such a TA equilibrium problem, an iterative approach is used. Initially all travel
+demand is assigned to the shortest paths computed for between each trip origin and destination
+based on zero-flow travel times. Then, travel times are updated based on the new flows. New
+shortest paths are identified and travel demand is re-assigned. This process continues until it
+eventually reaches the equilibrium solution.
+The iterative scheme used by TA algorithms requires many shortest path calculations.
+Speeding up these shortest path calculations can lead to a significant speed up of TA
+algorithms, but the speed up technique used would differ for particular traffic assignment
+algorithms. One idea is to use A* search for TA algorithms that repeatedly compute shortest
+paths between single origin destination pairs. A* should lead to a significant improvement in
+runtime over using a standard label setting algorithm. Other speed-up techniques for shortest
+path algorithms will be identified and tested, exploiting the fact that while shortest paths
+change in every iteration of the algorithm, it may be possible to avoid fully re-computing
+shortest path trees. Avoiding re-computation of shortest path trees should benefit TA
+algorithms that require shortest paths between a single origin and all destinations.
+\end{abstract}
