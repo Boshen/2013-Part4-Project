@@ -1,0 +1,361 @@
+\chapter{Solving the Shortest Path Problem}
+
+In this chapter we will solve the shortest path problem
+for transportation networks and sequentially
+improve the existing shortest path algorithm implemented.
+Run time improvement will be shown and discussed.
+
+\marginpar{TODO}
+{
+    TODO: run time (Big O) analysis for all algorithms.
+}
+\section{General Shortest Path Algorithm}
+Most algorithms for SPP depend on solving a label vector ($d_1, d_2,\dots d_v$).
+
+Each $d_v$ keeps the least distance of of any path going from $s$ to $v$, $d_v = \infty$ if no paths has been found.
+A shortest path is optimal when it satisfies the Bellman's conditions:
+\begin{align}
+    d_v \leq d_u + c_{uv}, \quad \forall(u,v) \in \mathcal{A}, \label{eq:Bellman1}\\
+    d_v  =   d_u + c_{uv}, \quad \forall(u,v) \in \mathcal{P}.
+\end{align}
+\marginpar{Bellman's\\conditions}
+In other words,
+we wish to find a label vector $d$ which satisfy the Bellman's conditions for all of the vertices in the graph.
+To maintain the label vector, the algorithm uses a candidate list $\mathcal{Q}$ to store the label distances.
+A node is said to be unvisited when $d_u = \infty$,
+scanned when $d_u \neq \infty$ and is still in the candidate list,
+and labelled when the node has been retrieved from the candidate list and its distance label cannot be updated further.
+In the general shortest path algorithm,
+we start by putting the origin node in the queue,
+and then iteratively find the arc that violates the Bellman's condition (i.e., $d_w > d_u + c_{uv}$),
+distance labels are set to a value which satisfy condition (\ref{eq:Bellman1}) to the corresponding node of that arc.
+Shortest path going from $s$ to all other nodes in $\mathcal{V}$ is found when (\ref{eq:Bellman1}) is satisfied for all arcs in $\mathcal{A}$.
+We use $p_u$ to denote the predecessor of node $u$;
+shortest path can be constructed by following the predecessor of destination node $t$ back to origin node $s$.
+\marginpar{TODO}
+
+{
+    TODO: better format
+    add diagram showing $u, v, c_{uv}$ etc.
+}
+
+The following pseudo code describes the generic shortest path (GSP) algorithm mentioned above,
+with an extra constraint than a normal GSP: travelling through zone nodes are not allowed.
+\begin{verbatim}
+Initially,
+    Q:={s}, p_s:=-1, d_s:=0,d_u:=\infty, \forall u \neq s.
+Step 1: Node selection
+    Remove a node u from the candidate list Q.
+    Node u is called the pivot node.
+Step 2: Label update
+    if u is not a zone node then
+        for each outgoing arc (u,v) \in \mathcal{A} do
+            if d_u + c_{uv} < d_v then
+                d_v := du + c_{uv}
+                p_v := u
+                if v \notin Q then
+                    add v to Q
+                end if
+            end for
+    end if
+Step 3: Stop condition
+    if Q \neq \emptyset
+        goto Step 1
+    else
+        terminate algorithm
+\end{verbatim}
+
+\section{Label Correcting Algorithm}
+The existing shortest path algorithm in the traffic assignment code is called the label correcting algorithm.
+The code is adapted from \citep{Sheffi}, 
+which uses a first in first out queue for the candidate list.
+The algorithm maintains the pivot node in step 1 of GSP in a way such that it is always the top node,
+utilising the forward star data structure for storing the network mentioned in Chapter~\ref{chap:forwardstar}.
+
+{
+    TODO: pseudo code?
+}
+\marginpar{TODO}
+
+In this algorithm,
+the distance labels do not get permanently labelled when a pivot node is retrieved from the queue,
+another node may 'correct' this node's distance label again,
+thus the name label correcting algorithm.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccc}
+        Network & Nodes & Zones & O-D Pairs & Arcs & Run Time (s) & Iterations \\
+        SiouxFalls    & 24   & 24  & 528   & 76   & $ 0.25 $ & 69 \\
+        Anaheim       & 416  & 38  & 1406  & 914  & $ 1.2  $ & 10 \\
+        Barcelona     & 1020 & 110 & 7922  & 2522 & $ 60   $ & 28 \\
+        Winnipeg      & 1052 & 147 & 4344  & 2836 & $ 190  $ & 129 \\
+        ChicagoSketch & 933  & 387 & 93135 & 2950 & $ 500  $ & 25 
+    \end{tabular}
+    \caption{Label Correcting Algorithm Result}
+\end{table}
+
+\section{Label Setting Algorithm}
+The classical algorithm for solving the single-source shortest path problem is the Label Setting Dijkstra's algorithm.
+Conceptually the algorithm grows a shortest path tree from the source node radially outward.
+The algorithm is said to be label setting as when the pivot node is retrieved from the queue,
+the node gets permanently labelled,
+the shortest path going to this node is then solved,
+the distance label on this pivot node gives the length of the shortest path.
+In order to do this, 
+the priority queue is modified to always have the minimum distance label in front of the queue.
+Hence the algorithm will iterate through all successive pivot nodes exactly once,
+labelling pivot nodes in the order of non-decreasing distance labels.
+
+
+Using the standard C++ standard template library (STL) priority queue (implemented as a Heap tree) using std::vector as the underlying storage,
+the following results are generated.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccc}
+        Network & Nodes & Zones & O-D Pairs & Arcs & Run Time (s) & Iterations \\
+        SiouxFalls    & 24   & 24  & 528   & 76   & $ 0.24 \pm 0.02 $ & 64 \\
+        Anaheim       & 416  & 38  & 1406  & 914  & $ 1.2 \pm 0.2  $ & 10 \\
+        Barcelona     & 1020 & 110 & 7922  & 2522 & $ 43   $ & 27 \\
+        Winnipeg      & 1052 & 147 & 4344  & 2836 & $ 137  $ & 129 \\
+        ChicagoSketch & 933  & 387 & 93135 & 2950 & $ 541  $ & 25 
+    \end{tabular}
+    \caption{Label Setting Algorithm (Dijkstra) Result}
+\end{table}
+
+The advantage of this algorithm over the label correcting algorithm is
+that all nodes are only visited once,
+and the shortest path tree grows outward radially.
+Combining these two feature,
+it is clear that when the pivot node is the destination node and is 
+labelled,
+we can stop the algorithm for the point to point SPP case,
+which is desirable for the Path Equilibration method.
+Modifying Step 1 of the Dijkstra Algorithm gives
+
+Thus we can change the stop condition in the GSP:
+\begin{verbatim}
+Step 3: Stop condition
+    if u is the destination node
+        terminate algorithm
+    end if
+    if Q \neq \emptyset
+        goto Step 1
+    end if
+\end{verbatim}
+Note a path will not be found if the queue becomes empty,
+but this stopping condition is safe because we known a path
+always exist between an O-D pair.
+
+The following table shows the result for point to point Dijkstra's algorithm.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccc}
+        Network & Nodes & Zones & O-D Pairs & Arcs & Run Time (s) & Iterations \\
+        SiouxFalls    & 24   & 24  & 528   & 76   & $ 0.15 \pm 0.02 $ & 64 \\
+        Anaheim       & 416  & 38  & 1406  & 914  & $ 0.67 \pm 0.2  $ & 10 \\
+        Barcelona     & 1020 & 110 & 7922  & 2522 & $ 27.71   $ & 27 \\
+        Winnipeg      & 1052 & 147 & 4344  & 2836 & $ 70  $ & 129 \\
+        ChicagoSketch & 933  & 387 & 93135 & 2950 & $ 204  $ & 25 
+    \end{tabular}
+    \caption{Point to Point Label Setting Algorithm (Dijkstra) Result}
+\end{table}
+
+\subsection{Heap Implementation}
+Various implementations of the Heap data structure exist,
+with each implementation have some advantages than the other,
+for example faster tree balancing, faster push or pop.
+
+We examine 6 different Heap implementations from the C++ Boost Heap Library:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccccc}
+                        & top() & push()    & pop()     & increase() & decrease() \\
+        d-ary (Binary)  & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        d-ary (Ternary) & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Binomial        & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Fibonacci       & O(1)  & O(1)      & O(log(N)) & O(1)       & O(log(N))  \\
+        Pairing         & O(1)  & O($2^{2*\log(\log(N))}$) & O(log(N)) & O($2^{2*\log(\log(N))}$) & O($2^{2*\log(\log(N))}$) \\
+        Skew            & O(1)  & O(log(N)) & O(log(N)) & O(log(N)) & O(log(N))   
+    \end{tabular}
+    \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity}
+    \label{table:heaps}
+\end{table}
+Where N is the number of elements in the Heap tree, and all time complexities are measured in amortized time.
+(the average run time if the operation is run for a long period of time,
+average out worse case and best case).
+
+We are interested in using these Heap data structures rather than the standard STL priority queue is because of one reason:
+the decrease (or increase) function.
+The decrease (or increase) function is referred as the decrease-key (or increase-key) operation,
+which updates the value of the key in the Heap tree.
+Decrease-key is used for a min-heap and increase-key for a max-heap tree.
+For the Dijkstra's algorithm,
+often nodes are scanned multiple times in the label updating step,
+instead of adding the node again into the Heap tree,
+we can use decrease-key on the node,
+updating its distance label.
+This means we can reduce the size of the Heap tree and run time by using decrease-key
+rather than adding the same node (different distance label) in the queue again.
+
+Thus we change Step 2 of the GSP
+\begin{verbatim}
+Step 2: Label update
+    if u is not a zone node then
+        for each outgoing arc (u,v) \in \mathcal{A} do
+            if d_u + c_{uv} < d_v then
+                d_v := du + c_{uv}
+                p_v := u
+                if v \notin Q then
+                    add v to Q
+                else
+                    decrease-key(v)
+                end if
+            end for
+    end if
+\end{verbatim}
+
+In table~\ref{table:heaps},
+we can observe the Fibonacci Heap has a very interesting time complexity,
+constant amortized time for the push, pop and increase-key operation time.
+But the fact is,
+we do not know how much constant time it really uses.
+This also applies to all the other operations.
+And since we do not know the time constant for all the operations,
+and with different sparsity of the networks,
+we need to experiment with all of them.
+
+C++ Boost Library Heaps are implemented as max-heaps,
+which means in order to use the Fibonacci O(1) increase-key function,
+we need to negate the distance labels when we add them into the Heap
+
+The following table shows the run time and iterations for all the networks.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccccccc}
+        Network       & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew & Iterations \\
+        SiouxFalls    & 0.17 & 0.17 & 0.29 & 0.18 & 0.17 & 0.16 & 85 \\
+        Anaheim       & 0.88 & 0.81 & 2.12  & 1.05 & 1.02 & 0.83 & 10 \\
+        Barcelona     & 34 & 33 & 85 & 46  & 44 & 34 & 27 \\
+        Winnipeg      & 83 & 86 & 202 & 107 & 97 & 83 & 128 \\
+        ChicagoSketch & 233 & 229 & 472 & 264 & 231 & 209 & 26
+    \end{tabular}
+    \caption{Label Setting Algorithm (Dijkstra) Result}
+    \label{table:dijkstraresult}
+\end{table}
+
+All of these run times are slower than the STL version of the Heap.
+Upon inspection,
+it is found that the increase-key operation is used about between 5\% to 10\%
+\marginpar{TODO\\actual\\count}
+of the time,
+which means the graphs are not dense enough for these Heap structures to outperform a
+simple array based priority queue.
+
+\section{A* Algorithm}
+Up until now,
+the Dijkstra's algorithm does not take into account the location of the destination,
+the shortest path tree is grown out radially until the destination is labelled.
+In a traditional graph where actual distances are used for the distance labels,
+heuristic can be used to direct the shortest path tree to grow toward the destination.
+\marginpar{TODO\\diagram}
+If the heuristic estimate is the distance from each node to the destination,
+and the estimate is smaller than or equal to the actual distance going to that destination,
+then a shortest path can be found. This is called A*.
+Formally we define the following: Let $h_v$ be a heuristic estimate from node $v$ to $t$,
+apply Bellman's condition an optimal solution exist, that is 
+$ h_v \leq h_u + c_{uv}, \quad \forall(u,v) \in \mathcal{A} $.
+In other words, the heuristic estimate for each node need to always under estimate the actual distance
+going from the node to the destination.
+
+It is proven using geographical coordinates and euclidean distance as the heuristic estimate,
+A* is guaranteed to work with a huge run time speed up by scanning very few nodes.
+
+\marginpar{TODO\\shotest\\path\\tree}
+
+In our Path Equilibration method,
+we can no longer use geographical coordinates and euclidean distance for the heuristic estimate,
+this is because we use travel times as the distances for the arcs.
+Although distance is included in the calculation,
+we cannot guarantee it to under estimate the travel times.
+
+By analysing the travel times function (Figure~\ref{fig:flowfunction}),
+we can see that it is a non-decreasing function with the lowest value being the zero flow travel times,
+which means if we use the zero flow travel times as the heuristic estimate,
+it is assured that it will always under estimate the travel time for that arc,
+because no travel time can be lower than the zero flow travel at any time.
+\marginpar{Need\\Proof?}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}
+            [
+                domain=0:2500,
+                black, no markers, smooth,
+            %xtick=\empty, ytick=\empty,
+                xlabel=flow(vehicles per hour), ylabel=travel time (hours),
+                xmin=0,xmax=2500,
+                ymin=0.16,ymax=0.2,
+                yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=3}
+            ]
+            \addplot {0.166*(1+0.15*(x/2000)^5)}; 
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Travel time function.}
+    \label{fig:flowfunction}
+\end{figure}
+\marginpar{TODO\\correct\\diagram\\show\\zero flow}
+
+Modifying Step 1 of the GSP for A*:
+\begin{verbatim}
+Step 1: Node selection
+    Remove a node u from the candidate list Q
+    such that
+    d_u + h_u = \min_{v \in Q} \{ d_v h + h_v \}
+\end{verbatim}
+
+Results:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccccccc}
+        Network       & STL & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew & Iterations \\
+        SiouxFalls    & 0.16 & 0.14 & 0.16 & 0.22  & 0.22  & 0.14  & 0.14  & 85 \\
+        Anaheim       & 0.15 & 0.19 & 0.19 & 0.33  & 0.22  & 0.18  & 0.17  & 10 \\
+        Barcelona     & 5.44 & 6.53 & 6.54 & 11.45 & 7.62  & 6.56  & 6.1   & 27 \\
+        Winnipeg      & 19.49& 24.34& 24.86& 44.41 & 27.93 & 24.23 & 21.85 & 128\\
+        ChicagoSketch & 38.92& 46   & 46   & 78.02 & 53.28 & 45.1  & 42.9  & 26
+    \end{tabular}
+    \caption{Label Setting Algorithm (Dijkstra) Result}
+    \label{table:astarresult}
+\end{table}
+
+Comparing the Dijkstra and A* algorithm's result (Table~\ref{table:dijkstraresult} and \ref{table:astarresult}),
+we see an approximately 5 times improvement.
+By looking at the shortest path tree generated
+by (TODO:one of the) network,
+there are only a few scanned nodes,
+the path goes straight to the destination.
+(TODO reference) says the closer the heuristic is to the actual
+distance,
+the better/faster shortest path calculation,
+by looking at the travel time function (Figure~\ref{fig:flowfunction}, we can see the slope
+is really shallow near the start,
+and by comparing the initial flow and final flow,
+the are very close so the final flow is very close to the
+initial flow,
+which means the heuristic is a very good estimation,
+which is our A* is very fast.
+
+\marginpar{TODO}
+
+{
+TODO: is it still a sp tree?
+        Draw sp tree for A*.
+}
+
+\marginpar{TODO}
+
+\subsection{Bidirectional Dijkstra}
+\subsection{Bidirectional A*}

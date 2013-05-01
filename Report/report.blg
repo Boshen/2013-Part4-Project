@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: report.aux
+A level-1 auxiliary file: ./contents/titlepage.aux
+A level-1 auxiliary file: ./contents/abstract.aux
+A level-1 auxiliary file: ./contents/acknowledgement.aux
+A level-1 auxiliary file: ./contents/introduction.aux
+A level-1 auxiliary file: ./contents/chapter2.aux
+A level-1 auxiliary file: ./contents/chapter3.aux
+A level-1 auxiliary file: ./contents/conclusions.aux
+A level-1 auxiliary file: ./contents/appendix.aux
+The style file: agsm.bst
+Database file #1: citations.bib
+You've used 1 entry,
+            2908 wiz_defined-function locations,
+            654 strings with 5131 characters,
+and the built_in function-call counts, 1821 in all, are:
+= -- 268
+> -- 24
+< -- 0
++ -- 115
+- -- 7
+* -- 132
+:= -- 423
+add.period$ -- 1
+call.type$ -- 1
+change.case$ -- 13
+chr.to.int$ -- 1
+cite$ -- 1
+duplicate$ -- 16
+empty$ -- 30
+format.name$ -- 9
+if$ -- 314
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 2
+newline$ -- 7
+num.names$ -- 10
+pop$ -- 9
+preamble$ -- 1
+purify$ -- 15
+quote$ -- 0
+skip$ -- 9
+stack$ -- 0
+substring$ -- 355
+swap$ -- 1
+text.length$ -- 14
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 2
+warning$ -- 0
+while$ -- 21
+width$ -- 0
+write$ -- 15

@@ -1,0 +1,23 @@
+\contentsline {chapter}{List of Figures}{3}{section*.3}
+\contentsline {chapter}{List of Tables}{0}{section*.5}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Traffic Assignment Models}{1}{section.1.1}
+\contentsline {chapter}{\numberline {2}Problem Description}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Notations and Definitions}{3}{section.2.1}
+\contentsline {subsubsection}{Shortest Path Problem}{3}{subsubsection*.6}
+\contentsline {subsubsection}{Traffic Assignment}{4}{subsubsection*.7}
+\contentsline {subsubsection}{Path Equilibration}{4}{subsubsection*.8}
+\contentsline {subsection}{\numberline {2.1.1}Forward Star}{4}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Priority Queue}{4}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}Problem Data and Result Explanation}{4}{section.2.2}
+\contentsline {chapter}{\numberline {3}Solving the Shortest Path Problem}{6}{chapter.3}
+\contentsline {section}{\numberline {3.1}General Shortest Path Algorithm}{6}{section.3.1}
+\contentsline {section}{\numberline {3.2}Label Correcting Algorithm}{7}{section.3.2}
+\contentsline {section}{\numberline {3.3}Label Setting Algorithm}{8}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Heap Implementation}{9}{subsection.3.3.1}
+\contentsline {section}{\numberline {3.4}A* Algorithm}{10}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Bidirectional Dijkstra}{12}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Bidirectional A*}{12}{subsection.3.4.2}
+\contentsline {chapter}{Appendix \numberline {A}Code}{13}{Appendix.a.A}
+\contentsline {chapter}{Appendix \numberline {B}More Code}{14}{Appendix.a.B}
+\contentsline {chapter}{Bibliography}{15}{section*.10}

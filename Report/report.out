@@ -1,0 +1,20 @@
+\BOOKMARK [0][-]{section*.3}{List of Figures}{}
+\BOOKMARK [0][-]{section*.5}{List of Tables}{}
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}
+\BOOKMARK [1][-]{section.1.1}{Traffic Assignment Models}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{Problem Description}{}
+\BOOKMARK [1][-]{section.2.1}{Notations and Definitions}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.1.1}{Forward Star}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.2}{Priority Queue}{section.2.1}
+\BOOKMARK [1][-]{section.2.2}{Problem Data and Result Explanation}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{Solving the Shortest Path Problem}{}
+\BOOKMARK [1][-]{section.3.1}{General Shortest Path Algorithm}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{Label Correcting Algorithm}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{Label Setting Algorithm}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.3.1}{Heap Implementation}{section.3.3}
+\BOOKMARK [1][-]{section.3.4}{A* Algorithm}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.4.1}{Bidirectional Dijkstra}{section.3.4}
+\BOOKMARK [2][-]{subsection.3.4.2}{Bidirectional A*}{section.3.4}
+\BOOKMARK [0][-]{Appendix.a.A}{Appendix Code}{}
+\BOOKMARK [0][-]{Appendix.a.B}{Appendix More Code}{}
+\BOOKMARK [0][-]{section*.10}{Bibliography}{}

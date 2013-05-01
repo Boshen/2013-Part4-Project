@@ -1,0 +1,83 @@
+\chapter{Introduction}
+{
+    SPP has been mentioned countless times,
+    most materials are very repetitive,
+    what kind of info do i need to make a reference of?
+}
+\section{Traffic Assignment Models}
+
+In today's world, cities are becoming larger, 
+road networks are becoming more complex,
+and city designers are facing difficulties of 
+forecasting, building and resigning the roads.
+Road networks often face congestions that are hard to predict,
+leading to unpredictable travel times for people to travel from places to places.
+
+In order to solve these problems,
+different traffic models are built.
+One particular model is called the transportation forecasting model.
+\marginpar{forecast\\ model}
+This model solves traffic flows in a typical road network,
+of which involves four stages of process: trip generation,
+trip distribution, mode choice and traffic assignment.
+\marginpar{4 stage}
+In short,
+this model generates traffic demands and supplies in different traffic zones,
+\marginpar{zones}
+having them act as origins and destinations for the travellers.
+\marginpar{O-D pair}
+this model then selects a transportation method for travellers
+to use, and sends them to their destination.
+This final stage of sending travellers to their destination is
+addressed as the traffic assignment (TA) problem.
+\marginpar{TA}
+TA is a complex task,
+which involves the selection of routes to use by considering information such as congestions.
+
+One method of solving the traffic assignment is called 
+equilibrium assignment or the path equilibration method.
+\marginpar{PE}
+In this method, 
+shortest path for every origin-destination pair (O-D pair) are calculated, 
+\marginpar{Shortest\\Path}
+and traffic flows are assigned to theses shortest path.
+The traffic assignment is said to be solved when equilibrium occur when no traveller can find a shorter path.
+As every time traffic flows are reassigned,
+congestion will happen differently and 
+travel time for every path will change respectively,
+thus a number of iterations is needed to settle the traffic flows
+to equilibrium.
+The travel times for the path are no longer expressed solely by their
+distance,
+but instead they are expressed by a formulation which considers
+parameters such as the travel time from the previous iteration,
+the number of travellers and the capacity of the road.
+\marginpar{travel\\time}
+
+Transportation networks are typically very large,
+which means it may take a very large numbers of iterations
+for the traffic flows to settle,
+and meanwhile in each iteration,
+shortest path for each O-D pair are calculated repeatedly,
+which is a very time consuming step for large networks with lots of roads and intersections.
+\marginpar{time\\consuming}
+Speeding up the shortest path calculation would significantly speed up the TA algorithms,
+when everything is sped up,
+larger and more complex networks can then be solved faster.
+And when this fast TA algorithm is put back inside the traffic forecasting model,
+we can predict longer into the future by changing traffic demands and supplies or modifying the road network design.
+
+Existing computer code (written in C++) already exist for the TA algorithms,
+including the path equilibrium method and many others.
+\marginpar{existing\\code}
+A simple shortest path calculation algorithm is currently used by the path equilibrium method,
+which runs very poorly given a small network.
+
+The existing algorithm is referred as the label-correcting algorithm, 
+it is modified and implemented as the well known label-setting Dijkstra's algorithm using a special data structure for storing information,
+A* algorithm is them implemented to speed the Dijkstra's algorithm for the point to point shortest problem.
+
+\marginpar{zone\\no\\travel}
+Special cares are taken when implementing these algorithms,
+namely the origins and destinations mentioned sometimes do not act as intersections for the travellers (to be included in the shortest path calculation),
+since these origins and destinations are conceptual traffic zones for generating demands and supplies.

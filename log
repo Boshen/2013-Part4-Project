@@ -1,0 +1,298 @@
+12/03
+1. Arranged first meeting with Andrea and Olga on 9am 13/03/13.
+
+13/03 meeting
+1. Met Andrea and Olga at 9am
+2. Talked about the bigger goal of the project and my objectives
+3. Been given a brief lecture on the traffic assignment problem and the non-linear cost functions on generating an equilibrium network
+
+18/03
+1. Received Code
+
+21/03 meeting
+1. explained Forward Star (StarNetwork) and detailed implemation of the code
+2. Added Heap.h, RadixHeap.cpp, RadixHeap.h to source file from http://www.cosc.canterbury.ac.nz/tad.takaoka/alg/spalgs/spalgs.html
+3. Started coding Dijkstra with RadixHeap
+
+26/03
+1. A*: we need euclidean distance but some of the networks doesnt have co-ordinates
+2. Bidirectional: using data structures creates too much overhead, 
+    makes it slow compared to the current sequencelist, 
+    but sequence is not a priority queue, 
+    how do we find the stopping criteria?
+3. is cost function different between s to t and t to s. (yes..)
+
+28/03
+1. for a star: precalculate costs and don't add it to _nodelist.dist (preprocess)
+2. for bidirectional, what to do with directed path (current data all undirected)
+
+29/03
+1. have to reimplement bidirectional to find the best path .. but how ..
+
+4/04 meeting
+1. we can implement a backward star, using composition to point at a network star, then implement bidirectional
+3. precalculate the distance matrix for A* estimate cost function, either euclidean or the initial link flows calculated
+4. start preparing/recording results of different outputs
+
+11/04/ meeting
+1. for the traffic assignment, different models are built, they are used to compare which is better (faster),
+the models can be used for predicting the future for what ever scenarios,
+if we can make calculating shortet paths faster, that means we can predict furthur in the future.
+2. reconstructing path need to skip zone nodes ...
+
+16/04/
+1. astar using initial flow as heurstic estimate doesn't improve the run time,
+    although it improves the finding of the best path by a small amount.
+
+18/04/ meeting
+1. plot shortest path tree for Astar and Dijkstra and compare
+2. speed up Bidirectional by looping through it smartly, check only scanned nodes and go only way
+3. plot pushes and pops against distance between nodes
+4. any thing we can do to get a better heuristic? use the objective function for prediction? prvious flow?
+
+20/04
+1. use volatile, register?
+2. use namespace?
+3. clean up code .. keep on style for pointer *, & use etc
+
+26/04
+1. idea: have the tree already there in constructor, 
+    keep using decrease key and rebalancing the tree instead of rebuilding it.
+    http://stackoverflow.com/questions/9255620/why-does-dijkstras-algorithm-use-decrease-key
+     some more advanced algorithms, such as Gabow's Shortest Paths Algorithm, use Dijkstra's algorithm as a subroutine and rely heavily on the decrease-key implementation. They use the fact that if you know the range of valid distances in advance, you can build a super efficient priority queue based on that fact.
+2. Multi thread?
+
+Install Boost
+wget http://superb-dca2.dl.sourceforge.net/project/boost/boost/1.53.0/boost_1_53_0.tar.bz2
+cd /usr/include
+(sudo, change /path/to/) tar --bzip2 -xf /path/to/boost_1_53_0.tar.bz2
+
+Results
+-- ChicagoSketch 93135 OD pairs
+LabelCorrectingAl   
+nbIter = 25
+Time: 373.07 s, 370.89 s.
+MAX = 8.19455e-10
+
+DijkstraPQ
+nbIter = 25
+Time: 620.02 s.
+MAX = 8.32188e-10
+
+Network: Data/Instances/ChicagoSketch_net.txt
+Algo   : Astar
+Data   : SkewHeap
+nbODPairs = 93135
+Init Time: 0.17 s.
+Run Time: 154.66 s. nbIter = 25
+MAX = 8.32188e-10
+
+Network: Data/Instances/ChicagoSketch_net.txt
+Algo   : Dijkstra
+Data   : SkewHeap
+nbODPairs = 93135
+Init Time: 0.17 s.
+Run Time: 120.48 s. nbIter = 25
+MAX = 8.32188e-10
+
+Network: Data/Instances/ChicagoSketch_net.txt
+Algo   : DijkstraSTL
+Data   : SkewHeap
+nbODPairs = 93135
+Init Time: 0.16 s.
+Run Time: 98.9 s. nbIter = 25
+MAX = 8.32188e-10
+-- 
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Astar
+Data   : FibonacciHeap
+nbODPairs = 1406
+Init Time: 0 s.
+Run Time: 0.76 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Astar
+Data   : BinaryHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.58 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Astar
+Data   : TernaryHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.56 s. nbIter = 10
+MAX = 1.54614e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Astar
+Data   : SkewHeap
+nbODPairs = 1406
+Init Time: 0 s.
+Run Time: 0.5 s. nbIter = 10
+MAX = 1.54614e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Astar
+Data   : PairingHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.7 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Astar
+Data   : BinomialHeap
+nbODPairs = 1406
+Init Time: 0.02 s.
+Run Time: 1.69 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Dijkstra
+Data   : FibonacciHeap
+nbODPairs = 1406
+Init Time: 0 s.
+Run Time: 0.75 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Dijkstra
+Data   : BinaryHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.56 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Dijkstra
+Data   : TernaryHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.57 s. nbIter = 10
+MAX = 1.54614e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Dijkstra
+Data   : SkewHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.49 s. nbIter = 10
+MAX = 1.54614e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Dijkstra
+Data   : PairingHeap
+nbODPairs = 1406
+Init Time: 0.01 s.
+Run Time: 0.67 s. nbIter = 10
+MAX = 1.59162e-11
+
+Network: Data/Instances/Anaheim_net.txt
+Algo   : Dijkstra
+Data   : BinomialHeap
+nbODPairs = 1406
+Init Time: 0.02 s.
+Run Time: 1.72 s. nbIter = 10
+MAX = 1.59162e-11
+
+--
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Astar
+Data   : FibonacciHeap
+nbODPairs = 7922
+Init Time: 0.04 s.
+Run Time: 38.84 s. nbIter = 28
+MAX = 3.31113e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Astar
+Data   : BinaryHeap
+nbODPairs = 7922
+Init Time: 0.04 s.
+Run Time: 32.57 s. nbIter = 32
+MAX = 3.40208e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Astar
+Data   : TernaryHeap
+nbODPairs = 7922
+Init Time: 0.05 s.
+Run Time: 26.61 s. nbIter = 27
+MAX = 3.43618e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Astar
+Data   : SkewHeap
+nbODPairs = 7922
+Init Time: 0.05 s.
+Run Time: 24.66 s. nbIter = 27
+MAX = 3.36513e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Astar
+Data   : PairingHeap
+nbODPairs = 7922
+Init Time: 0.04 s.
+Run Time: 32.48 s. nbIter = 27
+MAX = 5.82077e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Astar
+Data   : BinomialHeap
+nbODPairs = 7922
+Init Time: 0.07 s.
+Run Time: 73.02 s. nbIter = 27
+MAX = 3.43618e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Dijkstra
+Data   : FibonacciHeap
+nbODPairs = 7922
+Init Time: 0.05 s.
+Run Time: 35.35 s. nbIter = 29
+MAX = 3.24292e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Dijkstra
+Data   : BinaryHeap
+nbODPairs = 7922
+Init Time: 0.05 s.
+Run Time: 24.41 s. nbIter = 28
+MAX = 3.20881e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Dijkstra
+Data   : TernaryHeap
+nbODPairs = 7922
+Init Time: 0.04 s.
+Run Time: 23.4 s. nbIter = 27
+MAX = 3.44755e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Dijkstra
+Data   : SkewHeap
+nbODPairs = 7922
+Init Time: 0.04 s.
+Run Time: 22.28 s. nbIter = 27
+MAX = 3.11786e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Dijkstra
+Data   : PairingHeap
+nbODPairs = 7922
+Init Time: 0.04 s.
+Run Time: 30.07 s. nbIter = 27
+MAX = 5.80371e-11
+
+Network: Data/Instances/Barcelona_net.txt
+Algo   : Dijkstra
+Data   : BinomialHeap
+nbODPairs = 7922
+Init Time: 0.08 s.
+Run Time: 75.77 s. nbIter = 27
+MAX = 3.43618e-11
+
