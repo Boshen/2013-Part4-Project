@@ -23,13 +23,11 @@ class ShPathAstarSTL : public ShPathInterface {
         std::vector<FPType> *zeroFlowTimes;
 
     public:
-
         ShPathAstarSTL(StarNetwork* netPointer):ShPathInterface(netPointer){
             Queue = new PriorityQueue();
             initCosts = new std::vector<FPType>(_nNodes*_nNodes);
             Labels = new std::vector<Label>(_nNodes);
             zeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
-
 
             _netPointer->calculateLinkCosts();
 
@@ -86,7 +84,6 @@ class ShPathAstarSTL : public ShPathInterface {
         }
 
         void calculate(int O, int D) {
-            Scanned->clear();
 
             initNodes();
 
@@ -124,9 +121,7 @@ class ShPathAstarSTL : public ShPathInterface {
                         if ( Duv < N[v].dist ){
                             N[v].dist = Duv;
                             N[v].linkIndex = nextLink->getIndex();
-                            StarNode* toNode = _netPointer->beginNode(v);
                             Q.push(PQPair(v, Duv + H[v*_nNodes+D]));
-                            Scanned->push_back(std::pair<int, int>(u, v));
                         }
                     } // for each outgoing link
                 } // if can visit node

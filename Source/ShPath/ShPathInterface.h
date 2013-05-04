@@ -32,10 +32,12 @@ class ShPathInterface : public ShortestPath {
         ShPathInterface(StarNetwork *netPointer) : _netPointer(netPointer) {
             _nNodes = _netPointer->getNbNodes();
             Nodes = new vector<nodeInfo>(_nNodes);
+            Scanned = new std::vector< std::pair<int, int> >();
         };
 
         ~ShPathInterface(){
             delete Nodes; 
+            delete Scanned;
         }
 
         virtual void calculate(int originIndex) =0;
@@ -53,10 +55,12 @@ class ShPathInterface : public ShortestPath {
             return _netPointer->getLink(linkIndex); 
         }
 
+        std::vector< std::pair<int, int> > *Scanned;
     protected:
         vector<nodeInfo> *Nodes;
         StarNetwork *_netPointer;
         int _nNodes;
+
 
         void initNodes(){
             for (int i = 0; i < _nNodes; i++){

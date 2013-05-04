@@ -10,6 +10,8 @@
 #include "ObjectManager.h"
 #include "Utils.h"
 
+#include "ShPath/ShPathAstarSTL.h"
+
 #define NB_INPUT_PARAMS 2
 /** Input: ./ta input.params 
  *	input.params - path to the file with parameters
@@ -29,7 +31,7 @@ int main(int argc, char *argv[]) {
 		Params params;
 		ParseParams parser(fileParams);
 		parser.execute(&params);
-		params.print();
+		//params.print();
 		
 		/** ObjectManager - creation of necessary objects depending
 		  * on configuration file. Also responsible for error handling
@@ -49,21 +51,22 @@ int main(int argc, char *argv[]) {
 		ConvMeasure *gap = manager.getConvMeasure();
 		gap->isConverged();*/
 		
-		StarNetwork *net = manager.getNet();
+		//StarNetwork *net = manager.getNet();
 		/*net->print();
 		ODMatrix *mat = manager.getODMatrix();
 		mat->print();//*/
 		
 		DecoratedEqAlgo *algo = manager.getEqAlgo();
-		clock_t start, end;
-		start = clock();
-		int nbIter = algo->execute();
-		end = clock();
+		//clock_t start, end;
+		//start = clock();
+		//int nbIter = algo->execute();
+		algo->execute();
+		//end = clock();
 		
 		//net->printToFile("tmp.flows");
-		double timePassed = ((double)(end-start))/ (CLOCKS_PER_SEC);
-		std::cout << "Run Time: " << timePassed << " s."  << " nbIter = " << nbIter << std::endl;
-        std::cout << "MAX = " << Utils::checkFeasibility(net, manager.getODMatrix()) << std::endl;//*/
+		//double timePassed = ((double)(end-start))/ (CLOCKS_PER_SEC);
+		//std::cout << "Run Time: " << timePassed << " s."  << " nbIter = " << nbIter << std::endl;
+        //std::cout << "MAX = " << Utils::checkFeasibility(net, manager.getODMatrix()) << std::endl;//*/
         //   ShortestPath *shPath = manager.getShPath();
         //for(int i = 0; i < 23; i++){ // using D as number of zone nodes
         //    shPath->calculate(i);
@@ -80,7 +83,6 @@ int main(int argc, char *argv[]) {
           fprintf(pFile, "%s %s %d %4.5f \n", (net->getNetName()).c_str(), (params.getAlgoParams()).c_str(), nbIter, timePassed);
           fclose(pFile); //*/
         /*
-        ShortestPath *shPath = manager.getShPath();
         for(int i =0;i < net->getNbNodes();i++){
             for(int j =0;j<net->getNbNodes();j++){
                 if (i!=j){
@@ -103,6 +105,21 @@ int main(int argc, char *argv[]) {
             }
         }
         */
+        ShPathAstarSTL* shPath = (ShPathAstarSTL*)manager.getShPath();
+        shPath->calculate(384, 368);
+        StarLink *link = shPath->getInComeLink(368);
+        FPType nextDest = link->getNodeFromIndex();
+        Path path;
+        while (link != NULL) {
+            path.addLinkToPath(link);
+            nextDest = link->getNodeFromIndex();
+            link = shPath->getInComeLink(nextDest);
+        }
+        for(size_t i=0;i<shPath->Scanned->size();i++){
+            std::cout << shPath->Scanned->at(i).first << " " << shPath->Scanned->at(i).second << std::endl;
+        }
+        std::cout << "path" << std::endl;
+        path.print();
     } catch (Error error) {
         std::cout << "Error has occured during execution: " << error.getMessage() << std::endl;
         return 1;

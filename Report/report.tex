@@ -1,5 +1,5 @@
 \RequirePackage[l2tabu, orthodox]{nag}
-\documentclass[11pt, a4paper, oneside]{report}
+\documentclass[11pt, a4paper, oneside, openright]{report}
 
 \usepackage[left=30mm, right=20mm]{geometry}
 
@@ -7,14 +7,15 @@
 \usepackage{fixltx2e}
 
 \usepackage{parskip}
-\usepackage[compact]{titlesec}
+\usepackage{titlesec}
+%\usepackage[compact]{titlesec}
 
-\usepackage[nottoc]{tocbibind}
+\usepackage[nottoc,notlof,notlot]{tocbibind}
 \usepackage[sort,authoryear]{natbib}
 
 \usepackage[pdftex]{graphicx}
 \usepackage{float}
-\usepackage[titletoc]{appendix}
+\usepackage[titletoc,page]{appendix}
 
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -22,11 +23,15 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 
-\usepackage{listings}
 \usepackage{xcolor}
-
+\usepackage{listings}
 \usepackage{verbatim}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+
 \usepackage{hyperref}
+\usepackage{url}
 \hypersetup{
     colorlinks=false,
     pdfborder={0 0 0},
@@ -34,11 +39,14 @@
 
 %\usepackage{tikz}
 \usepackage{pgfplots}
-%\usetikzlibrary{shapes.multipart,chains,arrows}
 
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 %\setlength\parindent{0pt}
+
 \setlength{\marginparwidth}{2cm}
 \reversemarginpar
+
 \lstset{
     language=C++, numbers=left, numberstyle=\tiny, stepnumber=1,
     frame=single, breaklines=true, showstringspaces=false, tabsize=4,
@@ -46,26 +54,24 @@
 }
 
 \begin{document}
-\thispagestyle{empty}
 \include{./contents/titlepage}
 
 \newpage
 \thispagestyle{empty}
 \include{./contents/abstract}
-
-\newpage
 \thispagestyle{empty}
 \include{./contents/acknowledgement}
-
-\thispagestyle{empty}
+\pagenumbering{roman}
+\setcounter{page}{3}
+\renewcommand\contentsname{Table of Contents}
 \tableofcontents 
-\thispagestyle{empty}
 \listoffigures
-\thispagestyle{empty}
 \listoftables
+\listofalgorithms
 
-\thispagestyle{empty}
-\setcounter{page}{0}
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \include{./contents/introduction}
 
 \newpage
@@ -82,6 +88,7 @@
 
 \newpage
 \bibliographystyle{agsm}
+\renewcommand{\bibname}{References}
 \bibliography{citations}
 
 \end{document}

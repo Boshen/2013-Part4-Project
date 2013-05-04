@@ -39,7 +39,6 @@ class ShPathDijkstraSTL : public ShPathInterface {
         }
 
         void calculate(int O, int D) {
-            Scanned->clear();
 
             initNodes();
 
@@ -71,7 +70,6 @@ class ShPathDijkstraSTL : public ShPathInterface {
                             N[v].dist = Duv;
                             N[v].linkIndex = nextLink->getIndex();
                             Q.push(PQPair(v, Duv));
-                            Scanned->push_back(std::pair<int, int>(u, v));
                         }
                     } // for each outgoing link
                 } // if can visit node

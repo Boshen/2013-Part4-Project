@@ -1,8 +1,22 @@
 \begin{thebibliography}{xx}
 
-\harvarditem{Sheffi}{1984}{Sheffi}
-Sheffi, Y.  \harvardyearleft 1984\harvardyearright , {\em {Urban Transportation
-  Networks: Equilibrium Analysis With Mathematical Programming Methods}},
+\harvarditem{Bar-Gera}{2013}{ProblemData}
+Bar-Gera, H.  \harvardyearleft 2013\harvardyearright , `Transportation network
+  test problems', \url{http://www.bgu.ac.il/~bargera/tntp/}.
+
+\harvarditem{Blechmann}{2013}{BoostHeap}
+Blechmann, T.  \harvardyearleft 2013\harvardyearright , `Boost c++ libraries',
+  \url{http://www.boost.org/doc/libs/1\_53\_0/doc/html/heap/data\_structures.h%
+tml}.
+
+\harvarditem{Klunder \harvardand\ Post}{2006}{Klunder}
+Klunder, G.~A. \harvardand\ Post, H.~N.  \harvardyearleft 2006\harvardyearright
+  , `The shortest path problem on large-scale real-road networks.', {\em
+  Networks},~48(4),~182--194.
+
+\harvarditem{Sheffi}{1985}{Sheffi}
+Sheffi, Y.  \harvardyearleft 1985\harvardyearright , {\em Urban Transportation
+  Networks: Equilibrium Analysis With Mathematical Programming Methods},
   Prentice Hall.
 \newline\harvardurl{http://web.mit.edu/sheffi/www/urbanTransportation.html}
 

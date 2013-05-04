@@ -1,9 +1,10 @@
 \chapter{Solving the Shortest Path Problem}
+\label{chapter:solvingspp}
 
-In this chapter we will solve the shortest path problem
+In this chapter we solve the shortest path problem
 for transportation networks and sequentially
-improve the existing shortest path algorithm implemented.
-Run time improvement will be shown and discussed.
+improve the existing algorithm implemented.
+Run time improvement is then shown and discussed.
 
 \marginpar{TODO}
 {
@@ -27,7 +28,7 @@ scanned when $d_u \neq \infty$ and is still in the candidate list,
 and labelled when the node has been retrieved from the candidate list and its distance label cannot be updated further.
 In the general shortest path algorithm,
 we start by putting the origin node in the queue,
-and then iteratively find the arc that violates the Bellman's condition (i.e., $d_w > d_u + c_{uv}$),
+and then iteratively find the arc that violates the Bellman's condition (i.e., $d_v > d_u + c_{uv}$),
 distance labels are set to a value which satisfy condition (\ref{eq:Bellman1}) to the corresponding node of that arc.
 Shortest path going from $s$ to all other nodes in $\mathcal{V}$ is found when (\ref{eq:Bellman1}) is satisfied for all arcs in $\mathcal{A}$.
 We use $p_u$ to denote the predecessor of node $u$;
@@ -35,37 +36,44 @@ shortest path can be constructed by following the predecessor of destination nod
 \marginpar{TODO}
 
 {
-    TODO: better format
-    add diagram showing $u, v, c_{uv}$ etc.
+    TODO:
+    add diagram showing $u, v, c_{uv}$ etc.?
 }
 
 The following pseudo code describes the generic shortest path (GSP) algorithm mentioned above,
 with an extra constraint than a normal GSP: travelling through zone nodes are not allowed.
-\begin{verbatim}
-Initially,
-    Q:={s}, p_s:=-1, d_s:=0,d_u:=\infty, \forall u \neq s.
-Step 1: Node selection
-    Remove a node u from the candidate list Q.
-    Node u is called the pivot node.
-Step 2: Label update
-    if u is not a zone node then
-        for each outgoing arc (u,v) \in \mathcal{A} do
-            if d_u + c_{uv} < d_v then
-                d_v := du + c_{uv}
-                p_v := u
-                if v \notin Q then
-                    add v to Q
-                end if
-            end for
-    end if
-Step 3: Stop condition
-    if Q \neq \emptyset
-        goto Step 1
-    else
-        terminate algorithm
-\end{verbatim}
+\begin{algorithm}
+    \caption{The General Shortest Path Algorithm \citep{Klunder}}
+    \begin{algorithmic}[1]
+        \Procedure{GeneralShortestPath}{$s$}
+        \State $\mathcal{Q} \cup \{s\}$ \Comment{Initialisation}
+        \State $p_s \gets -1$
+        \State $d_s \gets 0$
+        \ForAll {$ u \in \mathcal{V} : u \neq s $} \Comment{All nodes unvisited except the source}
+            \State $d_u \gets \infty$
+        \EndFor
+
+        \While{ $\mathcal{Q} \neq \emptyset$ }
+            \If{ $u \neq \text{zone} $}
+            \ForAll {$v : (u, v) \in \mathcal{A}$} \Comment{For all outgoing arcs from $u$}
+                    \If {$d_u + c_{vw} < d_v$}
+                        \State $d_v \gets d_u + c_{vw}$
+                        \State $p_v \gets u$
+                        \If {$v \notin \mathcal{Q}$} \Comment{Include node $v$ if unvisited}
+                        \State $\mathcal{Q} \gets \mathcal{Q} \cup \{v\}$
+                        \EndIf
+                    \EndIf
+                \EndFor
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+\marginpar{TODO\\check correctness}
+
 
 \section{Label Correcting Algorithm}
+\label{section:labelcorrectingalgorithm}
 The existing shortest path algorithm in the traffic assignment code is called the label correcting algorithm.
 The code is adapted from \citep{Sheffi}, 
 which uses a first in first out queue for the candidate list.
@@ -84,18 +92,19 @@ thus the name label correcting algorithm.
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{ccccccc}
-        Network & Nodes & Zones & O-D Pairs & Arcs & Run Time (s) & Iterations \\
-        SiouxFalls    & 24   & 24  & 528   & 76   & $ 0.25 $ & 69 \\
-        Anaheim       & 416  & 38  & 1406  & 914  & $ 1.2  $ & 10 \\
-        Barcelona     & 1020 & 110 & 7922  & 2522 & $ 60   $ & 28 \\
-        Winnipeg      & 1052 & 147 & 4344  & 2836 & $ 190  $ & 129 \\
-        ChicagoSketch & 933  & 387 & 93135 & 2950 & $ 500  $ & 25 
+    \begin{tabular}{lrrrrrr}
+        Network & Nodes & Zones & O-D Pairs & Arcs  & Iterations  & Run Time (s) \\ 
+        SiouxFalls    & 24   & 24  & 528   & 76      & 69         & $ 0.25 $     \\ 
+        Anaheim       & 416  & 38  & 1406  & 914     & 10         & $ 1.20  $     \\
+        Barcelona     & 1020 & 110 & 7922  & 2522    & 28         & $ 60.00   $     \\
+        Winnipeg      & 1052 & 147 & 4344  & 2836    & 129        & $ 190.00  $     \\
+        ChicagoSketch & 933  & 387 & 93135 & 2950    & 25         & $ 500.00  $    
     \end{tabular}
-    \caption{Label Correcting Algorithm Result}
+    \caption{One Source Label Correcting Algorithm Result}
 \end{table}
 
 \section{Label Setting Algorithm}
+\label{section:labelsettingalgorithm}
 The classical algorithm for solving the single-source shortest path problem is the Label Setting Dijkstra's algorithm.
 Conceptually the algorithm grows a shortest path tree from the source node radially outward.
 The algorithm is said to be label setting as when the pivot node is retrieved from the queue,
@@ -112,15 +121,15 @@ Using the standard C++ standard template library (STL) priority queue (implement
 the following results are generated.
 \begin{table}[H]
     \centering
-    \begin{tabular}{ccccccc}
-        Network & Nodes & Zones & O-D Pairs & Arcs & Run Time (s) & Iterations \\
-        SiouxFalls    & 24   & 24  & 528   & 76   & $ 0.24 \pm 0.02 $ & 64 \\
-        Anaheim       & 416  & 38  & 1406  & 914  & $ 1.2 \pm 0.2  $ & 10 \\
-        Barcelona     & 1020 & 110 & 7922  & 2522 & $ 43   $ & 27 \\
-        Winnipeg      & 1052 & 147 & 4344  & 2836 & $ 137  $ & 129 \\
-        ChicagoSketch & 933  & 387 & 93135 & 2950 & $ 541  $ & 25 
+    \begin{tabular}{lrrrrrrr}
+        Network & Nodes & Zones & O-D Pairs & Arcs  & Iterations & Run Time (s) \\
+        SiouxFalls    & 24   & 24  & 528   & 76     & 64         & $ 0.24 $     \\
+        Anaheim       & 416  & 38  & 1406  & 914    & 10         & $ 1.20 $     \\
+        Barcelona     & 1020 & 110 & 7922  & 2522   & 27         & $ 43.00 $    \\
+        Winnipeg      & 1052 & 147 & 4344  & 2836   & 129        & $ 137.00 $   \\
+        ChicagoSketch & 933  & 387 & 93135 & 2950   & 25         & $ 541.00 $  
     \end{tabular}
-    \caption{Label Setting Algorithm (Dijkstra) Result}
+    \caption{C++ STL One-Source Label Setting Algorithm Result}
 \end{table}
 
 The advantage of this algorithm over the label correcting algorithm is
@@ -133,16 +142,38 @@ we can stop the algorithm for the point to point SPP case,
 which is desirable for the Path Equilibration method.
 Modifying Step 1 of the Dijkstra Algorithm gives
 
-Thus we can change the stop condition in the GSP:
-\begin{verbatim}
-Step 3: Stop condition
-    if u is the destination node
-        terminate algorithm
-    end if
-    if Q \neq \emptyset
-        goto Step 1
-    end if
-\end{verbatim}
+\begin{algorithm}
+    \caption{Point to Point Label Setting Algorithm (Dijkstra)}
+    \begin{algorithmic}[1]
+        \Procedure{Dijkstra}{$s, t$}
+        \State $\mathcal{Q} \gets \{s\}$ \Comment{Initialisation}
+        \State $p_s \gets -1$
+        \State $d_s \gets 0$
+        \ForAll {$ u \in \mathcal{V} : u \neq s $} \Comment{All nodes unvisited except the source}
+            \State $d_u \gets \infty$
+        \EndFor
+
+        \While{ $\mathcal{Q} \neq \emptyset$ }
+            \State $ u \gets \text{top}(Q) $
+            \State $ \mathcal{Q} \gets \mathcal{Q} \char`\\ \{u\} $
+            \If{ $u = t$ }
+                \State \text{Terminate Procedure}
+            \EndIf
+            \If{ $u \neq \text{zone} $}
+            \ForAll {$v : (u, v) \in \mathcal{A}$} \Comment{For all outgoing arcs from $u$}
+                    \If {$d_u + c_{vw} < d_v$}
+                        \State $d_v \gets d_u + c_{vw}$
+                        \State $p_v \gets u$
+                        %\If {$v \notin \mathcal{Q}$} \Comment{Include node $v$ if unvisited}
+                        \State $\mathcal{Q} \gets \mathcal{Q} \cup \{v\}$
+                        %\EndIf
+                    \EndIf
+                \EndFor
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 Note a path will not be found if the queue becomes empty,
 but this stopping condition is safe because we known a path
 always exist between an O-D pair.
@@ -150,13 +181,13 @@ always exist between an O-D pair.
 The following table shows the result for point to point Dijkstra's algorithm.
 \begin{table}[H]
     \centering
-    \begin{tabular}{ccccccc}
-        Network & Nodes & Zones & O-D Pairs & Arcs & Run Time (s) & Iterations \\
-        SiouxFalls    & 24   & 24  & 528   & 76   & $ 0.15 \pm 0.02 $ & 64 \\
-        Anaheim       & 416  & 38  & 1406  & 914  & $ 0.67 \pm 0.2  $ & 10 \\
-        Barcelona     & 1020 & 110 & 7922  & 2522 & $ 27.71   $ & 27 \\
-        Winnipeg      & 1052 & 147 & 4344  & 2836 & $ 70  $ & 129 \\
-        ChicagoSketch & 933  & 387 & 93135 & 2950 & $ 204  $ & 25 
+    \begin{tabular}{lrrrrrr}
+        Network & Nodes & Zones & O-D Pairs & Arcs  & Iterations & Run Time (s) \\
+        SiouxFalls    & 24   & 24  & 528   & 76     & 64         & $ 0.15 $     \\
+        Anaheim       & 416  & 38  & 1406  & 914    & 10         & $ 0.67 $     \\
+        Barcelona     & 1020 & 110 & 7922  & 2522   & 27         & $ 27.71$     \\
+        Winnipeg      & 1052 & 147 & 4344  & 2836   & 129        & $ 70.00  $   \\
+        ChicagoSketch & 933  & 387 & 93135 & 2950   & 25         & $ 204.00  $ 
     \end{tabular}
     \caption{Point to Point Label Setting Algorithm (Dijkstra) Result}
 \end{table}
@@ -166,7 +197,7 @@ Various implementations of the Heap data structure exist,
 with each implementation have some advantages than the other,
 for example faster tree balancing, faster push or pop.
 
-We examine 6 different Heap implementations from the C++ Boost Heap Library:
+We examine 6 different Heap implementations from the C++ Boost Heap Library \citep{BoostHeap}:
 \begin{table}[H]
     \centering
     \begin{tabular}{cccccc}
@@ -198,6 +229,7 @@ updating its distance label.
 This means we can reduce the size of the Heap tree and run time by using decrease-key
 rather than adding the same node (different distance label) in the queue again.
 
+\begin{comment}
 Thus we change Step 2 of the GSP
 \begin{verbatim}
 Step 2: Label update
@@ -214,6 +246,7 @@ Step 2: Label update
             end for
     end if
 \end{verbatim}
+\end{comment}
 
 In table~\ref{table:heaps},
 we can observe the Fibonacci Heap has a very interesting time complexity,
@@ -232,15 +265,15 @@ we need to negate the distance labels when we add them into the Heap
 The following table shows the run time and iterations for all the networks.
 \begin{table}[H]
     \centering
-    \begin{tabular}{cccccccc}
-        Network       & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew & Iterations \\
-        SiouxFalls    & 0.17 & 0.17 & 0.29 & 0.18 & 0.17 & 0.16 & 85 \\
-        Anaheim       & 0.88 & 0.81 & 2.12  & 1.05 & 1.02 & 0.83 & 10 \\
-        Barcelona     & 34 & 33 & 85 & 46  & 44 & 34 & 27 \\
-        Winnipeg      & 83 & 86 & 202 & 107 & 97 & 83 & 128 \\
-        ChicagoSketch & 233 & 229 & 472 & 264 & 231 & 209 & 26
+    \begin{tabular}{lrrrrrrr}
+        Network       & Iterations & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew \\
+        SiouxFalls    & 85         & 0.17 & 0.17 & 0.29 & 0.18 & 0.17 & 0.16                  \\
+        Anaheim       & 10         & 0.88 & 0.81 & 2.12  & 1.05 & 1.02 & 0.83                 \\
+        Barcelona     & 27         & 34.00 & 33.00 & 85.00 & 46.00 & 44.00 & 34.00            \\
+        Winnipeg      & 128        & 83.00 & 86.00 & 202.00 & 107.00 & 97.00 & 83.00          \\
+        ChicagoSketch & 26         & 233.00 & 229.00 & 472.00 & 264.00 & 231.00 & 209.00      
     \end{tabular}
-    \caption{Label Setting Algorithm (Dijkstra) Result}
+    \caption{Point to Point C++ Boost Label Setting Algorithm (Dijkstra) Result}
     \label{table:dijkstraresult}
 \end{table}
 
@@ -252,6 +285,7 @@ of the time,
 which means the graphs are not dense enough for these Heap structures to outperform a
 simple array based priority queue.
 
+\section{Bidirectional Dijkstra}
 \section{A* Algorithm}
 Up until now,
 the Dijkstra's algorithm does not take into account the location of the destination,
@@ -271,8 +305,6 @@ going from the node to the destination.
 It is proven using geographical coordinates and euclidean distance as the heuristic estimate,
 A* is guaranteed to work with a huge run time speed up by scanning very few nodes.
 
-\marginpar{TODO\\shotest\\path\\tree}
-
 In our Path Equilibration method,
 we can no longer use geographical coordinates and euclidean distance for the heuristic estimate,
 this is because we use travel times as the distances for the arcs.
@@ -284,7 +316,6 @@ we can see that it is a non-decreasing function with the lowest value being the 
 which means if we use the zero flow travel times as the heuristic estimate,
 it is assured that it will always under estimate the travel time for that arc,
 because no travel time can be lower than the zero flow travel at any time.
-\marginpar{Need\\Proof?}
 
 \begin{figure}[H]
     \centering
@@ -308,33 +339,64 @@ because no travel time can be lower than the zero flow travel at any time.
 \marginpar{TODO\\correct\\diagram\\show\\zero flow}
 
 Modifying Step 1 of the GSP for A*:
-\begin{verbatim}
-Step 1: Node selection
-    Remove a node u from the candidate list Q
-    such that
-    d_u + h_u = \min_{v \in Q} \{ d_v h + h_v \}
-\end{verbatim}
+\begin{algorithm}
+    \caption{A* Algorithm}
+    \begin{algorithmic}[1]
+        \Procedure{AStar}{$s, t$}
+        \State $\mathcal{Q} \gets \{s\}$ \Comment{Add node $s$ with $d_s = h_s$}
+        \State $p_s \gets -1$
+        \State $d_s \gets 0$
+        \ForAll {$ u \in \mathcal{V} : u \neq s $} \Comment{All nodes unvisited except the source}
+            \State $d_u \gets \infty$
+        \EndFor
+
+        \While{ $\mathcal{Q} \neq \emptyset$ }
+        \State $ u \gets \text{top}(Q) $ \Comment{Remove $u$ such that $d_u + h_u = \displaystyle\min_{v \in \mathcal{Q}} \{ d_v + h_v \} $}
+            \State $ \mathcal{Q} \gets \mathcal{Q} \char`\\ \{u\} $
+            \If{ $u = t$ }
+                \State \text{Terminate Procedure}
+            \EndIf
+            \If{ $u \neq \text{zone} $}
+            \ForAll {$v : (u, v) \in \mathcal{A}$} \Comment{For all outgoing arcs from $u$}
+                    \If {$d_u + c_{vw} < d_v$}
+                        \State $d_v \gets d_u + c_{vw}$
+                        \State $p_v \gets u$
+                        %\If {$v \notin \mathcal{Q}$} \Comment{Include node $v$ if unvisited}
+                        \State $\mathcal{Q} \gets \mathcal{Q} \cup \{v\}$ \Comment{Add node $v$ with $d_v = d_u + c_{vw} + h_v$}
+                        %\EndIf
+                    \EndIf
+                \EndFor
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
 Results:
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{ccccccccc}
-        Network       & STL & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew & Iterations \\
-        SiouxFalls    & 0.16 & 0.14 & 0.16 & 0.22  & 0.22  & 0.14  & 0.14  & 85 \\
-        Anaheim       & 0.15 & 0.19 & 0.19 & 0.33  & 0.22  & 0.18  & 0.17  & 10 \\
-        Barcelona     & 5.44 & 6.53 & 6.54 & 11.45 & 7.62  & 6.56  & 6.1   & 27 \\
-        Winnipeg      & 19.49& 24.34& 24.86& 44.41 & 27.93 & 24.23 & 21.85 & 128\\
-        ChicagoSketch & 38.92& 46   & 46   & 78.02 & 53.28 & 45.1  & 42.9  & 26
+    \begin{tabular}{lrr rrr rrr}
+        Network        & Iterations & STL & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew \\
+        SiouxFalls     & 85           & 0.16 & 0.14 & 0.16 & 0.22  & 0.22  & 0.14  & 0.14            \\
+        Anaheim        & 10           & 0.15 & 0.19 & 0.19 & 0.33  & 0.22  & 0.18  & 0.17            \\
+        Barcelona      & 27           & 5.44 & 6.53 & 6.54 & 11.45 & 7.62  & 6.56  & 6.10            \\
+        Winnipeg       & 128          & 19.49& 24.34& 24.86& 44.41 & 27.93 & 24.23 & 21.85           \\ 
+        ChicagoSketch  & 26           & 38.92& 46.00   & 44.00   & 78.02 & 53.28 & 45.10 & 42.90       
     \end{tabular}
-    \caption{Label Setting Algorithm (Dijkstra) Result}
+    \caption{A* Algorithm Result}
     \label{table:astarresult}
 \end{table}
 
+\begin{figure}
+    \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/Astar_Chicago}
+    \caption{A* Shortest Path Tree for ChicagoSketch network}
+    \label{fig:astarchicago}
+\end{figure}
 Comparing the Dijkstra and A* algorithm's result (Table~\ref{table:dijkstraresult} and \ref{table:astarresult}),
 we see an approximately 5 times improvement.
 By looking at the shortest path tree generated
-by (TODO:one of the) network,
+by the ChicagoSketch network,
 there are only a few scanned nodes,
 the path goes straight to the destination.
 (TODO reference) says the closer the heuristic is to the actual
@@ -342,20 +404,12 @@ distance,
 the better/faster shortest path calculation,
 by looking at the travel time function (Figure~\ref{fig:flowfunction}, we can see the slope
 is really shallow near the start,
-and by comparing the initial flow and final flow,
-the are very close so the final flow is very close to the
+and by comparing the initial flow and final flow (TODO, data),
+\marginpar{TODO}
+they are very close so the final flow is very close to the
 initial flow,
 which means the heuristic is a very good estimation,
 which is our A* is very fast.
 
-\marginpar{TODO}
-
-{
-TODO: is it still a sp tree?
-        Draw sp tree for A*.
-}
-
-\marginpar{TODO}
-
-\subsection{Bidirectional Dijkstra}
-\subsection{Bidirectional A*}
+\section{Bidirectional A*}
+\section{Preprocessing}

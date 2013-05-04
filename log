@@ -62,6 +62,11 @@ if we can make calculating shortet paths faster, that means we can predict furth
      some more advanced algorithms, such as Gabow's Shortest Paths Algorithm, use Dijkstra's algorithm as a subroutine and rely heavily on the decrease-key implementation. They use the fact that if you know the range of valid distances in advance, you can build a super efficient priority queue based on that fact.
 2. Multi thread?
 
+04/05
+1. preprocess for each iteration - landmarks, reach, 
+2. reference like 02-search-Goldberg03tr?
+3. for each iteration, can we use the previous iteration result for the heuristic
+
 Install Boost
 wget http://superb-dca2.dl.sourceforge.net/project/boost/boost/1.53.0/boost_1_53_0.tar.bz2
 cd /usr/include
