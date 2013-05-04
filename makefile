@@ -1,7 +1,7 @@
 CC = g++
 #-DDOUBLE_COST_1 -pedantic -W -Wall 
-CFLAGS = -Wall -O3  -g -pg
-LDFLAGS = -Wall -O3 -g -Wextra # -pg
+CFLAGS = -Wall -O3  #-g -pg
+LDFLAGS = -Wall -O3 -Wextra # -g -pg
 
 BOOST_DIR = /usr/include/boost_1_53_0
 SHPATH_DIR = Source/ShPath/
@@ -43,6 +43,7 @@ ShPathObjects = $(DIR)/ShPath/ShPathFactory.o
 EXTRA_FLAGS =
 $(DIR)/Utils.o: EXTRA_FLAGS=-I $(BOOST_DIR)
 $(DIR)/ObjectManager.o: EXTRA_FLAGS=-I $(BOOST_DIR) -I Source/ShPath/
+$(DIR)/main.o: EXTRA_FLAGS=-I $(BOOST_DIR) -I Source/ShPath/
 
 all: ShPath $(PROG) 
 
@@ -50,6 +51,9 @@ $(PROG) : $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^ $(ShPathObjects)
 
 $(DIR)/%.o : $(DIR)/%.cpp $(DIR)/%.h
+	$(CC) $(CFLAGS) $(EXTRA_FLAGS) -c -o $@ $<
+
+$(DIR)/main.o : $(DIR)/main.cpp
 	$(CC) $(CFLAGS) $(EXTRA_FLAGS) -c -o $@ $<
 
 ShPath:

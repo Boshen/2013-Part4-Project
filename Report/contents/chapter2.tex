@@ -25,10 +25,10 @@ in a transportation network,
 these O-D pairs are often traffic zones for generating supplies and receiving demands,
 this means the nodes for these O-D pairs are not travelable,
 traffic flows cannot go through these zone nodes.
-\marginpar{TODO\\diagram\\explain}
+\marginpar{TODO\\diagram\\explain?}
 Finally we denote cost of the whole path $C(P) := \sum_{(u,v)\in P} c_{vw}$.
 
-\subsubsection{Shortest Path Problem}
+\section{Shortest Path Problem}
 The Shortest Path Problem (SPP) is the problem of finding the distance for a given origin $s$ (source) and a destination $t$ (target).
 We assume the graph contains a path from node $s$  to node $t$, as well as all arc lengths are positive.
 For a real transportation network, all these assumptions are satisfied naturally; any transportation networks will have at least one O-D pair and
@@ -48,7 +48,7 @@ a single-source SPP and a point to point SPP.
 A single-source SPP solves the shortest path going from one origin to all other destinations in the network,
 meanwhile a point to point SPP solves from one origin to a specific destination.
 
-\subsubsection{Traffic Assignment}
+\section{Traffic Assignment}
 Traffic Assignment (TA) is the problem of selecting paths between origins and destinations in a transportation network,
 and identify how many travellers use each path.
 The difficulties of TA lies within a realistic model of the travel times,
@@ -56,7 +56,7 @@ travel times are modelled by a non-linear function to capture congestion effects
 more traffic flow means more congestion leading to slower travel times.
 \marginpar{TA}
 
-\subsubsection{Path Equilibration}
+\subsection{Path Equilibration}
 \marginpar{mention\\user/system\\optimal?}
 Path Equilibration (PE) is a method for solving the TA problem.
 This method assumes all travellers are selfish and will always find the shortest (least travel time) path.
@@ -70,31 +70,59 @@ the point to point SPP is solved for all O-D pairs in the network.
 
 \marginpar{PE}
 
-\subsection{Forward Star}\label{chap:forwardstar}
-Data structure for storing the network,
-useful for label correcting algorithm.
+\subsection{Frank-Wolfe}
 
-\subsection{Priority Queue}
-A priority queue is a data structure which sorts elements by its priority,
-element with high priority is always retrieved first before an element with lower priority.
-Useful for label setting algorithm.
+\section{Data Structures}
+A Data structure is a way for computers to store, update and manipulate intermediate results.
+A good data structure can efficiently speed up the access of the stored data,
+which means the performance of solving our shortest path problem does not only depend on the algorithm it self but also the data structure.
+In this project,
+two data structures are combined to improve the solving speed:
+\begin{itemize}
+    \item Forward Star (for the label correcting algorithm in Section~\ref{section:labelcorrectingalgorithm}),
+    \item Heap (for the label setting algorithms in Section~\ref{section:labelsettingalgorithm} and onwards).
+\end{itemize}
+\subsection{Forward Star}\label{chap:forwardstar}
+There is one common characteristic for all of the shortest path algorithms that is going to be discussed in Section~\ref{chapter:solvingspp}:
+all arcs emanating from a given node need to be accessed.
+An efficient way of visiting every node inside a network and access all their emanating arcs is to use the Forward Star data structure.
+The advantage of using this data structure for storing the network is that
+the time complexity for finding any node in the network and iterating through all the emanating arcs is $O(1)$.
+The exact implementation of Forward Star is not going to be detailed in this report,
+but the information can be found in Chapter 5.3 of Urban Transportation Networks \citep{Sheffi}.
+This data structure has already been implemented by the second supervisor.
+\marginpar{TODO reword}
+
+\subsection{Priority Queue and Heap}
+A priority queue is a data structure which sorts elements by their priority,
+element with high priority is always retrieved first before an element with a lower priority.
+In section~\ref{section:labelsettingalgorithm} and on wards,
+a specific implementation of the priority queue is used:
+min-heap tree (of which also have different types of implementation).
+The idea of the min-heap tree is that the values of a parent node
+is always less or equal to its parent node,
+by maintaining this property,
+the minimum valued element will always be on top,
+and retrieving it has only $O(1)$ time complexity.
+And for other operations such as adding, removing and updating a node in the heap is at most $O(\log(N))$.
+So the heap data structure is very efficient at constantly adding a element and finding the current minimum value.
+The impact and usage of this data structure will be mentioned again for label setting algorithm in section~\ref{section:labelsettingalgorithm}.
 
 \section{Problem Data and Result Explanation}
-Data used for solving the TA problems are retrieved from (http://www.bgu.ac.il/~bargera/tntp/),
+The problem data for solving the TA problems are retrieved from Transportation Network Test Problems \citep{ProblemData}.
 
-Through the report the following Table is used to show the 
-run time and number of iterations took.
-O-D pairs are the pair of origin and destination pair for the zone nodes in the network,
-zones are sometimes only a origin or a destination,
-thus we 
-Run time (seconds) is measured from executing the 
-path equilibration algorithm.
-Iterations is how many times the whole network
-get solved to settle the traffic flows to equilibrium.
+Through out the report, Table~\ref{table:problemdata} is used to show the run time and number of iterations for solving one particular network.
+In the table, the ``O-D pairs'' column gives the number of pairs of origin and destination in the network.
+The ``zone'' column gives the number of traffic zones,
+in some cases, the nodes in the network also include the traffic zones.
+The ``Run time (seconds)'' gives is measured from executing the 
+path equilibration algorithm from start to finish.
+The ``Iterations'' column gives how many times the whole network
+gets solved to settle the traffic flows to equilibrium.
 \begin{table}[H]
     \centering
-    \begin{tabular}{ccccccc}
-        Network & Nodes & Zones & O-D pairs & Arcs & Run Time (s) & Iterations \\
+    \begin{tabular}{lrrrrrr}
+        Network & Nodes & Zones & O-D pairs & Arcs & Iterations & Run Time (s) \\
         SiouxFalls    & 24   & 24  & 528   & 76   \\
         Anaheim       & 416  & 38  & 1406  & 914  \\
         Barcelona     & 1020 & 110 & 7922  & 2522 \\
@@ -102,8 +130,9 @@ get solved to settle the traffic flows to equilibrium.
         ChicagoSketch & 933  & 387 & 93135 & 2950 
     \end{tabular}
     \caption{Network Problem Data}
+    \label{table:problemdata}
 \end{table}
-The nodes the table include the traffic zones.
+\marginpar{time per\\iteration?}
 By examining the network problem data,
 we can see that the number of O-D pairs increase
 significantly respect to the number of zone nodes,
@@ -114,10 +143,10 @@ and the larger networks in our problem data only have about 0.4\% to 0.6\% of ar
 when we start tuning the algorithms for solving SPP.
 
 Most of the data does not resemble a real world transportation network, 
-for example all roads have the same speed limit, road type and capacity.
+for example sometimes all roads have the same speed limit, road type and capacity.
 
-All results are from an Intel i5 1.78ghz CPU computer, 4GB RAM, running Ubuntu 12.04 Linux.
-Code is compile with g++ with -O3 optimisation flag.
+In this report, all problem data are solved on a Intel i5 1.78GHz CPU computer with 4GB RAM, which runs the Ubuntu 12.04 Linux operating system.
+And the code is compiled with the g++ compiler with the -O3 optimisation flag (i.e.\ optimise for speed).
 
 The accuracy of all results are checked by comparing the traffic flows from the traffic assignment output,
 as well as the final shortest path for every O-D pairs.
