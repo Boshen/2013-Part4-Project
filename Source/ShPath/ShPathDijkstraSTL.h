@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 #include "ShPathInterface.h"
+#include "../Path.h"
 
 class ShPathDijkstraSTL : public ShPathInterface {
     private:

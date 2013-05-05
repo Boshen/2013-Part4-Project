@@ -6,7 +6,7 @@ BOOST_DIR = /usr/include/boost_1_53_0
 SOURCES = ShPathFactory.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
-HEADERS = $(SOURCES:.cpp=.h)  ShPathInterface.h ShPathDijkstra.h ShPathDijkstraSTL.h ShPathAstar.h ShPathAstarSTL.h
+HEADERS = $(SOURCES:.cpp=.h)  ShPathInterface.h ShPathDijkstra.h ShPathDijkstraSTL.h ShPathAstar.h ShPathAstarSTL.h ShPathAstarBidirect.h
 
 all: $(OBJECTS)
 

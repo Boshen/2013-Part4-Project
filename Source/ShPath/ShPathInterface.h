@@ -9,7 +9,6 @@
 #include "../StarNetwork.h"
 #include "../NodeInfo.h"
 
-using std::vector;
 // Label for dijkstra algorithm
 enum Label { UNREACHED, LABELED, SCANNED };
 
@@ -31,7 +30,7 @@ class ShPathInterface : public ShortestPath {
     public:
         ShPathInterface(StarNetwork *netPointer) : _netPointer(netPointer) {
             _nNodes = _netPointer->getNbNodes();
-            Nodes = new vector<nodeInfo>(_nNodes);
+            Nodes = new std::vector<nodeInfo>(_nNodes);
             Scanned = new std::vector< std::pair<int, int> >();
         };
 
@@ -57,7 +56,7 @@ class ShPathInterface : public ShortestPath {
 
         std::vector< std::pair<int, int> > *Scanned;
     protected:
-        vector<nodeInfo> *Nodes;
+        std::vector<nodeInfo> *Nodes;
         StarNetwork *_netPointer;
         int _nNodes;
 

@@ -39,10 +39,10 @@
 //<NODES>: {Data/Instances/SiouxFalls_node.txt} // path to file with node coordinates, not compalsory
 
 //<ShPathAlgo> : {Dijkstra}
-<ShPathAlgo> : {DijkstraSTL}
+//<ShPathAlgo> : {DijkstraSTL}
 //<ShPathAlgo> : {Astar}
 //<ShPathAlgo> : {AstarSTL}
-//<ShPathAlgo> : {AstarBidirect}
+<ShPathAlgo> : {AstarBidirect}
 //<ShPathAlgo> : {LabelCorrectingAl}
 <ShPathDataStruct> : {SkewHeap}
 
