@@ -44,23 +44,33 @@ with open(path, 'r') as f:
         if len(ss) != 0 and ss[0] == '~':
             readData = True
 
-tree = []
+forwardtree = []
+backwardtree = []
 path = []
-with open("chicago_astar_data", 'r') as f:
-    flag = False
+with open("chicago_bidirect_data", 'r') as f:
     while True:
         line = f.readline()
         if not line:
             break
-        if line == "path\n":
-            flag = True
+        if line == "forwardtree\n":
+            flag = 1
             continue
+        if line == "backwardtree\n":
+            flag = 2
+            continue
+        if line == "path\n":
+            flag = 3
+            continue
+
         fr, to = map(int, line.split()) 
-        if flag:
-            path.append((fr, to))
-        else:
+        if flag == 1:
             if to > numZones:
-                tree.append((fr, to))
+                forwardtree.append((fr, to))
+        if flag == 2:
+            if to > numZones:
+                backwardtree.append((fr, to))
+        if flag == 3:
+            path.append((fr, to))
 
 pos = nx.get_node_attributes(G, "pos")
 plt.figure(figsize=(20,20),dpi=240)
@@ -68,16 +78,17 @@ plt.figure(figsize=(20,20),dpi=240)
 #pos=nx.graphviz_layout(G, prog="neato") 
 #pos=nx.graphviz_layout(G, prog="fdp") 
 #pos=nx.graphviz_layout(G, prog="sfdp") 
-nx.draw_networkx(G,pos,with_labels=True, alpha=0.1, node_size=1,widths=0.1, font_color='r',font_size=8,node_color='r',edge_color='k') 
+#nx.draw_networkx(G,pos,with_labels=True, alpha=0.1, node_size=1,widths=0.1, font_color='r',font_size=8,node_color='r',edge_color='k') 
 nx.draw_networkx_nodes(G, pos, nodelist=[origin,destination],node_size=100,node_color='r')
 p1 = nx.draw_networkx_edges(G, pos, edgelist=edgelist, edge_color='k', arrows=False, widths=0.1, alpha=0.1)
-p2 = nx.draw_networkx_edges(G, pos, edgelist=tree, edge_color='b', arrows=False, width=0.8, alpha=0.6)
-p3 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False, width=1.5)
+p2 = nx.draw_networkx_edges(G, pos, edgelist=forwardtree, edge_color='b', arrows=False, width=0.8, alpha=0.6)
+p3 = nx.draw_networkx_edges(G, pos, edgelist=backwardtree, edge_color='g', arrows=False, width=0.8, alpha=0.6)
+p4 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False, width=1.5)
 #xmax=max(xx for xx,yy in pos.values())
 #ymax=max(yy for xx,yy in pos.values())
 #plt.xlim(0,xmax)
 #plt.ylim(0,ymax)
-plt.legend([p1, p2, p3],["Unscanned arcs", "Scanned arcs", "Shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
+plt.legend([p1, p2, p3, p4],["Unscanned arcs", "Forward scanned arcs", "backward scanned arcs", "Shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
 x, y = pos[origin]
 plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 x, y = pos[destination]
