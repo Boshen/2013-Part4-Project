@@ -1,17 +1,17 @@
 \chapter{Problem Description}
 In the previous chapter we have briefly talked about the
-shortest path and the traffic assignment problem,
+shortest path and the traffic assignment problem.
 In this chapter, we give formal definition to these concepts,
-as well as the idea of an data structure.
-The network problem data that is going to be tested on is also 
-described in this chapter.
+as well as the idea of a data structure.
 \section{Notations and Definitions}
 
-In the context of transportation networks,
-we use the notation $ \mathcal{G} = ( \mathcal{V}, \mathcal{A} ) $ for a directed graph,
+\marginpar{TODO\\ref\\properly->}
+Using notations from \citep{Klunder} and in the context
+of transportation networks,
+we denote $ \mathcal{G} = ( \mathcal{V}, \mathcal{A} ) $ for a directed graph,
 where $ \mathcal{V} $ denotes the set of nodes (origins, destinations, and intersections)
 and $ \mathcal{A} $ the set of arcs (roads);
-so $ \mathcal{A} $ is a subset of the set $ \{ (u, v)\, | \, u, v \in \mathcal{V} \} $ of all ordered pairs of nodes.
+we say $ \mathcal{A} $ is a subset of the set $ \{ (u, v)\, | \, u, v \in \mathcal{V} \} $ of all ordered pairs of nodes.
 We denote the cardinality of $ \mathcal{V} $ be V and $ \mathcal{A} $ be A.
 We assume that $ 1 \leq V < \infty $ and $ 0 \leq A < \infty $,
 and that a function $ c : \mathcal{A} \rightarrow \mathbb{R} $ is given that assigns a cost (travel time) to any arc $ (u,v) \in \mathcal{A} $.
@@ -20,34 +20,29 @@ We write the costs of arc $(u, v)$ as: $ c((u, v)) = c_{uv} $.
 The path inside a transportation network has to be a directed simple path, 
 which is a sequence of nodes and arcs $ (u_1, (u_1, u_2), u_2, \cdots , (u_{k-1}, u_k), u_k ) $
 such that $ (u_i, u_{i+1}) \in \mathcal{A}$ for $i = 1,\cdots,k-1$ and $u_i \neq u_j$ for all $ 1 \leq i < j \leq k$.
-Note $u_1$ is the origin and $u_k$ is the destination of the path $P$ called an O-D pair;
-in a transportation network,
+Note $u_1$ is the origin and $u_k$ is the destination of the path $P$, $u_1$ and $u_k$ together is called an O-D pair for this path.
+In a transportation network,
 these O-D pairs are often traffic zones for generating supplies and receiving demands,
-this means the nodes for these O-D pairs are not travelable,
-traffic flows cannot go through these zone nodes.
-\marginpar{TODO\\diagram\\explain?}
+indicating they are untravellable nodes.
 Finally we denote cost of the whole path $C(P) := \sum_{(u,v)\in P} c_{vw}$.
 
-\section{Shortest Path Problem}
-The Shortest Path Problem (SPP) is the problem of finding the distance for a given origin $s$ (source) and a destination $t$ (target).
-We assume the graph contains a path from node $s$  to node $t$, as well as all arc lengths are positive.
-For a real transportation network, all these assumptions are satisfied naturally; any transportation networks will have at least one O-D pair and
-all arc lengths are travel times that are naturally positive.
+\section{The Shortest Path Problem}
 \marginpar{SPP}
-
-{
-    Adapted from (How do I reference for all these paragraphs?)
-    \begin{verbatim}
-    The Shortest Path Problem on Large-Scale Real-Road Networks
-    NETWORKS—2006—DOI 10.1002/net
-    \end{verbatim}
-}
-There are two types of SPP that are going to
-be analysed in this report,
+The Shortest Path Problem (SPP) is the problem of finding the shortest path from a given origin $s$ (source) to some destination $t$ (target).
+There are two types of SPP hat are going to
+be analysed in this report:
 a single-source SPP and a point to point SPP.
-A single-source SPP solves the shortest path going from one origin to all other destinations in the network,
+A single-source SPP solves the shortest path going from one origin to every other destinations in the network,
 meanwhile a point to point SPP solves from one origin to a specific destination.
 
+\begin{comment}
+We assume the graph contains a path from node $s$  to node $t$,
+as well as all arc lengths are positive.
+For a real transportation network, all these assumptions are satisfied naturally; any transportation networks will have at least one O-D pair and
+all arc lengths are travel times that are naturally positive.
+\end{comment}
+
+\begin{comment}
 \section{Traffic Assignment}
 Traffic Assignment (TA) is the problem of selecting paths between origins and destinations in a transportation network,
 and identify how many travellers use each path.
@@ -71,6 +66,7 @@ the point to point SPP is solved for all O-D pairs in the network.
 \marginpar{PE}
 
 \subsection{Frank-Wolfe}
+\end{comment}
 
 \section{Data Structures}
 A Data structure is a way for computers to store, update and manipulate intermediate results.
@@ -107,48 +103,4 @@ and retrieving it has only $O(1)$ time complexity.
 And for other operations such as adding, removing and updating a node in the heap is at most $O(\log(N))$.
 So the heap data structure is very efficient at constantly adding a element and finding the current minimum value.
 The impact and usage of this data structure will be mentioned again for label setting algorithm in section~\ref{section:labelsettingalgorithm}.
-
-\section{Problem Data and Result Explanation}
-The problem data for solving the TA problems are retrieved from Transportation Network Test Problems \citep{ProblemData}.
-
-Through out the report, Table~\ref{table:problemdata} is used to show the run time and number of iterations for solving one particular network.
-In the table, the ``O-D pairs'' column gives the number of pairs of origin and destination in the network.
-The ``zone'' column gives the number of traffic zones,
-in some cases, the nodes in the network also include the traffic zones.
-The ``Run time (seconds)'' gives is measured from executing the 
-path equilibration algorithm from start to finish.
-The ``Iterations'' column gives how many times the whole network
-gets solved to settle the traffic flows to equilibrium.
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrr}
-        Network & Nodes & Zones & O-D pairs & Arcs & Iterations & Run Time (s) \\
-        SiouxFalls    & 24   & 24  & 528   & 76   \\
-        Anaheim       & 416  & 38  & 1406  & 914  \\
-        Barcelona     & 1020 & 110 & 7922  & 2522 \\
-        Winnipeg      & 1052 & 147 & 4344  & 2836 \\
-        ChicagoSketch & 933  & 387 & 93135 & 2950 
-    \end{tabular}
-    \caption{Network Problem Data}
-    \label{table:problemdata}
-\end{table}
-\marginpar{time per\\iteration?}
-By examining the network problem data,
-we can see that the number of O-D pairs increase
-significantly respect to the number of zone nodes,
-this is important because it indicates how many SPPs need to be solved for each iteration of the PE.
-We can also roughly tell that these networks are very sparse,
-as a complete graph (every node is connected to every other node) of 1000 nodes have 499500 arcs ($n(n-1)/2$),
-and the larger networks in our problem data only have about 0.4\% to 0.6\% of arcs in a complete graph, this information is useful
-when we start tuning the algorithms for solving SPP.
-
-Most of the data does not resemble a real world transportation network, 
-for example sometimes all roads have the same speed limit, road type and capacity.
-
-In this report, all problem data are solved on a Intel i5 1.78GHz CPU computer with 4GB RAM, which runs the Ubuntu 12.04 Linux operating system.
-And the code is compiled with the g++ compiler with the -O3 optimisation flag (i.e.\ optimise for speed).
-
-The accuracy of all results are checked by comparing the traffic flows from the traffic assignment output,
-as well as the final shortest path for every O-D pairs.
-\marginpar{CPU\\param}
 

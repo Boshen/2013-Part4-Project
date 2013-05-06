@@ -63,7 +63,6 @@ int main(int argc, char *argv[]) {
 		clock_t start, end;
 		start = clock();
 		int nbIter = algo->execute();
-		//algo->execute();
 		end = clock();
 		
 		//net->printToFile("tmp.flows");
@@ -122,6 +121,7 @@ int main(int argc, char *argv[]) {
             }
         }
         */
+        /*
         ShPathAstarBidirect<SkewHeap>* shPath = (ShPathAstarBidirect<SkewHeap>*)manager.getShPath();
         shPath->calculate(384, 368);
         StarLink *link = shPath->getInComeLink(368);
@@ -148,6 +148,7 @@ int main(int argc, char *argv[]) {
 
         std::cout << "path" << std::endl;
         path.print();
+        */
 
     } catch (Error error) {
         std::cout << "Error has occured during execution: " << error.getMessage() << std::endl;

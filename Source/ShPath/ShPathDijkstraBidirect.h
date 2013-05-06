@@ -1,5 +1,5 @@
-#ifndef _SH_PATH_A_STAR_BIDIRECT_
-#define _SH_PATH_A_STAR_BIDIRECT_
+#ifndef _SH_PATH_A_DIJKSTRA_BIDIRECT_
+#define _SH_PATH_A_DIJKSTRA_BIDIRECT_
 
 #include <cmath>
 #include <iostream>
@@ -11,7 +11,7 @@
 #include "../Path.h"
 
 template <class PriorityQueue>
-class IAstarBidirect : public ShPathInterface {
+class IDijkstraBidirect : public ShPathInterface {
     protected:
         typedef class PriorityQueue::handle_type handle_t;
         PriorityQueue *Queue;
@@ -19,16 +19,15 @@ class IAstarBidirect : public ShPathInterface {
         std::vector<Label> *Labels;
 
     public:
-        IAstarBidirect<PriorityQueue>(StarNetwork* _netPointer)
+        IDijkstraBidirect<PriorityQueue>(StarNetwork* _netPointer)
             :ShPathInterface(_netPointer)
         {
             Queue = new PriorityQueue();
             ValueKeys = new std::vector<handle_t>(_nNodes);
             Labels = new std::vector<Label>(_nNodes);
-
         }
 
-        ~IAstarBidirect(){
+        ~IDijkstraBidirect(){
             delete Queue;
             delete ValueKeys;
             delete Labels;
@@ -50,79 +49,18 @@ class IAstarBidirect : public ShPathInterface {
 };
 
 template <class PriorityQueue>
-class AstarForward : public IAstarBidirect<PriorityQueue> {
+class DijkstraForward : public IDijkstraBidirect<PriorityQueue> {
     private:
         typedef class PriorityQueue::handle_type handle_t;
-        std::vector<FPType> *forwardZeroFlowTimes;
-        std::vector<FPType> *backwardZeroFlowTimes;
     public:
-        AstarForward<PriorityQueue>(StarNetwork *_netPointer, std::vector<FPType> *forwardZeroFlowTimes, std::vector<FPType> *backwardZeroFlowTimes)
-            :IAstarBidirect<PriorityQueue>(_netPointer), forwardZeroFlowTimes(forwardZeroFlowTimes), backwardZeroFlowTimes(backwardZeroFlowTimes){
-                // init heuristic function as zero flows
-                int nNodes = this->_nNodes;
-                //zeroFlowTimes = new std::vector<FPType>(nNodes*nNodes);
-                for(int i = 0; i < nNodes; i++){
-                    calculate(i);
-                    for(int j = 0; j < nNodes; j++){
-                        (*forwardZeroFlowTimes)[i*nNodes+j] = (*this->Nodes)[j].dist;
-                    }
-                }
-
-            }
-        ~AstarForward(){
-            //delete zeroFlowTimes;
-        }
-
-        void calculate(int O) {
-            PriorityQueue& Q = *this->Queue;
-            std::vector<handle_t>& K = *this->ValueKeys;
-            std::vector<Label>& L = *this->Labels;
-            std::vector<nodeInfo>& N = *this->Nodes;
-            int nNodes = this->_nNodes;
-            StarNetwork &netPointer = *this->_netPointer;
-
-            this->initNodes();
-
-            Q.clear();
-            for(int i = 0; i < nNodes; i++){
-                L[i] = UNREACHED;
-            }
-
-            N[O].dist = 0;
-            K[O] = Q.push(ValueKey(O, 0));
-            while ( !Q.empty() ){
-                int u = Q.top().u;
-                L[u] = LABELED;
-                FPType Du = N[u].dist;
-                Q.pop();
-                StarNode* curNode = netPointer.beginNode(u);
-                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                    for (StarLink *nextLink = netPointer.beginLink(); nextLink != NULL; nextLink = netPointer.getNextLink()) {
-                        int v = nextLink->getNodeToIndex();
-                        FPType Duv = Du + nextLink->getTime();
-                        if ( Duv < N[v].dist ){
-                            N[v].dist = Duv;
-                            N[v].linkIndex = nextLink->getIndex();
-                            if( L[v] == UNREACHED ){
-                                L[v] = SCANNED;
-                                K[v] = Q.push(ValueKey(v, -Duv));
-                            }else if( L[v] == SCANNED){
-                                Q.increase(K[v], ValueKey(v, -Duv));
-                            }
-                        }
-                    } // for each outgoing link
-                } // if can visit node
-            } // while !Q.empty()
-
-        }
-
+        DijkstraForward<PriorityQueue>(StarNetwork *_netPointer)
+            :IDijkstraBidirect<PriorityQueue>(_netPointer){}
         void initialise(int O, int D){
             this->initNodes();
 
             PriorityQueue& Q = *this->Queue;
             std::vector<handle_t>& K = *this->ValueKeys;
             std::vector<Label>& L = *this->Labels;
-            std::vector<FPType>& H = *this->forwardZeroFlowTimes;
             std::vector<nodeInfo>& N = *this->Nodes;
             int nNodes = this->_nNodes;
 
@@ -133,20 +71,17 @@ class AstarForward : public IAstarBidirect<PriorityQueue> {
             }
 
             N[O].dist = 0;
-            K[O] = Q.push(ValueKey(O, -H[O*nNodes+D]));
-            //K[O] = Q.push(ValueKey(O, 0));
-            (this->Scanned)->clear();
+            //K[O] = Q.push(ValueKey(O, -H[O*nNodes+D]));
+            K[O] = Q.push(ValueKey(O, 0));
+                        (this->Scanned)->clear();
         }
-
         int iterate(int O, int D){
 
             PriorityQueue& Q = *this->Queue;
             std::vector<handle_t>& K = *this->ValueKeys;
             std::vector<Label>& L = *this->Labels;
-            std::vector<FPType>& HF = *this->forwardZeroFlowTimes;
-            std::vector<FPType>& HB = *this->backwardZeroFlowTimes;
             std::vector<nodeInfo>& N = *this->Nodes;
-            int nNodes = this->_nNodes;
+            //int nNodes = this->_nNodes;
             StarNetwork &netPointer = *this->_netPointer;
 
             int u = Q.top().u;
@@ -154,6 +89,7 @@ class AstarForward : public IAstarBidirect<PriorityQueue> {
             FPType Du = N[u].dist;
             Q.pop();
 
+            //if( u == D ){ return u; }
             StarNode* curNode = netPointer.beginNode(u);
             if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
                 for (StarLink *nextLink = netPointer.beginLink(); nextLink != NULL; nextLink = netPointer.getNextLink()) {
@@ -162,11 +98,12 @@ class AstarForward : public IAstarBidirect<PriorityQueue> {
                     if ( Duv < N[v].dist ){
                         N[v].dist = Duv;
                         N[v].linkIndex = nextLink->getIndex();
-                        FPType Fuv = Duv +0.5*(HF[v*nNodes+D]-HB[v*nNodes+O]);
+                        //FPType Fuv = Duv + H[v*nNodes+D];
+                        FPType Fuv = Duv;
                         if( L[v] == UNREACHED ){
                             L[v] = SCANNED;
                             K[v] = Q.push(ValueKey(v, -Fuv));
-                            (this->Scanned)->push_back(std::pair<int, int>(u, v));
+                        (this->Scanned)->push_back(std::pair<int, int>(u, v));
                         }else if( L[v] == SCANNED){
                             Q.increase(K[v], ValueKey(v, -Fuv));
                         }
@@ -180,7 +117,7 @@ class AstarForward : public IAstarBidirect<PriorityQueue> {
 };
 
 template <class PriorityQueue>
-class AstarBackward : public IAstarBidirect<PriorityQueue> {
+class DijkstraBackward : public IDijkstraBidirect<PriorityQueue> {
     private:
         typedef class PriorityQueue::handle_type handle_t;
 
@@ -188,92 +125,36 @@ class AstarBackward : public IAstarBidirect<PriorityQueue> {
         typedef std::map<int, StarLinkVector*> EdgeMap;
         EdgeMap *Edges; // map of star links
 
-        std::vector<FPType> *forwardZeroFlowTimes;
-        std::vector<FPType> *backwardZeroFlowTimes;
     public:
-        AstarBackward<PriorityQueue>(StarNetwork *_netPointer, std::vector<FPType> *forwardZeroFlowTimes, std::vector<FPType> *backwardZeroFlowTimes)
-            :IAstarBidirect<PriorityQueue>(_netPointer), forwardZeroFlowTimes(forwardZeroFlowTimes), backwardZeroFlowTimes(backwardZeroFlowTimes)
+        DijkstraBackward<PriorityQueue>(StarNetwork *_netPointer)
+            :IDijkstraBidirect<PriorityQueue>(_netPointer)
         { 
-            //setup reverse star
             Edges = new EdgeMap();
             for (int i = 0; i < this->_nNodes; i++){
                 Edges->insert(std::make_pair(i, new StarLinkVector()));
             }
+        }
+
+        ~DijkstraBackward(){
+            for(int i = 0; i < this->_nNodes; i++){
+                delete (*Edges)[i];
+            }
+            delete Edges;
+        }
+
+        void setupReverseStar(){
             StarNetwork &netPointer = *this->_netPointer;
             for (StarNode *node = netPointer.beginNode(); node != NULL; node = netPointer.getNextNode()) {
                 for (StarLink *nextLink = netPointer.beginLink(); nextLink != NULL; nextLink = netPointer.getNextLink()) {
                     (*Edges)[nextLink->getNodeToIndex()]->push_back(nextLink);
                 }
             }
-            //setup heuristic
-            int nNodes = this->_nNodes;
-            //zeroFlowTimes = new std::vector<FPType>(nNodes*nNodes);
-            for(int i = 0; i < nNodes; i++){
-                calculate(i);
-                for(int j = 0; j < nNodes; j++){
-                    (*backwardZeroFlowTimes)[i*nNodes+j] = (*this->Nodes)[j].dist;
-                }
-            }
-        }
-
-        ~AstarBackward(){
-            for(int i = 0; i < this->_nNodes; i++){
-                delete (*Edges)[i];
-            }
-            delete Edges;
-            //delete zeroFlowTimes;
-        }
-
-        void calculate(int O) {
-            PriorityQueue& Q = *this->Queue;
-            std::vector<handle_t>& K = *this->ValueKeys;
-            std::vector<Label>& L = *this->Labels;
-            std::vector<nodeInfo>& N = *this->Nodes;
-            int nNodes = this->_nNodes;
-            StarNetwork &netPointer = *this->_netPointer;
-            EdgeMap& E = *Edges; // map of star links
-
-            this->initNodes();
-
-            Q.clear();
-            for(int i = 0; i < nNodes; i++){
-                L[i] = UNREACHED;
-            }
-
-            N[O].dist = 0;
-            K[O] = Q.push(ValueKey(O, 0));
-            while ( !Q.empty() ){
-                int u = Q.top().u;
-                L[u] = LABELED;
-                FPType Du = N[u].dist;
-                Q.pop();
-                StarNode* curNode = netPointer.beginNode(u);
-                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                    for (size_t j = 0; j < E[u]->size(); j++){
-                        StarLink *nextLink = E[u]->at(j);
-                        int v = nextLink->getNodeFromIndex();
-                        FPType Duv = Du + nextLink->getTime();
-                        if ( Duv < N[v].dist ){
-                            N[v].dist = Duv;
-                            N[v].linkIndex = nextLink->getIndex();
-                            if( L[v] == UNREACHED ){
-                                L[v] = SCANNED;
-                                K[v] = Q.push(ValueKey(v, -Duv));
-                            }else if( L[v] == SCANNED){
-                                Q.increase(K[v], ValueKey(v, -Duv));
-                            }
-                        }
-                    } // for each outgoing link
-                } // if can visit node
-            } // while !Q.empty()
-
         }
 
         void initialise(int O, int D){ 
             PriorityQueue& Q = *this->Queue;
             std::vector<handle_t>& K = *this->ValueKeys;
             std::vector<Label>& L = *this->Labels;
-            std::vector<FPType>& H = *this->backwardZeroFlowTimes;
             std::vector<nodeInfo>& N = *this->Nodes;
             int nNodes = this->_nNodes;
 
@@ -286,9 +167,9 @@ class AstarBackward : public IAstarBidirect<PriorityQueue> {
             }
 
             N[O].dist = 0;
-            K[O] = Q.push(ValueKey(O, -H[O*nNodes+D]));
-            //K[O] = Q.push(ValueKey(O, 0));
-            (this->Scanned)->clear();
+            //K[O] = Q.push(ValueKey(O, -H[D*nNodes+O]));
+            K[O] = Q.push(ValueKey(O, 0));
+                        (this->Scanned)->clear();
         }
 
         int iterate(int O, int D){
@@ -296,11 +177,9 @@ class AstarBackward : public IAstarBidirect<PriorityQueue> {
             PriorityQueue& Q = *this->Queue;
             std::vector<handle_t>& K = *this->ValueKeys;
             std::vector<Label>& L = *this->Labels;
-            std::vector<FPType>& HF = *this->forwardZeroFlowTimes;
-            std::vector<FPType>& HB = *this->backwardZeroFlowTimes;
             std::vector<nodeInfo>& N = *this->Nodes;
             EdgeMap& E = *Edges; // map of star links
-            int nNodes = this->_nNodes;
+            //int nNodes = this->_nNodes;
             StarNetwork &netPointer = *this->_netPointer;
 
             int u = Q.top().u;
@@ -308,6 +187,7 @@ class AstarBackward : public IAstarBidirect<PriorityQueue> {
             FPType Du = N[u].dist;
             Q.pop();
 
+            //if( u == D ){ return u; } 
             StarNode* curNode = netPointer.beginNode(u);
             if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
                 for (size_t j = 0; j < E[u]->size(); j++){
@@ -317,11 +197,12 @@ class AstarBackward : public IAstarBidirect<PriorityQueue> {
                     if ( Duv < N[v].dist ){
                         N[v].dist = Duv;
                         N[v].linkIndex = nextLink->getIndex();
-                        FPType Fuv = Duv + 0.5*(HF[v*nNodes+D]-HB[v*nNodes+O]);
+                        //FPType Fuv = Duv + H[D*nNodes+v];
+                        FPType Fuv = Duv;
                         if( L[v] == UNREACHED ){
                             L[v] = SCANNED;
                             K[v] = Q.push(ValueKey(v, -Fuv));
-                            (this->Scanned)->push_back(std::pair<int, int>(u, v));
+                        (this->Scanned)->push_back(std::pair<int, int>(u, v));
                         }else if( L[v] == SCANNED){
                             Q.increase(K[v], ValueKey(v, -Fuv));
                         }
@@ -335,34 +216,34 @@ class AstarBackward : public IAstarBidirect<PriorityQueue> {
 };
 
 template <class PriorityQueue>
-class ShPathAstarBidirect : public ShPathInterface {
+class ShPathDijkstraBidirect : public ShPathInterface {
     private:
         ShPathDijkstraSTL *dijkstra;
-        AstarForward<PriorityQueue> *astarForward;
-        AstarBackward<PriorityQueue> *astarBackward;
+        DijkstraForward<PriorityQueue> *astarForward;
+        DijkstraBackward<PriorityQueue> *astarBackward;
 
-        std::vector<FPType> *forwardZeroFlowTimes;
-        std::vector<FPType> *backwardZeroFlowTimes;
     public:
-        ShPathAstarBidirect<PriorityQueue>(StarNetwork* _netPointer):ShPathInterface(_netPointer){
+        ShPathDijkstraBidirect<PriorityQueue>(StarNetwork* _netPointer):ShPathInterface(_netPointer){
+            astarForward = new DijkstraForward<PriorityQueue>(_netPointer);
+            astarBackward = new DijkstraBackward<PriorityQueue>(_netPointer);
+            astarBackward->setupReverseStar();
             dijkstra = new ShPathDijkstraSTL(_netPointer);
-            forwardZeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
-            backwardZeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
-            astarForward = new AstarForward<PriorityQueue>(_netPointer, forwardZeroFlowTimes, backwardZeroFlowTimes);
-            astarBackward = new AstarBackward<PriorityQueue>(_netPointer, forwardZeroFlowTimes, backwardZeroFlowTimes);
-            _netPointer->calculateLinkCosts();
         }
 
-        ~ShPathAstarBidirect(){
+        ~ShPathDijkstraBidirect(){
             delete dijkstra;
             delete astarForward;
             delete astarBackward;
-            delete forwardZeroFlowTimes;
-            delete backwardZeroFlowTimes;
         }
 
-        std::vector< std::pair<int, int> >* getForwardScanned(){ return astarForward->Scanned; }
-        std::vector< std::pair<int, int> >* getBackwardScanned(){ return astarBackward->Scanned; }
+            std::vector< std::pair<int, int> >* getForwardScanned(){
+                return astarForward->Scanned;
+
+            }
+            std::vector< std::pair<int, int> >* getBackwardScanned(){
+                return astarBackward->Scanned;
+
+            }
 
         void calculate(int O) { 
             dijkstra->calculate(O); 
@@ -377,8 +258,8 @@ class ShPathAstarBidirect : public ShPathInterface {
 
         void calculate(int O, int D) { 
 
-            AstarForward<PriorityQueue> &AF = *astarForward;
-            AstarBackward<PriorityQueue> &AB = *astarBackward;
+            DijkstraForward<PriorityQueue> &AF = *astarForward;
+            DijkstraBackward<PriorityQueue> &AB = *astarBackward;
 
             AF.initialise(O, D);
             AB.initialise(D, O);

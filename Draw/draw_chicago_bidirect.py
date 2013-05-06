@@ -88,7 +88,7 @@ p4 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False,
 #ymax=max(yy for xx,yy in pos.values())
 #plt.xlim(0,xmax)
 #plt.ylim(0,ymax)
-plt.legend([p1, p2, p3, p4],["Unscanned arcs", "Forward scanned arcs", "backward scanned arcs", "Shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
+plt.legend([p1, p2, p3, p4],["unscanned arcs or\n arcs connecting zones", "forward scanned arcs", "backward scanned arcs", "shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
 x, y = pos[origin]
 plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 x, y = pos[destination]

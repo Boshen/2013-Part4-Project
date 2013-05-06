@@ -5,6 +5,7 @@
 #include "ShPathAstar.h"
 #include "ShPathAstarSTL.h"
 #include "ShPathAstarBidirect.h"
+#include "ShPathDijkstraBidirect.h"
 
 ShPathFactory::ShPathFactory(){}
 
@@ -46,8 +47,11 @@ ShPathInterface* ShPathFactory::getShPath(const string& algo, const string& data
     if ( algo == "AstarSTL")
         return new ShPathAstarSTL(_netPointer);
 
-    if ( algo == "AstarBidirect" && dataStruct == "SkewHeap")
+    if ( algo == "AstarBidirect")
         return new ShPathAstarBidirect<SkewHeap>(_netPointer);
+
+    if ( algo == "DijkstraBidirect")
+        return new ShPathDijkstraBidirect<SkewHeap>(_netPointer);
 
     std::cout << "No algorithm or data structure found ... Abort" << std::endl;
     exit(-1);

@@ -6,48 +6,51 @@ A level-1 auxiliary file: ./contents/acknowledgement.aux
 A level-1 auxiliary file: ./contents/introduction.aux
 A level-1 auxiliary file: ./contents/chapter2.aux
 A level-1 auxiliary file: ./contents/chapter3.aux
+A level-1 auxiliary file: ./contents/results.aux
 A level-1 auxiliary file: ./contents/conclusions.aux
 A level-1 auxiliary file: ./contents/appendix.aux
 The style file: agsm.bst
 Database file #1: citations.bib
-You've used 4 entries,
+Warning--empty institution in mplomer
+You've used 8 entries,
             2908 wiz_defined-function locations,
-            673 strings with 5495 characters,
-and the built_in function-call counts, 9716 in all, are:
-= -- 1523
-> -- 119
-< -- 0
-+ -- 684
-- -- 35
-* -- 770
-:= -- 2092
-add.period$ -- 4
-call.type$ -- 4
-change.case$ -- 55
-chr.to.int$ -- 4
-cite$ -- 4
-duplicate$ -- 53
-empty$ -- 117
-format.name$ -- 47
-if$ -- 1718
+            703 strings with 6001 characters,
+and the built_in function-call counts, 20690 in all, are:
+= -- 3273
+> -- 238
+< -- 1
++ -- 1470
+- -- 70
+* -- 1650
+:= -- 4390
+add.period$ -- 8
+call.type$ -- 8
+change.case$ -- 111
+chr.to.int$ -- 8
+cite$ -- 9
+duplicate$ -- 117
+empty$ -- 245
+format.name$ -- 94
+if$ -- 3685
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 3
-newline$ -- 16
-num.names$ -- 40
-pop$ -- 28
+missing$ -- 5
+newline$ -- 28
+num.names$ -- 80
+pop$ -- 51
 preamble$ -- 1
-purify$ -- 60
+purify$ -- 120
 quote$ -- 0
-skip$ -- 44
+skip$ -- 101
 stack$ -- 0
-substring$ -- 2079
-swap$ -- 5
-text.length$ -- 56
+substring$ -- 4486
+swap$ -- 18
+text.length$ -- 113
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 14
-warning$ -- 0
-while$ -- 85
+type$ -- 30
+warning$ -- 1
+while$ -- 172
 width$ -- 0
-write$ -- 51
+write$ -- 102
+(There was 1 warning)
