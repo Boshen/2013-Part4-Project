@@ -1,12 +1,17 @@
 \chapter{Introduction}
 {
-    SPP has been mentioned countless times,
-    most materials are very repetitive,
-    what kind of info do i need to make a reference of?
-
     TODO: italic ``names''
 }
 \section{Traffic Assignment Models}
+
+\begin{comment}
+Finding the minimum paths is the most computation-intensive compo-
+nent of each iteration of most UE solution procedures (and, in particular, the
+convex combinations algorithm). The other components (loading the mini-
+/ths, the line search, the updates, and the convergence checks) do not
+require more than a few percentages of the total CPU time. 
+\citep{Sheffi}
+\end{comment}
 
 In today's world, cities are becoming larger, 
 road networks are becoming more complex,
@@ -42,7 +47,7 @@ equilibrium assignment or the path equilibration method.
 In this method, 
 shortest path for every origin-destination pair (O-D pair) are calculated, 
 \marginpar{Shortest\\Path}
-and traffic flows are assigned to theses shortest path.
+and traffic flows are assigned to these shortest path.
 The traffic assignment is said to be solved when equilibrium occur when no traveller can find a shorter path.
 As every time traffic flows are reassigned,
 congestion will happen differently and 
@@ -64,18 +69,14 @@ shortest path for each O-D pair are calculated repeatedly,
 which is a very time consuming step for large networks with lots of roads and intersections.
 \marginpar{time\\consuming}
 Speeding up the shortest path calculation would significantly speed up the TA algorithms,
-when everything is sped up,
+as a result,
 larger and more complex networks can then be solved faster.
 And when this fast TA algorithm is put back inside the traffic forecasting model,
 we can predict longer into the future by changing traffic demands and supplies or modifying the road network design.
 
 \marginpar{mention\\Frank-Wolfe\\algo}
-Existing computer code (written in C++) already exist for the TA algorithms,
-including the path equilibrium method and many others.
-\marginpar{existing\\code}
-A simple shortest path calculation algorithm is currently used by the path equilibrium method,
-which runs very poorly given a small network.
 
+\begin{comment}
 The existing algorithm is referred as the label-correcting algorithm, 
 it is modified and implemented as the well known label-setting Dijkstra's algorithm using a special data structure for storing information,
 A* algorithm is them implemented to speed the Dijkstra's algorithm for the point to point shortest problem.
@@ -84,3 +85,4 @@ A* algorithm is them implemented to speed the Dijkstra's algorithm for the point
 Special cares are taken when implementing these algorithms,
 namely the origins and destinations mentioned sometimes do not act as intersections for the travellers (to be included in the shortest path calculation),
 since these origins and destinations are conceptual traffic zones for generating demands and supplies.
+\end{comment}

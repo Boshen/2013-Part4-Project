@@ -18,10 +18,9 @@
     <bib_volume></bib_volume>
     <bib_number></bib_number>
     <bib_pages></bib_pages>
-    <bib_year>1985</bib_year>
+    <bib_year>1984</bib_year>
     <bib_extra key="Isbn">0139397299</bib_extra>
     <bib_extra key="Keywords">books, traffic</bib_extra>
-    <bib_extra key="Priority">2</bib_extra>
     <bib_extra key="publisher">Prentice Hall</bib_extra>
     <bib_extra key="Url">http://web.mit.edu/sheffi/www/urbanTransportation.html</bib_extra>
   </doc>
@@ -30,7 +29,7 @@
     <relative_filename></relative_filename>
     <key>Florian1995</key>
     <notes></notes>
-    <bib_type>Inbook</bib_type>
+    <bib_type>inbook</bib_type>
     <bib_doi></bib_doi>
     <bib_title>Handbooks in Operations Research and Management Science</bib_title>
     <bib_authors>Florian, Michael and Hearn, Donald</bib_authors>
@@ -41,11 +40,9 @@
     <bib_year>1995</bib_year>
     <bib_extra key="Added-at">2008-04-22T15:17:45.000+0200</bib_extra>
     <bib_extra key="Biburl">http://www.bibsonomy.org/bibtex/2a8965f3ba8fa2bfd52e4f3f622a236eb/smicha</bib_extra>
-    <bib_extra key="Chapter">Chapter 6 Network equilibrium models and algorithms</bib_extra>
-    <bib_extra key="Interhash">fd53f32389e144ea3fd54beaa45994f9</bib_extra>
-    <bib_extra key="Intrahash">a8965f3ba8fa2bfd52e4f3f622a236eb</bib_extra>
+    <bib_extra key="chapter">Chapter 6 Network equilibrium models and algorithms</bib_extra>
     <bib_extra key="Keywords">imported</bib_extra>
-    <bib_extra key="Publisher">Elsevier</bib_extra>
+    <bib_extra key="publisher">Elsevier</bib_extra>
     <bib_extra key="Timestamp">2008-04-22T15:17:45.000+0200</bib_extra>
     <bib_extra key="Url">http://www.sciencedirect.com/science/article/B7P6G-4FKY22V-S/1/2d71e5d83c74e838b7b6b583a3c488e9</bib_extra>
   </doc>
@@ -132,6 +129,74 @@
     <bib_year>2013</bib_year>
     <bib_extra key="howpublished">\url{http://www.bgu.ac.il/~bargera/tntp/}</bib_extra>
     <bib_extra key="month">4</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Bellman</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>On a Routing Problem</bib_title>
+    <bib_authors>Bellman, Richard</bib_authors>
+    <bib_journal>Quarterly of Applied Mathematics</bib_journal>
+    <bib_volume>16</bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>87-90</bib_pages>
+    <bib_year>1958</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>mplomer</key>
+    <notes></notes>
+    <bib_type>techreport</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Shortest Path Algorithms in Transportation models: classical and innovative aspects</bib_title>
+    <bib_authors>Pallottino, Stefano and Scutellà, Maria G.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number>TR-97-06</bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>1997</bib_year>
+    <bib_extra key="month">Apr</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Ford</key>
+    <notes></notes>
+    <bib_type>misc</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Network Flow Theory</bib_title>
+    <bib_authors>Ford, Lester R.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>1956</bib_year>
+    <bib_extra key="howpublished">Report P-923, The Rand Corporation</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Moore</key>
+    <notes></notes>
+    <bib_type>incollection</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>The shortest path through a maze</bib_title>
+    <bib_authors>Moore, Edward F.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>285-292</bib_pages>
+    <bib_year>1959</bib_year>
+    <bib_extra key="address">Cambridge, Mass.</bib_extra>
+    <bib_extra key="booktitle">Proc. Internat. Sympos. Switching Theory 1957, Part II</bib_extra>
+    <bib_extra key="Mrclass">93.00</bib_extra>
+    <bib_extra key="Mrnumber">0114710 (22 #5530)</bib_extra>
+    <bib_extra key="Mrreviewer">A. A. Mullin</bib_extra>
+    <bib_extra key="publisher">Harvard Univ. Press</bib_extra>
   </doc>
 </doclist>
 </library>
