@@ -55,7 +55,7 @@ void Path::print(){
 	for (StarLink *link = beginLink(); link != NULL; link = getNextLink()) {
 		//std::cout << "(" << link->getIndex() << ", " << link->getFlow() << ") ";
 		//std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << "] " << link->getFlow() << ", " << link->getTime() << " ";
-		//std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << ", " << link->getFlow() << "] ";
+		//std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << ", " << link->getTime() << "] ";
 		std::cout << link->getNodeFromIndex() << " " << link->getNodeToIndex() << std::endl;;
 		//std::cout << link->getIndex() << " ";
 	}//*/

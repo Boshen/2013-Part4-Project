@@ -59,6 +59,15 @@ class ShPathDijkstraSTL : public ShPathInterface {
                 Q.pop();
 
                 if ( u == D ){ 
+            StarLink *link = getInComeLink(D);
+            FPType nextDest = link->getNodeFromIndex();
+            Path path;
+            while (link != NULL) {
+                path.addLinkToPath(link);
+                nextDest = link->getNodeFromIndex();
+                link = getInComeLink(nextDest);
+            }
+            path.print();
                     break;
                 }
 

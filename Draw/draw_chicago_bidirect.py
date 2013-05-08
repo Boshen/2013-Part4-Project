@@ -47,7 +47,7 @@ with open(path, 'r') as f:
 forwardtree = []
 backwardtree = []
 path = []
-with open("chicago_bidirect_data", 'r') as f:
+with open("chicago_bidirectSTL_data", 'r') as f:
     while True:
         line = f.readline()
         if not line:

@@ -1,12 +1,14 @@
 CC = g++
-CFLAGS = -Wall -O3 #- Wextra -g -pg
+CFLAGS = -Wall -O3 # -g -pg -Wextra
 
 BOOST_DIR = /usr/include/boost_1_53_0
 
 SOURCES = ShPathFactory.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
-HEADERS = $(SOURCES:.cpp=.h)  ShPathInterface.h ShPathDijkstra.h ShPathDijkstraSTL.h ShPathAstar.h ShPathAstarSTL.h ShPathDijkstraBidirect.h ShPathAstarBidirect.h
+HEADERS = $(SOURCES:.cpp=.h)  ShPathInterface.h ShPathDijkstra.h ShPathDijkstraSTL.h ShPathAstar.h ShPathAstarSTL.h ShPathDijkstraBidirect.h ShPathDijkstraBidirectSTL.h 
+
+#ShPathAstarBidirect.h S
 
 all: $(OBJECTS)
 

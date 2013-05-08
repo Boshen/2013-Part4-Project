@@ -10,7 +10,7 @@
 #include "ObjectManager.h"
 #include "Utils.h"
 
-#include "ShPath/ShPathAstarBidirect.h"
+#include "ShPath/ShPathDijkstraBidirectSTL.h"
 #include "ShPath/ShPathInterface.h"
 #include "ShPath/ShPathFactory.h"
 
@@ -121,8 +121,7 @@ int main(int argc, char *argv[]) {
             }
         }
         */
-        /*
-        ShPathAstarBidirect<SkewHeap>* shPath = (ShPathAstarBidirect<SkewHeap>*)manager.getShPath();
+        ShPathDijkstraBidirectSTL* shPath = (ShPathDijkstraBidirectSTL*)manager.getShPath();
         shPath->calculate(384, 368);
         StarLink *link = shPath->getInComeLink(368);
         FPType nextDest = link->getNodeFromIndex();
@@ -148,7 +147,6 @@ int main(int argc, char *argv[]) {
 
         std::cout << "path" << std::endl;
         path.print();
-        */
 
     } catch (Error error) {
         std::cout << "Error has occured during execution: " << error.getMessage() << std::endl;
