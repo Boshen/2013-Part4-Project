@@ -4,6 +4,7 @@
 #include <queue>
 #include <cmath>
 #include <iostream>
+#include <cstdlib>
 #include "ShPathInterface.h"
 
 class ShPathAstarSTL : public ShPathInterface {
@@ -83,6 +84,7 @@ class ShPathAstarSTL : public ShPathInterface {
         }
 
         void calculate(int O, int D) {
+            
             Scanned->clear();
 
             initNodes();

@@ -4,7 +4,7 @@
 #include "ShPathDijkstraSTL.h"
 #include "ShPathAstar.h"
 #include "ShPathAstarSTL.h"
-//#include "ShPathAstarBidirect.h"
+#include "ShPathAstarBidirect.h"
 #include "ShPathDijkstraBidirectSTL.h"
 #include "ShPathDijkstraBidirect.h"
 
@@ -48,8 +48,8 @@ ShPathInterface* ShPathFactory::getShPath(const string& algo, const string& data
     if ( algo == "AstarSTL")
         return new ShPathAstarSTL(_netPointer);
 
-    //if ( algo == "AstarBidirect")
-    //    return new ShPathAstarBidirect<SkewHeap>(_netPointer);
+    if ( algo == "AstarBidirect")
+        return new ShPathAstarBidirect<SkewHeap>(_netPointer);
 
     if ( algo == "DijkstraBidirect")
         return new ShPathDijkstraBidirect<SkewHeap>(_netPointer);

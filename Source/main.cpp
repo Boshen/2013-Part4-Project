@@ -120,7 +120,6 @@ int main(int argc, char *argv[]) {
 
             }
         }
-        */
         ShPathDijkstraBidirectSTL* shPath = (ShPathDijkstraBidirectSTL*)manager.getShPath();
         shPath->calculate(384, 368);
         StarLink *link = shPath->getInComeLink(368);
@@ -147,6 +146,7 @@ int main(int argc, char *argv[]) {
 
         std::cout << "path" << std::endl;
         path.print();
+        */
 
     } catch (Error error) {
         std::cout << "Error has occured during execution: " << error.getMessage() << std::endl;
