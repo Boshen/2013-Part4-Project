@@ -67,7 +67,7 @@ class ShPathDijkstraSTL : public ShPathInterface {
                 nextDest = link->getNodeFromIndex();
                 link = getInComeLink(nextDest);
             }
-            path.print();
+            //path.print();
                     break;
                 }
 

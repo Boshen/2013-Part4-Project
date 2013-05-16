@@ -6,7 +6,6 @@
 #include <set>
 #include <deque>
 #include <map>
-#include "ShPathDijkstraSTL.h"
 #include "ShPathInterface.h"
 
 // https://github.com/graphhopper/graphhopper/blob/7df6a1104a6154c54aa6ba49969badc4a14220bf/core/src/main/java/com/graphhopper/routing/AStarBidirection.java
@@ -32,7 +31,9 @@ class ShPathAstarBidirect : public ShPathInterface {
         std::vector<FPType> *fZeroFlowTimes;
         std::vector<FPType> *bZeroFlowTimes;
 
-        ShPathDijkstraSTL *dijkstra;
+        std::vector<std::pair<int, int> > *fScanned;
+        std::vector<std::pair<int, int> > *bScanned;
+
 
         FPType fShortestDist, bShortestDist, shortestPathDist; // for stop condition
         int fShortestNode, bShortestNode;
@@ -50,10 +51,12 @@ class ShPathAstarBidirect : public ShPathInterface {
             fPred = new std::vector<int>(_nNodes);
             bPred = new std::vector<int>(_nNodes);
             isZone = new std::vector<bool>(_nNodes);
-            fZeroFlowTimes = new std::vector<FPType>(_nNodes);
-            bZeroFlowTimes = new std::vector<FPType>(_nNodes);
+            fZeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
+            bZeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
 
-            dijkstra = new ShPathDijkstraSTL(_netPointer);
+            fScanned = new std::vector<std::pair<int, int> >();
+            bScanned = new std::vector<std::pair<int, int> >();
+
             Edges = new EdgeMap();
             for (int i = 0; i < _nNodes; i++){
                 Edges->insert(std::make_pair(i, new StarLinkVector()));
@@ -64,15 +67,22 @@ class ShPathAstarBidirect : public ShPathInterface {
                 }
                 isZone->at(node->getIndex()) = node->getIsZone();
             }
-            // heuristic
+
             _netPointer->calculateLinkCosts();
+            // forward heuristic
             for(int i = 0; i < _nNodes; i++){
                 calculate(i);
                 for(int j = 0; j < _nNodes; j++){
-                    fZeroFlowTimes->at(i*nNodes+j) = Nodes->at(j).dist;
+                    fZeroFlowTimes->at(i*_nNodes+j) = Nodes->at(j).dist;
                 }
             }
-
+            // backward heuristic
+            for(int i = 0; i < _nNodes; i++){
+                calculateBackward(i);
+                for(int j = 0; j < _nNodes; j++){
+                    bZeroFlowTimes->at(i*_nNodes+j) = Nodes->at(j).dist;
+                }
+            }
         }
 
         ~ShPathAstarBidirect(){
@@ -94,56 +104,75 @@ class ShPathAstarBidirect : public ShPathInterface {
             }
             delete Edges;
 
-            delete dijkstra;
+            delete fScanned;
+            delete bScanned;
+
         }
 
         void calculate(int O) { 
-            dijkstra->calculate(O); 
-            for(int i = 0; i < _nNodes; i++){
-                (*Nodes)[i].dist = dijkstra->getCost(i);
-                if(dijkstra->getInComeLink(i) == NULL)
-                    (*Nodes)[i].linkIndex = -1;
-                else
-                    (*Nodes)[i].linkIndex = dijkstra->getInComeLink(i)->getIndex();
+            initialise(O, O);
+            Nodes->at(O).dist = 0;
+            while ( !fQueue->empty() ){
+                int u = fQueue->top().u;
+                fLabels->at(u) = LABELED;
+                FPType Du = Nodes->at(u).dist;
+                fQueue->pop();
+                StarNode* curNode = _netPointer->beginNode(u);
+                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
+                    for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
+                        int v = nextLink->getNodeToIndex();
+                        FPType Duv = Du + nextLink->getTime();
+                        if ( Duv < Nodes->at(v).dist ){
+                            Nodes->at(v).dist = Duv;
+                            Nodes->at(v).linkIndex = nextLink->getIndex();
+                            if( fLabels->at(v) == UNREACHED ){
+                                fLabels->at(v) = SCANNED;
+                                fValueKeys->at(v) = fQueue->push(ValueKey(v, -Duv));
+                                fScanned->push_back(std::pair<int, int>(u, v));
+                            }else if( fLabels->at(v) == SCANNED){
+                                fQueue->increase(fValueKeys->at(v), ValueKey(v, -Duv));
+                            }
+                        }
+                    }
+                }
             }
         }
 
         void calculateBackward(int O){
-            initNodes();
-            Q.clear();
-            for(int i = 0; i < nNodes; i++){
-                L[i] = UNREACHED;
-            }
-            N[O].dist = 0;
-            K[O] = Q.push(ValueKey(O, 0));
-            while ( !Q.empty() ){
-                int u = Q.top().u;
-                L[u] = LABELED;
-                FPType Du = N[u].dist;
-                Q.pop();
-                StarNode* curNode = netPointer.beginNode(u);
+            initialise(O, O);
+            Nodes->at(O).dist = 0;
+            while ( !fQueue->empty() ){
+                int u = fQueue->top().u;
+                fLabels->at(u) = LABELED;
+                FPType Du = Nodes->at(u).dist;
+                fQueue->pop();
+                StarNode* curNode = _netPointer->beginNode(u);
                 if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                    for (size_t j = 0; j < E[u]->size(); j++){
-                        StarLink *nextLink = E[u]->at(j);
+                    for (size_t j = 0; j < Edges->at(u)->size(); j++){
+                        StarLink *nextLink = Edges->at(u)->at(j);
                         int v = nextLink->getNodeFromIndex();
                         FPType Duv = Du + nextLink->getTime();
-                        if ( Duv < N[v].dist ){
-                            N[v].dist = Duv;
-                            N[v].linkIndex = nextLink->getIndex();
-                            if( L[v] == UNREACHED ){
-                                L[v] = SCANNED;
-                                K[v] = Q.push(ValueKey(v, -Duv));
-                            }else if( L[v] == SCANNED){
-                                Q.increase(K[v], ValueKey(v, -Duv));
+                        if ( Duv < Nodes->at(v).dist ){
+                            Nodes->at(v).dist = Duv;
+                            Nodes->at(v).linkIndex = nextLink->getIndex();
+                            if( fLabels->at(v) == UNREACHED ){
+                                fLabels->at(v) = SCANNED;
+                                fValueKeys->at(v) = fQueue->push(ValueKey(v, -Duv));
+                                bScanned->push_back(std::pair<int, int>(u, v));
+                            }else if( fLabels->at(v) == SCANNED){
+                                fQueue->increase(fValueKeys->at(v), ValueKey(v, -Duv));
                             }
                         }
-                    } // for each outgoing link
-                } // if can visit node
-            } // while !Q.empty()
+                    }
+                }
+            }
         }
 
         void initialise(int O, int D){
             initNodes();
+
+            fScanned->clear();
+            bScanned->clear();
 
             fShortestDist = bShortestDist = 0.0;
             fShortestNode = bShortestNode = -1;
@@ -168,7 +197,7 @@ class ShPathAstarBidirect : public ShPathInterface {
         }
 
         void calculate(int O, int D) { 
-            //std::cout << O << " " << D << std::endl;
+            //std::cout << O << " " << D << " | ";
             initialise(O, D);
 
             int finish = 0;
@@ -179,24 +208,30 @@ class ShPathAstarBidirect : public ShPathInterface {
                 if (!bIterate(O, D))
                     finish++;
             }
-            //std::cout << fShortestNode << " " << bShortestNode << std::endl;
 
+            // reconstrcut path
             std::deque<int> q;
             int linkIndex = fPred->at(shortestPathMidNode);
-            //std::cout << linkIndex << " ";
             while(linkIndex!=-1){
+                //std::cout << linkIndex << " ";
                 q.push_front(linkIndex);
+                //std::cout << _netPointer->getLink(linkIndex)->getNodeFromIndex() << " ";
                 linkIndex = _netPointer->getLink(linkIndex)->getNodeFromIndex();
                 linkIndex = fPred->at(linkIndex);
             }
+            //std::cout << " | ";
+            //std::cout << std::endl;
             linkIndex = bPred->at(shortestPathMidNode);
-            //std::cout << linkIndex << " ";
             while(linkIndex!=-1){
+                //std::cout << linkIndex << " ";
                 q.push_back(linkIndex);
+                //std::cout << _netPointer->getLink(linkIndex)->getNodeToIndex() << " ";
                 linkIndex = _netPointer->getLink(linkIndex)->getNodeToIndex();
                 linkIndex = bPred->at(linkIndex);
             }
+            //std::cout << std::endl;
 
+            // recalc dist on shortet path
             FPType dist = 0.0;
             //std::cout << ">> " << O << " " << D << std::endl;
             for(size_t i = 0; i < q.size(); i++){
@@ -213,87 +248,138 @@ class ShPathAstarBidirect : public ShPathInterface {
 
             //}
             //std::cout << std::endl;;
-            /*
-               StarLink *link = getInComeLink(D);
-               FPType nextDest = link->getNodeFromIndex();
-               Path path;
-               while (link != NULL) {
-               path.addLinkToPath(link);
-               nextDest = link->getNodeFromIndex();
-               link = getInComeLink(nextDest);
-               }
-               path.print();
-               */
+            //std::cout << O << " " << D << " " << fScanned->size()+bScanned->size() << std::endl;
+             //  StarLink *link = getInComeLink(D);
+             //  FPType nextDest = link->getNodeFromIndex();
+             //  Path path;
+             //  while (link != NULL) {
+             //  path.addLinkToPath(link);
+             //  nextDest = link->getNodeFromIndex();
+             //  link = getInComeLink(nextDest);
+             //  }
+             //  
+             //  path.print();
+
+            //   std::cout << fZeroFlowTimes->at(O*_nNodes+D) << " " << bZeroFlowTimes->at(D*_nNodes+O) << std::endl;
+            //std::cout << "fScanned" << std::endl;
+            //for(size_t i=0;i<fScanned->size();i++)
+            //std::cout << fScanned->at(i).first << " ";
+            //std::cout << std::endl;
+            //std::cout << "bScanned" << std::endl;
+            //for(size_t i=0;i<bScanned->size();i++)
+            //std::cout << bScanned->at(i).first << " ";
+
 
 
         }
 
         bool fIterate(int O, int D){
-            if( fQueue->empty() )
-                return false;
+            if( !fQueue->empty() ){
 
-            int u = (fQueue->top()).u;
-            fLabels->at(u) = LABELED;
-            FPType Du = fDist->at(u);
-            fQueue->pop();
+                int u = (fQueue->top()).u;
+                fLabels->at(u) = LABELED;
+                FPType Du = fDist->at(u);
+                fQueue->pop();
+                
+                if(u == D){
+                    fQueue->clear();
+                    bQueue->clear();
+                    return false;
+                }
 
-            StarNode* curNode = _netPointer->beginNode(u);
-            if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
-                    int v = nextLink->getNodeToIndex();
-                    if(v==u)continue;
-                    FPType Duv = Du + nextLink->getTime();
-                    if ( Duv < fDist->at(v) ){
-                        fDist->at(v) = Duv;
-                        fPred->at(v) = nextLink->getIndex();
-                        if( fLabels->at(v) == UNREACHED ){
-                            fLabels->at(v) = SCANNED;
-                            fValueKeys->at(v) = fQueue->push(ValueKey(v, -Duv));
-                        }else if( fLabels->at(v) == SCANNED){
-                            fQueue->increase(fValueKeys->at(v), ValueKey(v, -Duv));
+                StarNode* curNode = _netPointer->beginNode(u);
+                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
+                    for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
+                        int v = nextLink->getNodeToIndex();
+                        if(v==u || isZone->at(v))continue;
+                        FPType Duv = Du + nextLink->getTime();
+                        if ( Duv < fDist->at(v) ){
+                            fDist->at(v) = Duv;
+                            fPred->at(v) = nextLink->getIndex();
+                            //FPType Huv = Duv + 0.5*(fZeroFlowTimes->at(v*_nNodes+D)-bZeroFlowTimes->at(v*_nNodes+O)) + 0.5*bZeroFlowTimes->at(D*_nNodes+O);
+                            //FPType Huv = Duv + fZeroFlowTimes->at(v*_nNodes+D);
+                            //FPType Huv = Duv;
+                            FPType Huv = Duv + 0.5*(fZeroFlowTimes->at(v*_nNodes+D) - fZeroFlowTimes->at(O*_nNodes+v)) + 0.5*fZeroFlowTimes->at(O*_nNodes+D);
+                            //std::cout << fZeroFlowTimes->at(v*_nNodes+D) << " ";
+                            //std::cout << bZeroFlowTimes->at(D*_nNodes+v) << std::endl;
+                            if( fLabels->at(v) == UNREACHED ){
+                                fLabels->at(v) = SCANNED;
+                                fValueKeys->at(v) = fQueue->push(ValueKey(v, -Huv));
+                            fScanned->push_back(std::pair<int, int>(u, v));
+                            }else if( fLabels->at(v) == SCANNED){
+                                fQueue->increase(fValueKeys->at(v), ValueKey(v, -Huv));
+                            }
                         }
-                    }
-                    //std::cout << "fiterate " << u << " " << v << " " << Duv <<  std::endl;
-                    updateShortest(Duv, 0.0, v, D);
-                } // for each outgoing link
-            } // if can visit node
-            if (checkFinishCondition())
+                        //std::cout << "fiterate " << u << " " << v << " " << Duv <<  std::endl;
+                        //if(fDist->at(v) + fZeroFlowTimes->at(v*_nNodes+D) >= shortestPathDist){
+                        //    fQueue->clear();
+                        //    return false;
+                        //}
+                        //std::cout << "f (" << u << "," << v << ") " << std::endl;
+                        updateShortest(Duv, 0.0, v, D);
+                    } // for each outgoing link
+                } // if can visit node
+                if (fQueue->empty())
+                    return false;
+                if (checkFinishCondition(O, D))
+                    return false;
+            }else if (bQueue->empty())
                 return false;
             return true;
         }
 
         bool bIterate(int O, int D){
-            if( bQueue->empty() )
-                return false;
+            if( !bQueue->empty() ){
 
-            int u = (bQueue->top()).u;
-            bLabels->at(u) = LABELED;
-            FPType Du = bDist->at(u);
-            bQueue->pop();
+                int u = (bQueue->top()).u;
+                bLabels->at(u) = LABELED;
+                FPType Du = bDist->at(u);
+                bQueue->pop();
 
-            StarNode* curNode = _netPointer->beginNode(u);
-            if ((curNode != NULL) && (!curNode->getIsZone() || (u == D))) {
-                for (size_t j = 0; j < Edges->at(u)->size(); j++){
-                    StarLink *nextLink = Edges->at(u)->at(j);
-                    int v = nextLink->getNodeFromIndex();
-                    if(v==u)continue;
-                    FPType Duv = Du + nextLink->getTime();
-                    if ( Duv < bDist->at(v)){
-                        bDist->at(v) = Duv;
-                        bPred->at(v) = nextLink->getIndex();
-                        if( bLabels->at(v) == UNREACHED ){
-                            bLabels->at(v) = SCANNED;
-                            bValueKeys->at(v) = bQueue->push(ValueKey(v, -Duv));
-                        }else if( bLabels->at(v) == SCANNED){
-                            bQueue->increase(bValueKeys->at(v), ValueKey(v, -Duv));
+                if(u == O){
+                    fQueue->clear();
+                    bQueue->clear();
+                    return false;
+                }
+
+                StarNode* curNode = _netPointer->beginNode(u);
+                if ((curNode != NULL) && (!curNode->getIsZone() || (u == D))) {
+                    for (size_t j = 0; j < Edges->at(u)->size(); j++){
+                        StarLink *nextLink = Edges->at(u)->at(j);
+                        int v = nextLink->getNodeFromIndex();
+                        if(v==u || isZone->at(v))continue;
+                        FPType Duv = Du + nextLink->getTime();
+                        if ( Duv < bDist->at(v)){
+                            bDist->at(v) = Duv;
+                            bPred->at(v) = nextLink->getIndex();
+                            //FPType Huv = Duv + 0.5*(bZeroFlowTimes->at(v*_nNodes+O)-fZeroFlowTimes->at(v*_nNodes+D)) + 0.5*fZeroFlowTimes->at(O*_nNodes+D);
+                            //FPType Huv = Duv + bZeroFlowTimes->at(v*_nNodes+O);
+                            FPType Huv = Duv + 0.5*(fZeroFlowTimes->at(O*_nNodes+v) - fZeroFlowTimes->at(v*_nNodes+D)) + 0.5*fZeroFlowTimes->at(O*_nNodes+D);
+                            //FPType Huv = Duv;
+                            if( bLabels->at(v) == UNREACHED ){
+                                bLabels->at(v) = SCANNED;
+                                bValueKeys->at(v) = bQueue->push(ValueKey(v, -Huv));
+                            bScanned->push_back(std::pair<int, int>(u, v));
+                            }else if( bLabels->at(v) == SCANNED){
+                                bQueue->increase(bValueKeys->at(v), ValueKey(v, -Huv));
+                            }
                         }
-                    }
-                    //std::cout << "biterate " << u << " " << v << " " << Duv << std::endl;
-                    updateShortest(0.0, Duv, v, O);
-                } // for each outgoing link
-            } // if can visit node
-            if (checkFinishCondition())
+                        //std::cout << "biterate " << u << " " << v << " " << Duv << std::endl;
+                        //if(bDist->at(v) + bZeroFlowTimes->at(v*_nNodes+O) >= shortestPathDist){
+                        //    bQueue->clear();
+                        //    return false;
+                        //}
+                        //std::cout << "b (" << u << "," << v << ") " << std::endl;
+                        updateShortest(0.0, Duv, v, O);
+                    } // for each outgoing link
+                } // if can visit node
+                if(bQueue->empty())
+                    return false;
+                if (checkFinishCondition(O, D))
+                    return false;
+            }else if ( fQueue->empty() )
                 return false;
+
             return true;
         }
 
@@ -317,21 +403,26 @@ class ShPathAstarBidirect : public ShPathInterface {
                     fNode = &v;
                     bNode = &bPred->at(v);
                 }
+                //std::cout << ">> "  << v << " | " << newDist << " " << shortestPathDist << std::endl;
 
                 if (newDist < shortestPathDist){
                     shortestPathDist = newDist;
                     fShortestNode = *fNode;
                     bShortestNode = *bNode;
                     shortestPathMidNode = v;
-                    //std::cout << v<< " " << fShortestNode << " " << bShortestNode << " " << shortestPathDist << std::endl;
                 }
             }
         }
 
-        bool checkFinishCondition() {
-            FPType bTopDist = -(bQueue->top()).d;
-            FPType fTopDist = -(fQueue->top()).d;
-            return  fTopDist + bTopDist >= shortestPathDist;
+        bool checkFinishCondition(int O, int D) {
+            if( fQueue->empty() || bQueue->empty())
+                return false;
+            //FPType fTopDist = fDist->at((fQueue->top()).u);
+            //FPType bTopDist = bDist->at((bQueue->top()).u);
+            FPType fTopDist = -fQueue->top().d;
+            FPType bTopDist = -bQueue->top().d;
+            //std::cout << ">>> " << fTopDist << " " << bTopDist << " " << shortestPathDist + fZeroFlowTimes->at(O*_nNodes+D) << std::endl;
+            return  fTopDist + bTopDist >= shortestPathDist + fZeroFlowTimes->at(O*_nNodes+D);
         }
 };
 

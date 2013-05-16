@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 
 G = nx.DiGraph()
 
-path = "../Data/Instances/"
-filename = "ChicagoSketch_net"
-path += filename + ".txt"
+path = "ChicagoSketch_net.txt"
 edgelist = []
 
 origin = 384
@@ -83,4 +81,4 @@ plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fo
 x, y = pos[destination]
 plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig(filename + ".pdf", bbox_inches="tight")    
+plt.savefig("chicago.pdf", bbox_inches="tight")    

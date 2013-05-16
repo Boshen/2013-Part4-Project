@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -O3 -Wextra# -g -pg
+CFLAGS = -Wall -O3  -g -pg
 
 BOOST_DIR = /usr/include/boost_1_53_0
 

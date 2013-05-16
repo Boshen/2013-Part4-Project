@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 
 G = nx.DiGraph()
 
-path = "../Data/Instances/"
-filename = "ChicagoSketch_net"
-path += filename + ".txt"
+path = "ChicagoSketch_net.txt"
 edgelist = []
 
 origin = 384
@@ -38,7 +36,7 @@ with open(path, 'r') as f:
                 to = int(ss[1])-1
                 length = float(ss[4])
                 #edgelist.append( (fr, to, length) )
-                if fr > numZones and to > numZones:
+                if fr > numZones and to > numZones: # dont draw zone nodes
                     edgelist.append( (fr, to) )
                 #G.add_edge(fr, to)
         if len(ss) != 0 and ss[0] == '~':
@@ -94,4 +92,4 @@ plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fo
 x, y = pos[destination]
 plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig(filename + ".pdf", bbox_inches="tight")    
+plt.savefig("chicago_bidirect.pdf", bbox_inches="tight")    

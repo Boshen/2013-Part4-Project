@@ -15,7 +15,7 @@ ShPathFactory* ShPathFactory::get(){
     return &instance;
 }
 
-ShPathInterface* ShPathFactory::getShPath(const string& algo, const string& dataStruct, StarNetwork* _netPointer){
+ShPathInterface* ShPathFactory::getShPath(const std::string& algo, const std::string& dataStruct, StarNetwork* _netPointer){
     if ( algo == "Astar" && dataStruct == "FibonacciHeap")
         return new ShPathAstar<FibonacciHeap>(_netPointer);
     if ( algo == "Astar" && dataStruct == "BinaryHeap")

@@ -27,16 +27,13 @@ typedef boost::heap::pairing_heap<ValueKey> ParingHeap;
 #include <boost/heap/binomial_heap.hpp>
 typedef boost::heap::binomial_heap<ValueKey> BinomialHeap;
 
-using std::map;
-using std::string;
-
 class ShPathFactory {
     private:
         ShPathFactory();
     public:
         static ShPathFactory* get();
 
-        ShPathInterface* getShPath(const string& algo, const string& dataStruct, StarNetwork* _netPointer);
+        ShPathInterface* getShPath(const std::string& algo, const std::string& dataStruct, StarNetwork* _netPointer);
 
 };
 

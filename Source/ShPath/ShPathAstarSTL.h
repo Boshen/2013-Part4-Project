@@ -1,9 +1,9 @@
 #ifndef _SH_PATH_ASTAR_STL
 #define _SH_PATH_ASTAR_STL
 
+#include <iostream>
 #include <queue>
 #include <cmath>
-#include <iostream>
 #include <cstdlib>
 #include "ShPathInterface.h"
 
@@ -129,6 +129,7 @@ class ShPathAstarSTL : public ShPathInterface {
                     } // for each outgoing link
                 } // if can visit node
             } // while !Q.empty()
+        std::cout << O << " " << D << " " << Scanned->size() << std::endl;
         }
 
 };
