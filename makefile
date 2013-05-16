@@ -1,7 +1,7 @@
 CC = g++
 #-DDOUBLE_COST_1 -pedantic -W -Wall 
-CFLAGS = -Wall -O3 # -g -pg
-LDFLAGS = -Wall -O3# -g -pg #-Wextra
+CFLAGS = -Wall -O3  -g -pg
+LDFLAGS = -Wall -O3 -g -pg #-Wextra
 
 BOOST_DIR = /usr/include/boost_1_53_0
 SHPATH_DIR = Source/ShPath/

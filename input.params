@@ -12,12 +12,12 @@
 // Data/Instances/ART_Data/ART2/art2.links
 
 //<NETWORK>: {Data/Instances/ChicagoSketch_net.txt}
-<NETWORK>: {Data/Instances/SiouxFalls_net.txt}
+//<NETWORK>: {Data/Instances/SiouxFalls_net.txt}
 //Data/Instances/test1.net
 //<NETWORK>:{Data/Instances/ex_book_p114.net}
 //<NETWORK>:{Data/Instances/Andrea25Nodes.net}
 //<NETWORK>:{Data/Instances/Anaheim_net.txt}
-//<NETWORK>: {Data/Instances/Barcelona_net.txt}
+<NETWORK>: {Data/Instances/Barcelona_net.txt}
 //<NETWORK>:{Data/Instances/Winnipeg_net.txt}
 
 //if ART2 is set, then two more files must be provided
@@ -27,22 +27,22 @@
 //Data/Instances/ART_Data/ART2/art2.demand
 
 //<OD_MATRIX>:{Data/Instances/ChicagoSketch_trips.txt}
-<OD_MATRIX>:{Data/Instances/SiouxFalls_trips.txt}
+//<OD_MATRIX>:{Data/Instances/SiouxFalls_trips.txt}
 //SiouxFalls_trips_easy.txt
 //Data/Instances/test1.od
 //<OD_MATRIX>:{Data/Instances/ex_book_p114.od}
 //<OD_MATRIX>:{Data/Instances/Andrea25Nodes.od}
 //<OD_MATRIX>:{Data/Instances/Anaheim_trips.txt} 
-//<OD_MATRIX>:{Data/Instances/Barcelona_trips.txt} 
+<OD_MATRIX>:{Data/Instances/Barcelona_trips.txt} 
 //<OD_MATRIX>:{Data/Instances/Winnipeg_trips.txt}
 <INDIFF_CURVE>: {} // path to file with indifference curves, if not specified the problem is considered to be additive
 //<NODES>: {Data/Instances/SiouxFalls_node.txt} // path to file with node coordinates, not compalsory
 
 //<ShPathAlgo> : {Dijkstra}
 //<ShPathAlgo> : {DijkstraSTL}
-//<ShPathAlgo> : {Astar}
+<ShPathAlgo> : {Astar}
 //<ShPathAlgo> : {AstarSTL}
-<ShPathAlgo> : {AstarBidirect}
+//<ShPathAlgo> : {AstarBidirect}
 //<ShPathAlgo> : {DijkstraBidirect}
 //<ShPathAlgo> : {DijkstraBidirectSTL}
 //<ShPathAlgo> : {LabelCorrectingAl}
