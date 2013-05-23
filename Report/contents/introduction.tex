@@ -1,88 +1,75 @@
 \chapter{Introduction}
-{
-    TODO: italic ``names''
-}
-\section{Traffic Assignment Models}
 
-\begin{comment}
-Finding the minimum paths is the most computation-intensive compo-
-nent of each iteration of most UE solution procedures (and, in particular, the
-convex combinations algorithm). The other components (loading the mini-
-/ths, the line search, the updates, and the convergence checks) do not
-require more than a few percentages of the total CPU time. 
-\citep{Sheffi}
-\end{comment}
+\todoin[inline]{CHECK LATEX LOG!!}
+\todoin[inline]{probability return infinite}
 
-In today's world, cities are becoming larger, 
-road networks are becoming more complex,
-and city designers are facing difficulties of 
-forecasting, building and resigning the roads.
-Road networks often face congestions that are hard to predict,
-leading to unpredictable travel times for people to travel from places to places.
+\todoin[inline]{italic jargons}
 
-In order to solve these problems,
-different traffic models are built.
-One particular model is called the transportation forecasting model.
-\marginpar{forecast\\ model}
-This model solves traffic flows in a typical road network,
-of which involves four stages of process: trip generation,
-trip distribution, mode choice and traffic assignment.
-\marginpar{4 stage}
+\todo[inline]{write chapter outline brief}
+
+\section{Project Motivation}
+
+As the result of ever increasing population,
+cities worldwide and their road networks are becoming
+more complicated and hard to navigate,
+leading to traffic congestions that are more problematic than ever
+for traffic designers and road users.
+
+A traffic model called the transportation forecasting model is built
+with the aim of reducing congestion and predicting future traffic response when the behaviour of the traffic is changed.
+This model estimates traffic flows with the following four stages: trip generation,
+trip distribution, mode choice and traffic assignment.  \todo{show forecast model figure}
 In short,
-this model generates traffic demands and supplies in different traffic zones,
-\marginpar{zones}
-having them act as origins and destinations for the travellers.
-\marginpar{O-D pair}
-this model then selects a transportation method for travellers
-to use, and sends them to their destination.
-This final stage of sending travellers to their destination is
-addressed as the traffic assignment (TA) problem.
-\marginpar{TA}
-TA is a complex task,
-which involves the selection of routes to use by considering information such as congestions.
+this model generates origins and destinations (or traffic analysis zones) for travellers to travel from and to in different parts of the road network,
+it then calculates the number of trips that are required for each origin and destination pair
+and computes the proportion of trips between each pair that use a particular transportation method,
+in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
+assigns each traveller to their destination considering traffic congestion.
 
-One method of solving the traffic assignment is called 
-equilibrium assignment or the path equilibration method.
-\marginpar{PE}
-In this method, 
-shortest path for every origin-destination pair (O-D pair) are calculated, 
-\marginpar{Shortest\\Path}
-and traffic flows are assigned to these shortest path.
-The traffic assignment is said to be solved when equilibrium occur when no traveller can find a shorter path.
-As every time traffic flows are reassigned,
-congestion will happen differently and 
-travel time for every path will change respectively,
-thus a number of iterations is needed to settle the traffic flows
-to equilibrium.
-The travel times for the path are no longer expressed solely by their
-distance,
-but instead they are expressed by a formulation which considers
-parameters such as the travel time from the previous iteration,
-the number of travellers and the capacity of the road.
-\marginpar{travel\\time}
+This traffic assignment (TA) problem in the forecast model is a challenging problem, 
+this is because the problem is solved only when the network reaches user equilibrium,
+this means no traveller can lower than transportation cost through unilateral action: every traveller will strive to find the shortest path while ignoring all other travellers.
+\todo[inline]{ref user equilibrium - John Glen Wardrop principles of equilibrium}
+User equilibrium is difficult to find because in traffic assignment,
+travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow means slower travel time);
+as different routes are assigned to the travellers,
+congestion happen differently for each road in a nonlinear manner,
+making the result of relocation of travellers hard to calculate.
 
-Transportation networks are typically very large,
-which means it may take a very large numbers of iterations
-for the traffic flows to settle,
-and meanwhile in each iteration,
-shortest path for each O-D pair are calculated repeatedly,
-which is a very time consuming step for large networks with lots of roads and intersections.
-\marginpar{time\\consuming}
-Speeding up the shortest path calculation would significantly speed up the TA algorithms,
-as a result,
-larger and more complex networks can then be solved faster.
-And when this fast TA algorithm is put back inside the traffic forecasting model,
-we can predict longer into the future by changing traffic demands and supplies or modifying the road network design.
+One method of solving the traffic problem is the Path Equilibration (PE) method \citep{Florian}.
+This method initially calculates the shortest paths between each trip origin and destination based on zero-flow travel times, 
+traffic flows are then assigned to these shortest paths and updates the new travel times accordingly.
+New shortest paths are re-identified and travel flows are re-assigned until
+user equilibrium is reached.
 
-\marginpar{mention\\Frank-Wolfe\\algo}
+\todo[inline]{ write about Frank-Wolfe }
 
-\begin{comment}
-The existing algorithm is referred as the label-correcting algorithm, 
-it is modified and implemented as the well known label-setting Dijkstra's algorithm using a special data structure for storing information,
-A* algorithm is them implemented to speed the Dijkstra's algorithm for the point to point shortest problem.
+Both of these methods are iterative methods that require many shortest paths for each trip origin in the network.
+\citet{Sheffi} states that finding the shortest path is the most computation-intensive component of each iteration compared to other components such as updates and convergence checks that require no more than a few percentages of the total running time.
+Thus speeding up the shortest path calculation will significantly speed up the traffic assignment algorithms.
+As a result,
+traffic forecasting is solved faster for larger and more complicated road networks, predicting longer into the future and allow better designed roads.
 
-\marginpar{zone\\no\\travel}
-Special cares are taken when implementing these algorithms,
-namely the origins and destinations mentioned sometimes do not act as intersections for the travellers (to be included in the shortest path calculation),
-since these origins and destinations are conceptual traffic zones for generating demands and supplies.
-\end{comment}
+\section{Project Aims}
+This project aims to embed well known shortest path algorithms in the traffic assignment methods and find the fastest algorithm.
+The algorithm that are going to be tested are:
+\begin{itemize}
+    \item Bellman-Ford Label Correcting Algorithm,
+    \item Dijkstra Label Setting Algorithm (using different data structures),
+    \item Bidirectional Dijkstra,
+    \item A* Search,
+    \item Bidirectional A* search.
+\end{itemize}
+
+This project also aims to find and discuss the possibility of preprocessing the network or using data calculated from the previous iteration in traffic assignment methods such that the shortest path algorithms have more information to speed up their calculations.
+\todo{incomplete}
+
+\section{Report Overview}
+This report continues in Chapter~\ref{chap:solvingspp} with the theory behind finding the shortest path under different conditions,
+and also the description, analysis and pseudocode for each algorithm mentioned in the project aims.
+Chapter~\ref{chap:implementation} presents the specific implementation details used to give the fastest algorithm possible.
+\todo{incomplete}
+Chapter~\ref{chap:results} shows and illustrates the results from each algorithm mentioned in the project aims.
+\todo[inline]{Chapter 5 discussion chapter 6 conclusion \dots}
+
+
