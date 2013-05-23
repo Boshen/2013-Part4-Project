@@ -1,17 +1,17 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  3 MAY 2013 19:10
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  23 MAY 2013 16:32
 entering extended mode
  %&-line parsing enabled.
-**A2
+**single
 
 ! Emergency stop.
-<*> A2
-      
+<*> single
+          
 End of file on the terminal!
 
  
 Here is how much of TeX's memory you used:
  3 strings out of 493848
- 103 string characters out of 1152824
+ 107 string characters out of 1152824
  47808 words of memory out of 3000000
  3381 multiletter control sequences out of 15000+50000
  3640 words of font info for 14 fonts, out of 3000000 for 9000

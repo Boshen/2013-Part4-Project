@@ -1,6 +1,7 @@
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[11pt, a4paper, oneside, openright]{report}
 
+
 \usepackage[left=30mm, right=20mm]{geometry}
 
 \usepackage{microtype}
@@ -14,8 +15,17 @@
 \usepackage[sort,authoryear]{natbib}
 
 \usepackage[pdftex]{graphicx}
-\usepackage{float}
+
+\usepackage{flafter}
+%\usepackage{float}
+\usepackage{floatrow}
+\floatsetup[table]{capposition=top}
 \usepackage[titletoc,page]{appendix}
+\usepackage[tableposition=top]{caption}
+\usepackage{subcaption}
+
+\usepackage{multirow}
+\usepackage{booktabs}
 
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -30,12 +40,6 @@
 \usepackage{algorithmicx}
 \usepackage[noend]{algpseudocode}
 
-\usepackage{hyperref}
-\usepackage{url}
-\hypersetup{
-    colorlinks=false,
-    pdfborder={0 0 0},
-}
 
 %\usepackage{tikz}
 \usepackage{pgfplots}
@@ -53,16 +57,35 @@
     commentstyle=\itshape\color{gray}, basicstyle=\footnotesize\ttfamily\bfseries, morekeywords={def}
 }
 
+\usepackage{url}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+    pdftitle={Faster Shortest Path Computation for Traffic Assignment},
+    pdfauthor={Boshen Chen}
+}
+
+
+\usepackage[draft, shadow, color=gray!15, linecolor=black]{todonotes} % final to turn off
+\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{ \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
+
 \begin{document}
+
+\thispagestyle{empty}
+\setcounter{page}{0}
+\pagenumbering{Alph}
 \include{./contents/titlepage}
+\pagenumbering{roman}
 
 \newpage
 \thispagestyle{empty}
 \include{./contents/abstract}
 \thispagestyle{empty}
 \include{./contents/acknowledgement}
-\pagenumbering{roman}
 \setcounter{page}{3}
+
 \renewcommand\contentsname{Table of Contents}
 \tableofcontents 
 \listoffigures
@@ -75,10 +98,10 @@
 \include{./contents/introduction}
 
 \newpage
-\include{./contents/chapter2} % problem description
+\include{./contents/chapter2}
 
 \newpage
-\include{./contents/chapter3} % the shortest path problem
+\include{./contents/chapter3} 
 
 \newpage
 \include{./contents/results}

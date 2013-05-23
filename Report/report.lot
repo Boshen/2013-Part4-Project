@@ -1,11 +1,7 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces C++ Boost Heap Implementations with Comparison of Amortized Complexity\relax }}{8}{table.caption.32}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces C++ Boost Heap Implementations with Comparison of Amortized Complexity}}{8}{table.3.1}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Network Problem Data}}{12}{table.4.1}
-\contentsline {table}{\numberline {4.2}{\ignorespaces One Source Label Correcting Algorithm Result}}{13}{table.4.2}
-\contentsline {table}{\numberline {4.3}{\ignorespaces C++ STL One-Source Label Setting Algorithm Result}}{13}{table.4.3}
-\contentsline {table}{\numberline {4.4}{\ignorespaces Point to Point Label Setting Algorithm (Dijkstra) Result}}{13}{table.4.4}
-\contentsline {table}{\numberline {4.5}{\ignorespaces Point to Point C++ Boost Label Setting Algorithm (Dijkstra) Result}}{14}{table.4.5}
-\contentsline {table}{\numberline {4.6}{\ignorespaces A* Algorithm Result}}{14}{table.4.6}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Network Problem Data\relax }}{14}{table.caption.48}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Results for all test networks. Showing the number of iterations per graph (ITERS), max number of scans (COUNT) and the speed up respect to the label correcting algorithm (SPD). \relax }}{15}{table.caption.53}

@@ -75,3 +75,6 @@ wget http://superb-dca2.dl.sourceforge.net/project/boost/boost/1.53.0/boost_1_53
 cd /usr/include
 (sudo, change /path/to/) tar --bzip2 -xf /path/to/boost_1_53_0.tar.bz2
 
+Multiobjetive astar ?? 
+
+store previous value shortest path , compute value on that path, if path value not changed, return

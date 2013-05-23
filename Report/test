@@ -1,0 +1,171 @@
+(stdin):55: C++, numbers=left, numberstyle=, stepnumber=1, frame=single, breaklines=true, showstringspaces=false, tabsize=4, commentstyle=gray, basicstyle=, morekeywords=def url hyperref colorlinks=false, pdfborder=0 0 0, pdftitle=Faster Shortest Path Computation for Traffic Assignment, pdfauthor=Boshen Chen [draft, shadow, color=gray!15, linecolor=black]todonotes [2][][inline, caption=2do, #1] minipageminipage empty 0 Alph roman empty [empty -> Double word.] 3 Table of Contents arabic 1 agsm References Results [inline]results interpretation [inline]results speed up in percentages Problem Data and Result Explanation Existing computer code (written in C++) already exist for the TA algorithms, including the path equilibrium method and many others.
+
+(stdin):132: A simple shortest path calculation algorithm is [currently -> Often redundant: This program is currently checking your document.] used by the path equilibrium method, [which -> (use "that" if clause is restrictive)] runs [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] poorly given a small network.
+
+(stdin):139: Through out the report, Table is used to show the run time and [number of -> many, several] iterations for solving [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] particular network.
+
+(stdin):140: In the table, the ``OD pairs'' column gives the [number of -> many, several] pairs of origin and destination in the network.
+
+(stdin):141: The ``zone'' column gives the [number of -> many, several] traffic zones, [in some cases -> sometimes], the nodes in the network also include the traffic zones.
+
+(stdin):162: By examining the network problem data, we [can -> (do not confuse with "may")] see that the [number of -> many, several] OD pairs increase significantly respect to the [number of -> many, several] zone nodes, this is important because it indicates how many SPPs need to be solved for each iteration of the PE.
+
+(stdin):166: We [can -> (do not confuse with "may")] also roughly tell that these networks are [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] sparse, as a complete graph (every node is connected to every other node) of 1000 nodes have 499500 arcs (), and the larger networks in our problem data [only -> Put "only" right before the word it modifies.] have about 0.4 to 0.6 of arcs in a complete graph, this information is useful when we start tuning the algorithms for solving SPP.
+
+(stdin):172: [Most -> Do not use as substitute for "almost."] of the data does not resemble a real world transportation network, for example sometimes all roads have the same speed limit, road [type -> (do not use as synonym for "kind of")] and capacity.
+
+(stdin):176: In this report, all problem data are solved on a Intel i5 1.78GHz CPU computer with 4GB RAM, [which -> (use "that" if clause is restrictive)] runs the Ubuntu 12.04 Linux operating [system -> Frequently used without need.].
+
+(stdin):179: The accuracy of all results are checked by [comparing -> "Compare" to points out resemblances, "compare with" points out differences.] the traffic flows from the traffic assignment output, as well as the final shortest path for every OD pairs.
+
+(stdin):297: What should [they -> (do not use as substitute for "each, each one, everybody, every one, anybody, any one, somebody, some one")] conclude?
+
+(stdin):302: [There are -> (a dead phrase; rewrite the sentence and it will probably improve)] two types of SPP hat are going to be analysed in this report:
+
+(stdin):305: A single-source SPP solves the shortest path going from [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] origin to every other destinations in the network, meanwhile a point to point SPP solves from [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] origin to a specific destination.
+
+(stdin):310: For a real transportation network, all these assumptions are satisfied naturally; any transportation network [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] have at least [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] O-D pair and all arc lengths are travel times that are naturally positive.
+
+(stdin):322: We assume that and , [and -> Double word.] that a function is given that assigns a cost (travel time) to any arc 
+
+(stdin):326: The path [inside -> ] a transportation network has to be a directed simple path, [which -> (use "that" if clause is restrictive)] is a sequence of nodes and arcs such that for and for all 
+
+(stdin):330: In a transportation network, these O-D pairs are often traffic zones for generating supplies and receiving demands,explain traffic zones indicating [they -> (do not use as substitute for "each, each one, everybody, every one, anybody, any one, somebody, some one")] are untravellable nodes.
+
+(stdin):339: A good data structure [can -> (do not confuse with "may")] efficiently speed up the access of the stored data, [which -> (use "that" if clause is restrictive)] means the performance of solving our shortest path problem does not [only -> Put "only" right before the word it modifies.] depend on the algorithm it self but also the data structure.
+
+(stdin):351: [Forward -> send (if used as verb)] Star all arcs emanating from a given node need to be accessed.
+
+(stdin):354: An efficient way of visiting every node [inside -> ] a network and access all their emanating arcs is to use the [Forward -> send (if used as verb)] Star data structure.
+
+(stdin):357: The exact implementation of [Forward -> send (if used as verb)] Star is not going to be detailed in this report, but the information [can -> (do not confuse with "may")] be found in Chapter 5.3 of Urban Transportation Networks Sheffi.
+
+(stdin):363: Generic Shortest Path Algorithm (GSP) [inline][state -> (if used as a verb, restrict to the meaning of "express fully or clearly")] SPP from node to node [inline]explain pivot node A family of algorithms exist for solving SPP, in this section we describe the generic [case -> Avoid if used to describe the instance of a situation.] for these algorithms.
+
+(stdin):371: All of these algorithms aim at finding a vector () of distance labels and [its -> = "it is" or "its"?] corresponding shortest path Klunder.
+
+(stdin):381: In other words, we wish to find a label vector [which -> (use "that" if clause is restrictive)] satisfies Bellman's conditions for all of the vertices in the graph.
+
+(stdin):385: In the label vector, a node is said to be unvisited when , scanned when and is still in the candidate list, and labelled when the node has been retrieved from the candidate list and [its -> = "it is" or "its"?] distance label cannot be updated [further -> "Farther" denotes distance, "further" denotes time or quantity.].
+
+(stdin):391: In the generic shortest path algorithm, we start by putting the origin node in the queue, and then iteratively find the arc that violates the Bellman's condition (i.e., ), distance labels are set to a value [which -> (use "that" if clause is restrictive)] satisfies condition () to the corresponding node of that arc.
+
+(stdin):396: It [may -> = Do not confuse with "can".] not be obvious but negative costs are permitted in the GSP but not negative cost cycles.
+
+(stdin):398: We [use to -> ("use to" or "used to"?)] denote the predecessor of node ; shortest path [can -> (do not confuse with "may")] be constructed by following the predecessor of destination node back to origin node 
+
+(stdin):406: The Generic Shortest Path Algorithm Klunder [1] GenericShortestPath initialisation origin has no predecessor all nodes are unvisited except the source for all outgoing arcs from add node to queue if it is unvisited Note GSP is the generic [case -> Avoid if used to describe the instance of a situation.] for a family of algorithms that use different implementations of the candidate queue mplomer, of which solve either the [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.]-source or the point-to-point shortest path problem.
+
+(stdin):445: Check if [its -> = "it is" or "its"?] FIFO or double ended queue Given the arc costs [can -> (do not confuse with "may")] be negative (no negative cycle), and [in order to -> to] satisfy the Bellman's conditions for all arcs, the algorithm has to scan all arcs in ([number of -> many, several] nodes-1) times, giving a time complexity of 
+
+(stdin):451: In this algorithm, the distance labels do not get permanently labelled when a pivot node is retrieved from the queue, another node [may -> = Do not confuse with "can".] `correct' this node's distance label again, thus the name label correcting algorithm.
+
+(stdin):466: [In order to -> to] do this, the priority queue is modified to always have the minimum distance label in front of the queue.
+
+(stdin):468: Hence the algorithm [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] iterate through all successive pivot nodes exactly once, labelling pivot nodes in the order of non-decreasing distance labels.
+
+(stdin):471: The advantage of this algorithm over the label correcting algorithm is that all nodes are [only -> Put "only" right before the word it modifies.] visited once, and the shortest path tree grows outward radially.
+
+(stdin):474: Combining these two feature, [it is clear that -> clearly] when the pivot node is the destination node and is labelled, we [can -> (do not confuse with "may")] stop the algorithm for the point to point SPP [case -> Avoid if used to describe the instance of a situation.], [which -> (use "that" if clause is restrictive)] is desirable for the Path Equilibration method.
+
+(stdin):479: Algorithm shows the Dijkstra's algorithm where the algorithm [can -> (do not confuse with "may")] be [terminated -> ended, stopped] in line 10.
+
+(stdin):482: Point to Point Label Setting Algorithm (Dijkstra) [1] [Dijkstra -> Double word.] initialisation all nodes are unvisited except the source get the node with the minimum distance label [Terminate -> end] Procedure For all outgoing arcs from Note a path [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] not be found if the queue becomes empty, but this stopping condition is safe because we known a path always exist [between -> (choose "between" 2 options and "among" 3 or more)] an OD pair.
+
+(stdin):518: Priority Queue and Heap [inline]how do you deal with [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] node is STL multiple times A priority queue is a data structure [which -> (use "that" if clause is restrictive)] sorts elements by their priority, element with high priority is always retrieved first before an element with a lower priority.
+
+(stdin):527: The idea of the min-heap tree is that the values of a parent node is always [less -> Use "less" for quantities and "fewer" for numbers.] or equal to [its -> = "it is" or "its"?] parent node, by maintaining this property, the minimum valued element [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] always be on top, and retrieving it has [only -> Put "only" right before the word it modifies.] time complexity.
+
+(stdin):532: And for other operations such as adding, removing and updating a node in the heap is at [most -> Do not use as substitute for "almost."] 
+
+(stdin):533: [So -> (do not use as intensifier)] the heap data structure is [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] efficient at constantly adding a element and finding the current minimum value.
+
+(stdin):535: Heap Implementation [inline]explain how this relates to previous results ([one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] is STL and [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] is Boost, need to be much clearer Various implementations of the Heap data structure exist, with each implementation have some advantages [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] the other, for example faster tree balancing, faster push or pop.
+
+(stdin):558: Where N is the [number of -> many, several] elements in the Heap tree, and all time complexities are measured in amortized time, i.e.
+
+(stdin):562: We are interested in using these Heap data structures rather [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] the standard STL priority queue is because of [one -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] reason:
+
+(stdin):564: The decrease (or increase) function is [referred -> (an allusion is an indirect reference, while a reference is a direct reference)] as the decrease-key (or increase-key) operation, [which -> (use "that" if clause is restrictive)] updates the value of the key in the Heap tree.
+
+(stdin):566: Decrease-key is [used for -> (used for [...] purposes: used for [...])] a min-heap and increase-key for a max-heap tree.
+
+(stdin):567: For the Dijkstra's algorithm, often nodes are scanned multiple times in the label updating step, instead of adding the node again into the Heap tree, we [can -> (do not confuse with "may")] use decrease-key on the node, updating [its -> = "it is" or "its"?] distance label.
+
+(stdin):572: This means we [can -> (do not confuse with "may")] reduce the size of the Heap tree and run time by using decrease-key rather [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] adding the same node with different distance label in the queue again.
+
+(stdin):576: Thus we change Step 2 of the GSP In table , we [can -> (do not confuse with "may")] observe the Fibonacci Heap has a [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] [interesting -> Avoid using "interesting" when introducing something. Simply introduce it.] time complexity, constant amortized time for the push, pop and increase-key operation time.
+
+(stdin):603: Fibonacci, why good in theory not in practice C++ Boost Library Heaps are implemented as max-heaps, [which -> (use "that" if clause is restrictive)] means [in order to -> to] use the Fibonacci O(1) increase-key function, we need to negate the distance labels when we add them into the Heap All of these run times are slower [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] the STL version of the Heap.
+
+(stdin):610: Upon inspection, it is found that the increase-key operation is used about [between -> (choose "between" 2 options and "among" 3 or more)] 5 to 10 of the time, not actual count yet [which -> (use "that" if clause is restrictive)] means the graphs are not dense enough for these Heap structures to outperform a simple array based priority queue.
+
+(stdin):617: Bidirectional Dijkstra A* Algorithm [inline]describe in LP sense, solving the dual, potentials [etc -> "Etc" should be avoided in formal writing.].
+
+(stdin):623: In a traditional graph where actual distances are [used for -> (used for [...] purposes: used for [...])] the distance labels, a heuristic [can -> (do not confuse with "may")] be used to direct the shortest path tree to [grow -> Often misused as a transitive verb: You cannot `grow the economy'. In addition, you should not try `to grow the economy', even if you are President Clinton. Instead, you should endeavor to expand the economy, or stimulate economic growth.] toward the destination.
+
+(stdin):625: If the heuristic estimate is the distance from each node to the destination, and the estimate is smaller [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] or equal to the actual distance going to that destination, then a shortest path [can -> (do not confuse with "may")] be found.
+
+(stdin):637: A* search is guaranteed to work with a huge run time speed up by scanning [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] few nodes.
+
+(stdin):639: In our Path Equilibration method, we [can -> (do not confuse with "may")] no longer use geographical coordinates and euclidean distance for the heuristic estimate, this is because we use travel times as the distances for the arcs.
+
+(stdin):646: By analysing the travel times function (Figure ), we [can -> (do not confuse with "may")] see that it is a non-decreasing function with the lowest value being the zero flow travel times, [which -> (use "that" if clause is restrictive)] means if we use the zero flow travel times as the heuristic estimate, it is [assured -> (use "assure" with people, "ensure" with things, and "insure" when talking about money)] that it [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] always under estimate the travel time for that arc, because no travel time [can -> (do not confuse with "may")] be lower [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] the zero flow travel at any time.
+
+(stdin):675: A* Search Algorithm [1] AStar Add node with All nodes unvisited except the source Remove such that [Terminate -> end] Procedure For all successors of Add node with [inline]where are my 
+
+(stdin):710: [Comparing -> "Compare" to points out resemblances, "compare with" points out differences.] the Dijkstra and A* search algorithm's result, we see an approximately 5 times improvement.
+
+(stdin):712: By looking at the shortest path tree generated by the ChicagoSketch network, [there are -> (a dead phrase; rewrite the sentence and it will probably improve)] [only -> Put "only" right before the word it modifies.] a few scanned nodes, the path goes straight to the destination.
+
+(stdin):716: TODO reference) says the closer the heuristic is to the actual distance, the better/faster shortest path calculation, by looking at the travel time function (Figure , we [can -> (do not confuse with "may")] see the slope is really shallow near the start, and by [comparing -> "Compare" to points out resemblances, "compare with" points out differences.] the initial flow and final flow (TODO, data), [they -> (do not use as substitute for "each, each one, everybody, every one, anybody, any one, somebody, some one")] are [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] close [so -> (do not use as intensifier)] the final flow is [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] close to the initial flow, [which -> (use "that" if clause is restrictive)] means the heuristic is a [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] good estimation, [which -> (use "that" if clause is restrictive)] is our A* search is [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] fast.
+
+(stdin):739: Project Motivation [As a result -> so                      ] of the ever increasing population, cities worldwide and their road networks are becoming more and more complicated and hard to navigate, leading to traffic congestion that are more problematic [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] ever for traffic designers and road users.
+
+(stdin):747: A traffic model called the transportation forecasting model is built with the aim of reducing congestion and predicting future traffic response when the behaviour of the traffic [system -> Frequently used without need.] is changed, for example part of the road network is modified or public transport is more preferable.
+
+(stdin):753: In short, this model [firstly -> first] generates demands and supplies of traveller in different parts of the road network (traffic analysis zones) [so -> (do not use as intensifier)] the travellers have origins and destinations for their travel trips, and calculates the [number of -> many, several] trips that are required for each origin and destination pair, it then computes the proportion of trips [between -> (choose "between" 2 options and "among" 3 or more)] each origin and destination pair that use a particular transportation method, finally it assumes all travellers choose their least transportation cost and best transportation method (e.g.
+
+(stdin):760: This final traffic assignment (TA) problem in the forecast model is a [very -> (use sparingly; try to use words that are strong in themselves for emphasis)] difficult problem, this is because the problem is [only -> Put "only" right before the word it modifies.] said to be solved when the network reaches user equilibrium, where no traveller [can -> (do not confuse with "may")] lower [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] transportation cost through unilateral action, this means every traveller [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] strive to find the shortest path [while -> (if used as substitute for "and, but" then replace by semicolon, do not use as substitute for "although" as it leads to ambiguity or absurdity, best use it only in the sense of "during the time that")] ignoring all other travellers.
+
+(stdin):763: John Glen Wardrop [principles -> (a "principle" is a rule, while a "principal" is a person, when used as a noun, or means "chief", when used as an adjective, and the adverb for both words is spelt "principally")] of equilibrium User equilibrium is difficult to find because in traffic assignment, travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow means slower travel time), [so -> (do not use as intensifier)] as different routes are assigned to the travellers, congestion happen differently for each road in a nonlinear manner, making the result of relocation of travellers hard to calculate.
+
+(stdin):770: [One -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] method of solving the traffic problem is the Path Equilibration (PE) method Florian.
+
+(stdin):771: This method initially calculates the shortest paths [between -> (choose "between" 2 options and "among" 3 or more)] each trip origin and destination based on zero-flow travel times, traffic flows are assigned to these shortest paths and new travel times are updated accordingly.
+
+(stdin):776: Frank-Wolfe Both of these methods are iterative methods [which -> (use "that" if clause is restrictive)] require [a large number of -> many] shortest paths for each trip origin in the network.
+
+(stdin):779: Sheffi states that finding the shortest path is the [most -> Do not use as substitute for "almost."] computation-intensive component of each iteration of the [most -> Do not use as substitute for "almost."] user equilibrium solution procedures.
+
+(stdin):779: Other components such as updates and convergence checks do not require more [than -> (examine sentences containing "than" to insure that they are not missing words: I love my father more than my mother. I love my father more than my mother loves my father. I love my father more than I love my mother)] a few percentages of the total running time.
+
+(stdin):780: Thus speeding up the shortest path calculation [would -> (use "should" if used as conditional statement in the first person or for "shall" in indirect quotation after a verb in past tense.  Consider omitting it for repeated actions)] significantly speed up the traffic assignment algorithms.
+
+(stdin):781: [As a result -> so                      ], traffic forecasting is solved faster for larger and more complicated road networks, predicting longer into the future and allow better designed roads.
+
+(stdin):795: This project also aims to find and discuss the possibility of preprocessing the network or using data calculated from the previous iteration in traffic assignment methods [so -> (do not use as intensifier)] the shortest path algorithms have more information to speed their calculations.
+
+(stdin):804: Chapter 5 discussion chapter 6 conclusion *Acknowledgement I acknowledge *Abstract [One -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] of the major concerns of commuters in Auckland (and all over the world!) is road traffic and traffic congestion.
+
+(stdin):813: Both the design of the road network and determining the best way to use it are complex questions that [can -> (do not confuse with "may")] be addressed based on [so -> (do not use as intensifier)]-called traffic assignment (TA) models, [which -> (use "that" if clause is restrictive)] are network equilibrium problems.
+
+(stdin):815: These models [can -> (do not confuse with "may")] be used to assess the benefit of road upgrades or adding new roads to the network.
+
+(stdin):820: This is done by assuming network users are selfish and choose to travel along their shortest path [between -> (choose "between" 2 options and "among" 3 or more)] origin and destination.
+
+(stdin):822: Initially all travel demand is assigned to the shortest paths computed for [between -> (choose "between" 2 options and "among" 3 or more)] each trip origin and destination based on zero-flow travel times.
+
+(stdin):828: Speeding up these shortest path calculations [can -> (do not confuse with "may")] [lead -> The past tense of the verb "lead" is "led".] to a significant speed up of TA algorithms, but the speed up technique used [would -> (use "should" if used as conditional statement in the first person or for "shall" in indirect quotation after a verb in past tense.  Consider omitting it for repeated actions)] differ for particular traffic assignment algorithms.
+
+(stdin):830: [One -> When used as a pronoun, it  must be used consistently: One must manage one's money carefully.] idea is to use A* search for TA algorithms that repeatedly compute shortest paths [between -> (choose "between" 2 options and "among" 3 or more)] single origin destination pairs.
+
+(stdin):831: A* should [lead -> The past tense of the verb "lead" is "led".] to a significant improvement in runtime over using a standard label setting algorithm.
+
+(stdin):832: Other speed-up techniques for shortest path algorithms [will -> (shall is sometimes used with first person pronouns and the future tense. It expresses something you believe will happen, not something that you are determined to do. A drowning man shouts: "I shall drown, no one will save me!")] be identified and tested, exploiting the fact that [while -> (if used as substitute for "and, but" then replace by semicolon, do not use as substitute for "although" as it leads to ambiguity or absurdity, best use it only in the sense of "during the time that")] shortest paths change in every iteration of the algorithm, it [may -> = Do not confuse with "can".] be possible to avoid fully re-computing shortest path trees.
+
+(stdin):835: Avoiding re-computation of shortest path trees should benefit TA algorithms that require shortest paths [between -> (choose "between" 2 options and "among" 3 or more)] a single origin and all destinations.
+
+(stdin):843: Engineering Science[2cm] [0.4[cm -> Double word.]] Faster Shortest Path Computation for Traffic Assignment [0.4cm] [2[cm -> Double word.]] 0.4 Author:
+
+165 phrases in 152 sentences found.

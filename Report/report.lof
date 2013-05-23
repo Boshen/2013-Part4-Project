@@ -1,8 +1,6 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Travel time function.\relax }}{10}{figure.caption.40}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Travel time function.}}{10}{figure.3.1}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Dijkstra Path Tree for ChicagoSketch network}}{15}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Bidirectional Dijkstra Shortest Path Tree for ChicagoSketch network}}{16}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces A* Shortest Path Tree for ChicagoSketch network}}{17}{figure.4.3}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Shortest Path Tree for ChicagoSketch Network with Two Distant OD Pair\relax }}{16}{figure.caption.55}
