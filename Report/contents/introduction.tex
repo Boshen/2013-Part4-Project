@@ -44,15 +44,19 @@ user equilibrium is reached.
 
 \todo[inline]{ write about Frank-Wolfe }
 
-Both of these methods are iterative methods that require many shortest paths for each trip origin in the network.
-\citet{Sheffi} states that finding the shortest path is the most computation-intensive component of each iteration compared to other components such as updates and convergence checks that require no more than a few percentages of the total running time.
+Both of these methods are iterative methods that require many shortest paths for each trip origin in the network,
+where the Path Equilibration method requires shortest path calculations between every origin and destination in the road network.
+It is not difficult to imagine that there would be millions of shortest path calculations if the network has hundreds of origins and destinations and takes some iterations to solve.
+Each shortest path calculation would also be very hard to solve if the network has a few hundred intersections and a few thousand roads,
+which is realistic for a real city road network.
+\citet{Sheffi} also states that finding the shortest path is the most computation-intensive component of each iteration compared to other components such as updates and convergence checks that require no more than a few percentages of the total running time.
 Thus speeding up the shortest path calculation will significantly speed up the traffic assignment algorithms.
 As a result,
 traffic forecasting is solved faster for larger and more complicated road networks, predicting longer into the future and allow better designed roads.
 
 \section{Project Aims}
-This project aims to embed well known shortest path algorithms in the traffic assignment methods and find the fastest algorithm.
-The algorithm that are going to be tested are:
+This project aims to embed well known shortest path algorithms that are applicable for traffic assignment methods and find the fastest algorithm.
+The algorithm that are going to be experimented are:
 \begin{itemize}
     \item Bellman-Ford Label Correcting Algorithm,
     \item Dijkstra Label Setting Algorithm (using different data structures),

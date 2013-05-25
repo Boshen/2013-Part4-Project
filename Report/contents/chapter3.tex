@@ -1,1 +1,65 @@
 \chapter{Implmentation Details} \label{chap:implementation}
+
+\section{Heap Implementation}
+\todo[inline]{explain how this relates to previous results (one is STL and one is Boost, need to be much clearer}
+
+Various implementations of the Heap data structure exist,
+with each implementation have some advantages than the other,
+for example faster tree balancing, faster push or pop.
+\todo{what are these procedures?}
+
+We examine 6 different Heap implementations from the C++ Boost Heap Library \citep{BoostHeap}:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccccc}
+        & top() & push()    & pop()     & increase() & decrease() \\
+        d-ary (Binary)  & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        d-ary (Ternary) & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Binomial        & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Fibonacci       & O(1)  & O(1)      & O(log(N)) & O(1)       & O(log(N))  \\
+        Pairing         & O(1)  & O($2^{2*\log(\log(N))}$) & O(log(N)) & O($2^{2*\log(\log(N))}$) & O($2^{2*\log(\log(N))}$) \\
+        Skew            & O(1)  & O(log(N)) & O(log(N)) & O(log(N)) & O(log(N))   
+    \end{tabular}
+    \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity}
+    \label{table:heaps}
+\end{table}
+Where N is the number of elements in the Heap tree, and all time complexities are measured in amortized time,
+i.e.\ the average run time if the operation is run for a long period of time,
+average out worse case and best case.
+
+We are interested in using these Heap data structures rather than the standard STL priority queue is because of one reason:
+the decrease (or increase) function.
+The decrease (or increase) function is referred as the decrease-key (or increase-key) operation,
+which updates the value of the key in the Heap tree.
+Decrease-key is used for a min-heap and increase-key for a max-heap tree.
+For the Dijkstra's algorithm,
+often nodes are scanned multiple times in the label updating step,
+instead of adding the node again into the Heap tree,
+we can use decrease-key on the node,
+updating its distance label.
+This means we can reduce the size of the Heap tree and run time by using decrease-key
+rather than adding the same node with different distance label in the queue again.
+
+In table~\ref{table:heaps},
+we can observe the Fibonacci Heap has a very interesting time complexity,
+constant amortized time for the push, pop and increase-key operation time.
+But the fact is,
+we do not know how much constant time it really uses.
+This also applies to all the other operations.
+And since we do not know the time constant for all the operations,
+and with different sparsity of the networks,
+we need to experiment with all of them.
+
+\todo[inline]{more details about Fibonacci, why good in theory not in practice}
+
+C++ Boost Library Heaps are implemented as max-heaps,
+which means in order to use the Fibonacci O(1) increase-key function,
+we need to negate the distance labels when we add them into the Heap
+
+All of these run times are slower than the STL version of the Heap.
+Upon inspection,
+it is found that the increase-key operation is used about between 5\% to 10\%
+of the time,
+\todo{not actual count yet}
+which means the graphs are not dense enough for these Heap structures to outperform a
+simple array based priority queue.

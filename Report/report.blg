@@ -12,45 +12,45 @@ A level-1 auxiliary file: ./contents/appendix.aux
 The style file: agsm.bst
 Database file #1: citations.bib
 Warning--empty institution in mplomer
-You've used 9 entries,
+You've used 12 entries,
             2908 wiz_defined-function locations,
-            713 strings with 6277 characters,
-and the built_in function-call counts, 24131 in all, are:
-= -- 3816
-> -- 285
+            734 strings with 6563 characters,
+and the built_in function-call counts, 36779 in all, are:
+= -- 5879
+> -- 447
 < -- 3
-+ -- 1714
-- -- 84
-* -- 1938
-:= -- 5077
-add.period$ -- 9
-call.type$ -- 9
-change.case$ -- 124
-chr.to.int$ -- 9
-cite$ -- 10
-duplicate$ -- 143
-empty$ -- 292
-format.name$ -- 114
-if$ -- 4321
++ -- 2700
+- -- 133
+* -- 3031
+:= -- 7617
+add.period$ -- 12
+call.type$ -- 12
+change.case$ -- 166
+chr.to.int$ -- 12
+cite$ -- 13
+duplicate$ -- 189
+empty$ -- 391
+format.name$ -- 174
+if$ -- 6594
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 7
-newline$ -- 32
-num.names$ -- 90
-pop$ -- 60
+missing$ -- 11
+newline$ -- 39
+num.names$ -- 121
+pop$ -- 73
 preamble$ -- 1
-purify$ -- 135
+purify$ -- 180
 quote$ -- 0
-skip$ -- 122
+skip$ -- 160
 stack$ -- 0
-substring$ -- 5228
-swap$ -- 29
-text.length$ -- 129
+substring$ -- 8154
+swap$ -- 34
+text.length$ -- 171
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 32
+type$ -- 42
 warning$ -- 1
-while$ -- 195
+while$ -- 260
 width$ -- 0
-write$ -- 117
+write$ -- 154
 (There was 1 warning)

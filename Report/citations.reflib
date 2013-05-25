@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <library>
 <manage_target braces="false" utf8="false"></manage_target>
-<library_folder monitor="true"></library_folder>
+<library_folder monitor="false"></library_folder>
 <taglist>
 </taglist>
 <doclist>
@@ -19,10 +19,7 @@
     <bib_number></bib_number>
     <bib_pages></bib_pages>
     <bib_year>1985</bib_year>
-    <bib_extra key="Isbn">0139397299</bib_extra>
-    <bib_extra key="Keywords">books, traffic</bib_extra>
     <bib_extra key="publisher">Prentice Hall</bib_extra>
-    <bib_extra key="Url">http://web.mit.edu/sheffi/www/urbanTransportation.html</bib_extra>
   </doc>
   <doc>
     <filename></filename>
@@ -38,13 +35,8 @@
     <bib_number></bib_number>
     <bib_pages>485-550</bib_pages>
     <bib_year>1995</bib_year>
-    <bib_extra key="Added-at">2008-04-22T15:17:45.000+0200</bib_extra>
-    <bib_extra key="Biburl">http://www.bibsonomy.org/bibtex/2a8965f3ba8fa2bfd52e4f3f622a236eb/smicha</bib_extra>
     <bib_extra key="chapter">Chapter 6 Network equilibrium models and algorithms</bib_extra>
-    <bib_extra key="Keywords">imported</bib_extra>
     <bib_extra key="publisher">Elsevier</bib_extra>
-    <bib_extra key="Timestamp">2008-04-22T15:17:45.000+0200</bib_extra>
-    <bib_extra key="Url">http://www.sciencedirect.com/science/article/B7P6G-4FKY22V-S/1/2d71e5d83c74e838b7b6b583a3c488e9</bib_extra>
   </doc>
   <doc>
     <filename></filename>
@@ -197,6 +189,59 @@
     <bib_extra key="Mrnumber">0114710 (22 #5530)</bib_extra>
     <bib_extra key="Mrreviewer">A. A. Mullin</bib_extra>
     <bib_extra key="publisher">Harvard Univ. Press</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Dijkstra</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>A Note on Two Problems in Connexion with Graphs</bib_title>
+    <bib_authors>Dijkstra, E. W.</bib_authors>
+    <bib_journal>Numerische Mathematik</bib_journal>
+    <bib_volume>1</bib_volume>
+    <bib_number>1</bib_number>
+    <bib_pages>269-271</bib_pages>
+    <bib_year>1959</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Cormen</key>
+    <notes></notes>
+    <bib_type>book</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Introduction to Algorithms</bib_title>
+    <bib_authors>Cormen, Thomas H. and Stein, Clifford and Rivest, Ronald L. and Leiserson, Charles E.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>2001</bib_year>
+    <bib_extra key="edition">2nd</bib_extra>
+    <bib_extra key="Isbn">0070131511</bib_extra>
+    <bib_extra key="publisher">McGraw-Hill Higher Education</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Fredman</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi>10.1145/28869.28874</bib_doi>
+    <bib_title>Fibonacci heaps and their uses in improved network optimization algorithms</bib_title>
+    <bib_authors>Fredman, Michael L. and Tarjan, Robert Endre</bib_authors>
+    <bib_journal>J. ACM</bib_journal>
+    <bib_volume>34</bib_volume>
+    <bib_number>3</bib_number>
+    <bib_pages>596-615</bib_pages>
+    <bib_year>1987</bib_year>
+    <bib_extra key="Address">New York, NY, USA</bib_extra>
+    <bib_extra key="Issue_date">July 1987</bib_extra>
+    <bib_extra key="Month">jul</bib_extra>
+    <bib_extra key="Numpages">20</bib_extra>
+    <bib_extra key="Publisher">ACM</bib_extra>
   </doc>
 </doclist>
 </library>

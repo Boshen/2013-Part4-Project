@@ -13,17 +13,31 @@ Blechmann, T.  \harvardyearleft 2013\harvardyearright , `Boost c++ libraries',
   \url{http://www.boost.org/doc/libs/1\_53\_0/doc/html/heap/data\_structures.h%
 tml}.
 
+\harvarditem[Cormen et~al.]{Cormen, Stein, Rivest \harvardand\
+  Leiserson}{2001}{Cormen}
+Cormen, T.~H., Stein, C., Rivest, R.~L. \harvardand\ Leiserson, C.~E.
+  \harvardyearleft 2001\harvardyearright , {\em Introduction to Algorithms},
+  2nd edn, McGraw-Hill Higher Education.
+
+\harvarditem{Dijkstra}{1959}{Dijkstra}
+Dijkstra, E.~W.  \harvardyearleft 1959\harvardyearright , `A note on two
+  problems in connexion with graphs', {\em Numerische
+  Mathematik},~1(1),~269--271.
+
 \harvarditem{Florian \harvardand\ Hearn}{1995}{Florian}
 Florian, M. \harvardand\ Hearn, D.  \harvardyearleft 1995\harvardyearright ,
   {\em Handbooks in Operations Research and Management Science}, Vol. Volume 8,
   Elsevier, chapter Chapter 6 Network equilibrium models and algorithms,
   pp.~485--550.
-\newline\harvardurl{http://www.sciencedirect.com/science/article/B7P6G-4FKY22V%
--S/1/2d71e5d83c74e838b7b6b583a3c488e9}
 
 \harvarditem{Ford}{1956}{Ford}
 Ford, L.~R.  \harvardyearleft 1956\harvardyearright , `Network flow theory',
   Report P-923, The Rand Corporation.
+
+\harvarditem{Fredman \harvardand\ Tarjan}{1987}{Fredman}
+Fredman, M.~L. \harvardand\ Tarjan, R.~E.  \harvardyearleft
+  1987\harvardyearright , `Fibonacci heaps and their uses in improved network
+  optimization algorithms', {\em J. ACM},~34(3),~596--615.
 
 \harvarditem{Klunder \harvardand\ Post}{2006}{Klunder}
 Klunder, G.~A. \harvardand\ Post, H.~N.  \harvardyearleft 2006\harvardyearright
@@ -44,6 +58,5 @@ Pallottino, S. \harvardand\ Scutell{\`{a}}, M.~G.  \harvardyearleft
 Sheffi, Y.  \harvardyearleft 1985\harvardyearright , {\em Urban Transportation
   Networks: Equilibrium Analysis With Mathematical Programming Methods},
   Prentice Hall.
-\newline\harvardurl{http://web.mit.edu/sheffi/www/urbanTransportation.html}
 
 \end{thebibliography}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  24 MAY 2013 01:01
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  25 MAY 2013 17:50
 entering extended mode
  %&-line parsing enabled.
 **report
@@ -1065,33 +1065,33 @@ ine 3.
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 57.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 61.
  (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 57.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 61.
 
-Overfull \hbox (2.31206pt too wide) in paragraph at lines 65--65
+Overfull \hbox (2.31206pt too wide) in paragraph at lines 69--69
 [][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
  []
 
 
-Overfull \hbox (2.31206pt too wide) in paragraph at lines 65--65
+Overfull \hbox (2.31206pt too wide) in paragraph at lines 69--69
+[][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
+ []
+
+[2]
+Overfull \hbox (2.31206pt too wide) in paragraph at lines 75--75
 [][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
  []
 
 
-Overfull \hbox (2.31206pt too wide) in paragraph at lines 71--71
+Overfull \hbox (2.31206pt too wide) in paragraph at lines 75--75
 [][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
  []
 
-
-Overfull \hbox (2.31206pt too wide) in paragraph at lines 71--71
-[][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
- []
-
-[2]) [3]
+) [3]
 \openout2 = `./contents/chapter2.aux'.
 
  (./contents/chapter2.tex
@@ -1102,48 +1102,45 @@ Chapter 2.
 
 ] [5]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 130.
+put line 106.
  [6]
-
-LaTeX Warning: Marginpar on page 7 moved.
-
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
-[7] [8] [9]) [10] [11]
+ [7] [8] [9]) [10] [11]
 \openout2 = `./contents/chapter3.aux'.
 
  (./contents/chapter3.tex
 Chapter 3.
-) [12
+[12
 
 
 
-]
+]) [13]
 \openout2 = `./contents/results.aux'.
 
  (./contents/results.tex
 Chapter 4.
-[13
+[14
 
 
 
-] [14] <img/chicago_dijkstra.pdf, id=334, 1212.89232pt x 1188.45728pt>
+] [15] <img/chicago_dijkstra.pdf, id=352, 1212.89232pt x 1188.45728pt>
 File: img/chicago_dijkstra.pdf Graphic file (type pdf)
 
 <use img/chicago_dijkstra.pdf>
-<img/chicago_bidirect.pdf, id=337, 1212.89232pt x 1188.45728pt>
+<img/chicago_bidirect.pdf, id=355, 1212.89232pt x 1188.45728pt>
 File: img/chicago_bidirect.pdf Graphic file (type pdf)
 
 <use img/chicago_bidirect.pdf>
-<img/chicago_astar.pdf, id=340, 1212.89232pt x 1188.45728pt>
+<img/chicago_astar.pdf, id=358, 1212.89232pt x 1188.45728pt>
 File: img/chicago_astar.pdf Graphic file (type pdf)
 
-<use img/chicago_astar.pdf>) [15] [16 <./img/chicago_dijkstra.pdf> <./img/chica
-go_bidirect.pdf> <./img/chicago_astar.pdf>] [17]
+<use img/chicago_astar.pdf>) [16] [17 <./img/chicago_dijkstra.pdf> <./img/chica
+go_bidirect.pdf> <./img/chicago_astar.pdf>] [18]
 \openout2 = `./contents/conclusions.aux'.
 
  (./contents/conclusions.tex)
@@ -1156,13 +1153,7 @@ Underfull \hbox (badness 1205) in paragraph at lines 4--6
  prob-lems', []$\OT1/cmtt/m/n/10.95 http : / / www . bgu . ac . il /
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 17--23
-\OT1/cmr/bx/n/10.95 URL: \OT1/cmr/m/it/10.95 (+20) http://www.sciencedirect.com
-/science/article/B7P6G-4FKY22V-
- []
-
-) [18
+) [19
 
 
 
@@ -1176,13 +1167,13 @@ No complaints by nag.
 (./contents/chapter2.aux) (./contents/chapter3.aux) (./contents/results.aux)
 (./contents/conclusions.aux) (./contents/appendix.aux)) ) 
 Here is how much of TeX's memory you used:
- 24738 strings out of 493848
- 477846 string characters out of 1152824
- 614598 words of memory out of 3000000
- 27206 multiletter control sequences out of 15000+50000
- 16286 words of font info for 103 fonts, out of 3000000 for 9000
+ 24747 strings out of 493848
+ 477970 string characters out of 1152824
+ 614634 words of memory out of 3000000
+ 27218 multiletter control sequences out of 15000+50000
+ 16241 words of font info for 101 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 63i,12n,95p,393b,1575s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 63i,12n,95p,487b,1575s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texl
 ive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/t
 ype1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public
@@ -1197,9 +1188,9 @@ sy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></u
 sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (25 pages, 378347 bytes).
+Output written on report.pdf (26 pages, 379883 bytes).
 PDF statistics:
- 518 PDF objects out of 1000 (max. 8388607)
- 113 named destinations out of 1000 (max. 500000)
+ 536 PDF objects out of 1000 (max. 8388607)
+ 114 named destinations out of 1000 (max. 500000)
  22827 words of extra memory for PDF output out of 24883 (max. 10000000)
 

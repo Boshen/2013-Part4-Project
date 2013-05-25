@@ -1,4 +1,5 @@
 \relax 
+\citation{Cormen}
 \citation{Klunder}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Solving the Shortest Path Problem}{4}{chapter.2}}
 \@writefile{lof}{\addvspace {10\p@ }}
@@ -8,54 +9,49 @@
 \@writefile{tdo}{\contentsline {todo}{{Need to talk about results, what should the reader pay attention to? What should they conclude?}}{4}{section*.16}}
 \@writefile{tdo}{\contentsline {todo}{{assume a path always exist between an OD pair}}{4}{section*.17}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Notations and Definitions}{4}{section.2.1}}
+\@writefile{tdo}{\contentsline {todo}{{show equation?}}{4}{section*.18}}
 \citation{Klunder}
 \citation{Bellman}
-\@writefile{tdo}{\contentsline {todo}{{Maybe a picture of the network explain what the zones are.}}{5}{section*.18}}
+\@writefile{tdo}{\contentsline {todo}{{Maybe a picture of the network explain what the zones are.}}{5}{section*.19}}
+\@writefile{tdo}{\contentsline {todo}{{How do I nicely say `let the reader refer to other resources?' or do I desribe what big O notation is?}}{5}{section*.20}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Generic Shortest Path Algorithm (GSP)}{5}{section.2.2}}
-\@writefile{tdo}{\contentsline {todo}{{state SPP from node $s$ to node $t$}}{5}{section*.19}}
-\@writefile{tdo}{\contentsline {todo}{{explain pivot node}}{5}{section*.20}}
 \newlabel{eq:Bellman1}{{2.1}{5}{Generic Shortest Path Algorithm (GSP)\relax }{equation.2.2.1}{}}
-\@writefile{tdo}{\contentsline {todo}{{what is $\mathcal  {P}$?}}{5}{section*.21}}
-\@writefile{tdo}{\contentsline {todo}{{this means it is guaranteed to represent the minimal distance from $s$ to $t$}}{5}{section*.22}}
+\@writefile{tdo}{\contentsline {todo}{{what is $P$?}}{5}{section*.21}}
 \citation{Klunder}
 \citation{Klunder}
 \citation{mplomer}
-\@writefile{tdo}{\contentsline {todo}{{diagram showing $u, v, c_{vw}$ etc.}}{6}{section*.23}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces The Generic Shortest Path Algorithm \citep  {Klunder}\relax }}{6}{algorithm.caption.24}}
+\@writefile{tdo}{\contentsline {todo}{{diagram showing $u, v, c_{vw}$ etc.}}{6}{section*.22}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces The Generic Shortest Path Algorithm \citep  {Klunder}\relax }}{6}{algorithm.caption.23}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{algo:gsp}{{1}{6}{The Generic Shortest Path Algorithm \citep {Klunder}\relax \relax }{algorithm.caption.24}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Label Correcting Algorithm}{6}{section.2.3}}
-\@writefile{tdo}{\contentsline {todo}{{pseudo code}}{6}{section*.25}}
-\newlabel{section:labelcorrectingalgorithm}{{2.3}{6}{Label Correcting Algorithm\relax }{section*.25}{}}
-\citation{Bellman,Ford,Moore}
-\@writefile{tdo}{\contentsline {todo}{{Check if its FIFO or double ended queue}}{7}{section*.26}}
+\newlabel{algo:gsp}{{1}{6}{The Generic Shortest Path Algorithm \citep {Klunder}\relax \relax }{algorithm.caption.23}{}}
+\citation{Bellman,Ford}
+\citation{Moore}
+\citation{Dijkstra}
+\citation{Cormen}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Label Correcting Algorithm}{7}{section.2.3}}
+\@writefile{tdo}{\contentsline {todo}{{pseudo code}}{7}{section*.24}}
+\newlabel{section:labelcorrectingalgorithm}{{2.3}{7}{Label Correcting Algorithm\relax }{section*.24}{}}
+\@writefile{tdo}{\contentsline {todo}{{Check if its FIFO or double ended queue}}{7}{section*.25}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.4}Label Setting Algorithm}{7}{section.2.4}}
 \newlabel{section:labelsettingalgorithm}{{2.4}{7}{Label Setting Algorithm\relax }{section.2.4}{}}
-\@writefile{tdo}{\contentsline {todo}{{say Dijkstra discovered this}}{7}{section*.27}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Priority Queue and Heap}{7}{subsection.2.4.1}}
-\@writefile{tdo}{\contentsline {todo}{{how do you deal with one node is STL multiple times}}{7}{section*.29}}
-\citation{BoostHeap}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Point to Point Label Setting Algorithm (Dijkstra)\relax }}{8}{algorithm.caption.28}}
-\newlabel{algo:p2pdijkstra}{{2}{8}{Point to Point Label Setting Algorithm (Dijkstra)\relax \relax }{algorithm.caption.28}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Heap Implementation}{8}{subsection.2.4.2}}
-\@writefile{tdo}{\contentsline {todo}{{explain how this relates to previous results (one is STL and one is Boost, need to be much clearer}}{8}{section*.30}}
-\@writefile{tdo}{\contentsline {todo}{{what are these procedures?}}{8}{section*.31}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces C++ Boost Heap Implementations with Comparison of Amortized Complexity\relax }}{8}{table.caption.32}}
-\newlabel{table:heaps}{{2.1}{8}{C++ Boost Heap Implementations with Comparison of Amortized Complexity\relax \relax }{table.caption.32}{}}
-\@writefile{tdo}{\contentsline {todo}{{more details about Fibonacci, why good in theory not in practice}}{9}{section*.33}}
-\@writefile{tdo}{\contentsline {todo}{{not actual count yet}}{9}{section*.34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Priority Queue}{7}{subsection.2.4.1}}
+\citation{Cormen}
+\citation{Cormen}
+\citation{Fredman}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Point to Point Dijkstra's Algorithm\relax }}{8}{algorithm.caption.26}}
+\newlabel{algo:p2pdijkstra}{{2}{8}{Point to Point Dijkstra's Algorithm\relax \relax }{algorithm.caption.26}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.5}Bidirectional Dijkstra}{9}{section.2.5}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.6}A* Algorithm}{9}{section.2.6}}
-\@writefile{tdo}{\contentsline {todo}{{describe in LP sense, solving the dual, potentials etc.}}{9}{section*.35}}
-\@writefile{tdo}{\contentsline {todo}{{potential instead of heuristic?}}{9}{section*.36}}
-\@writefile{tdo}{\contentsline {todo}{{comment on gurantee of optimal shortest path}}{10}{section*.37}}
-\@writefile{tdo}{\contentsline {todo}{{reference!}}{10}{section*.38}}
-\@writefile{tdo}{\contentsline {todo}{{could we use Euclidea distance * min speed ?}}{10}{section*.39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Travel time function.\relax }}{10}{figure.caption.40}}
-\newlabel{fig:flowfunction}{{2.1}{10}{Travel time function.\relax \relax }{figure.caption.40}{}}
-\@writefile{tdo}{\contentsline {todo}{{comment and correct graph}}{10}{section*.41}}
-\@writefile{tdo}{\contentsline {todo}{{where are my $h$? heuristic?}}{10}{section*.43}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces A* Search Algorithm\relax }}{11}{algorithm.caption.42}}
+\@writefile{tdo}{\contentsline {todo}{{describe in LP sense, solving the dual, potentials etc.}}{9}{section*.27}}
+\@writefile{tdo}{\contentsline {todo}{{potential instead of heuristic?}}{9}{section*.28}}
+\@writefile{tdo}{\contentsline {todo}{{comment on gurantee of optimal shortest path}}{9}{section*.29}}
+\@writefile{tdo}{\contentsline {todo}{{reference!}}{9}{section*.30}}
+\@writefile{tdo}{\contentsline {todo}{{could we use Euclidea distance * min speed ?}}{9}{section*.31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Travel time function.\relax }}{10}{figure.caption.32}}
+\newlabel{fig:flowfunction}{{2.1}{10}{Travel time function.\relax \relax }{figure.caption.32}{}}
+\@writefile{tdo}{\contentsline {todo}{{comment and correct graph}}{10}{section*.33}}
+\@writefile{tdo}{\contentsline {todo}{{where are my $h$? heuristic?}}{10}{section*.35}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces A* Search Algorithm\relax }}{10}{algorithm.caption.34}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.7}Bidirectional A*}{11}{section.2.7}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.8}Preprocessing}{11}{section.2.8}}
 \@setckpt{./contents/chapter2}{
@@ -76,7 +72,7 @@
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
 \setcounter{figure}{1}
-\setcounter{table}{1}
+\setcounter{table}{0}
 \setcounter{NAT@ctr}{0}
 \setcounter{float@type}{16}
 \setcounter{FBl@b}{0}
@@ -101,7 +97,7 @@
 \setcounter{ALG@tmpcounter}{0}
 \setcounter{Item}{0}
 \setcounter{Hfootnote}{0}
-\setcounter{@todonotes@numberoftodonotes}{34}
+\setcounter{@todonotes@numberoftodonotes}{27}
 \setcounter{lstlisting}{0}
 \setcounter{section@level}{0}
 }
