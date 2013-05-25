@@ -7,13 +7,13 @@
 \BOOKMARK [1][-]{section.2.2}{Generic Shortest Path Algorithm \(GSP\)}{chapter.2}
 \BOOKMARK [1][-]{section.2.3}{Label Correcting Algorithm}{chapter.2}
 \BOOKMARK [1][-]{section.2.4}{Label Setting Algorithm}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.4.1}{Priority Queue and Heap}{section.2.4}
-\BOOKMARK [2][-]{subsection.2.4.2}{Heap Implementation}{section.2.4}
+\BOOKMARK [2][-]{subsection.2.4.1}{Priority Queue}{section.2.4}
 \BOOKMARK [1][-]{section.2.5}{Bidirectional Dijkstra}{chapter.2}
 \BOOKMARK [1][-]{section.2.6}{A* Algorithm}{chapter.2}
 \BOOKMARK [1][-]{section.2.7}{Bidirectional A*}{chapter.2}
 \BOOKMARK [1][-]{section.2.8}{Preprocessing}{chapter.2}
 \BOOKMARK [0][-]{chapter.3}{Implmentation Details}{}
+\BOOKMARK [1][-]{section.3.1}{Heap Implementation}{chapter.3}
 \BOOKMARK [0][-]{chapter.4}{Results}{}
 \BOOKMARK [1][-]{section.4.1}{Problem Data and Result Explanation}{chapter.4}
-\BOOKMARK [0][-]{section*.58}{References}{}
+\BOOKMARK [0][-]{section*.55}{References}{}
