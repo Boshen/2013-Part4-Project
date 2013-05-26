@@ -56,22 +56,6 @@
   <doc>
     <filename></filename>
     <relative_filename></relative_filename>
-    <key>Goldberg</key>
-    <notes></notes>
-    <bib_type>InProceedings</bib_type>
-    <bib_doi></bib_doi>
-    <bib_title>Reach for A∗: Efficient point-to-point shortest path algorithms</bib_title>
-    <bib_authors>Goldberg, Andrew V. and Kaplan, Haim and Werneck, Renato F.</bib_authors>
-    <bib_journal></bib_journal>
-    <bib_volume></bib_volume>
-    <bib_number></bib_number>
-    <bib_pages>129-143</bib_pages>
-    <bib_year>2006</bib_year>
-    <bib_extra key="BookTitle">IN WORKSHOP ON ALGORITHM ENGINEERING &amp; EXPERIMENTS</bib_extra>
-  </doc>
-  <doc>
-    <filename></filename>
-    <relative_filename></relative_filename>
     <key>Inoka:dijkstra2</key>
     <notes></notes>
     <bib_type>Article</bib_type>
@@ -242,6 +226,153 @@
     <bib_extra key="Month">jul</bib_extra>
     <bib_extra key="Numpages">20</bib_extra>
     <bib_extra key="Publisher">ACM</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Goldberg</key>
+    <notes></notes>
+    <bib_type>inproceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Reach for A∗: Efficient point-to-point shortest path algorithms</bib_title>
+    <bib_authors>Goldberg, Andrew V. and Kaplan, Haim and Werneck, Renato F.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>129-143</bib_pages>
+    <bib_year>2006</bib_year>
+    <bib_extra key="booktitle">SIAM Workshop on Algorithms Engineering and Experimentation </bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Pohl</key>
+    <notes></notes>
+    <bib_type>phdthesis</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Bi-directional and heuristic search in path problems</bib_title>
+    <bib_authors>Ira Pohl</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>1971</bib_year>
+    <bib_extra key="address">Stanford, California</bib_extra>
+    <bib_extra key="school">Stanford University</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Dreyfus</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi>10.2307/168375</bib_doi>
+    <bib_title>An Appraisal of Some Shortest-Path Algorithms</bib_title>
+    <bib_authors>Dreyfus, Stuart E.</bib_authors>
+    <bib_journal>Operations Research</bib_journal>
+    <bib_volume>17</bib_volume>
+    <bib_number>3</bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>1969</bib_year>
+    <bib_extra key="Publisher">INFORMS</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Nicholson</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi>10.1093/comjnl/9.3.275</bib_doi>
+    <bib_title>Finding the Shortest Route between Two Points in a Network</bib_title>
+    <bib_authors>Nicholson, T. A. J.</bib_authors>
+    <bib_journal>The Computer Journal</bib_journal>
+    <bib_volume>9</bib_volume>
+    <bib_number>3</bib_number>
+    <bib_pages>275-280</bib_pages>
+    <bib_year>1966</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Dantzig</key>
+    <notes></notes>
+    <bib_type>book</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Linear Programming and Extensions</bib_title>
+    <bib_authors>Dantzig, George</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>1963</bib_year>
+    <bib_extra key="address">Princeton, New Jersey</bib_extra>
+    <bib_extra key="publisher">Princeton University Press</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Goldberg05</key>
+    <notes></notes>
+    <bib_type>inproceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Computing Point-to-Point Shortest Paths from External Memory</bib_title>
+    <bib_authors>Goldberg, Andrew V. and Werneck, Renato F.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>26-40</bib_pages>
+    <bib_year>2005</bib_year>
+    <bib_extra key="booktitle">Proceedings of the Seventh Workshop on Algorithm Engineering and Experiments (ALENEX’05)</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>GoldbergEPP</key>
+    <notes></notes>
+    <bib_type>misc</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Efficient Point-to-Point Shortest Path Algorithms</bib_title>
+    <bib_authors>Andrew V. Goldberg and Chirs Harrelson and Haim Kaplan and Renato F. Werneck</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>2006</bib_year>
+    <bib_extra key="howpublished">\url{http://www.cs.princeton.edu/courses/archive/spr06/cos423/Handouts/EPP%20shortest%20path%20algorithms.pdf}</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Astar</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi>10.1109/tssc.1968.300136</bib_doi>
+    <bib_title>A Formal Basis for the Heuristic Determination of Minimum Cost Paths</bib_title>
+    <bib_authors>Hart, Peter and Nilsson, Nils and Raphael, Bertram</bib_authors>
+    <bib_journal>IEEE Transactions on Systems Science and Cybernetics</bib_journal>
+    <bib_volume>4</bib_volume>
+    <bib_number>2</bib_number>
+    <bib_pages>100-107</bib_pages>
+    <bib_year>1968</bib_year>
+    <bib_extra key="Booktitle">Systems Science and Cybernetics, IEEE Transactions on</bib_extra>
+    <bib_extra key="Institution">Artificial Intelligence Group of the Applied Physics Laboratory, Stanford Research Institute, Menlo Park, Calif.</bib_extra>
+    <bib_extra key="Publisher">IEEE</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Ikeda</key>
+    <notes></notes>
+    <bib_type>inproceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>A fast algorithm for finding better routes by AI search techniques</bib_title>
+    <bib_authors>Ikeda, Takahiro and Hsu, Min-Yao and Imai, Hiroshi and Nishimura, Shigeki and Shimoura, Hiroshi and Hashimoto, Takeo and Tenmoku, Kenji and Mitoh, Kunihiko</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>291-296</bib_pages>
+    <bib_year>1994</bib_year>
+    <bib_extra key="booktitle">Vehicle Navigation and Information Systems Conference</bib_extra>
   </doc>
 </doclist>
 </library>

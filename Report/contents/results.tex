@@ -93,35 +93,35 @@ The code is adapted from \citep{Sheffi},
         \cmidrule(lr){6-6}
         \cmidrule(lr){7-7}
         SiouxFalls    & B     & 69 & & & 0.25 & \\
-                      & AP-D  & 69 & & & 0.24 & \\
-                      & P2P-D & 64 & & & 0.15 & \\
-                      & Bi-D  & & & & & \\
-                      & A*    & 85 & & & 0.16 & \\
-                      & Bi-A* & & & & & \\ \\
+        & AP-D  & 69 & & & 0.24 & \\
+        & P2P-D & 64 & & & 0.15 & \\
+        & Bi-D  & & & & & \\
+        & A*    & 85 & & & 0.16 & \\
+        & Bi-A* & & & & & \\ \\
         Anaheim       & B     & 10 & & & 1.20 & \\
-                      & AP-D  & 10 & & & 1.20 & \\
-                      & P2P-D & 10 & & & 0.67 & \\
-                      & Bi-D  & & & & & \\
-                      & A*    & 10 & & & 0.15 & \\
-                      & Bi-A* & & & & & \\ \\
+        & AP-D  & 10 & & & 1.20 & \\
+        & P2P-D & 10 & & & 0.67 & \\
+        & Bi-D  & & & & & \\
+        & A*    & 10 & & & 0.15 & \\
+        & Bi-A* & & & & & \\ \\
         Barcelona     & B     & 28 & & & 60.00 & \\
-                      & AP-D  & 28 & & & 43.00 & \\
-                      & P2P-D & 27 & & & 27.71 & \\
-                      & Bi-D  & & & & & \\
-                      & A*    & 27 & & &  6.10 & \\
-                      & Bi-A* & & & & & \\ \\
+        & AP-D  & 28 & & & 43.00 & \\
+        & P2P-D & 27 & & & 27.71 & \\
+        & Bi-D  & & & & & \\
+        & A*    & 27 & & &  6.10 & \\
+        & Bi-A* & & & & & \\ \\
         Winnipeg      & B     & 129 & & & 190.00 & \\
-                      & AP-D  & 129 & & & 137.00 & \\
-                      & P2P-D & 129 & & &  70.00 & \\
-                      & Bi-D  & & & & & \\
-                      & A*    & 128 & & & 21.85 & \\
-                      & Bi-A* & & & & & \\ \\
+        & AP-D  & 129 & & & 137.00 & \\
+        & P2P-D & 129 & & &  70.00 & \\
+        & Bi-D  & & & & & \\
+        & A*    & 128 & & & 21.85 & \\
+        & Bi-A* & & & & & \\ \\
         ChicagoSketch & B     & 25 & & & 500.00 & \\
-                      & AP-D  & 25 & & & 541.00 & \\
-                      & P2P-D & 25 & & & 204.00 & \\
-                      & Bi-D  & & & & & \\
-                      & A*    & 26 & & & 42.90 & \\
-                      & Bi-A* & & & & & \\
+        & AP-D  & 25 & & & 541.00 & \\
+        & P2P-D & 25 & & & 204.00 & \\
+        & Bi-D  & & & & & \\
+        & A*    & 26 & & & 42.90 & \\
+        & Bi-A* & & & & & \\
         \bottomrule
     \end{tabular}
     \caption{Results for all test networks. Showing the number of iterations per graph (ITERS), max number of scans (COUNT) and the speed up respect to the label correcting algorithm (SPD). }
@@ -151,7 +151,7 @@ The code is adapted from \citep{Sheffi},
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
         \centering
-    \missingfigure[figwidth=\textwidth]{Bidirectional A*}
+        \missingfigure[figwidth=\textwidth]{Bidirectional A*}
     %    \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar}
         \caption{Bidirectional A* Search}
         \label{fig:chicago_astar_bidirect}
@@ -161,4 +161,32 @@ The code is adapted from \citep{Sheffi},
     \label{fig:long_sptree}
 \end{figure}
 \todoin{draw 2 nodes that are close to each other}
+
+
+\begin{comment}
+
+All of these run times are slower than the STL version of the Heap.
+Upon inspection,
+it is found that the increase-key operation is used about between 5\% to 10\%
+of the time,
+\todo{not actual count yet}
+which means the graphs are not dense enough for these Heap structures to outperform a
+simple array based priority queue.
+Comparing the Dijkstra and A* search algorithm's result,
+we see an approximately 5 times improvement.
+By looking at the shortest path tree generated
+by the ChicagoSketch network,
+there are only a few scanned nodes,
+the path goes straight to the destination.
+(TODO reference) says the closer the heuristic is to the actual distance,
+the better/faster shortest path calculation,
+by looking at the travel time function (Figure~\ref{fig:flowfunction}, we can see the slope
+is really shallow near the start,
+and by comparing the initial flow and final flow (TODO, data),
+they are very close so the final flow is very close to the
+initial flow,
+which means the heuristic is a very good estimation,
+which is our A* search is very fast.
+\end{comment}
+
 

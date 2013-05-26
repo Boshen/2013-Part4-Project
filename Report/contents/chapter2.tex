@@ -1,4 +1,5 @@
 \chapter{Solving the Shortest Path Problem}
+\todo[inline]{do I need to show pseudocode for all algos?}
 \label{chap:solvingspp}
 
 Over the years,
@@ -27,7 +28,8 @@ Solving the point to point SPP solves from one origin to a specific destination 
 When solving SPP for a normal road network,
 different measurements such as distance and travel exist for the road length.
 But in traffic assignment,
-the road length is measured in a monotonic increasing travel time function,
+the road length is measured in a monotonic non-decreasing travel time function,
+\todo{monotonic non-decreasing - correct?}
 which encapsulates information such as traffic flow, road capacity and travel speed.
 This travel time function is always non-negative so taking advantage of this helps the selection of algorithms that uses this property.
 \todo{show equation?}
@@ -99,11 +101,11 @@ The shortest path can be constructed by following the predecessor of the destina
 
 \todo[inline]{diagram showing $u, v, c_{vw}$ etc.}
 
-Algorithm~\ref{algo:gsp} describes the generic shortest path algorithm mentioned above,
+Algorithm~\ref{algo:gsp} \citep{Klunder} describes the generic shortest path algorithm mentioned above,
 with an extra constraint required when solving a TA problem: travelling through zone nodes are not permitted.
 In essence, this algorithm repeatedly selects node $u\in\mathcal{Q}$ and checks the violation of Bellman's condition for all emanating arcs of node $u$.
 \begin{algorithm}
-    \caption{The Generic Shortest Path Algorithm \citep{Klunder}}
+    \caption{The Generic Shortest Path Algorithm}
     \label{algo:gsp}
     \begin{algorithmic}[1]
         \Procedure{GenericShortestPath}{$s$}
@@ -219,7 +221,6 @@ The Insert operation (line $2$ and $17$ in Algorithm~\ref{algo:p2pdijkstra}) is 
 \end{algorithmic}
 \end{algorithm}
 
-
 According to \citet{Cormen},
 min-priority queue can implemented via an array or different kinds of min-heap data structure.
 
@@ -229,7 +230,7 @@ Each Insert and Decrease-Key operation in this implementation takes $O(1)$ time,
 
 A min-heap is a tree-based data structure which satisfies the min-heap property:
 the value of each node is smaller or equal to the value of its child nodes.
-\citet{Cormen} shows that if the graph is sufficiently sparse (in particular $E = o(V^2/\log(V))$, the Dijkstra's algorithm can be improved with a binary min-heap. In this implementation, the binary tree takes $O(V)$ time, Extract-Min takes $O(\log(V))$ time for $|V|$ operations and Decrease-Key takes $O(\log(V))$ time for each $|E|$. The total running time is therefore $O((V+E)\log(V)$, which improves the array implementation.
+\citet{Cormen} shows that if the graph is sufficiently sparse (in particular $E = o(V^2/\log(V))$, the Dijkstra's algorithm can be improved with a binary min-heap. In this implementation, the binary tree takes $O(V)$ time, Extract-Min takes $O(\log(V))$ time for $|V|$ operations and Decrease-Key takes $O(\log(V))$ time for each $|E|$. The total running time is therefore $O((V+E)\log(V))$, which improves the array implementation.
 
 The running time can be improved further using a Fibonacci heap
 developed by \citet{Fredman}.
@@ -238,40 +239,104 @@ In Fibonacci heap, each of the $|V|$ Extract-Min operations take $O(\log(V))$ am
 and each of the $|E|$ Decrease-Key operations take only $O(1)$ amortized time,
 which gives a total running time of $O(V\log(V)+E)$.
 
-\section{Bidirectional Dijkstra}
-\section{A* Algorithm}
-\todo[inline]{describe in LP sense, solving the dual, potentials etc.}
+\section{Bidirectional Label Setting Algorithm} \label{section:bidirectional}
+The Dijkstra's algorithm can be imagined to be searching radially outward like a circle with the origin in the centre and destination on the boundary.
+Likewise, Dijkstra's algorithm can be used on the reverse graph (all arcs reversed in the graph) from the destination node.
+Thus Dijkstra's algorithm can be run on the origin and destination simultaneously at the same time.
+The motivation for doing this is because the number of scanned nodes can be reduced when searching bidirectionally:
+two smaller circles growing outward radially in stead of a larger one.
+\todo{illustrate this}
+It is common to conclude that the shortest path is found when the two searches meet somewhere in the centre,
+but this is not actually the case as there may exist another arc connecting the two frontiers of the searches that has a shorter path.
+The correct termination criteria was first designed and implementation by \citet{Pohl} based on researches presented by \citet{Dantzig, Nicholson} and \citet{Dreyfus}.
+\citet{Klunder} summarises the procedure and algorithm (Algorithm~\ref{algo:bidirectional}) for the termination criteria presented by \citet{Pohl}.
+
+In Algorithm~\ref{algo:bidirectional},
+two independent Dijkstra's algorithms are alternatively run on the forward  and reverse graph (forward and backward algorithm),
+the algorithms terminate when a node is permanently labelled in both directions.   
+Once the algorithms have terminated,
+the correct shortest path is found by looking for a arc connecting the frontiers of the two searches that may yield a shorter path.
+This extra condition increases the run time significantly because 
+we have to search for all arcs that connect all labelled nodes in the forward search to all labelled nodes in the backward search.
+\todo{Show theorem and proof?}
+
+Note in Algorithm~\ref{algo:bidirectional},
+$\mathcal{R}^s$ is the subset of nodes that are permanently labelled from $s$ with labels $d_v^s$ in the forward search, and 
+$\mathcal{R}^t$ is the subset of nodes that are permanently labelled from $s$ with labels $d_v^t$ in the backward search.
+
+\begin{algorithm}[H]
+    \caption{Bidirectional Label Setting Algorithm }
+    \label{algo:bidirectional}
+    \begin{algorithmic}[1]
+        \Procedure{Bidirectional}{$s, t$}
+        \State Execute one iteration of the forward algorithm.
+        If the next node $u$ is labelled permanently by the 
+        backward algorithm $(u\in\mathcal{R}^t)$, go to step 3.
+        Else, go to step 2.
+        \State Execute one iteration of the backward algorithm.
+        If the next node $u$ is labelled permanently by the
+        forward algorithm $(u\in\mathcal{R}^s)$, go to step 3.
+        Else, goto step 1.
+        \State Find $\min\{\min\{d_v^s + c_{vw} + d_w^t | v \in \mathcal{R}^s, w \in \mathcal{R}^t, (v, w) \in E\}, d_u^s + d_u^t\}$, which gives the correct shortest path between $s$ and $t$.
+    \EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+In recent years,
+\citet{Goldberg05} improved the bidirectional search using a better termination condition.
+The termination condition and its method is described as follows.
+During the forward and backward search,
+we maintain the length of the shortest path seen so far, $\mu$, and its corresponding path. Initially, $\mu = \infty$.
+When an arc $(v,w)$ is scanned by the forward search and $w$ has already been scanned in the reverse search (or vice versa),
+we know the shortest $s-v$ and $w-t$ path have lengths $d_v^s$ and $d_w^t$ respectively.
+If $\mu > d_v^s + c_{vw} + d_w^t$ then this path is shorter than the one detected before, 
+so we update $u$ and its path accordingly.
+The algorithm terminates when the search in one direction selects a node already scanned in the other direction.
+
+\citet{GoldbergEPP} showed and proved a stronger termination condition on top of his previous one.
+The searches can be stopped if the sum of the top priority queue values is greater than $\mu$:
+\[
+    \text{top}_f + \text{top}_r \geq \mu
+\]
+where $\text{top}_f$ and $\text{top}_r$ are the top priority queue values in the forward and reverse search, they the next minimum distance label that have not been labelled.
+\todo{Show theorem and proof as well?}
+
+\section{A* Search}
+\todo[inline]{I have been using the word ``heuristic'' everywhere, is ``potential'' function more appropriate or are they interchangeable?}
+%\todo[inline]{Do I need to describe SPP in LP sense? like solving the dual, etc.? (which may make the bidirectional A* search section more understandable, where the dual version of the SPP is used for the theory, o)}
 Up until now,
 the Dijkstra's algorithm does not take into account the location of the destination,
 the shortest path tree is grown out radially until the destination is labelled.
 In a traditional graph where actual distances are used for the distance labels,
-a heuristic can be used to direct the shortest path tree to grow toward the destination.
+a heuristic can be used to direct the shortest path tree to grow toward the destination (an ellipsoid in stead of a circle).
+\todo{show figure}
 If the heuristic estimate is the distance from each node to the destination,
 and the estimate is smaller than or equal to the actual distance going to that destination,
-then a shortest path can be found. This is called A* search.
+then a shortest path can be found. This is called A* search or goad directed search, first described by \citet{Astar}.
+
 Formally we define the following: Let $h_v$ be a heuristic estimate from node $v$ to $t$,
-\todo{potential instead of heuristic?}
-we apply Bellman's condition such that an optimal solution exist, that is 
-$ h_v \leq h_u + c_{uv}, \quad \forall(u,v) \in E $.
-In other words, the heuristic estimate for each node need to always under estimate the actual distance going from the node to the destination.
-\todo[inline]{comment on gurantee of optimal shortest path}
+and apply Bellman's condition such that an optimal solution exist, that is 
+\begin{align}
+    &h_v \leq h_u + c_{uv}, \quad \forall(u,v) \in E \\
+    &h(t) = 0,
+\end{align}
+where $t$ is the destination node.
+This means the heuristic function $h$ must be admissible and consistent (monotonic):
+it never overestimates the actual path length and the estimated cost of a node reaching its destination node is no greater than the estimated cost of its predecessors.
+Note a consistent heuristic is also admissible but not the oppossite.
+\citet{Astar} proves if the heuristic function (such as using geographical coordinates and Euclidean distance) is admissible and consistent,
+then A* is guaranteed to find the correct shortest path with a better time performance by scanning less nodes and arcs.
 
-It is proven using geographical coordinates and Euclidean distance as the heuristic estimate,
-\todo{reference!}
-A* search is guaranteed to work with a huge run time speed up by scanning very few nodes.
-
-In our Path Equilibration method,
-we can no longer use geographical coordinates and euclidean distance for the heuristic estimate,
-this is because we use travel times as the distances for the arcs.
-Although distance is included in the calculation,
-we cannot guarantee it to under estimate the travel times.
-\todo[inline]{could we use Euclidea distance * min speed ?}
-
-By analysing the travel times function (Figure~\ref{fig:flowfunction}),
-we can see that it is a non-decreasing function with the lowest value being the zero flow travel times,
-which means if we use the zero flow travel times as the heuristic estimate,
-it is assured that it will always under estimate the travel time for that arc,
-because no travel time can be lower than the zero flow travel at any time.
+In the Path Equilibration method,
+geographical coordinates and Euclidean distances can not be used for the heuristic estimate because a travel time function is used for the length of the arcs.
+Instead, zero-flow travel time from every node to the destination can be for the heuristic.
+Zero-flow travel time is admissible and consistent and can be shown by
+analysing the travel times function (Figure~\ref{fig:flowfunction}).
+The travel times function is a monotonic non-decreasing function with the lowest value being the zero-flow travel times.
+This means using zero-flow travel times as the heuristic estimate
+is assured to be admissible
+as no travel time can be lower than the zero flow travel at any time.
+The heuristic function is consistent because the travel time from a node to the destination must be no longer than all its predecessors.
 
 \begin{figure}[H]
     \centering
@@ -294,8 +359,11 @@ because no travel time can be lower than the zero flow travel at any time.
 \end{figure}
 \todo{comment and correct graph}
 
-Modifying Step 1 of the GSP for A* search:
+\todo[inline]{mention the LP programming formulation, which may aid the explaintion of Bidirectional A*. See last paragraph in \url{http://en.wikipedia.org/wiki/Shortest_path_problem}}
+
+\begin{comment}
 \begin{algorithm}
+Modifying Step 1 of the GSP for A* search:
     \caption{A* Search Algorithm}
     \begin{algorithmic}[1]
         \Procedure{AStar}{$s, t$}
@@ -326,54 +394,65 @@ Modifying Step 1 of the GSP for A* search:
         \EndWhile
     \EndProcedure
 \end{algorithmic}
-\end{algorithm}
 \todo[inline]{where are my $h$? heuristic?}
-
-
-\begin{comment}
-Comparing the Dijkstra and A* search algorithm's result,
-we see an approximately 5 times improvement.
-By looking at the shortest path tree generated
-by the ChicagoSketch network,
-there are only a few scanned nodes,
-the path goes straight to the destination.
-(TODO reference) says the closer the heuristic is to the actual distance,
-the better/faster shortest path calculation,
-by looking at the travel time function (Figure~\ref{fig:flowfunction}, we can see the slope
-is really shallow near the start,
-and by comparing the initial flow and final flow (TODO, data),
-they are very close so the final flow is very close to the
-initial flow,
-which means the heuristic is a very good estimation,
-which is our A* search is very fast.
+\end{algorithm}
 \end{comment}
 
-\section{Bidirectional A*}
-\section{Preprocessing}
+\section{Bidirectional A* Search}
+Bidirectional search can also be applied to A* search,
+where two ellipsoids are extended from the origin and destination respectively,
+and construct the shortest path with the same strategy described in section~\ref{section:bidirectional}.
+But this idea is wrong due to the independence use of the heuristic estimation in the two A* searches, and A* search does not label the nodes permanently in the order of their distance from the origin \citep{Klunder}.
+In short, the heuristic estimations are no longer consistent.
+
+The strategy for the correct use of heuristic estimates and termination criterion has first been published by \citet{Pohl}. The use of heuristic estimates is later improvement by \citet{Ikeda} and the termination criterion is improved by \citet{GoldbergEPP}.
+
+The strategy is as follows. The heuristic estimates need to translated to consistent functions first. 
+We denote $\pi_f(v)$ the estimate on distance from node $v$ to the destination $t$ in the forward search and $\pi_r(v)$ the estimate on distance from origin $s$ to node $v$ in the backward (reverse) search.
+\todo{illustrate!}
+In general two arbitrary feasible functions $\pi_f$ and $\pi_r$ are not consistent, but their average is both feasible and consistent \citep{Ikeda}:
+\begin{align}
+    p_f(v) = \frac{1}{2}(\pi_f(v)-\pi_r(v)) + \frac{\pi_r(t)}{2} \\
+    p_r(v) = \frac{1}{2}(\pi_r(v)-\pi_f(v)) + \frac{\pi_f(s)}{2} 
+\end{align}
+where the two constants $\frac{\pi_r(t)}{2}$ and $\frac{\pi_f(s)}{2}$ are added by \citet{GoldbergEPP} to provide better estimates.
+Note the modified consistent heuristic $p$ provides worse bounds than the original $\pi$ values.
+
+Finally \citet{GoldbergEPP} shows and proves the stopping criterion:
+\begin{align}
+    \text{top}_f + \text{top}_r \geq \mu + p_r(t),
+\end{align}
+where is $\mu$ the best $s-t$ path seen fast, $\text{top}_f$ the length of the path from $s$ to the top node (minimum distance label) in the forward search priority queue and $\text{top}_r$ the length of the path from $t$ to the top node in the backward search priority queue.
 
 
-\begin{comment}
-\section{Data Structures}
-A Data structure is a way for computers to store, update and manipulate intermediate results.
-A good data structure can efficiently speed up the access of the stored data,
-which means the performance of solving our shortest path problem does not only depend on the algorithm it self but also the data structure.
-In this project,
-two data structures are combined to improve the solving speed:
-\todo{idea of a data structure is unclear}
+
+\newpage
+\todo[inline]{the following section is in draft stage}
+\section{Preprocessing and More}
+Preprocessing - trade memory to get faster time.
+We can either do a fast preprocessing between iterations to make query in each iteration (so combined speed is still faster) 
+or do a long preprocessing at the start and use the computed heuristic values
 \begin{itemize}
-    %\item Forward Star (for the label correcting algorithm in Section~\ref{section:labelcorrectingalgorithm}),
-    %\item Heap (for the label setting algorithms in Section~\ref{section:labelsettingalgorithm} and onwards).
+    \item A* landmarks and triangle inequality (ALT)
+    \item Reach-based routing 
+    \item ALT + Reach
+    \item Geometric Containers
+    \item Arc Flags
 \end{itemize}
-\end{comment}
 
-\begin{comment}
-\subsection{Forward Star}\label{chap:forwardstar}
-%There is one common characteristic for all of the shortest path algorithms that is going to be discussed in Section~\ref{chapter:solvingspp}:
-all arcs emanating from a given node need to be accessed.
-An efficient way of visiting every node inside a network and access all their emanating arcs is to use the Forward Star data structure.
-The advantage of using this data structure for storing the network is that
-the time complexity for finding any node in the network and iterating through all the emanating arcs is $O(1)$.
-The exact implementation of Forward Star is not going to be detailed in this report,
-but the information can be found in Chapter 5.3 of Urban Transportation Networks \citep{Sheffi}.
-This data structure has already been implemented by the second supervisor.
-\end{comment}
+If we have more data on the network we can use
+algorithms that use hierarchies.
+Consider roads with higher speed first: use a hierarchy of subgraphs.
+\begin{itemize}
+    \item Radius search.
+    \item multi-level approach
+    \item highway hierarchies
+\end{itemize}
+
+\todo[inline]{Above extract from: Speed-Up Techniques for Shortest-Path Computations by Dorothea Wagner, Thomas Willhalm, and Fast Shortest Path Algorithms for Large Road Networks by Faramroze Engineer }
+
+We can also do Lifelong Planning A* (LPA*), use heuristic from previous each iteration, but the original paper says only a few percent arc change can boost run time, not idea if it is more than that. 
+
+If the edge lengths are whole numbers then we can use multi-level bucket for the priority queue.
+
+
