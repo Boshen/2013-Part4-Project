@@ -4,10 +4,10 @@
 \BOOKMARK [1][-]{section.1.3}{Report Overview}{chapter.1}
 \BOOKMARK [0][-]{chapter.2}{Solving the Shortest Path Problem}{}
 \BOOKMARK [1][-]{section.2.1}{Notations and Definitions}{chapter.2}
-\BOOKMARK [1][-]{section.2.2}{Generic Shortest Path Algorithm \(GSP\)}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{Generic Shortest Path Algorithm}{chapter.2}
 \BOOKMARK [1][-]{section.2.3}{Label Correcting Algorithm}{chapter.2}
 \BOOKMARK [1][-]{section.2.4}{Label Setting Algorithm}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.4.1}{Priority Queue}{section.2.4}
+\BOOKMARK [2][-]{subsection.2.4.1}{Priority Queue Implementations}{section.2.4}
 \BOOKMARK [1][-]{section.2.5}{Bidirectional Label Setting Algorithm}{chapter.2}
 \BOOKMARK [1][-]{section.2.6}{A* Search}{chapter.2}
 \BOOKMARK [1][-]{section.2.7}{Bidirectional A* Search}{chapter.2}
@@ -15,6 +15,10 @@
 \BOOKMARK [0][-]{chapter.3}{Implementation Details}{}
 \BOOKMARK [1][-]{section.3.1}{Graph Storage}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{Priority Queue Implementations}{chapter.3}
-\BOOKMARK [0][-]{chapter.4}{Results}{}
+\BOOKMARK [1][-]{section.3.3}{Memory Management}{chapter.3}
+\BOOKMARK [0][-]{chapter.4}{Computational Results}{}
 \BOOKMARK [1][-]{section.4.1}{Problem Data and Result Explanation}{chapter.4}
-\BOOKMARK [0][-]{section*.59}{References}{}
+\BOOKMARK [1][-]{section.4.2}{Discussion of Computational Results}{chapter.4}
+\BOOKMARK [0][-]{chapter.5}{Conclusions}{}
+\BOOKMARK [0][-]{chapter.6}{Future Works}{}
+\BOOKMARK [0][-]{section*.54}{References}{}

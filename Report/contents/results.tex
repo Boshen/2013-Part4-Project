@@ -1,31 +1,17 @@
-\chapter{Results}\label{chap:results}
+\chapter{Computational Results}\label{chap:results}
 
-\todo[inline]{results interpretation}
-\todo[inline]{results speed up in percentages}
+This chapter shows the results from testing all the shortest path algorithms detailed in Chapter~\ref{chap:solvingspp} using the specific implementation described in the previous chapter.
+
+The results are generated from using the g++ compiler using the -O3 optimise for speed option on Ubuntu 12.04 operating system, which has a Intel Core i5-3317U CPU with 3.8GiB RAM.
+
 \section{Problem Data and Result Explanation}
-\begin{comment}
-Existing computer code (written in C++) already exist for the TA algorithms,
-including the path equilibrium method and many others.
-A simple shortest path calculation algorithm is currently used by the path equilibrium method,
-which runs very poorly given a small network.
-\end{comment}
-\todo{talk about existing code}
-
 The problem data for solving the TA problems are retrieved from Transportation Network Test Problems \citep{ProblemData}.
-
-Through out the report, Table~\ref{table:problemdata} is used to show the run time and number of iterations for solving one particular network.
-In the table, the ``OD pairs'' column gives the number of pairs of origin and destination in the network.
-The ``zone'' column gives the number of traffic zones,
-in some cases, the nodes in the network also include the traffic zones.
-The ``Run time (seconds)'' gives is measured from executing the whole 
-path equilibration algorithm from start to finish.
-The ``Iterations'' column gives how many times the whole network
-gets solved to settle the traffic flows to equilibrium.
-\todo[inline]{need to explain what an iteration where it is introduced} 
+Table~\ref{table:problemdata} shows the data that are going to be tested with,
+where the network name, numbers nodes, traffic analysis, origin-desitination (OD) pairs and edges are given.
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrr} \toprule
-        Network & Nodes & Zones & OD pairs & Arcs \\ \cmidrule(lr){1-5}
+        Network & Nodes & Zones & OD pairs & Edges \\ \cmidrule(lr){1-5}
         SiouxFalls    & 24   & 24  & 528   & 76   \\
         Anaheim       & 416  & 38  & 1406  & 914  \\
         Barcelona     & 1020 & 110 & 7922  & 2522 \\
@@ -39,52 +25,40 @@ gets solved to settle the traffic flows to equilibrium.
 By examining the network problem data,
 we can see that the number of OD pairs increase
 significantly respect to the number of zone nodes,
-this is important because it indicates how many SPPs need to be solved for each iteration of the PE.
-We can also roughly tell that these networks are very sparse,
-as a complete graph (every node is connected to every other node) of 1000 nodes have 499500 arcs ($n(n-1)/2$),
-and the larger networks in our problem data only have about 0.4\% to 0.6\% of arcs in a complete graph, this information is useful
-when we start tuning the algorithms for solving SPP.
-\todo[inline]{mention node degree}
+this is important because it indicates how many point to point SPPs need to be solved for each iteration of the PE method.
+We can also roughly tell that these networks are very sparse;
+for a complete graph (every node is connected to every other node) of 1000 nodes have 499500 edges ($n(n-1)/2$),
+but the larger networks in our problem data only have about 0.4\% to 0.6\% of edges in the corresponding complete graph. 
+Analysing the graph shows the degree of any vertex in the graph is no more than 5.
+This information is useful
+for choosing the best algorithm and data structure.
 
-Most of the data does not resemble a real world transportation network, 
-for example sometimes all roads have the same speed limit, road type and capacity.  
-\todo[inline]{wrong, the smaller data sets have same data but not the large ones}
+The correctness of the final shortest path trees are checked by comparing to the label correcting algorithm that is implemented by the co-supervisor of this project, which is guarantee to be correct.
 
-In this report, all problem data are solved on a Intel i5 1.78GHz CPU computer with 4GB RAM, which runs the Ubuntu 12.04 Linux operating system.
-And the code is compiled with the g++ compiler with the -O3 optimisation flag (i.e.\ optimise for speed).
+\section{Discussion of Computational Results}
+In Table~\ref{table:allresults} we present the running times for a complete run of the Traffic Assignment Path Equilibration method.
+For each network, each of the algorithms
+\begin{itemize}
+    \item label correcting Bellman-Ford (B),
+    \item one source Dijkstra (1S-D),
+    \item point to point Dijkstra (P2P-D),
+    \item bidirectional Dijkstra (Bi-D),
+    \item A* search (A*),
+    \item bidirectional A* search (Bi-A*),
+\end{itemize}
+is used for each of the networks shown in Table~\ref{table:problemdata}.
+The numbers of iterations (ITERS) each algorithm took,
+The overall number of nodes scanned in the network (COUNT),
+and the total run time (seconds) each algorithm took is shown.
+Each algorithm is also compared to the label correcting algorithm to show the percentage speed-up (SPD).
 
-The accuracy of all results are checked by comparing the traffic flows from the traffic assignment output,
-as well as the final shortest path for every OD pairs.  \todo{rewrite, this is wrong}
-
-\begin{comment}
-The existing shortest path algorithm in the traffic assignment code is called the label correcting algorithm.
-The code is adapted from \citep{Sheffi}, 
-\end{comment}
-
-
-\begin{comment}
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrr rrr rrr}
-        Network        & Iterations & STL & Binary & Ternary & Binomial & Fibonacci & Pairing & Skew \\
-        SiouxFalls     & 85           & 0.16 & 0.14 & 0.16 & 0.22  & 0.22  & 0.14  & 0.14            \\
-        Anaheim        & 10           & 0.15 & 0.19 & 0.19 & 0.33  & 0.22  & 0.18  & 0.17            \\
-        Barcelona      & 27           & 5.44 & 6.53 & 6.54 & 11.45 & 7.62  & 6.56  & 6.10            \\
-        Winnipeg       & 128          & 19.49& 24.34& 24.86& 44.41 & 27.93 & 24.23 & 21.85           \\ 
-        ChicagoSketch  & 26           & 38.92& 46.00   & 44.00   & 78.02 & 53.28 & 45.10 & 42.90       
-    \end{tabular}
-    \caption{A* Algorithm Result}
-    \label{table:astarresult}
-\end{table}
-\end{comment}
-
-\begin{table}[H]
+\begin{table}
     \centering
     \begin{tabular}{l l r rr rr } \toprule
         & & & \multicolumn{2}{c}{Max Scans} & \multicolumn{2}{c}{Time} \\ 
         \cmidrule(lr){4-5}
         \cmidrule(lr){6-7}
-        Graph & Algorithm & ITERS & COUNT & SPD                     & SEC & SPD \\ 
+        Network & Algorithm & ITERS & COUNT & SPD                     & SEC & SPD \\ 
         \cmidrule(lr){1-1}
         \cmidrule(lr){2-2}
         \cmidrule(lr){3-3}
@@ -93,42 +67,47 @@ The code is adapted from \citep{Sheffi},
         \cmidrule(lr){6-6}
         \cmidrule(lr){7-7}
         SiouxFalls    & B     & 69 & & & 0.25 & \\
-        & AP-D  & 69 & & & 0.24 & \\
+        & 1S-D  & 69 & & & 0.24 & \\
         & P2P-D & 64 & & & 0.15 & \\
         & Bi-D  & & & & & \\
         & A*    & 85 & & & 0.16 & \\
         & Bi-A* & & & & & \\ \\
         Anaheim       & B     & 10 & & & 1.20 & \\
-        & AP-D  & 10 & & & 1.20 & \\
+        & 1S-D  & 10 & & & 1.20 & \\
         & P2P-D & 10 & & & 0.67 & \\
         & Bi-D  & & & & & \\
         & A*    & 10 & & & 0.15 & \\
         & Bi-A* & & & & & \\ \\
         Barcelona     & B     & 28 & & & 60.00 & \\
-        & AP-D  & 28 & & & 43.00 & \\
+        & 1S-D  & 28 & & & 43.00 & \\
         & P2P-D & 27 & & & 27.71 & \\
         & Bi-D  & & & & & \\
         & A*    & 27 & & &  6.10 & \\
         & Bi-A* & & & & & \\ \\
         Winnipeg      & B     & 129 & & & 190.00 & \\
-        & AP-D  & 129 & & & 137.00 & \\
+        & 1S-D  & 129 & & & 137.00 & \\
         & P2P-D & 129 & & &  70.00 & \\
         & Bi-D  & & & & & \\
         & A*    & 128 & & & 21.85 & \\
         & Bi-A* & & & & & \\ \\
         ChicagoSketch & B     & 25 & & & 500.00 & \\
-        & AP-D  & 25 & & & 541.00 & \\
+        & 1S-D  & 25 & & & 541.00 & \\
         & P2P-D & 25 & & & 204.00 & \\
         & Bi-D  & & & & & \\
         & A*    & 26 & & & 42.90 & \\
         & Bi-A* & & & & & \\
         \bottomrule
     \end{tabular}
-    \caption{Results for all test networks. Showing the number of iterations per graph (ITERS), max number of scans (COUNT) and the speed up respect to the label correcting algorithm (SPD). }
-    \label{table:allresult}
+    \caption{Results for all test networks. Showing the number of iterations for each network (ITERS), max number of scans (COUNT) and the speed up respect to the label correcting algorithm (SPD). }
+    \label{table:allresults}
 \end{table}
 \todo[noline]{Result : average number of scans}
 
+Figure~\ref{fig:long_sptree} shows the shortest path tree between two distant nodes in the ChicagoSketch network.
+We can see Dijkstra's algorithm scans the whole network.
+Bidirectional Dijkstra scans almost the whole network with a few nodes not being scanned.
+A* search scans only a small region of the network.
+\todo{incomplete}
 \begin{figure}
     \centering
     \begin{subfigure}{.5\textwidth}
@@ -157,7 +136,7 @@ The code is adapted from \citep{Sheffi},
         \label{fig:chicago_astar_bidirect}
     \end{subfigure}
     \vspace{1em}
-    \caption{Shortest Path Tree for ChicagoSketch Network with Two Distant OD Pair}
+    \caption{Shortest Path Tree between Two Distant Nodes in the ChicagoSketch Network -D Pair}
     \label{fig:long_sptree}
 \end{figure}
 \todoin{draw 2 nodes that are close to each other}
@@ -190,3 +169,4 @@ which is our A* search is very fast.
 \end{comment}
 
 
+\todo[inline]{give results interpretation}

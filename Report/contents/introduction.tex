@@ -1,62 +1,58 @@
 \chapter{Introduction}
 
 \todoin[inline]{CHECK LATEX LOG!!}
-\todoin[inline]{probability return infinite}
 
 \todo[inline]{use ` we ' less}
 %\todoin[inline]{italic jargons?}
 
-\todo[inline]{write chapter outline brief}
-
 \section{Project Motivation}
 
-As the result of ever increasing population,
+As the result of forever increasing population,
 cities worldwide and their road networks are becoming
-more complicated and hard to navigate,
+more complex and difficult to navigate,
 leading to traffic congestions that are more problematic than ever
 for traffic designers and road users.
 
 A traffic model called the transportation forecasting model is built
-with the aim of reducing congestion and predicting future traffic response when the behaviour of the traffic is changed.
-This model estimates traffic flows with the following four stages: trip generation,
+with the aim to reduce congestion and predict future traffic response when the behaviour of the traffic is changed.
+This model solves and estimates traffic flows for a given time period with the following four stages: trip generation,
 trip distribution, mode choice and traffic assignment.  \todo{show forecast model figure}
 In short,
-this model generates origins and destinations (or traffic analysis zones) for travellers to travel from and to in different parts of the road network,
+this model generates origins and destinations for travellers to travel from and to in different parts of the road network,
 it then calculates the number of trips that are required for each origin and destination pair
 and computes the proportion of trips between each pair that use a particular transportation method,
 in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
 assigns each traveller to their destination considering traffic congestion.
 
-This traffic assignment (TA) problem in the forecast model is a challenging problem, 
-this is because the problem is solved only when the network reaches user equilibrium,
-this means no traveller can lower than transportation cost through unilateral action: every traveller will strive to find the shortest path while ignoring all other travellers.
-\todo[inline]{ref user equilibrium - John Glen Wardrop principles of equilibrium}
+The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
+this is because the problem is only solved when the network reaches user equilibrium,
+which means no traveller can lower their transportation cost through unilateral action: every traveller will strive to find the shortest path while ignoring all other travellers.
+\todo[inline]{reference user equilibrium - John Glen Wardrop principles of equilibrium}
 User equilibrium is difficult to find because in traffic assignment,
-travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow means slower travel time);
+travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow results slower travel time);
 as different routes are assigned to the travellers,
 congestion happen differently for each road in a nonlinear manner,
 making the result of relocation of travellers hard to calculate.
 
 One method of solving the traffic problem is the Path Equilibration (PE) method \citep{Florian}.
-This method initially calculates the shortest paths between each trip origin and destination based on zero-flow travel times, 
-traffic flows are then assigned to these shortest paths and updates the new travel times accordingly.
-New shortest paths are re-identified and travel flows are re-assigned until
-user equilibrium is reached.
+This method initially calculates the shortest paths between each trip origin and destination based on the zero-flow travel times.
+Traffic flows are assigned to these shortest paths and new travel times are updated accordingly.
+The method iteratively re-identifies new shortest path based on the new travel times and re-assigns traffic flows until user equilibration is reached.
 
 \todo[inline]{ write about Frank-Wolfe }
 
-Both of these methods are iterative methods that require many shortest paths for each trip origin in the network,
-where the Path Equilibration method requires shortest path calculations between every origin and destination in the road network.
+Both of these methods are iterative methods that require shortest path calculations for every trip origins in the network.
 It is not difficult to imagine that there would be millions of shortest path calculations if the network has hundreds of origins and destinations and takes some iterations to solve.
-Each shortest path calculation would also be very hard to solve if the network has a few hundred intersections and a few thousand roads,
-which is realistic for a real city road network.
-\citet{Sheffi} also states that finding the shortest path is the most computation-intensive component of each iteration compared to other components such as updates and convergence checks that require no more than a few percentages of the total running time.
-Thus speeding up the shortest path calculation will significantly speed up the traffic assignment algorithms.
+Each shortest path calculation would also be very hard to solve if the network has a few hundred intersections and a few thousand roads for a realistic city road network.
+\citet{Sheffi} states that finding the shortest path is the most computation intensive component for the PE or Frank-Wolfe algorithms, 
+other components in the algorithms such as updating new values and convergence check only requires a few percentages of the total running time.
+Overall, speeding up shortest path calculations would significantly speed up the traffic assignment algorithms.
 As a result,
-traffic forecasting is solved faster for larger and more complicated road networks, predicting longer into the future and allow better designed roads.
+traffic forecasting would be solved faster for larger and more complicated road networks,
+which allow city designers predict traffic further into the future and make better decisions on road network design.
 
 \section{Project Aims}
-This project aims to embed well known shortest path algorithms that are applicable for traffic assignment methods and find the fastest algorithm.
+This project aims to embed well known shortest path algorithms that are applicable for traffic assignment methods, and find the fastest algorithm.
 The algorithm that are going to be experimented are:
 \begin{itemize}
     \item Bellman-Ford Label Correcting Algorithm,
@@ -66,15 +62,19 @@ The algorithm that are going to be experimented are:
     \item Bidirectional A* search.
 \end{itemize}
 
-This project also aims to find and discuss the possibility of preprocessing the network or using data calculated from the previous iteration in traffic assignment methods such that the shortest path algorithms have more information to speed up their calculations.
-\todo{incomplete}
+This project also aims to find and discuss techniques that can speed shortest path calculations in an iterative environment:
+\begin{itemize}
+    \item network preprocessing,
+    \item using information from the previous iteration for the current iteration.
+\end{itemize}
+\todo{need more ideas \ldots}
 
 \section{Report Overview}
 This report continues in Chapter~\ref{chap:solvingspp} with the theory behind finding the shortest path under different conditions,
-and also the description, analysis and pseudocode for each algorithm mentioned in the project aims.
+and also the description, run time analysis and pseudocode for each algorithm mentioned in the project aims.
 Chapter~\ref{chap:implementation} presents the specific implementation details used to give the fastest algorithm possible.
 \todo{incomplete}
-Chapter~\ref{chap:results} shows and illustrates the results from each algorithm mentioned in the project aims.
+Chapter~\ref{chap:results} shows and illustrates results from each algorithm mentioned in the project aims.
 \todo[inline]{Chapter 5 discussion chapter 6 conclusion \dots}
 
 
