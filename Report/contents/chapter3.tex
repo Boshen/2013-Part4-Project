@@ -1,5 +1,5 @@
 \chapter{Implementation Details} \label{chap:implementation}
-\todo[inline]{Be more formal, to colloquial at the moment}
+\todo[inline]{this chapter has to be more formal, it is too colloquial at the moment. And I am not sure but some of the content.}
 
 The previous chapter have described all the algorithms that are implementation for this report. 
 In this chapter, we seek and research the specific implementation details that make the algorithms run faster.
@@ -10,11 +10,12 @@ label correcting algorithm and many more.
 
 \section{Graph Storage}
 The graph storage is implemented as a Forward Star data structure.
-Forward Star stores a network compactly with $O(V+E)$ space.
-It allows $O(1)$ access for any nodes in the graph and $O(1)$ access
-for all arcs emanating from a random node,
-which are the requirements for the generic shortest path algorithms.
 Information about Forward Star can be found in \citep{Sheffi}.
+In summary, Forward Star stores a network compactly with $O(|V|+|E|)$ space.
+It allows $O(1)$ access for any nodes in the graph and $O(1)$ access
+for all edges emanating from a random node,
+which are the requirements for the generic shortest path algorithms.
+Using Forward Star ensures that we can neglect the run time of accessing the graph when analysing the shortest path algorithms.
 
 \section{Priority Queue Implementations}
 %\todo[inline]{explain how this relates to previous results (one is STL and one is Boost, need to be much clearer}
@@ -29,6 +30,7 @@ We first examine the 6 variants of Heap implementations from the C++ Boost Heap 
 Where N is the number of elements in the Heap tree, and all time complexities are measured in amortized time,
 i.e.\ the average run time if the operation is run for a long period of time,
 average out worse case and best case.
+
 \begin{table}[H]
     \centering
     \begin{tabular}{cccccc}
@@ -46,7 +48,7 @@ average out worse case and best case.
 
 We are interested in using Boost library Heaps rather than the STL library Heap is due to one reason:
 the decrease (or increase) function.
-The decrease (or increase) function is referred as the decrease-key (or increase-key) operation mentioned in Section~\ref{chapter:labelsettingalgorithm},
+The decrease (or increase) function is referred as the decrease-key (or increase-key) operation mentioned in Section~\ref{section:labelsettingalgorithm},
 which updates the value of the key in the Heap tree.
 Decrease-key is used for a min-heap and increase-key for a max-heap tree.
 For Dijkstra's algorithm,
@@ -79,3 +81,26 @@ which means in order to use the Fibonacci O(1) increase-key function,
 we need to negate the distance labels when we add them into the Heap.
 
 
+\section{Memory Management}
+Memory management is important in programming which speeds up programs to run faster.
+It is well know that random memory access is slow compared to CPU cache memory access due to the fact CPU cache stores copies of data from RAM to speed up latency of RAM access, in other words, we want to keep data in the cache for as long as possible.
+Common techniques such as using smaller data types,
+organize data to avoid big spread of data,
+access adjacent memory address in a loop.
+
+In our program,
+we use boost::dynamic\_bitset in te Heap implementations to keep track of boolean variables for indicating whether a node is labelled or not.
+\todo{haven't implemented this, but will be}
+A bitset container is designed to store boolean values where each
+element uses only 1 bit memory,
+which greatly reduces memory usage.
+
+We use memset from the C library  to reset values to 0 for example resetting all distance labels.
+\todo{also haven't implemented}
+The memset function call is better than a simple for loop because this function is optimised to reset values faster,
+it is given a argument of the size of the memory to clear,
+the complier is able to generate optimised code to clear memory depending on its size, using techniques such as loop unrolling.
+\todo[inline]{Code generation of block move (memcpy) and block set (memset) was rewritten. GCC can now pick the best algorithm (loop, unrolled loop, instruction with rep prefix or a library call) based on the size of the block being copied and the CPU being optimized for.  - \url{http://gcc.gnu.org/gcc-4.3/changes.html}}
+
+\todo[inline]{talk about using the OOP factory pattern to provide different shortest path algorithms to the TA solver in run time instead of compile time?}
+\todo[inline]{talk about using C++ template to give a generic algorithm for the Boost Heaps? So instead of writing 6 similar algorithms we just write a generic one.}
