@@ -1,4 +1,0 @@
-Network: Data/Intances/ChicagoSketch_net.txt
-Algo   : AstarBidirect
-Data   : SkewHeap
-Error has occured during execution: Unable to open a file: Data/Intances/ChicagoSketch_net.txt
