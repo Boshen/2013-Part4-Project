@@ -81,3 +81,8 @@ store previous value shortest path , compute value on that path, if path value n
 
 LPA*, k-level bucket for priority queue, bit array for boolean flags
 test stack faster or heap faster, use memset for initiallising array
+
+we don't have to initlize the whole array for astar
+
+add 
+                if(v==u)continue;
