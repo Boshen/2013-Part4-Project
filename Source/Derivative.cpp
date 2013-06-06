@@ -5,7 +5,7 @@
 #include <math.h>
 #include <cassert>
 
-Derivative::Derivative(FPType zeroFlow, LinkFncContainer *fnc) : _size(0), _x(NULL), _y(NULL), _indexes(NULL),
+Derivative::Derivative(FPType zeroFlow, LinkFncContainer *fnc) : _size(0), _x(NULL), _y(NULL),  _indexes(NULL),
 								_zeroFlow(zeroFlow), _fnc(fnc){
 };
 
@@ -21,12 +21,13 @@ FPType Derivative::calculate(FPType alpha){
 	
 	for (int i = 0; i < _size; i++){	
 		index = _indexes[i];
+		assert(index != -1);
 		inputFlow = _x[index] + alpha * _y[index];
 		if (fabs(inputFlow) <= _zeroFlow) inputFlow = 0.0;
 		link = _fnc->getLinkFnc(index);
 		sum += _y[index] * link->evaluate(inputFlow);
 	}
-	return sum;
+	return sum;//*/
 };
 
 void Derivative::setDataPointers(int size, FPType *x, FPType *y, int *indexes){
@@ -52,7 +53,7 @@ FPType Derivative::getY(int index) const{
 
 LinkFnc* Derivative::getLinkFnc(int index) const{
 	assert((index >= 0) && (index < _size));
-	return _fnc->getLinkFnc(_indexes[index]);
+	return  _fnc->getLinkFnc(_indexes[index]);
 };
 
 FPType Derivative::getZeroFlow() const{

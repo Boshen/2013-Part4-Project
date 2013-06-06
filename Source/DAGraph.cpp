@@ -1,6 +1,6 @@
 #include "DAGraph.h"
 #include "Error.h"
-#include "AlgorithmB.h"
+//#include "AlgorithmB.h"
 
 #include <cassert>
 #include <math.h>
@@ -34,18 +34,20 @@ DAGraph::DAGraph(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol
 		nodeIndexes_[i] = -1;
 	}
 	
+	//if (originIndex == 0) std::cout << "****nbLinks = " << nbLinks << std::endl;
 	links_ = new StarLink*[nbLinks];
 	
 	for (int i = 0; i < nbLinks; i++) {
 		links_[i] = NULL;
 		originFlows_[i] = 0.0;
 	}
+	//if (originIndex == 0) std::cout << " links[0] =  " << links_[0] << std::endl;
 	
 	currNode_ = topOrder_.begin();
 	currNodeDesc_ = topOrder_.rbegin();
 	
 	// TODO: depends on algo in params file
-	flowMove_ = new AlgorithmB(originFlows_, originIndex, zeroFlow, dirTol, nodes_);
+	//flowMove_ = new AlgorithmB(originFlows_, originIndex, zeroFlow, dirTol, nodes_);
 };
 
 DAGraph::~DAGraph(){
@@ -56,7 +58,7 @@ DAGraph::~DAGraph(){
 	delete[] nodeIndexes_;
 	delete[] links_;
 	delete[] originFlows_;
-	delete flowMove_;
+	//delete flowMove_;
 };
 
 StarNetwork* DAGraph::getNet() {
@@ -92,7 +94,7 @@ void DAGraph::addOriginFlow(int linkIndex, FPType demand){
 	originFlows_[linkIndex] += demand;
 };
 
-bool DAGraph::moveFlow(){
+/*bool DAGraph::moveFlow(int iter){
 	//int count = 0;
 	bool canMove = false;
 	bool canMoveTmp = false;
@@ -111,7 +113,7 @@ bool DAGraph::moveFlow(){
 		//if (count == 3) return;
 	}
 	return canMove;
-};
+};*/
 
 void DAGraph::explore(int vertex, bool *visited){
 	visited[vertex] = true;
@@ -168,7 +170,7 @@ void DAGraph::buildMinMaxTrees(int destIndex){
 		//std::cout << index << " ";
 		nodes_[index]->setMinDist(std::numeric_limits<FPType>::infinity( ));
 		nodes_[index]->setMaxDist(0.0);
-		nodes_[index]->setHasLinkWithFlow(false);
+		//nodes_[index]->setHasLinkWithFlow(false);
 	}
 	//std::cout << std::endl;
 	nodes_[originIndex_]->setMinDist(0.0); // set to zero for origin 
@@ -187,7 +189,7 @@ void DAGraph::buildMinMaxTrees(int destIndex){
 	//std::cout << "Origin = " << originIndex_ << " ";
 	for (; i != -1; i = getNextAscPass()) {
 		std::list<StarLink*> &linksList = nodes_[i]->incomeLinks;
-		bool hasFlow = false;
+		//bool hasFlow = false;
 		for (std::list<StarLink*>::iterator it = linksList.begin(); it != linksList.end(); it++) {
 			link = *it;
 			index = link->getNodeFromIndex();
@@ -205,16 +207,15 @@ void DAGraph::buildMinMaxTrees(int destIndex){
 				nodes_[i]->setMaxLink(link); //flowMove_->calcMaxData(i, link);
 				//maxLink = link;
 			}
-			if (originFlows_[link->getIndex()] > zeroFlow_) hasFlow = true;
+			//if (originFlows_[link->getIndex()] > zeroFlow_) hasFlow = true;
 			
 		}
 		
-		nodes_[i]->setHasLinkWithFlow(hasFlow);
+		//nodes_[i]->setHasLinkWithFlow(hasFlow);
 		if (i == destIndex) break;
 		
 	}
 	//std::cout << std::endl;
-	
 };
 
 bool DAGraph::addBetterLinks(){
@@ -291,14 +292,20 @@ int DAGraph::getNextNotInSet(int startIndex) const{
 };
 
 void DAGraph::addLink(StarLink *link){
+	assert(link !=  NULL);
 	int index = link->getIndex();
+	//std::cout << "index = " << index << " link0 = " << links_[0] << std::endl;
 	if (links_[index] == NULL) { // check if this link has already been added
 		
+		//std::cout << "0.0" << std::endl;
 		int nodeFromIndex = link->getNodeFromIndex();
+		//std::cout << "0.05" << std::endl;
 		int nodeToIndex = link->getNodeToIndex();
+		//if (originIndex_ == 0) std::cout << "nodeFromIndex = " << nodeFromIndex << " nodeToIndex = " << nodeToIndex << std::endl;
 		StarNode *nodeFrom = net_->getNodeWithLinks(nodeFromIndex);
+		//std::cout << "0.1" << std::endl;
 		StarNode *nodeTo = net_->getNodeWithLinks(nodeToIndex);
-		
+		//std::cout << "0.2" << std::endl;
 		// zones restriction: (!curNode->getIsZone() || (topNode == originIndex))
 		if ((nodeTo == NULL || !nodeTo->getIsZone() || mat_->getDemandByIndex(originIndex_, nodeToIndex) > 0.0) && (nodeFrom == NULL || !nodeFrom->getIsZone() || nodeFrom->getIndex() == originIndex_)) {
 		
@@ -307,23 +314,31 @@ void DAGraph::addLink(StarLink *link){
 			linkIndexes_.push_back(index);
 		
 			if (nodes_[nodeFromIndex] == NULL) {
+				//std::cout << "1" << std::endl;
 				FPType demandFrom = mat_->getDemandByIndex(originIndex_, nodeFromIndex);
 				DAGraphNode *newNode = new DAGraphNode(nodeFromIndex, demandFrom); //flowMove_->createDagNode(nodeFromIndex, demandFrom);
 				nodes_[nodeFromIndex] = newNode;
 				nodeIndexes_[nodeSize_] = nodeFromIndex;
 				nodeSize_++;
+				//if (originIndex_ == 0) std::cout << "nodeFromIndex was added" << std::endl;
 			}
 			if (nodes_[nodeToIndex] == NULL) {
+				//std::cout << "2" << std::endl;
 				FPType demandTo = mat_->getDemandByIndex(originIndex_, nodeToIndex);
 				DAGraphNode *newNode = new DAGraphNode(nodeToIndex, demandTo); //flowMove_->createDagNode(nodeToIndex, demandTo);
 				nodes_[nodeToIndex] = newNode;
 				nodeIndexes_[nodeSize_] = nodeToIndex;
 				nodeSize_++;
+				//if (originIndex_ == 0) std::cout << "nodeToIndex was added" << std::endl;
 			} 
+			//std::cout << "3" << std::endl;
 			(nodes_[nodeToIndex])->incomeLinks.push_back(link);
 			(nodes_[nodeFromIndex])->outLinks.push_back(link);
+			//std::cout << "4" << std::endl;
 		}
 	}
+	//if (originIndex_ == 0) std::cout << "5" << std::endl;
+	//if (originIndex_ == 0) print();
 };
 
 // at the moment No topological order is maintained!
@@ -356,15 +371,33 @@ std::list<StarLink*> DAGraph::getOutLinksCopy(int nodeIndex) const{
 	return (nodes_[nodeIndex])->outLinks;
 };
 
-const std::list<StarLink*>& DAGraph::getOutLinks(int nodeIndex) const{
+std::list<StarLink*> DAGraph::getInLinksCopy(int nodeIndex) const{
 	assert((nodeIndex >= 0) && (nodeIndex < net_->getNbNodes()));
-	return (nodes_[nodeIndex])->outLinks;
-};
-
-const std::list<StarLink*>& DAGraph::getIncomeLinks(int nodeIndex) const{
-	assert((nodeIndex >= 0) && (nodeIndex <  net_->getNbNodes()));
 	return (nodes_[nodeIndex])->incomeLinks;
 };
+
+void DAGraph::getOutLinks(int nodeIndex, std::list<StarLink*>& listRef) {
+	assert((nodeIndex >= 0) && (nodeIndex < net_->getNbNodes()));
+	//std::cout << "nodes_[nodeIndex] = " << nodes_[nodeIndex] << " nodeIndex = " << nodeIndex << std::endl;
+	listRef = (nodes_[nodeIndex])->outLinks;
+	/*for (std::list<StarLink*>::iterator it = listRef.begin();  it != listRef.end(); ++it){
+		std::cout << "link: " << *it << std::endl;
+	}*/
+};
+
+void DAGraph::getInLinks(int nodeIndex, std::list<StarLink*>& listRef) {
+	assert((nodeIndex >= 0) && (nodeIndex < net_->getNbNodes()));
+	//std::cout << "nodes_[nodeIndex] = " << nodes_[nodeIndex] << " nodeIndex = " << nodeIndex << std::endl;
+	listRef = (nodes_[nodeIndex])->incomeLinks;
+	/*for (std::list<StarLink*>::iterator it = listRef.begin();  it != listRef.end(); ++it){
+		std::cout << "link: " << *it << std::endl;
+	}*/
+};
+
+/*const std::list<StarLink*>& DAGraph::getIncomeLinks(int nodeIndex) const{
+	assert((nodeIndex >= 0) && (nodeIndex <  net_->getNbNodes()));
+	return (nodes_[nodeIndex])->incomeLinks;
+};*/
 
 int DAGraph::beginAscPass(){
 	if (nodeSize_ == 0) return -1;
@@ -396,16 +429,22 @@ void DAGraph::print() const{
 	int index = -1;
 	for (int i = 0; i < nodeSize_; i++) {
 		index = nodeIndexes_[i];
-		StarLink* link1 = (nodes_[index])->getMinLink();
-		StarLink* link2 = (nodes_[index])->getMaxLink();
-		if (link1 != NULL && link2 != NULL) {
-			std::cout << "Node " << (nodes_[index])->getIndex() << " minLink: [" << link1->getNodeFromIndex() << ", " << link1->getNodeToIndex() << "]" << " maxLink: [" << link2->getNodeFromIndex() << ", " << link2->getNodeToIndex() << "] links: ";
+		//std::cout << "index = " << index << std::endl;
+		//StarLink* link1 = (nodes_[index])->getMinLink();
+		//StarLink* link2 = (nodes_[index])->getMaxLink();
+		//if (link1 != NULL && link2 != NULL) {
+			std::cout << "Node " << (nodes_[index])->getIndex() << " in-links: "; //" minLink: [" << link1->getNodeFromIndex() << ", " << link1->getNodeToIndex() << "]" << " maxLink: [" << link2->getNodeFromIndex() << ", " << link2->getNodeToIndex() << "]
 			std::list<StarLink*> &links = (nodes_[index])->incomeLinks;
 			for(std::list<StarLink*>::iterator it = links.begin(); it != links.end(); it++){
 				std::cout << "(" << (*it)->getNodeFromIndex() << ", " << (*it)->getNodeToIndex() << ") OriginFlow = " << originFlows_[(*it)->getIndex()] << " ";
 			}
+			std::cout << " out-links: ";
+			std::list<StarLink*> &links2 = (nodes_[index])->outLinks;
+			for(std::list<StarLink*>::iterator it = links2.begin(); it != links2.end(); it++){
+				std::cout << "(" << (*it)->getNodeFromIndex() << ", " << (*it)->getNodeToIndex() << ") OriginFlow = " << originFlows_[(*it)->getIndex()] << " ";
+			}
 			std::cout << std::endl;
-		}
+		//}
 	}
 };
 
@@ -415,6 +454,11 @@ void DAGraph::printOriginFlow() const{
 		std::cout << originFlows_[i] << " ";
 	}
 	std::cout << std::endl;
+};
+
+void DAGraph::setOriginFlow(int index, FPType flow){
+	assert(index >= 0 && index < net_->getNbLinks());
+	originFlows_[index] = flow;
 };
 
 FPType DAGraph::getOriginFlow(int linkIndex) const{
@@ -451,3 +495,8 @@ void DAGraph::printMaxShPath(int node){
 	std::cout << std::endl;
 	//std::cout << "COST = " << cost << std::endl;
 };	
+
+DAGraphNode* const DAGraph::getNode(int index) const{
+	assert(index >= 0 && index < net_->getNbNodes());
+	return nodes_[index];
+};

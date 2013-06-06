@@ -126,10 +126,15 @@ int Utils::parseSpiessFnc(const std::string& input, SpiessFncCreator &spCreator,
      	beta = 0.0;
      	betaSq = 0.0;
     }
+    bool plusLinear = false;
+    FPType addParam = 0.0;
+    FPType multiplyParam = 0.0;
+    
     for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter){
       //  std::cout << "<" << *tok_iter << "> " << std::endl;
      	std::string tmp = *tok_iter;
      	size_t pos = tmp.find("fd");
+     	size_t posU = tmp.find("u");
      	if (pos != std::string::npos){
      		if (pos+2 >= tmp.length()) throw Error("Cannot parse current link cost function");
      		std::string idS = tmp.substr(pos+2);
@@ -180,7 +185,8 @@ int Utils::parseSpiessFnc(const std::string& input, SpiessFncCreator &spCreator,
      			}
      		} else if (count == 0) {
      			//std::cout << "strange" << std::endl;
-     			return -1;
+     			//return -1;
+     			addParam = atof(tmp.c_str());
      		} /*else {
      			std::cout << "strange" << std::endl;
      			return -1;
@@ -191,6 +197,14 @@ int Utils::parseSpiessFnc(const std::string& input, SpiessFncCreator &spCreator,
      		sqrtFound = true;
      	} else if (tmp == "/" && putFound) {
      		delFound = true;
+     	} else if (posU != std::string::npos && tmp != "volau") {
+     		if (posU == 0) throw Error("There must be a number before u in link function description.");
+     		std::string firstNum = tmp.substr(0, posU);
+     		std::string secondNum = tmp.substr(posU + 1);
+     		std::string newStr = firstNum + "." + secondNum;
+     		//std::cout << "firstNum = |" << firstNum << "|, secondNum = |" << secondNum << "|" << " newStr = " << newStr << std::endl;
+     		multiplyParam = atof(newStr.c_str()) * 1e-8;
+     		plusLinear = true;
      	} 
      	
     }
@@ -200,6 +214,11 @@ int Utils::parseSpiessFnc(const std::string& input, SpiessFncCreator &spCreator,
     	spCreator.setParams(freeFlow);
     } else {
     	spCreator.setParams(freeFlow, capacity, alpha, beta, betaSq);
+    }
+    if (plusLinear) {
+    	spCreator.setParamsLinear(addParam, multiplyParam);
+    	printf("multiply = %e \n", multiplyParam);
+    	std::cout << "PlusLinearFnc is parsed: add = " << addParam << " multiply = " << multiplyParam << std::endl;
     }
     return id;
 };

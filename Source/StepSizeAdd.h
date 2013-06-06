@@ -6,7 +6,7 @@
 
 class StepSizeAdd : public StepSize {
 	public:
-		StepSizeAdd(DescDirection *algo, int nbLinks, const FPType precision, LineSearch *lineSearch, Derivative *der);
+		StepSizeAdd(DescDirection *algo, LineSearch *lineSearch, Derivative *der);
 		~StepSizeAdd();
 		
 		void initialiseDerivative();

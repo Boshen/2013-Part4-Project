@@ -5,7 +5,17 @@
 #include <iostream>
 #include <limits>
 
-void LinkFlowsCFW::allocateMemory(){
+/*void LinkFlowsCFW::allocateMemory(){
+	_linkFlowsCFW = new FPType[_nbLinks];
+	_direction = new FPType[_nbLinks];
+	for (int i = 0; i < _nbLinks; i++) {
+		_linkFlowsCFW[i] = 0.0;
+		_direction[i] = 0.0;
+	}
+	_nbCalls = 0;
+};*/
+
+LinkFlowsCFW::LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) : LinkFlows(net, mat, linkFncCont, shPath, der, lineSearch, conv){
 	_linkFlowsCFW = new FPType[_nbLinks];
 	_direction = new FPType[_nbLinks];
 	for (int i = 0; i < _nbLinks; i++) {
@@ -15,13 +25,9 @@ void LinkFlowsCFW::allocateMemory(){
 	_nbCalls = 0;
 };
 
-LinkFlowsCFW::LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) : LinkFlows(net, mat, linkFncCont, shPath, der, lineSearch, conv){
+/*LinkFlowsCFW::LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision) : LinkFlows(net, mat, linkFncCont, shPath, der, lineSearch, conv, sparsityPrecision){
 	allocateMemory();
-};
-
-LinkFlowsCFW::LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision) : LinkFlows(net, mat, linkFncCont, shPath, der, lineSearch, conv, sparsityPrecision){
-	allocateMemory();
-};
+};*/
 
 LinkFlowsCFW::~LinkFlowsCFW(){
 	delete[] _linkFlowsCFW;

@@ -19,9 +19,15 @@ void OriginBush::initialiseStaticMembers(StarNetwork *net){
 	}
 };
 
+/*void OriginBush::setDagPointer(DAGraph *daGraph){
+	assert(daGraph != NULL);
+	assert(daGraph_ == NULL);
+	daGraph_ = daGraph;
+};//*/
+
 void OriginBush::allocateDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol){
-	std::cout << "DAGraph allocated" << std::endl;
-	daGraph_ = new DAGraph(net, mat, zeroFlow, dirTol, index);
+	//std::cout << "DAGraph allocated" << std::endl;
+	daGraph_ = createNewDAG(index, net, mat, zeroFlow, dirTol); //new DAGraph(net, mat, zeroFlow, dirTol, index);
 };
 
 OriginBush::OriginBush(int index, StarNetwork *net) : daGraph_(NULL), index_(index), topSortUpToDate_(false) {
@@ -53,15 +59,17 @@ void OriginBush::addOriginFlow(int linkIndex, FPType demand){
 
 void OriginBush::updateSet(){
 	// call topological sort if some of the links were removed on previous call of mainLoop on this bush
+	//std::cout << "in update topSortUpToDate_ = " << topSortUpToDate_ << std::endl;
 	if (!topSortUpToDate_) {
 		daGraph_->topologicalSort();
 		topSortUpToDate_ = true;
+		//std::cout << "topSortUpToDate_ = " << topSortUpToDate_ << std::endl;
 	}
 };
 
-// TODO: to test
 bool OriginBush::improve(){
 	// add promising links to daGraph_
+	//std::cout << "in improve topSortUpToDate_ = " << topSortUpToDate_ << std::endl;
 	assert(topSortUpToDate_ == true);
 	// 1. calculate min- and max-trees - initialise u_i and U_i (it is assumed that topological order exists)
 	daGraph_->buildMinMaxTrees(-1);
@@ -72,16 +80,17 @@ bool OriginBush::improve(){
 	if (wasImproved) { 
 		daGraph_->topologicalSort();
 	}
+	//std::cout << "Bush after improvement" << std::endl;
+	//daGraph_->print();
 	return wasImproved;
 };
 
-// TODO: test
-bool OriginBush::equilibrate(bool wasImproved){
+bool OriginBush::equilibrate(bool wasImproved, int iter){
 	
 	// if the bush was improved - ascending pass - calculate min- and max-trees + other required information
 	if (wasImproved) daGraph_->buildMinMaxTrees(-1);
 	
-	return daGraph_->moveFlow();
+	return daGraph_->moveFlow(iter);
 	// descending pass - perform flow shift: CAUTION - here new flows will be directly assigned to links;
 	// 			 + recalculate travel times of all links whose flow changed (the easiest way - to do it on the fly)
 };
@@ -98,7 +107,7 @@ void OriginBush::addLink(StarLink *link){
 };
 
 void OriginBush::print(){
-	std::cout << "Origin: " << index_ << std::endl;
+	std::cout << "Origin: " << index_ << " daGraph_ = " << daGraph_ << std::endl;
 	daGraph_->print();
 };
 

@@ -1,113 +1,98 @@
 #ifndef _SH_PATH_ASTAR_STL
 #define _SH_PATH_ASTAR_STL
 
-#include <iostream>
-#include <queue>
-#include <cmath>
-#include <cstdlib>
 #include "ShPathInterface.h"
 
 class ShPathAstarSTL : public ShPathInterface {
     private:
-        class Prioritize{
-            public:
-                bool operator() ( const std::pair<int, FPType>& p1, const std::pair<int, FPType>& p2){
-                    return p1.second > p2.second;
-                }
-        };
-
-        typedef std::pair<int, FPType> PQPair;
-        typedef std::priority_queue<PQPair, std::vector<PQPair>, Prioritize > PriorityQueue;
-        PriorityQueue *Queue;
-        //std::vector<Label> *Labels;
+        ShPath::PriorityQueue *Queue;
         std::vector<FPType> *zeroFlowTimes;
-
     public:
-
         ShPathAstarSTL(StarNetwork* netPointer):ShPathInterface(netPointer){
-            Queue = new PriorityQueue();
-            //Labels = new std::vector<Label>(_nNodes);
+            Queue = new ShPath::PriorityQueue();
             zeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
-
 
             _netPointer->calculateLinkCosts();
 
             for(int i = 0; i < _nNodes; i++){
                 calculate(i);
                 for(int j = 0; j < _nNodes; j++){
-                    (*zeroFlowTimes)[i*_nNodes+j] = (*Nodes)[j].dist;
+                    zeroFlowTimes->at(i*_nNodes+j) = LabelVector->at(j);
                 }
             }
         }
 
         ~ShPathAstarSTL(){
             delete Queue;
-            //delete Labels;
             delete zeroFlowTimes;
         }
 
         void calculate(int O) {
+            int u, v;
+            FPType Duv;
+            std::vector<FPType>& L = *LabelVector;
+            std::vector<int>& P = *Predecessors;
+            ShPath::PriorityQueue& Q = *Queue;
 
             initNodes();
 
-            PriorityQueue& Q = *Queue;
-            std::vector<nodeInfo>& N = *Nodes;
+            Q = ShPath::PriorityQueue(); // clear
 
-            while(!Q.empty()){
-                Q.pop();
-            }
+            L[O] = 0;
+            Q.push(ShPath::PQPair(0, O));
 
-            N[O].dist = 0;
-            Q.push(PQPair(O, 0));
             while ( !Q.empty() ){
-                int u = Q.top().first;
-                FPType Du = N[u].dist;
+
+                FPType Du = Q.top().first;
+                u = Q.top().second;
                 Q.pop();
 
                 StarNode* curNode = _netPointer->beginNode(u);
 
-                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                    for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
-                        int v = nextLink->getNodeToIndex();
-                        FPType Duv = Du + nextLink->getTime();
+                if (curNode == NULL)
+                    continue;
+                if (curNode->getIsZone() && u != O)
+                    continue;
 
-                        if ( Duv < N[v].dist ){
-                            N[v].dist = Duv;
-                            N[v].linkIndex = nextLink->getIndex();
-                            Q.push(PQPair(v, Duv));
+                for (StarLink *nextLink = _netPointer->beginLink();
+                        nextLink != NULL;
+                        nextLink = _netPointer->getNextLink()) {
 
-                        }
-                    } // for each outgoing link
-                } // if can visit node
-            } // while !Q.empty()
+                    v = nextLink->getNodeToIndex();
+
+                    if(v==u)continue;
+
+                    Duv = Du + nextLink->getTime();
+
+                    if ( Duv < L[v] ){
+                        L[v] = Duv;
+                        P[v] = nextLink->getIndex();
+                        Q.push(ShPath::PQPair(Duv, v));
+                    }
+
+                } 
+            } 
 
         }
 
         void calculate(int O, int D) {
-            
-            Scanned->clear();
-
-            initNodes();
-
-            PriorityQueue& Q = *Queue;
-            std::vector<nodeInfo>& N = *Nodes;
-            //std::vector<Label>& L = *Labels;
+            int u, v;
+            FPType Duv;
+            std::vector<FPType>& L = *LabelVector;
+            std::vector<int>& P = *Predecessors;
+            ShPath::PriorityQueue& Q = *Queue;
             std::vector<FPType>& H = *zeroFlowTimes;
 
-            while(!Q.empty()){
-                Q.pop();
-            }
+            initNodes();
+            Q = ShPath::PriorityQueue(); // clear
 
-            //for(int i = 0; i < _nNodes; i++){
-            //    L[i] = UNREACHED;
-            //}
+            L[O] = 0;
+            Q.push(ShPath::PQPair(0, O));
 
-            N[O].dist = 0;
-            Q.push(PQPair(O, H[O*_nNodes+D]));
             while ( !Q.empty() ){
-                int u = Q.top().first;
-                FPType Du = N[u].dist;
-                //L[u] = LABELED;
+
+                u = Q.top().second;
+                FPType Du = L[u];
                 Q.pop();
 
                 if ( u == D ){ 
@@ -116,20 +101,28 @@ class ShPathAstarSTL : public ShPathInterface {
 
                 StarNode* curNode = _netPointer->beginNode(u);
 
-                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                    for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
-                        int v = nextLink->getNodeToIndex();
-                        FPType Duv = Du + nextLink->getTime();
-                        if ( Duv < N[v].dist ){
-                            N[v].dist = Duv;
-                            N[v].linkIndex = nextLink->getIndex();
-                            Q.push(PQPair(v, Duv + H[v*_nNodes+D]));
-                            Scanned->push_back(std::pair<int, int>(u, v));
-                        }
-                    } // for each outgoing link
-                } // if can visit node
-            } // while !Q.empty()
-        std::cout << O << " " << D << " " << Scanned->size() << std::endl;
+                if (curNode == NULL)
+                    continue;
+                if (curNode->getIsZone() && u != O)
+                    continue;
+
+                for (StarLink *nextLink = _netPointer->beginLink();
+                        nextLink != NULL;
+                        nextLink = _netPointer->getNextLink()) {
+                    v = nextLink->getNodeToIndex();
+
+                    if(v==u)continue;
+
+                    Duv = Du + nextLink->getTime();
+
+                    if ( Duv < L[v] ){
+                        L[v] = Duv;
+                        P[v] = nextLink->getIndex();
+                        Q.push(ShPath::PQPair(Duv + H[v*_nNodes+D], v));
+                    }
+
+                }
+            }
         }
 
 };

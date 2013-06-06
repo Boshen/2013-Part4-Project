@@ -1,26 +1,26 @@
 #ifndef _STEP_SIZE_ 
 #define _STEP_SIZE_
 
-#include "StepSizeABC.h"
+//#include "StepSizeABC.h"
 #include "LineSearch.h"
 #include "DescDirection.h"
 
-class StepSize : public StepSizeABC {
+class StepSize {//: public StepSizeABC {
 	public:
-		StepSize(DescDirection *algo, int nbLinks, const FPType precision, LineSearch *lineSearch);
-		~StepSize();
+		StepSize(DescDirection *algo, LineSearch *lineSearch);
+		virtual ~StepSize();
 		
 		FPType getStepSize();
-		void fillIndexes();
+		//void fillIndexes();
 		
 	protected:
 	
 		LineSearch *_lineSearch;
 		DescDirection *_algo;
-		FPType _precision;
-		int _size;
-		int _nbLinks;
-		int *_indexes;
+		//FPType _precision;
+		//int _size;
+		//int _nbLinks;
+		//int *_indexes;
 		
 		virtual void initialiseDerivative() = 0;
 };

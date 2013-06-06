@@ -6,12 +6,12 @@
 
 class StepSizeNonAdd : public StepSize {
 	public:
-		StepSizeNonAdd(DescDirection *algo, int nbLinks, const FPType precision, LineSearch *lineSearch, Derivative *der);
+		StepSizeNonAdd(DescDirection *algo, LineSearch *lineSearch);
 		~StepSizeNonAdd();
 		
 		void initialiseDerivative();
 	private:
-		Derivative *_der;
+		//Derivative *_der;
 };
 
 #endif

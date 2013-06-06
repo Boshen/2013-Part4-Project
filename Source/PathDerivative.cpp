@@ -16,6 +16,7 @@ FPType PathDerivative::calculate(Path *path, Path *minPath){
 	StarLink* link = NULL;
 	for (std::list<StarLink*>::iterator it = list.begin(); it != list.end(); it++) {
 		link = *it;
+		//der += link->getDerivative(); 
 		der += (link->getLinkFnc())->evaluateDerivative(link->getFlow());
 	}
 	return der;

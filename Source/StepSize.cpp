@@ -3,8 +3,8 @@
 #include <iostream>
 #include <math.h>
 
-StepSize::StepSize(DescDirection *algo, int nbLinks, const FPType precision, LineSearch *lineSearch) {
-	_lineSearch = lineSearch;
+StepSize::StepSize(DescDirection *algo, LineSearch *lineSearch) : _lineSearch(lineSearch), _algo(algo) {
+	/*_lineSearch = lineSearch;
 	_algo = algo;
 	_precision = precision;
 	_size = nbLinks;
@@ -12,12 +12,12 @@ StepSize::StepSize(DescDirection *algo, int nbLinks, const FPType precision, Lin
 	_indexes = new int[nbLinks];
 	for (int i = 0; i < nbLinks; i++) {
 		_indexes[i] = i;
-	}
+	}*/
 };
 
 StepSize::~StepSize(){
 	//std::cout << "destructor of StepSize" << std::endl;
-	delete[] _indexes;
+	//delete[] _indexes;
 };
 
 FPType StepSize::getStepSize(){
@@ -25,7 +25,7 @@ FPType StepSize::getStepSize(){
 	return  _lineSearch->execute(0.0, _algo->getUpperBound());
 };
 
-void StepSize::fillIndexes() {
+/*void StepSize::fillIndexes() {
 	int indSize = 0;
 	FPType *y = _algo->getProjectedDirection();
 	for (int k = 0; k < _nbLinks; k++) {
@@ -35,5 +35,5 @@ void StepSize::fillIndexes() {
 		}
 	}
 	_size = indSize;
-};
+};*/
 

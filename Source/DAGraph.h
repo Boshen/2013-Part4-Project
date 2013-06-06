@@ -3,23 +3,25 @@
 
 #include "StarNetwork.h"
 #include "DAGraphNode.h"
-#include "OriginBasedFlowMove.h"
+//#include "OriginBasedFlowMove.h"
 #include "ODMatrix.h"
 #include "UsedTypes.h"
 
 class DAGraph {
 	
 	public:
-		DAGraph(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol, int originIndex);
+		
 		virtual ~DAGraph();
 		
 		void addLink(StarLink *link);
 		bool removeUnusedLinks(); 	
 
 		// ascending and descending passes
-		const std::list<StarLink*>& getIncomeLinks(int nodeIndex) const;
-		const std::list<StarLink*>& getOutLinks(int nodeIndex) const;
+		//const std::list<StarLink*>& getIncomeLinks(int nodeIndex) const;
+		void getOutLinks(int nodeIndex, std::list<StarLink*>& listRef);
+		void getInLinks(int nodeIndex, std::list<StarLink*>& listRef);
 		std::list<StarLink*> getOutLinksCopy(int nodeIndex) const;
+		std::list<StarLink*> getInLinksCopy(int nodeIndex) const;
 		
 		int beginAscPass();
 		int getNextAscPass();
@@ -28,7 +30,7 @@ class DAGraph {
 		
 		void topologicalSort();
 		
-		virtual bool moveFlow();
+		virtual bool moveFlow(int iter) = 0;
 		
 		void addOriginFlow(int linkIndex, FPType demand);
 		
@@ -47,17 +49,25 @@ class DAGraph {
 		
 	protected:
 		
+		DAGraph(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol, int originIndex);
+		
 		static StarNetwork* getNet();
 		static FPType getZeroFlow();
 		FPType getDemand(int nodeIndex) const;
 		int getOriginIndex() const;
+		void setOriginFlow(int index, FPType flow);
+		DAGraphNode* const getNode(int index) const;
+		//
 		//void setOriginFlow(int index, FPType flow);
+		
 		
 	private:
 		int originIndex_;
 		bool addedFromP2_;
 		
+		FPType *originFlows_;
 		DAGraphNode **nodes_;
+		
 		int *nodeIndexes_;
 		int nodeSize_;
 		
@@ -67,8 +77,8 @@ class DAGraph {
 		
 		std::list<int> topOrder_;
 		
-		OriginBasedFlowMove *flowMove_;
-		FPType *originFlows_;
+		//OriginBasedFlowMove *flowMove_;
+		
 		
 		// for passes
 		std::list<int>::iterator currNode_;

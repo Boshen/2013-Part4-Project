@@ -3,18 +3,25 @@
 
 #include "EqAlgo.h"
 #include "OriginSet.h"
+#include "ODMatrix.h"
+#include "StarNetwork.h"
 
 class OriginBasedAlgo : public EqAlgo {
 	public:
-		OriginBasedAlgo(OriginSet *originSet);
-		~OriginBasedAlgo();
+		OriginBasedAlgo(OriginSet *originSet, ODMatrix *mat, StarNetwork *net, AddHook *component);
+		virtual ~OriginBasedAlgo();
 		
 		int execute();
 		
-		bool mainLoop(OriginBush *bush, bool wasImproved);
+		virtual void mainLoop(OriginBush *bush, bool wasImproved, int nbIter); // default - EQI
+		
+	protected:
+		virtual void doSmthAfterOrigins(int iter){}; // hook method - does nothing by default
 		
 	private:
 		OriginSet *originSet_;
+		ODMatrix *mat_;
+		StarNetwork *net_;
 };
 
 #endif

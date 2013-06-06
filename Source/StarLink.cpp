@@ -2,6 +2,7 @@
 
 StarLink::StarLink(int nodeFrom, int nodeTo, LinkFnc *fnc) : _index(-1), _nodeFrom(nodeFrom), _nodeTo(nodeTo),  
 								_nodeFromIndex(-1), _nodeToIndex(-1), _flow(0.0), _fnc(fnc){
+								//_der(0.0){
 	updateTime();
 };
 
@@ -64,4 +65,9 @@ void StarLink::addFlow(FPType flow){
 
 void StarLink::updateTime(){
 	_time = _fnc->evaluate(_flow);
+	//_der = _fnc->evaluateDerivative(_flow);
 };
+
+/*FPType StarLink::getDerivative() const{
+	return _der;
+};*/

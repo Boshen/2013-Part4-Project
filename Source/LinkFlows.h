@@ -6,7 +6,7 @@
 #include "ODMatrix.h"
 #include "AONAssignment.h"
 #include "Derivative.h"
-#include "StepSizeABC.h"
+#include "StepSize.h"
 #include "DescDirection.h"
 #include "ConvMeasure.h"
 #include "LinkFncContainer.h"
@@ -14,7 +14,7 @@
 class LinkFlows : public InitialiseSolution, public DescDirection {
 	public:
 		LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
-		LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
+		//LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
 		virtual ~LinkFlows();
 		
 		virtual void initialise();
@@ -31,12 +31,15 @@ class LinkFlows : public InitialiseSolution, public DescDirection {
 	 	virtual FPType* getProjectedDirection();
 		FPType getUpperBound();
 		FPType* getLinkFlows();
+		int getSize();
+		int* getIndexes();
 		
 	protected:
 		
 		int _nbLinks;
 		FPType *_linkFlows;
 		FPType *_linkFlowsAux;
+		
 		
 		FPType _stepPrev;
 		FPType _stepPrevPrev;
@@ -55,8 +58,9 @@ class LinkFlows : public InitialiseSolution, public DescDirection {
 		ConvMeasure *_conv;
 		StarNetwork *_net;
 		
-		// sparsity
-		StepSizeABC *_stepSize;
+		StepSize *_stepSize;
+		
+		int *_indexes;
 		
 		void initialiseObject(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
 		

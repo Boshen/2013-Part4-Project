@@ -49,7 +49,8 @@ void ParseParams::execute(Params *params){
 	
 };
 
-// Supported comments: /*, //
+/** Supported comments: /*, //
+ **/
 std::string ParseParams::skipComments(std::string line){
 	size_t found;
 	if (_longComment) {

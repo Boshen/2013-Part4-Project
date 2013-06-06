@@ -243,7 +243,7 @@ size_t Parser::extractDestination(size_t posFrom, const std::string& line, int &
 };
 
 size_t Parser::extractARTDestination(size_t posFrom, const std::string &line, int &destID, FPType &demand) const{
-	std::cout << "Parsing line: " << line << " ------- from position = " << posFrom << std::endl;
+	//std::cout << "Parsing line: " << line << " ------- from position = " << posFrom << std::endl;
 	size_t pos1 = line.find(":", posFrom);
 	size_t len = line.length();
 	if (pos1 + 1 == len) throw Error("Demand value must be specified after : .");
@@ -260,7 +260,7 @@ size_t Parser::extractARTDestination(size_t posFrom, const std::string &line, in
 			num.insert(0, 1, ch);
 		}
 		destID = atoi(num.c_str());
-		std::cout << "demand = " << demand << " destID = " << destID << std::endl;
+		//std::cout << "demand = " << demand << " destID = " << destID << std::endl;
 		return returnPos;
 	}
 	return std::string::npos;
@@ -494,7 +494,7 @@ StarNetwork* Parser::parseARTNetwork(const std::string& fileNodes, const std::st
 			
 			if (params[4].find("a") != std::string::npos){  // link has automobile mode
 				++nbLinks;
-				std::cout << "Line: " << line << std::endl;
+				//std::cout << "Line: " << line << std::endl;
 				int nodeID = atoi(params[1].c_str());
 				if (prevNode != nodeID) {
 					
@@ -503,7 +503,7 @@ StarNetwork* Parser::parseARTNetwork(const std::string& fileNodes, const std::st
 					if (nodesCount > 0) nodes[nodesCount - 1].second = countNodeLinks;
 					countNodeLinks = 0;
 					++nodesCount;
-					std::cout << "Node " << nodeID << " isZone = " << node->getIsZone() << std::endl;
+					//std::cout << "Node " << nodeID << " isZone = " << node->getIsZone() << std::endl;
 					prevNode = nodeID;
 				}
 				
@@ -518,11 +518,11 @@ StarNetwork* Parser::parseARTNetwork(const std::string& fileNodes, const std::st
 				    	throw Error("Cannot find link cost function.");
 				} else {
 					fnc = (got->second).create(length, lanes);
-					fnc->print();
+					//fnc->print();
 				}
 				
 				link = new StarLink(nodeID, atoi(params[2].c_str()), fnc);
-				std::cout << "link: [" << link->getNodeFrom() << ", " << link->getNodeTo() << "]" << std::endl;
+				//std::cout << "link: [" << link->getNodeFrom() << ", " << link->getNodeTo() << "]" << std::endl;
 				links.push_back(link);
 				++countNodeLinks;
 			}

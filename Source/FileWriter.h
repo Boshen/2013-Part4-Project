@@ -8,7 +8,7 @@
 
 class FileWriter {
 	public:
-		explicit FileWriter(const std::string& fileName);
+		explicit FileWriter(const std::string& fileName, bool append = false);
 		~FileWriter();
 		
 		void writeLine(const std::string& line);

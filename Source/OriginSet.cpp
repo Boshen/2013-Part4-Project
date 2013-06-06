@@ -1,7 +1,8 @@
 #include "OriginSet.h"
 #include "OriginBushLUCE.h"
+#include "OriginBushB.h"
 
-OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE) : net_(net), conv_(conv), currBushIndex_(-1) {
+OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE, bool useMultiStep) : net_(net), conv_(conv), currBushIndex_(-1) {
 	nbOrigins_ = mat->getNbOrigins();
 	bushes_ = new OriginBush*[nbOrigins_];
 	indexes_ = new int[net->getNbNodes()];
@@ -13,9 +14,11 @@ OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, Conv
 		if (useLUCE) {
 			bushes_[i] = new OriginBushLUCE(origin->getIndex(), net);
 		} else {
-			bushes_[i] = new OriginBush(origin->getIndex(), net);
+			bushes_[i] = new OriginBushB(origin->getIndex(), net, useMultiStep);
 		}
+		//std::cout << " i = " << i << std::endl;
 		bushes_[i]->allocateDAG(origin->getIndex(), net, mat, zeroFlow, dirTol);
+		//bushes_[i]->print();
 		indexes_[origin->getIndex()] = i; 
 		i++;
 	}
@@ -39,7 +42,7 @@ void OriginSet::initialise(){
 	std::cout << "AON" << std::endl;
 	aon_->executeForOriginBasedAlgo(this, OriginBush::getNet());
 	std::cout << "AON executed" << std::endl;
-	//OriginBush::updateLinkCosts();
+	loadOriginFlows();
 	
 };
 
@@ -47,6 +50,10 @@ bool OriginSet::isConverged(){
 	bool val = conv_->isConverged();
 	//std::cout << "***********************************************RGAP = " << conv_->getGap() << std::endl;
 	return val;
+};
+
+FPType OriginSet::getGapVal() const{
+	return conv_->getGap();
 };
 		
 OriginBush* OriginSet::beginSet(){
@@ -62,8 +69,18 @@ OriginBush* OriginSet::getNextSet(){
 
 void OriginSet::initialiseItself(StarLink* link, PairOD *dest){
 	int originIndex = dest->getOriginIndex();
+	//std::cout << "inside initItself: originIndex = " << originIndex << " indexes_[originIndex] = " << indexes_[originIndex] << std::endl; 
+	//bushes_[indexes_[originIndex]]->print();
+	//std::cout << "print done" << std::endl; 
 	bushes_[indexes_[originIndex]]->addLink(link);
+	//std::cout << "addLink done : " << link->getIndex() << "---------------------------------------------" << std::endl; 
+
 	if (dest->getODIndex() != -1) bushes_[indexes_[originIndex]]->addOriginFlow(link->getIndex(), dest->getDemand());
+	//bushes_[indexes_[originIndex]]->addLink(net_->getLink(1));
+	//bushes_[indexes_[originIndex]]->addOriginFlow(1, dest->getDemand() / 3.0);
+	//bushes_[indexes_[originIndex]]->addLink(net_->getLink(2));
+	//bushes_[indexes_[originIndex]]->addOriginFlow(2, dest->getDemand() / 3.0);
+	//std::cout << "yohoo" << std::endl; 
 };
 
 void OriginSet::loadOriginFlows(){
@@ -88,6 +105,10 @@ void OriginSet::print(){
 	for (OriginBush* bush = beginSet(); bush != NULL; bush = getNextSet()){
 		bush->print();
 	}
+};
+
+void OriginSet::printNet(){
+	net_->print();
 };
 
 void OriginSet::printTotalOriginFlows(){

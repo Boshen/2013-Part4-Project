@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-PathBasedFlowMoveWithStep::PathBasedFlowMoveWithStep(StepSizeABC *stepSize, DescDirectionPath* pathDirectionAlgo) : PathBasedFlowMove(pathDirectionAlgo){
+PathBasedFlowMoveWithStep::PathBasedFlowMoveWithStep(StepSize *stepSize, DescDirectionPath* pathDirectionAlgo) : PathBasedFlowMove(pathDirectionAlgo){
 	_stepSize = stepSize;
 };
 

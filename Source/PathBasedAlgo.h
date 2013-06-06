@@ -8,8 +8,8 @@
 class PathBasedAlgo : public EqAlgo {//, public EquilibrationType {
 	
 	public:
-		PathBasedAlgo(PathSet *pathSet, bool useEqI);
-		~PathBasedAlgo();
+		PathBasedAlgo(PathSet *pathSet, bool useEqI, AddHook *component);
+		virtual ~PathBasedAlgo();
 		int execute();
 		bool mainLoop(ODSet *odSet);
 		

@@ -3,7 +3,7 @@
 #include <cassert>
 
 DAGraphNode::DAGraphNode(int index, FPType demand) : demand_(demand), flowMoved_(demand), nodeIndex_(index), pre_(0), post_(0), minDist_(0.0), 
-							maxDist_(0.0), hasLinkWithFlow_(false) {
+							maxDist_(0.0) {//, hasLinkWithFlow_(false) {
 
 };
 
@@ -45,13 +45,13 @@ void DAGraphNode::setMaxDist(FPType maxDist){
 	maxDist_ = maxDist;
 };
 
-bool DAGraphNode::hasLinkWithFlow() const{
+/*bool DAGraphNode::hasLinkWithFlow() const{
 	return hasLinkWithFlow_;
 };
 
 void DAGraphNode::setHasLinkWithFlow(bool hasFlow){
 	hasLinkWithFlow_ = hasFlow;
-};
+};*/
 
 FPType DAGraphNode::getDemand() const{
 	return demand_;

@@ -2,6 +2,7 @@
 #include "ShPathInterface.h"
 #include "ShPathDijkstra.h"
 #include "ShPathDijkstraSTL.h"
+#include "ShPathDijkstraSet.h"
 #include "ShPathAstar.h"
 #include "ShPathAstarSTL.h"
 #include "ShPathAstarBidirect.h"
@@ -44,6 +45,9 @@ ShPathInterface* ShPathFactory::getShPath(const std::string& algo, const std::st
 
     if ( algo == "DijkstraSTL")
         return new ShPathDijkstraSTL(_netPointer);
+
+    if ( algo == "DijkstraSet")
+        return new ShPathDijkstraSet(_netPointer);
 
     if ( algo == "AstarSTL")
         return new ShPathAstarSTL(_netPointer);

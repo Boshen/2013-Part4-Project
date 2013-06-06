@@ -3,6 +3,7 @@
 
 #include "Params.h"
 #include "Error.h"
+#include "UtilsString.h"
 
 Params::Params(){
 	
@@ -12,14 +13,20 @@ Params::~Params(){
 
 };
 
-std::string Params::getParam(std::string name){
+std::string Params::getParam(const std::string &name){
 	 std::map<std::string, std::string>::iterator it = _paramDict.find(name);
 	 if (it != _paramDict.end()) return it->second;
 	 return "";
 	 
 };
 
-void Params::addParameter(std::string field, std::string value){
+std::string Params::getParamWoSpaces(const std::string &name){
+	std::string retVal = getParam(name);
+	Utils::removeWhiteSpaces(retVal);
+	return retVal;
+};
+
+void Params::addParameter(const std::string &field, const std::string &value){
 	if ((_paramDict.insert(std::pair<std::string, std::string>(field, value))).second == false ) {
 		std::string message = "Field: ";
 		message.append(field);
@@ -31,15 +38,19 @@ void Params::addParameter(std::string field, std::string value){
 };
 
 void Params::print(){
-	//std::map<std::string, std::string>::iterator it = _paramDict.begin();
-    std::cout << "Network: " << _paramDict["NETWORK"] << std::endl;
-    std::cout << "Algo   : " << _paramDict["ShPathAlgo"] << std::endl;
-    std::cout << "Data   : " << _paramDict["ShPathDataStruct"] << std::endl;
-	//for(; it != _paramDict.end(); it++) {
-	//	std::cout << "Field: " << it->first << " Value: " << it->second << std::endl;
-	//}
+	std::map<std::string, std::string>::iterator it = _paramDict.begin();
+	for(; it != _paramDict.end(); it++) {
+		std::cout << "Field: " << it->first << " Value: " << it->second << std::endl;
+	}
 };
 
 std::string Params::getAlgoParams(){
-	return getParam("SPARSITY") + " " + getParam("LINE_SEARCH") + " " + getParam("ALGORITHM") + " " + getParam("EQUILIBRATION") + " " + getParam("APPROACH");
+	return getParam("LINE_SEARCH") + " " + getParam("ALGORITHM") + " " + getParam("EQUILIBRATION") + " " + getParam("APPROACH");
+};
+
+// format: NetName_Algorithm_Equilibration_Approach_LineSearch
+std::string Params::getAutoFileName(char del){
+	std::string netName;
+	Utils::extractName(getParam("NETWORK").c_str(), netName);
+	return netName + del + getParam("ALGORITHM") + del + getParam("EQUILIBRATION") + del + getParam("APPROACH") + del + getParam("LINE_SEARCH");
 };

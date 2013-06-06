@@ -17,10 +17,13 @@
 #include "Constants.h"
 #include "PathAlgoCreator.h"
 #include "OriginSet.h"
+#include "AddHook.h"
+#include "AddHookStoreOut.h"
+#include "Timer.h"
 
 class ObjectManager {
 	public:
-		ObjectManager(Params *params);
+		ObjectManager(Params *params, Timer &timer);
 		~ObjectManager();
 		
 		// getters for all objects
@@ -66,9 +69,14 @@ class ObjectManager {
 		//EquilibrationII *_eqII;
 		PathAlgoCreator *_pAlgoCreator;
 		OriginSet *_originSet;
+		AddHook *_addHook;
+		AddHookStoreOut *_addHookStore; // just a copy of _addHook, but explicit time is specified
+		
+		Timer &timer_;
 		
 		FPType getFloatValue(std::string paramName);
 		PathAlgoCreator* getPathAlgoCreator();
+		AddHook* getAddHook();
 };
 
 #endif

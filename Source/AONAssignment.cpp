@@ -36,16 +36,19 @@ void AONAssignment::executeForOriginBasedAlgo(InitialiseSolution *solution, Star
 		nodes[i] = -1;
 	}
 	for (Origin *origin = _mat->beginOrigin(); origin != NULL; origin = _mat->getNextOrigin()){
+		//std::cout << "origin = " << origin->getIndex() << std::endl;
 		_shPath->calculate(origin->getIndex());
 		for (int i = 0; i < nbNodes; i++){
 			nodes[i] = -1;
 		}
 		nodes[origin->getIndex()] = 1; 
 		for (PairOD *dest = origin->beginDest(); dest != NULL; dest = origin->getNextDest()){
+			//dest->print();
 			solution->initialiseSolution(dest, _shPath);
 			nodes[dest->getIndex()] = 1; 
 		}
 		// iterate other nodes that are not destinations
+		//std::cout << "fake node" << std::endl;
 		for (int i = 0; i < nbNodes; i++){
 			if (nodes[i] == -1){
 				

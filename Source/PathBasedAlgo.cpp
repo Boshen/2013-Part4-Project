@@ -7,7 +7,7 @@
 #include <iostream>
 #include <stdio.h>
 
-PathBasedAlgo::PathBasedAlgo(PathSet *pathSet, bool useEqI) : _pathSet(pathSet){ //: EquilibrationType(this), _pathSet(pathSet){
+PathBasedAlgo::PathBasedAlgo(PathSet *pathSet, bool useEqI, AddHook *component) : EqAlgo(component), _pathSet(pathSet){ //: EquilibrationType(this), _pathSet(pathSet){
 	if (useEqI) {
 		_eq = new EquilibrationI(this);
 	} else {
@@ -26,80 +26,75 @@ void PathBasedAlgo::print(){
 int PathBasedAlgo::execute(){
 	// initialise
 	std::cout << "Initialisation started" << std::endl;
-    clock_t start, end;
-    double timePassed = 0.0;
-    start = clock();
-    _pathSet->initialise();
-    end = clock();
-    timePassed += ((double)(end-start))/ (CLOCKS_PER_SEC);
-    std::cout << "Init Time: " << timePassed << " s." << std::endl;
-
-    std::cout << "Initialisation finished" << std::endl;
-
-    // main loop
-    int nbIter = 0; 
-    while (true) {
-        nbIter++;
-
-        // global convergence check
-        if (_pathSet->isConverged()){
-            break;
-        }
-        /*if (nbIter == 1) {
-          for (ODSet *odSet = _pathSet->beginSet(); odSet != NULL; odSet = _pathSet->getNextSet()){
-          odSet->projectPathFlowOnLinks();
-          }
-          _pathSet->updateLinkCosts();
-          };*/
-
-        // decomposition by O-D pairs
-        //std::cout << "--------------------------------ITER = " << nbIter << std::endl;
-        for (ODSet *odSet = _pathSet->beginSet(); odSet != NULL; odSet = _pathSet->getNextSet()){
-            //std::cout << "od = " << odSet->getIndex() << std::endl;
-
-            //odSet->updateSet();
-            //if (odSet->getOriginIndex() == 70) odSet->print();	
-            // try to improve path set (2) 
-            //bool wasImproved = odSet->improveSet();
-            //if (wasImproved || (odSet->getNbPaths() > 1)) {
-            //std::cout << "wasImproved = " << wasImproved << " nbPaths = " << odSet->getNbPaths() << std::endl;
-            _eq->executeMainLoop(odSet);
-            //}
-        }
-
-    }
-    //std::cout << "nbIter = " << nbIter << std::endl;
-
-    return nbIter;
+	_pathSet->initialise();
+	
+	std::cout << "Initialisation finished" << std::endl;
+	
+	// main loop
+	int nbIter = 0; 
+	clock_t start, end;
+	double timePassed = 0.0;
+	while (true) {
+		start = clock();
+		nbIter++;
+		
+		// global convergence check
+		if (_pathSet->isConverged()){
+			break;
+		}
+		//if (nbIter == 2) break; 
+		// decomposition by O-D pairs
+		//std::cout << "--------------------------------ITER = " << nbIter << std::endl;
+		//int count = 0;
+		for (ODSet *odSet = _pathSet->beginSet(); odSet != NULL; odSet = _pathSet->getNextSet()){
+			
+			//odSet->updateSet(); //**
+			//bool wasImproved = odSet->improveSet();//**
+			//if (wasImproved || (odSet->getNbPaths() > 1)) {//**
+				_eq->executeMainLoop(odSet);
+				//break;
+			//}//**
+			//++count;
+			//if (count == 8) break;
+		}
+		end = clock();
+		timePassed += ((FPType)(end-start))/ (CLOCKS_PER_SEC);
+		//printf ("%4.5f \n", timePassed); 
+		//std::cout << timePassed << " " << _pathSet->getGap() << std::endl;
+		doSmthAfterLoop(timePassed, _pathSet->getGap());
+		
+	}
+	//std::cout << "FINISH!!!! nbIter = " << nbIter << " " << _pathSet->getGap() << std::endl;
+	
+	return nbIter;
 };
 
 bool PathBasedAlgo::mainLoop(ODSet *odSet){
-    // update path set 
-    odSet->updateSet();
-
-    // try to improve path set (2) 
-    bool wasImproved = odSet->improveSet();
-    // if (2) was successful or solution is not equilibrated yet, equilibrate: flow move + deleting paths with zero flow
-    if (wasImproved || (odSet->getNbPaths() > 1)) {
-        //std::cout << "equilibrating" << std::endl;
-        if (odSet->equilibrate()) {
-            //std::cout << "was equilibrated. removing unused paths" << std::endl;
-            odSet->removeUnusedPaths();
-            return true;
-        }
-        //std::cout << "projecting flows on links" << std::endl;
-        odSet->projectPathFlowOnLinks();
-        //std::cout << "updating link costs" << std::endl;
-        odSet->updateLinkCostsOfOD();
-        //std::cout << "removing unused paths" << std::endl;
-        odSet->removeUnusedPaths();
-        //std::cout << "updating set" << std::endl;
-        //odSet->updateSet();
-        //odSet->print();
-        //if (odSet->getNbPaths() <= 1) return true;
-    } else { 
-        return true;
-    }
-    return false;
-
+	// update path set 
+	odSet->updateSet();//**
+	
+	// try to improve path set (2) 
+	bool wasImproved = odSet->improveSet();//**
+	// if (2) was successful or solution is not equilibrated yet, equilibrate: flow move + deleting paths with zero flow
+	if (wasImproved || (odSet->getNbPaths() > 1)) {//**
+		//std::cout << "equilibrating" << std::endl;
+		if (odSet->equilibrate()) {
+			//std::cout << "was equilibrated. removing unused paths" << std::endl;
+			odSet->removeUnusedPaths();
+			return true;
+		}
+		//std::cout << "projecting flows on links" << std::endl;
+		odSet->projectPathFlowOnLinks();
+		//std::cout << "updating link costs" << std::endl;
+		odSet->updateLinkCostsOfOD();
+		//std::cout << "removing unused paths" << std::endl;
+		odSet->removeUnusedPaths();
+		//std::cout << "updating set" << std::endl;
+		//odSet->updateSet();//**
+		//if (odSet->getNbPaths() <= 1) return true;//**
+	} else { //**
+		return true;//**
+	}//**
+	return false;
+	
 };

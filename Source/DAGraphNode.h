@@ -16,7 +16,7 @@ class DAGraphNode {
 		int getPost() const;
 		FPType getMinDist() const;
 		FPType getMaxDist() const;
-		bool hasLinkWithFlow() const;
+		//bool hasLinkWithFlow() const;
 		FPType getDemand() const;
 		FPType getFlowMoved() const;
 		
@@ -24,7 +24,7 @@ class DAGraphNode {
 		void setPost(int post);
 		void setMinDist(FPType minDist);
 		void setMaxDist(FPType maxDist);
-		void setHasLinkWithFlow(bool hasFlow);
+		//void setHasLinkWithFlow(bool hasFlow);
 		void setFlowMoved(FPType newFlow);
 		void setMinLink(StarLink* link);
 		void setMaxLink(StarLink* link);
@@ -47,7 +47,7 @@ class DAGraphNode {
 		int post_;
 		FPType minDist_;
 		FPType maxDist_;
-		bool hasLinkWithFlow_;
+		//bool hasLinkWithFlow_;
 };
 
 #endif

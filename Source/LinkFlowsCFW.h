@@ -7,7 +7,7 @@ class LinkFlowsCFW : public LinkFlows {
 	
 	public:
 		LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
-		LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
+		//LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
 		~LinkFlowsCFW();
 		
 		virtual void initialise();
@@ -27,7 +27,7 @@ class LinkFlowsCFW : public LinkFlows {
 	private:
 	
 		int _nbCalls;
-		void allocateMemory();
+		//void allocateMemory();
 };
 
 #endif

@@ -4,20 +4,23 @@
 #include <iostream>
 #include <math.h>
 
-void LinkFlowsBFW::allocateMemory(){
+/*void LinkFlowsBFW::allocateMemory(){
+	_linkFlowsBFW = new FPType[_nbLinks];
+	for (int i = 0; i < _nbLinks; i++) {
+		_linkFlowsBFW[i] = 0.0;
+	}
+};*/
+
+LinkFlowsBFW::LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) : LinkFlowsCFW(net, mat, linkFncCont, shPath, der, lineSearch, conv){
 	_linkFlowsBFW = new FPType[_nbLinks];
 	for (int i = 0; i < _nbLinks; i++) {
 		_linkFlowsBFW[i] = 0.0;
 	}
 };
 
-LinkFlowsBFW::LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) : LinkFlowsCFW(net, mat, linkFncCont, shPath, der, lineSearch, conv){
+/*LinkFlowsBFW::LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision) : LinkFlowsCFW(net, mat, linkFncCont, shPath, der, lineSearch, conv){
 	allocateMemory();
-};
-
-LinkFlowsBFW::LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision) : LinkFlowsCFW(net, mat, linkFncCont, shPath, der, lineSearch, conv){
-	allocateMemory();
-};
+};*/
 
 LinkFlowsBFW::~LinkFlowsBFW(){
 	delete[] _linkFlowsBFW;

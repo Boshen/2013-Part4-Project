@@ -3,7 +3,7 @@
 
 OriginBushLUCE::OriginBushLUCE(int index, StarNetwork *net) : 
 				OriginBush(index, net), dag_(NULL) {
-	std::cout << "OriginBushLUCE is created" << std::endl;
+	//std::cout << "OriginBushLUCE is created" << std::endl;
 }; 
 
 OriginBushLUCE::~OriginBushLUCE() {
@@ -14,11 +14,13 @@ void OriginBushLUCE::updateSet() {
 	//recalculate link costs for all links + derivatives + flow portions
 	dag_->update();
 	OriginBush::updateSet();
+	dag_->postUpdateCall();
 }; 
 
-void OriginBushLUCE::allocateDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol){
-	std::cout << "LUCE allocateDAG" << std::endl;
+DAGraph* OriginBushLUCE::createNewDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol){
+	//std::cout << "LUCE allocateDAG" << std::endl;
 	dag_ = new DAGraphLUCE(net, mat, zeroFlow, dirTol, index); // it is deallocated in parent destructor
-	//return dag_;
+	//setDagPointer(dag_);
+	return dag_;
 };
 

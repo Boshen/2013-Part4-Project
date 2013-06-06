@@ -7,13 +7,12 @@ class OriginBush {
 	
 	public:
 		
-		OriginBush(int index, StarNetwork *net);
 		virtual ~OriginBush();
 		
-		virtual void allocateDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol);
+		void allocateDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol);
 		
 		virtual void updateSet();
-		bool equilibrate(bool wasImproved);
+		bool equilibrate(bool wasImproved, int iter);
 		bool improve();
 		void removeUnusedLinks();
 		
@@ -29,6 +28,11 @@ class OriginBush {
 		static void updateLinkCosts();
 		static StarNetwork* getNet();
 		
+	protected:
+		OriginBush(int index, StarNetwork *net);
+		//void setDagPointer(DAGraph *daGraph);
+		virtual DAGraph* createNewDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol) = 0;
+			
 	private:
 		
 		DAGraph *daGraph_;

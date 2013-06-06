@@ -7,7 +7,7 @@ class LinkFlowsBFW : public LinkFlowsCFW {
 
 	public:
 		LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
-		LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
+		//LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
 		virtual ~LinkFlowsBFW();
 		
 		void initialise();
@@ -19,7 +19,7 @@ class LinkFlowsBFW : public LinkFlowsCFW {
 		int _tmp;
 		FPType *_linkFlowsBFW;
 		
-		void allocateMemory();
+		//void allocateMemory();
 		
 		void calcCoeff(FPType &beta0, FPType &beta1, FPType &beta2);
 		FPType changeCoeff(FPType beta);

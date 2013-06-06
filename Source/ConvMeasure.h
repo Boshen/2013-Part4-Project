@@ -3,6 +3,9 @@
 
 #include "UsedTypes.h"
 
+#include <stdlib.h>
+#include <iostream>
+
 class ConvMeasure {
 	public:
 		
@@ -18,7 +21,9 @@ class ConvMeasure {
 	
 		ConvMeasure(FPType precision) : _precision(precision), _gap(0.0) {};
 		
-		void setGap(FPType gap) {_gap = gap;};
+		void setGap(FPType gap) {_gap = gap; 
+			//std::cout << "gap = " << _gap << std::endl;
+			};
 		
 	private:
 		

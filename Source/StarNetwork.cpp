@@ -151,11 +151,11 @@ StarLink* StarNetwork::getNextOnlyLink(){
 };
 		
 void StarNetwork::print(){
-	std::cout << "network name: " << getNetName() << std::endl;
+	std::cout << "network name: " << getNetName() << " nbNodes = " << _nbNodes << " nbLinks = " << _nbLinks	 << std::endl;
 	for (StarNode *node = beginNode(); node != NULL; node = getNextNode()){
-		//std::cout << "Node ID = " << node->getID()  << " node index = " << node->getIndex() << std::endl;
+	  //std::cout << "Node ID = " << node->getID()  << " node index = " << node->getIndex() << std::endl;
 		for (StarLink *link = beginLink(); link != NULL; link = getNextLink()) {
-			std::cout << " link-> (" << link->getNodeFrom() << ", " << link->getNodeTo() << ") cost-> (" << link->getTime() << ") flow = " << link->getFlow() << std::endl;
+		  if (link->getFlow() > 0.0) std::cout << " link-> (" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << ") cost-> (" << link->getTime() << ") flow = " << link->getFlow() << std::endl;
 			//if (link->getFlow() > 0.0) std::cout <<  link->getIndex() << " " << link->getNodeFrom() << " " << link->getNodeTo() << " (" << link->getNodeFromIndex()  << ", " << link->getNodeToIndex() << ") " << " " << link->getFlow() << " " << link->getTime() << std::endl;
 			//" (" << link->getNodeFromIndex()  << ", " << link->getNodeToIndex() << ") "
 		}

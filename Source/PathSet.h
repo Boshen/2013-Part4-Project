@@ -5,14 +5,16 @@
 #include "ODSet.h"
 #include "ODMatrix.h"
 #include "PathCost.h"
+#include "Derivative.h"
+#include "LineSearch.h"
 
 class PathSet : public InitialiseSolution {
 	public:
 		
-		PathSet(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, Derivative *der, LineSearch *lineSearch, PathAlgoCreator *algoCreator);
-		PathSet(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, Derivative *der, LineSearch *lineSearch, FPType sparsityPrecision, PathAlgoCreator *algoCreator);
-		PathSet(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, FPType zeroFlow, PathAlgoCreator *algoCreator);
-		PathSet(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, FPType zeroFlow, FPType alpha, PathAlgoCreator *algoCreator);
+		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, Derivative *der, LineSearch *lineSearch, PathAlgoCreator *algoCreator);
+		//PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, Derivative *der, LineSearch *lineSearch, FPType sparsityPrecision, PathAlgoCreator *algoCreator);
+		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, FPType zeroFlow, PathAlgoCreator *algoCreator);
+		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, FPType zeroFlow, FPType alpha, PathAlgoCreator *algoCreator);
 		
 		virtual ~PathSet();
 		
@@ -25,12 +27,13 @@ class PathSet : public InitialiseSolution {
 		ODSet* getNextSet();
 		
 		bool isConverged() const;
+		FPType getGap() const;
 		
 		void print();
 		
 		//void updateLinkCosts();
 		
-		FPType getMaxDiff();
+		//FPType getMaxDiff();
 		void printNet();
 		
 	protected: //KR
@@ -50,9 +53,9 @@ class PathSet : public InitialiseSolution {
 		
 		int _currSetIndex;
 		
-		LinkFncContainer *_linkFncCont;
+		//LinkFncContainer *_linkFncCont;
 		
-		void initialiseObject(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost);
+		void initialiseObject(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost);
 };
 
 #endif

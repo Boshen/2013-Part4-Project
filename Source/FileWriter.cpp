@@ -1,7 +1,12 @@
 #include "FileWriter.h"
 #include "Error.h"
 
-FileWriter::FileWriter(const std::string& fileName) : name_(fileName), file_(fileName.c_str()) {
+FileWriter::FileWriter(const std::string& fileName, bool append) : name_(fileName) { //, file_(fileName.c_str()) {
+	if (append) {
+		file_.open(fileName.c_str(),  std::ios::out | std::ios::app);
+	} else {
+		file_.open(fileName.c_str(),  std::ios::out | std::ios::trunc);
+	}
 	if (!file_.is_open()) {
 		std::string message("Cannot create file: ");
 		message.append(fileName);

@@ -28,6 +28,8 @@ class StarLink {
 		
 		void updateTime();
 		
+		//FPType getDerivative() const;
+		
 	private:
 		int _index;
 		int _nodeFrom;
@@ -37,5 +39,6 @@ class StarLink {
 		FPType _flow;
 		FPType _time;
 		LinkFnc *_fnc;
+		//FPType _der;
 };
 #endif

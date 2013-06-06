@@ -12,12 +12,13 @@
 class OriginSet : public InitialiseSolution {
 	
 	public:
-		OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE);
+		OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE, bool useMultiStep);
 		~OriginSet();
 		
 		// for OriginBasedAlgo
 		void initialise();
 		bool isConverged();
+		FPType getGapVal() const;
 		
 		// for iterating
 		OriginBush* beginSet();
@@ -29,6 +30,7 @@ class OriginSet : public InitialiseSolution {
 		void loadOriginFlows();
 		
 		void print();
+		void printNet();
 		void printTotalOriginFlows();
 		
 	private:

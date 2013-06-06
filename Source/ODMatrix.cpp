@@ -54,12 +54,13 @@ Origin* ODMatrix::getNextOrigin(){
 };
 
 void ODMatrix::print(){
-	for (Origin *origin = beginOrigin(); origin != NULL; origin = getNextOrigin()){
+	std::cout << "nb pairs = " << _nbODPairs << std::endl;
+	/*for (Origin *origin = beginOrigin(); origin != NULL; origin = getNextOrigin()){
 		std::cout << "Origin: " << origin->getID() << std::endl;
 		for (PairOD *dest = origin->beginDest(); dest != NULL; dest = origin->getNextDest()) {
 			dest->print();
 		}
-	};
+	};*/
 };
 
 // IMPORTANT : this method must be called ONCE after object creation!!!!

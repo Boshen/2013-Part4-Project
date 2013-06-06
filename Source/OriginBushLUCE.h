@@ -11,7 +11,7 @@ class OriginBushLUCE : public OriginBush {
 		
 		void updateSet();
 		
-		void allocateDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol);
+		DAGraph* createNewDAG(int index, StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol);
 		
 	private:
 		DAGraphLUCE *dag_;

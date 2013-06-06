@@ -1,34 +1,17 @@
 #ifndef _SH_PATH_DIJKSTRA_STL_
 #define _SH_PATH_DIJKSTRA_STL_
 
-#include <queue>
-#include <cmath>
-#include <iostream>
 #include "ShPathInterface.h"
 #include "../Path.h"
 
 class ShPathDijkstraSTL : public ShPathInterface {
     private:
-        typedef std::pair<int, FPType> PQPair;
-        
-        class Prioritize{
-            public:
-                bool operator() ( const PQPair& p1, const PQPair& p2){
-                    if ( p1.second == p2.second)
-                    return p1.first > p2.first;
-                    else
-                    return p1.second > p2.second;
-                }
-        };
-        
-        typedef std::priority_queue<PQPair, std::vector<PQPair>, Prioritize > PriorityQueue;
-        PriorityQueue *Queue;
+        ShPath::PriorityQueue *Queue;
 
 
     public:
         ShPathDijkstraSTL(StarNetwork* netPointer):ShPathInterface(netPointer){
-            Queue = new PriorityQueue();
-
+            Queue = new ShPath::PriorityQueue();
         }
 
         ~ShPathDijkstraSTL(){
@@ -40,52 +23,51 @@ class ShPathDijkstraSTL : public ShPathInterface {
         }
 
         void calculate(int O, int D) {
-            Scanned->clear();
+            int u, v;
+            FPType Duv;
+
+            std::vector<FPType>& L = *LabelVector;
+            std::vector<int>& P = *Predecessors;
+            ShPath::PriorityQueue& Q = *Queue;
 
             initNodes();
 
-            PriorityQueue& Q = *Queue;
-            std::vector<nodeInfo>& N = *Nodes;
-            
-            while(!Q.empty()){
-                Q.pop();
-            }
+            Q = ShPath::PriorityQueue(); // clear
 
-            N[O].dist = 0;
-            Q.push(PQPair(O, 0));
+            L[O] = 0;
+            Q.push(ShPath::PQPair(0, O));
+
             while ( !Q.empty() ){
-                int u = Q.top().first;
-                FPType Du = Q.top().second;
+
+                FPType Du = Q.top().first;
+                u = Q.top().second;
                 Q.pop();
 
                 if ( u == D ){ 
-            StarLink *link = getInComeLink(D);
-            FPType nextDest = link->getNodeFromIndex();
-            Path path;
-            while (link != NULL) {
-                path.addLinkToPath(link);
-                nextDest = link->getNodeFromIndex();
-                link = getInComeLink(nextDest);
-            }
-            //path.print();
                     break;
                 }
 
                 StarNode* curNode = _netPointer->beginNode(u);
 
-                if ((curNode != NULL) && (!curNode->getIsZone() || (u == O))) {
-                    for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
-                        int v = nextLink->getNodeToIndex();
-                        FPType Duv = Du + nextLink->getTime();
-                        if ( Duv < N[v].dist ){
-                            N[v].dist = Duv;
-                            N[v].linkIndex = nextLink->getIndex();
-                            Q.push(PQPair(v, Duv));
-                            Scanned->push_back(std::pair<int, int>(u, v));
-                        }
-                    } // for each outgoing link
-                } // if can visit node
-            } // while !Q.empty()
+                if (curNode == NULL)
+                    continue;
+                if (curNode->getIsZone() && u != O)
+                    continue;
+
+                for (StarLink *nextLink = _netPointer->beginLink();
+                        nextLink != NULL;
+                        nextLink = _netPointer->getNextLink()) {
+                    v = nextLink->getNodeToIndex();
+                    if(v==u)continue;
+                    Duv = Du + nextLink->getTime();
+                    if ( Duv < L[v] ){
+                        L[v] = Duv;
+                        P[v] = nextLink->getIndex();
+                        Q.push(ShPath::PQPair(Duv, v));
+                    }
+                } 
+            } 
+
         }
 
 };

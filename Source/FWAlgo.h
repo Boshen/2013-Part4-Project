@@ -10,7 +10,7 @@ class FWAlgo : public EqAlgo{
 	
 	public:
 	
-		FWAlgo(LinkFlows *linkFlows);
+		FWAlgo(LinkFlows *linkFlows, AddHook *component);
 		~FWAlgo();
 	
 		int execute();

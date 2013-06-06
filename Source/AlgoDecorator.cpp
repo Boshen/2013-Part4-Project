@@ -1,7 +1,8 @@
 #include "AlgoDecorator.h"
 
-AlgoDecorator::AlgoDecorator(DecoratedEqAlgo *algo){
-	_component = algo;
+AlgoDecorator::AlgoDecorator(DecoratedEqAlgo *algo, AddHookStoreOut *hook, const std::string& fileName, Timer &timer) : 
+					_component(algo), _hook(hook), _fileName(fileName), timer_(timer){
+
 };
 
 AlgoDecorator::~AlgoDecorator(){
@@ -9,5 +10,8 @@ AlgoDecorator::~AlgoDecorator(){
 };
 
 int AlgoDecorator::execute(){
-	return _component->execute();
+	int nbIter = _component->execute();
+	timer_.stop();
+	_hook->printToFile(_fileName);
+	return nbIter;
 };

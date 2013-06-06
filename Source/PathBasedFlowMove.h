@@ -6,7 +6,7 @@
 
 class PathBasedFlowMove {
 	public:
-		virtual ~PathBasedFlowMove(){};
+		virtual ~PathBasedFlowMove(){delete _pathDirectionAlgo; };
 		
 		bool calculatePathDirection(const std::list<Path*> &paths);
 		virtual bool executeFlowMove() = 0;

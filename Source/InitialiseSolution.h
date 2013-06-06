@@ -14,6 +14,7 @@ class InitialiseSolution {
 			StarLink *link = shPath->getInComeLink(dest->getIndex());
 			int nextDest = link->getNodeFromIndex();
 			while (link != NULL) {
+				//std::cout << "nextDest = " << nextDest << std::endl;
 				initialiseItself(link, dest);
 				nextDest = link->getNodeFromIndex();
 				link = shPath->getInComeLink(nextDest);

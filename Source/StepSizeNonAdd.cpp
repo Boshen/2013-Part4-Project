@@ -1,7 +1,7 @@
 #include "StepSizeNonAdd.h"
 
-StepSizeNonAdd::StepSizeNonAdd(DescDirection *algo, int nbLinks, const FPType precision, LineSearch *lineSearch, Derivative *der) : 
-				StepSize(algo, nbLinks, precision, lineSearch), _der(der){
+StepSizeNonAdd::StepSizeNonAdd(DescDirection *algo, LineSearch *lineSearch) : 
+				StepSize(algo, lineSearch){
 
 };
 

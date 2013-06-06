@@ -5,7 +5,7 @@
 #include <iostream>
 #include <ctime>
 
-FWAlgo::FWAlgo(LinkFlows *linkFlows) : _linkFlows(linkFlows){
+FWAlgo::FWAlgo(LinkFlows *linkFlows, AddHook *component) : EqAlgo(component), _linkFlows(linkFlows){
 
 };
 
@@ -39,13 +39,14 @@ int FWAlgo::execute(){
 		
 		end = clock();
 		timePassed += ((FPType)(end-start))/ (CLOCKS_PER_SEC);
-		//if ((nbIter % 100) == 0) {
-		//	printf ("%4.10f %4.10f \n", timePassed, _linkFlows->getGapValue());
-		//}
+		if ((nbIter % 20) == 0) {
+			//printf ("%4.10f %4.10f \n", timePassed, _linkFlows->getGapValue());
+			doSmthAfterLoop(timePassed, _linkFlows->getGapValue());
+		}
 		
 	};
-	printf ("%4.10f %4.10f \n", timePassed, _linkFlows->getGapValue());
-	std::cout << "FINISH!!!! nbIter = " << nbIter << std::endl;
+	//printf ("%4.10f %4.10f \n", timePassed, _linkFlows->getGapValue());
+	std::cout << "FINISH!!!! nbIter = " << nbIter << " gap = " << _linkFlows->getGapValue() << std::endl;
 	return nbIter;
 };
 
