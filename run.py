@@ -3,12 +3,15 @@ import sys
 import subprocess
 
 
-#algos = ["Dijkstra", "Astar", "DijkstraSTL", "AstarSTL"]
-algos = ["Astar", "AstarSTL"]
+algos_boost = ["Dijkstra", "Astar"]
+algos_stl = ["DijkstraSTL", "AstarSTL"]
+
 dataStructs = ["FibonacciHeap", "BinaryHeap", "TernaryHeap",
                "SkewHeap", "PairingHeap", "BinomialHeap"]
+
 networks = ["SiouxFalls_net.txt", "Anaheim_net.txt", "Barcelona_net.txt", "Winnipeg_net.txt", "ChicagoSketch_net.txt"]
 matrix = ["SiouxFalls_trips.txt", "Anaheim_trips.txt", "Barcelona_trips.txt", "Winnipeg_trips.txt", "ChicagoSketch_trips.txt"]
+
 prefix = "Data/Instances/"
 
 option = int(sys.argv[1])
