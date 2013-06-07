@@ -115,6 +115,10 @@ class ShPathAstarBidirect : public ShPathInterface {
                         nextLink != NULL;
                         nextLink = _netPointer->getNextLink()) {
                     v = nextLink->getNodeToIndex();
+
+                    if(v==u)
+                        continue;
+
                     Duv = Du + nextLink->getTime();
 
                     if ( Duv < LabelVector->at(v) ){
@@ -154,7 +158,11 @@ class ShPathAstarBidirect : public ShPathInterface {
 
                 for (size_t j = 0; j < Edges->at(u)->size(); j++){
                     StarLink *nextLink = Edges->at(u)->at(j);
+
                     v = nextLink->getNodeFromIndex();
+                    if(v==u)
+                        continue;
+
                     Duv = Du + nextLink->getTime();
 
                     if ( Duv < LabelVector->at(v) ){
@@ -396,6 +404,4 @@ class ShPathAstarBidirect : public ShPathInterface {
             return  fTopDist + bTopDist >= shortestPathDist + fZeroFlowTimes->at(O*_nNodes+D);
         }
 };
-
-
 #endif

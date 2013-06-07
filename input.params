@@ -7,7 +7,7 @@
  <PARSER>: {DEFAULT} // possible values: DEFAULT - for usual parsing
  			//            ART2 - for ART2
 
-<ShPathAlgo> :{Astar} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL
+<ShPathAlgo> :{DijkstraSet} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL
 <ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
 
 //<OD_MATRIX>:{Data/Instances/Barcelona_trips.txt} 

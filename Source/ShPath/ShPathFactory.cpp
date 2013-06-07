@@ -1,11 +1,16 @@
 #include "ShPathFactory.h"
 #include "ShPathInterface.h"
+
 #include "ShPathDijkstra.h"
+
 #include "ShPathDijkstraSTL.h"
 #include "ShPathDijkstraSet.h"
+
 #include "ShPathAstar.h"
 #include "ShPathAstarSTL.h"
+
 #include "ShPathAstarBidirect.h"
+
 #include "ShPathDijkstraBidirectSTL.h"
 #include "ShPathDijkstraBidirect.h"
 
@@ -62,5 +67,6 @@ ShPathInterface* ShPathFactory::getShPath(const std::string& algo, const std::st
         return new ShPathDijkstraBidirectSTL(_netPointer);
 
     std::cout << "No algorithm or data structure found ... Abort" << std::endl;
+    std::cout << "try AstarSTL, DijkstraSTL and SkewHeap"  << std::endl;
     exit(-1);
 }

@@ -42,45 +42,49 @@ class ShPathAstar : public ShPathInterface {
 
             int u, v;
             FPType Duv;
-            PriorityQueue& Q = *Queue;
-            std::vector<handle_t>& K = *ValueKeys;
-            std::vector<FPType>& L = *LabelVector;
-            std::vector<int>& P = *Predecessors;
+            StarLink *nextLink;
+            StarNode *curNode;
 
-            //std::fill(F.begin(), F.end(), UNREACHED);
+            PriorityQueue &Q = *Queue;
+            std::vector<handle_t> &K = *ValueKeys;
+            std::vector<FPType> &L = *LabelVector;
+            std::vector<int> &P = *Predecessors;
+            StarNetwork &NP = *_netPointer;
 
             initNodes();
             Q.clear();
 
             L[O] = 0;
             K[O] = Q.push(ShPath::ValueKey(0, O));
+
             while ( !Q.empty() ){
                 u = Q.top().u;
                 FPType Du = -(*K[u]).d;
                 Q.pop();
 
-                StarNode* curNode = _netPointer->beginNode(u);
+                curNode = NP.beginNode(u);
 
                 if (curNode == NULL)
                     continue;
-                if (curNode->getIsZone() && u != O)
+
+                if (curNode->getIsZone())
                     continue;
 
-                for (StarLink *nextLink = _netPointer->beginLink();
+                for (nextLink = NP.beginLink();
                         nextLink != NULL;
-                        nextLink = _netPointer->getNextLink()) {
+                        nextLink = NP.getNextLink()) {
                     v = nextLink->getNodeToIndex();
 
-                    if(v==u )
-                        continue;
-
                     Duv = Du + nextLink->getTime();
+
                     if ( Duv < L[v] ){
+
                         if( L[v] != ShPath::FPType_Max ){
                             Q.increase(K[v], ShPath::ValueKey(-Duv, v));
                         }else{
                             K[v] = Q.push(ShPath::ValueKey(-Duv, v));
                         }
+
                         L[v] = Duv;
                         P[v] = nextLink->getIndex();
                     }
@@ -98,20 +102,22 @@ https://github.com/stegua/MyBlogEntries/blob/master/Dijkstra/dijkstra.cc
 
             int u, v;
             FPType Du, Duv, Huv;
-            PriorityQueue& Q = *Queue;
-            std::vector<handle_t>& K = *ValueKeys;
-            std::vector<FPType>& L = *LabelVector;
-            std::vector<int>& P = *Predecessors;
-            std::vector<FPType>& H = *zeroFlowTimes;
-            //std::vector<Label>& F = *Labels;
+            StarLink *nextLink;
+            StarNode *curNode;
 
-            //std::fill(F.begin(), F.end(), UNREACHED);
+            PriorityQueue &Q = *Queue;
+            std::vector<handle_t> &K = *ValueKeys;
+            std::vector<FPType> &L = *LabelVector;
+            std::vector<FPType> &H = *zeroFlowTimes;
+            std::vector<int> &P = *Predecessors;
+            StarNetwork &NP = *_netPointer;
 
             initNodes();
             Q.clear();
 
             L[O] = 0;
             K[O] = Q.push(ShPath::ValueKey(0, O));
+
             while ( !Q.empty() ){
                 u = Q.top().u;
                 Du = L[u];
@@ -121,21 +127,18 @@ https://github.com/stegua/MyBlogEntries/blob/master/Dijkstra/dijkstra.cc
                     break;
                 }
 
-                StarNode* curNode = _netPointer->beginNode(u);
+                curNode = NP.beginNode(u);
 
                 if (curNode == NULL)
                     continue;
 
-                if (curNode->getIsZone() && u != O)
+                if (curNode->getIsZone())
                     continue;
 
-                for (StarLink *nextLink = _netPointer->beginLink();
+                for (nextLink = NP.beginLink();
                         nextLink != NULL;
-                        nextLink = _netPointer->getNextLink()) {
+                        nextLink = NP.getNextLink()) {
                     v = nextLink->getNodeToIndex();
-
-                    if(v==u)
-                        continue;
 
                     Duv = Du + nextLink->getTime();
                     if ( Duv < L[v] ){

@@ -25,10 +25,13 @@ class ShPathDijkstraSTL : public ShPathInterface {
         void calculate(int O, int D) {
             int u, v;
             FPType Duv;
+            StarLink *nextLink;
+            StarNode *curNode;
 
-            std::vector<FPType>& L = *LabelVector;
-            std::vector<int>& P = *Predecessors;
-            ShPath::PriorityQueue& Q = *Queue;
+            ShPath::PriorityQueue &Q = *Queue;
+            std::vector<FPType> &L = *LabelVector;
+            std::vector<int> &P = *Predecessors;
+            StarNetwork &NP = *_netPointer;
 
             initNodes();
 
@@ -47,24 +50,28 @@ class ShPathDijkstraSTL : public ShPathInterface {
                     break;
                 }
 
-                StarNode* curNode = _netPointer->beginNode(u);
+                curNode = NP.beginNode(u);
 
                 if (curNode == NULL)
                     continue;
-                if (curNode->getIsZone() && u != O)
+
+                if (curNode->getIsZone())
                     continue;
 
-                for (StarLink *nextLink = _netPointer->beginLink();
+                for (nextLink = NP.beginLink();
                         nextLink != NULL;
-                        nextLink = _netPointer->getNextLink()) {
+                        nextLink = NP.getNextLink()) {
+
                     v = nextLink->getNodeToIndex();
-                    if(v==u)continue;
+
                     Duv = Du + nextLink->getTime();
+
                     if ( Duv < L[v] ){
                         L[v] = Duv;
                         P[v] = nextLink->getIndex();
                         Q.push(ShPath::PQPair(Duv, v));
                     }
+
                 } 
             } 
 

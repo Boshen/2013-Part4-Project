@@ -20,6 +20,7 @@ class ShPathAstarSTL : public ShPathInterface {
                     zeroFlowTimes->at(i*_nNodes+j) = LabelVector->at(j);
                 }
             }
+
         }
 
         ~ShPathAstarSTL(){
@@ -28,15 +29,20 @@ class ShPathAstarSTL : public ShPathInterface {
         }
 
         void calculate(int O) {
+
             int u, v;
             FPType Duv;
-            std::vector<FPType>& L = *LabelVector;
-            std::vector<int>& P = *Predecessors;
-            ShPath::PriorityQueue& Q = *Queue;
+            StarLink *nextLink;
+            StarNode *curNode;
+
+            ShPath::PriorityQueue &Q = *Queue;
+            std::vector<FPType> &L = *LabelVector;
+            std::vector<int> &P = *Predecessors;
+            StarNetwork &NP = *_netPointer;
 
             initNodes();
 
-            Q = ShPath::PriorityQueue(); // clear
+            Q = ShPath::PriorityQueue();
 
             L[O] = 0;
             Q.push(ShPath::PQPair(0, O));
@@ -47,20 +53,19 @@ class ShPathAstarSTL : public ShPathInterface {
                 u = Q.top().second;
                 Q.pop();
 
-                StarNode* curNode = _netPointer->beginNode(u);
+                curNode = NP.beginNode(u);
 
                 if (curNode == NULL)
                     continue;
-                if (curNode->getIsZone() && u != O)
+
+                if (curNode->getIsZone())
                     continue;
 
-                for (StarLink *nextLink = _netPointer->beginLink();
+                for (nextLink = NP.beginLink();
                         nextLink != NULL;
-                        nextLink = _netPointer->getNextLink()) {
+                        nextLink = NP.getNextLink()) {
 
                     v = nextLink->getNodeToIndex();
-
-                    if(v==u)continue;
 
                     Duv = Du + nextLink->getTime();
 
@@ -76,15 +81,20 @@ class ShPathAstarSTL : public ShPathInterface {
         }
 
         void calculate(int O, int D) {
+
             int u, v;
             FPType Duv;
-            std::vector<FPType>& L = *LabelVector;
-            std::vector<int>& P = *Predecessors;
-            ShPath::PriorityQueue& Q = *Queue;
-            std::vector<FPType>& H = *zeroFlowTimes;
+            StarLink *nextLink;
+            StarNode *curNode;
+
+            ShPath::PriorityQueue &Q = *Queue;
+            std::vector<FPType> &L = *LabelVector;
+            std::vector<FPType> &H = *zeroFlowTimes;
+            std::vector<int> &P = *Predecessors;
+            StarNetwork &NP = *_netPointer;
 
             initNodes();
-            Q = ShPath::PriorityQueue(); // clear
+            Q = ShPath::PriorityQueue();
 
             L[O] = 0;
             Q.push(ShPath::PQPair(0, O));
@@ -99,19 +109,18 @@ class ShPathAstarSTL : public ShPathInterface {
                     break;
                 }
 
-                StarNode* curNode = _netPointer->beginNode(u);
+                curNode = NP.beginNode(u);
 
                 if (curNode == NULL)
                     continue;
-                if (curNode->getIsZone() && u != O)
+
+                if (curNode->getIsZone())
                     continue;
 
-                for (StarLink *nextLink = _netPointer->beginLink();
+                for (nextLink = NP.beginLink();
                         nextLink != NULL;
-                        nextLink = _netPointer->getNextLink()) {
+                        nextLink = NP.getNextLink()) {
                     v = nextLink->getNodeToIndex();
-
-                    if(v==u)continue;
 
                     Duv = Du + nextLink->getTime();
 
