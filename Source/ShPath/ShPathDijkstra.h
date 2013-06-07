@@ -36,10 +36,12 @@ class ShPathDijkstra : public ShPathInterface {
             std::vector<handle_t> &K = *ValueKeys;
             std::vector<FPType> &L = *LabelVector;
             std::vector<int> &P = *Predecessors;
+            std::vector<Label> &LB = *Labels;
             StarNetwork &NP = *_netPointer;
 
             initNodes();
             Q.clear();
+            std::fill(LB.begin(), LB.end(), UNREACHED);
 
             L[O] = 0;
             K[O] = Q.push(ShPath::ValueKey(0, O));
@@ -47,8 +49,9 @@ class ShPathDijkstra : public ShPathInterface {
             while ( !Q.empty() ){
 
                 u = Q.top().u;
-                Du = -(*K[u]).d;
+                Du = L[u];
                 Q.pop();
+                LB[u] = LABELED;
 
                 if ( u == D )
                     break;
@@ -58,22 +61,24 @@ class ShPathDijkstra : public ShPathInterface {
                 if (curNode == NULL)
                     continue;
 
-                if (curNode->getIsZone())
+                if (curNode->getIsZone() && u != O)
                     continue;
 
                 for (nextLink = NP.beginLink();
                         nextLink != NULL;
                         nextLink = NP.getNextLink()) {
+
                     v = nextLink->getNodeToIndex();
 
                     Duv = Du + nextLink->getTime();
 
                     if ( Duv < L[v] ){
 
-                        if( L[v] != ShPath::FPType_Max ){
-                            Q.increase(K[v], ShPath::ValueKey(-Duv, v));
-                        }else{
+                        if( LB[v] == UNREACHED ){
                             K[v] = Q.push(ShPath::ValueKey(-Duv, v));
+                            LB[v] = SCANNED;
+                        }else if (LB[v] == SCANNED){
+                            Q.increase(K[v], ShPath::ValueKey(-Duv, v));
                         }
 
                         L[v]  = Duv;

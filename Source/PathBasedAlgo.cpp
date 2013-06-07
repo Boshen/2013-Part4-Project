@@ -25,10 +25,10 @@ void PathBasedAlgo::print(){
 
 int PathBasedAlgo::execute(){
 	// initialise
-	std::cout << "Initialisation started" << std::endl;
+//	std::cout << "Initialisation started" << std::endl;
 	_pathSet->initialise();
 	
-	std::cout << "Initialisation finished" << std::endl;
+//	std::cout << "Initialisation finished" << std::endl;
 	
 	// main loop
 	int nbIter = 0; 

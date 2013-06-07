@@ -58,7 +58,7 @@ class ShPathAstarSTL : public ShPathInterface {
                 if (curNode == NULL)
                     continue;
 
-                if (curNode->getIsZone())
+                if (curNode->getIsZone() && u != O)
                     continue;
 
                 for (nextLink = NP.beginLink();
@@ -114,12 +114,13 @@ class ShPathAstarSTL : public ShPathInterface {
                 if (curNode == NULL)
                     continue;
 
-                if (curNode->getIsZone())
+                if (curNode->getIsZone() && u != O)
                     continue;
 
                 for (nextLink = NP.beginLink();
                         nextLink != NULL;
                         nextLink = NP.getNextLink()) {
+
                     v = nextLink->getNodeToIndex();
 
                     Duv = Du + nextLink->getTime();

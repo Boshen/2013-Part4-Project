@@ -54,7 +54,7 @@ Origin* ODMatrix::getNextOrigin(){
 };
 
 void ODMatrix::print(){
-	std::cout << "nb pairs = " << _nbODPairs << std::endl;
+	//std::cout << "nb pairs = " << _nbODPairs << std::endl;
 	/*for (Origin *origin = beginOrigin(); origin != NULL; origin = getNextOrigin()){
 		std::cout << "Origin: " << origin->getID() << std::endl;
 		for (PairOD *dest = origin->beginDest(); dest != NULL; dest = origin->getNextDest()) {
@@ -80,7 +80,7 @@ void ODMatrix::setIndexes(StarNetwork *net){
 		}
 	}
 	_nbODPairs = count;
-	std::cout << "nbODPairs = " << _nbODPairs << std::endl;	
+	//std::cout << "nbODPairs = " << _nbODPairs << std::endl;	
 };
 
 FPType ODMatrix::getDemandByIndex(int originIndex, int destIndex) const{

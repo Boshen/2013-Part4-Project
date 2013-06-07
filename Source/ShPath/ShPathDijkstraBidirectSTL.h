@@ -25,6 +25,7 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
         int fShortestNode, bShortestNode, shortestPathMidNode;
     public:
         ShPathDijkstraBidirectSTL(StarNetwork* netPointer):ShPathInterface(netPointer){
+
             fQueue = new ShPath::PriorityQueue();
             bQueue = new ShPath::PriorityQueue();
             fDist = new std::vector<FPType>(_nNodes);
@@ -46,7 +47,7 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
                 for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
                     (*Edges)[nextLink->getNodeToIndex()]->push_back(nextLink);
                 }
-                isZone->at(node->getIndex()) = node->getIsZone();
+                (*isZone)[node->getIndex()] = node->getIsZone();
             }
         }
 
@@ -71,10 +72,10 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
             dijkstra->calculate(O); 
 
             for(int i = 0; i < _nNodes; i++)
-                LabelVector->at(i) = dijkstra->getCost(i);
-            
+                (*LabelVector)[i] = dijkstra->getCost(i);
+
             for(int i = 0; i < _nNodes; i++)
-                Predecessors->at(i) = dijkstra->getInComeLink(i) == NULL ? -1 : dijkstra->getInComeLink(i)->getIndex();
+                (*Predecessors)[i] = dijkstra->getInComeLink(i) == NULL ? -1 : dijkstra->getInComeLink(i)->getIndex();
         }
 
         void initialise(int O, int D){
@@ -93,8 +94,8 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
             std::fill(fDist->begin(), fDist->end(), ShPath::FPType_Max);
             std::fill(bDist->begin(), bDist->end(), ShPath::FPType_Max);
 
-            fDist->at(O) = 0;
-            bDist->at(D) = 0;
+            (*fDist)[O] = 0;
+            (*bDist)[D] = 0;
             fQueue->push(ShPath::PQPair(0, O));
             bQueue->push(ShPath::PQPair(0, D));
         }
@@ -112,28 +113,27 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
             }
 
             std::deque<int> q;
-            int linkIndex = fPred->at(shortestPathMidNode);
+            int linkIndex = (*fPred)[shortestPathMidNode];
             while(linkIndex!=-1){
                 q.push_front(linkIndex);
                 linkIndex = _netPointer->getLink(linkIndex)->getNodeFromIndex();
-                linkIndex = fPred->at(linkIndex);
+                linkIndex = (*fPred)[linkIndex];
             }
-            linkIndex = bPred->at(shortestPathMidNode);
-            //std::cout << linkIndex << " ";
+            linkIndex = (*bPred)[shortestPathMidNode];
             while(linkIndex!=-1){
                 q.push_back(linkIndex);
                 linkIndex = _netPointer->getLink(linkIndex)->getNodeToIndex();
-                linkIndex = bPred->at(linkIndex);
+                linkIndex = (*bPred)[linkIndex];
             }
 
             FPType dist = 0.0;
             for(size_t i = 0; i < q.size(); i++){
                 StarLink* link = _netPointer->getLink(q[i]);
-                Predecessors->at(link->getNodeToIndex()) = link->getIndex();
+                (*Predecessors)[link->getNodeToIndex()] = link->getIndex();
                 dist += link->getTime();
-                LabelVector->at(link->getNodeToIndex()) = dist;
+                (*LabelVector)[link->getNodeToIndex()] = dist;
             }
-            LabelVector->at(O)= 0;
+            (*LabelVector)[O]= 0;
         }
 
         bool fIterate(int O, int D){
@@ -144,7 +144,7 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
             FPType Du;
 
             u = (fQueue->top()).second;
-            Du = fDist->at(u);
+            Du = (*fDist)[u];
             fQueue->pop();
 
             StarNode* curNode = _netPointer->beginNode(u);
@@ -155,13 +155,13 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
                         nextLink = _netPointer->getNextLink()) {
                     int v = nextLink->getNodeToIndex();
                     FPType Duv = Du + nextLink->getTime();
-                    if ( Duv < fDist->at(v) ){
-                        fDist->at(v) = Duv;
-                        fPred->at(v) = nextLink->getIndex();
+                    if ( Duv < (*fDist)[v] ){
+                        (*fDist)[v] = Duv;
+                        (*fPred)[v] = nextLink->getIndex();
                         fQueue->push(ShPath::PQPair(Duv, v));
                     }
                     updateShortest(Duv, 0.0, v, D);
-                } // for each outgoing link
+                }
             }
             if (checkFinishCondition())
                 return false;
@@ -176,23 +176,23 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
             FPType Du;
 
             u = (bQueue->top()).second;
-            Du = bDist->at(u);
+            Du = (*bDist)[u];
             bQueue->pop();
 
             StarNode* curNode = _netPointer->beginNode(u);
             if ((curNode != NULL) && (!curNode->getIsZone() || (u == D))) {
-                for (size_t j = 0; j < Edges->at(u)->size(); j++){
-                    StarLink *nextLink = Edges->at(u)->at(j);
+                for (size_t j = 0; j < (*Edges)[u]->size(); j++){
+                    StarLink *nextLink = (*(*Edges)[u])[j];
                     int v = nextLink->getNodeFromIndex();
                     FPType Duv = Du + nextLink->getTime();
-                    if ( Duv < bDist->at(v)){
-                        bDist->at(v) = Duv;
-                        bPred->at(v) = nextLink->getIndex();
+                    if ( Duv < (*bDist)[v]){
+                        (*bDist)[v] = Duv;
+                        (*bPred)[v] = nextLink->getIndex();
                         bQueue->push(ShPath::PQPair(Duv, v));
                     }
                     updateShortest(0.0, Duv, v, O);
-                } // for each outgoing link
-            } // if can visit node
+                }
+            }
             if (checkFinishCondition())
                 return false;
             return true;
@@ -203,20 +203,23 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
         // => when scanning an arc (v, w) in the forward search and w is scanned in the reverseOrder 
         //    search, update shortest = μ if df (v) + (v, w) + dr (w) < μ            
         void updateShortest(FPType fDv, FPType bDv, int v, int dest){
-            if (isZone->at(v) )return;
+            if ((*isZone)[v])return;
             FPType newDist = ShPath::FPType_Max;
-            if (((fDist->at(v) != newDist) && (bDist->at(v) != newDist)) || (v ==dest)){
+
+            if ((( ((*fDist)[v] != newDist) && (*bDist)[v] != newDist)) || (v ==dest)){
+
                 int *fNode = NULL, *bNode = NULL;
+
                 if (fDv == 0.0) { // check on backward
-                    newDist = bDv + fDist->at(v);
-                    fNode = &(fPred->at(v));
+                    newDist = bDv + (*fDist)[v];
+                    fNode = &((*fPred)[v]);
                     bNode = &v;
                 }
 
                 if (bDv == 0.0) { // check on forward
-                    newDist = fDv + bDist->at(v);
+                    newDist = fDv + (*bDist)[v];
                     fNode = &v;
-                    bNode = &bPred->at(v);
+                    bNode = &(*bPred)[v];
                 }
 
                 if (newDist < shortestPathDist){
@@ -238,4 +241,3 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
 
 
 #endif
-

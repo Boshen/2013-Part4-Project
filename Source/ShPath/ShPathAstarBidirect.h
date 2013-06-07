@@ -23,6 +23,7 @@ class ShPathAstarBidirect : public ShPathInterface {
         std::vector<bool> *isZone;
         std::vector<FPType> *fZeroFlowTimes;
         std::vector<FPType> *bZeroFlowTimes;
+        std::vector<Label> *bLabels;
 
         FPType fShortestDist, bShortestDist, shortestPathDist; // for termination conditions
         int fShortestNode, bShortestNode;
@@ -40,6 +41,7 @@ class ShPathAstarBidirect : public ShPathInterface {
             isZone = new std::vector<bool>(_nNodes);
             fZeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
             bZeroFlowTimes = new std::vector<FPType>(_nNodes*_nNodes);
+            bLabels = new std::vector<Label>(_nNodes);
 
             Edges = new EdgeMap();
             for (int i = 0; i < _nNodes; i++){
@@ -50,7 +52,7 @@ class ShPathAstarBidirect : public ShPathInterface {
                 for (StarLink *nextLink = _netPointer->beginLink(); nextLink != NULL; nextLink = _netPointer->getNextLink()) {
                     (*Edges)[nextLink->getNodeToIndex()]->push_back(nextLink);
                 }
-                isZone->at(node->getIndex()) = node->getIsZone();
+                (*isZone)[node->getIndex()] = node->getIsZone();
             }
 
             _netPointer->calculateLinkCosts();
@@ -59,7 +61,7 @@ class ShPathAstarBidirect : public ShPathInterface {
             for(int i = 0; i < _nNodes; i++){
                 calculate(i);
                 for(int j = 0; j < _nNodes; j++){
-                    fZeroFlowTimes->at(i*_nNodes+j) = LabelVector->at(j);
+                    (*fZeroFlowTimes)[i*_nNodes+j] = (*LabelVector)[j];
                 }
             }
 
@@ -67,7 +69,7 @@ class ShPathAstarBidirect : public ShPathInterface {
             for(int i = 0; i < _nNodes; i++){
                 calculateBackward(i);
                 for(int j = 0; j < _nNodes; j++){
-                    bZeroFlowTimes->at(i*_nNodes+j) = LabelVector->at(j);
+                    (*bZeroFlowTimes)[i*_nNodes+j] = (*LabelVector)[j];
                 }
             }
         }
@@ -82,6 +84,7 @@ class ShPathAstarBidirect : public ShPathInterface {
             delete fPred;
             delete bPred;
             delete isZone;
+            delete bLabels;
             delete fZeroFlowTimes;
             delete bZeroFlowTimes;
             for(int i = 0; i < _nNodes; i++){
@@ -90,6 +93,30 @@ class ShPathAstarBidirect : public ShPathInterface {
             delete Edges;
 
         }
+
+        void initialise(int O, int D){
+            initNodes();
+
+            fShortestDist = bShortestDist = 0.0;
+            fShortestNode = bShortestNode = -1;
+            shortestPathDist = ShPath::FPType_Max;
+
+            fQueue->clear();
+            bQueue->clear();
+
+            std::fill(fPred->begin(), fPred->end(), -1);
+            std::fill(bPred->begin(), bPred->end(), -1);
+            std::fill(fDist->begin(), fDist->end(), ShPath::FPType_Max);
+            std::fill(bDist->begin(), bDist->end(), ShPath::FPType_Max);
+            std::fill(Labels->begin(), Labels->end(), UNREACHED);
+            std::fill(bLabels->begin(), bLabels->end(), UNREACHED);
+
+            fDist->at(O) = 0;
+            bDist->at(D) = 0;
+            fValueKeys->at(O) = fQueue->push(ShPath::ValueKey(0, O));
+            bValueKeys->at(D) = bQueue->push(ShPath::ValueKey(0, D));
+        }
+
 
         void calculate(int O) { 
             int u, v;
@@ -100,8 +127,9 @@ class ShPathAstarBidirect : public ShPathInterface {
 
             while ( !fQueue->empty() ){
                 u = fQueue->top().u;
-                Du = LabelVector->at(u);
+                Du = (*LabelVector)[u];
                 fQueue->pop();
+                (*Labels)[u] = LABELED;
 
                 StarNode* curNode = _netPointer->beginNode(u);
 
@@ -114,19 +142,20 @@ class ShPathAstarBidirect : public ShPathInterface {
                 for (StarLink *nextLink = _netPointer->beginLink();
                         nextLink != NULL;
                         nextLink = _netPointer->getNextLink()) {
-                    v = nextLink->getNodeToIndex();
 
-                    if(v==u)
-                        continue;
+                    v = nextLink->getNodeToIndex();
 
                     Duv = Du + nextLink->getTime();
 
                     if ( Duv < LabelVector->at(v) ){
-                        if( LabelVector->at(v) != ShPath::FPType_Max ){
-                            fQueue->increase(fValueKeys->at(v), ShPath::ValueKey(-Duv, v));
-                        }else{
-                            fValueKeys->at(v) = fQueue->push(ShPath::ValueKey(-Duv, v));
+
+                        if( (*Labels)[v] == UNREACHED ){
+                            (*fValueKeys)[v] = fQueue->push(ShPath::ValueKey(-Duv, v));
+                            (*Labels)[v] = SCANNED;
+                        }else if ((*Labels)[v] == SCANNED){
+                            fQueue->increase((*fValueKeys)[v], ShPath::ValueKey(-Duv, v));
                         }
+
                         LabelVector->at(v) = Duv;
                         Predecessors->at(v) = nextLink->getIndex();
                     }
@@ -147,6 +176,7 @@ class ShPathAstarBidirect : public ShPathInterface {
                 u = fQueue->top().u;
                 Du = LabelVector->at(u);
                 fQueue->pop();
+                (*Labels)[u] = LABELED;
 
                 StarNode* curNode = _netPointer->beginNode(u);
 
@@ -160,17 +190,16 @@ class ShPathAstarBidirect : public ShPathInterface {
                     StarLink *nextLink = Edges->at(u)->at(j);
 
                     v = nextLink->getNodeFromIndex();
-                    if(v==u)
-                        continue;
 
                     Duv = Du + nextLink->getTime();
 
                     if ( Duv < LabelVector->at(v) ){
 
-                        if( LabelVector->at(v) != ShPath::FPType_Max ){
-                            fQueue->increase(fValueKeys->at(v), ShPath::ValueKey(-Duv, v));
-                        }else{
-                            fValueKeys->at(v) = fQueue->push(ShPath::ValueKey(-Duv, v));
+                        if( (*Labels)[v] == UNREACHED ){
+                            (*fValueKeys)[v] = fQueue->push(ShPath::ValueKey(-Duv, v));
+                            (*Labels)[v] = SCANNED;
+                        }else if ((*Labels)[v] == SCANNED){
+                            fQueue->increase((*fValueKeys)[v], ShPath::ValueKey(-Duv, v));
                         }
 
                         LabelVector->at(v) = Duv;
@@ -181,26 +210,6 @@ class ShPathAstarBidirect : public ShPathInterface {
             }
         }
 
-        void initialise(int O, int D){
-            initNodes();
-
-            fShortestDist = bShortestDist = 0.0;
-            fShortestNode = bShortestNode = -1;
-            shortestPathDist = ShPath::FPType_Max;
-
-            fQueue->clear();
-            bQueue->clear();
-
-            std::fill(fPred->begin(), fPred->end(), -1);
-            std::fill(bPred->begin(), bPred->end(), -1);
-            std::fill(fDist->begin(), fDist->end(), ShPath::FPType_Max);
-            std::fill(bDist->begin(), bDist->end(), ShPath::FPType_Max);
-
-            fDist->at(O) = 0;
-            bDist->at(D) = 0;
-            fValueKeys->at(O) = fQueue->push(ShPath::ValueKey(0, O));
-            bValueKeys->at(D) = bQueue->push(ShPath::ValueKey(0, D));
-        }
 
         void calculate(int O, int D) { 
             initialise(O, D);
@@ -250,6 +259,7 @@ class ShPathAstarBidirect : public ShPathInterface {
                 u = (fQueue->top()).u;
                 Du = fDist->at(u);
                 fQueue->pop();
+                (*Labels)[u] = LABELED;
 
                 if(u == D){
                     fQueue->clear();
@@ -273,10 +283,11 @@ class ShPathAstarBidirect : public ShPathInterface {
 
                             Huv = Duv + 0.5*(fZeroFlowTimes->at(v*_nNodes+D) - fZeroFlowTimes->at(O*_nNodes+v)) + 0.5*fZeroFlowTimes->at(O*_nNodes+D);
 
-                            if( fDist->at(v) != ShPath::FPType_Max ){
-                                fQueue->increase(fValueKeys->at(v), ShPath::ValueKey(-Huv, v));
-                            }else{
-                                fValueKeys->at(v) = fQueue->push(ShPath::ValueKey(-Huv, v));
+                            if( (*Labels)[v] == UNREACHED ){
+                                (*fValueKeys)[v] = fQueue->push(ShPath::ValueKey(-Huv, v));
+                                (*Labels)[v] = SCANNED;
+                            }else if ((*Labels)[v] == SCANNED){
+                                fQueue->increase((*fValueKeys)[v], ShPath::ValueKey(-Huv, v));
                             }
 
                             fDist->at(v) = Duv;
@@ -309,6 +320,7 @@ class ShPathAstarBidirect : public ShPathInterface {
                 u = (bQueue->top()).u;
                 Du = bDist->at(u);
                 bQueue->pop();
+                (*bLabels)[u] = LABELED;
 
                 if(u == O){
                     fQueue->clear();
@@ -331,10 +343,11 @@ class ShPathAstarBidirect : public ShPathInterface {
 
                             Huv = Duv + 0.5*(fZeroFlowTimes->at(O*_nNodes+v) - fZeroFlowTimes->at(v*_nNodes+D)) + 0.5*fZeroFlowTimes->at(O*_nNodes+D);
 
-                            if( bDist->at(v) != ShPath::FPType_Max ){
-                                bQueue->increase(bValueKeys->at(v), ShPath::ValueKey(-Huv, v));
-                            }else{
-                                bValueKeys->at(v) = bQueue->push(ShPath::ValueKey(-Huv, v));
+                            if( (*bLabels)[v] == UNREACHED ){
+                                (*bValueKeys)[v] = bQueue->push(ShPath::ValueKey(-Huv, v));
+                                (*bLabels)[v] = SCANNED;
+                            }else if ((*bLabels)[v] == SCANNED){
+                                bQueue->increase((*bValueKeys)[v], ShPath::ValueKey(-Huv, v));
                             }
 
                             bDist->at(v) = Duv;
@@ -365,7 +378,7 @@ class ShPathAstarBidirect : public ShPathInterface {
         void updateShortest(FPType fDv, FPType bDv, int v, int dest){
             if (isZone->at(v) )return;
 
-            if (((fDist->at(v) != ShPath::FPType_Max) && (bDist->at(v) != ShPath::FPType_Max)) || (v ==dest)){
+            if (((Labels->at(v) == SCANNED) && (bLabels->at(v) == SCANNED)) || (v ==dest)){
 
                 FPType newDist = ShPath::FPType_Max;
 

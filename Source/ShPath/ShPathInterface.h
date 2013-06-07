@@ -36,11 +36,26 @@ namespace ShPath {
         }
     };
 
+
 }
 
 
 
 class ShPathInterface : public ShortestPath {
+
+    protected:
+        enum Label { UNREACHED, SCANNED, LABELED };
+
+        int _nNodes;
+        std::vector<FPType> *LabelVector;
+        std::vector<int> *Predecessors;
+        std::vector<Label> *Labels;
+        StarNetwork *_netPointer;
+
+        inline void initNodes(){
+            std::fill(LabelVector->begin(), LabelVector->end(),  ShPath::FPType_Max);
+            std::fill(Predecessors->begin(), Predecessors->end(),  -1);
+        }
 
     public:
         ShPathInterface(StarNetwork *netPointer) : _netPointer(netPointer) {
@@ -48,12 +63,14 @@ class ShPathInterface : public ShortestPath {
 
             LabelVector = new std::vector<FPType>(_nNodes);
             Predecessors = new std::vector<int>(_nNodes);
+            Labels = new std::vector<Label>(_nNodes);
 
         };
 
         ~ShPathInterface(){
             delete LabelVector;
             delete Predecessors;
+            delete Labels;
         }
 
         virtual void calculate(int originIndex) =0;
@@ -61,25 +78,15 @@ class ShPathInterface : public ShortestPath {
 
         FPType getCost(int destIndex) const{
             assert((destIndex >= 0) && (destIndex < _nNodes));
-            return LabelVector->at(destIndex);
+            return (*LabelVector)[destIndex];
         }
 
         StarLink* getInComeLink(int destIndex) const{
             assert((destIndex >= 0) && (destIndex < _nNodes));
-            int linkIndex = Predecessors->at(destIndex);
+            int linkIndex = (*Predecessors)[destIndex];
             return  linkIndex == -1 ?  NULL :  _netPointer->getLink(linkIndex);
         }
 
-    protected:
-        int _nNodes;
-        std::vector<FPType> *LabelVector;
-        std::vector<int> *Predecessors;
-        StarNetwork *_netPointer;
-
-        inline void initNodes(){
-            std::fill(LabelVector->begin(), LabelVector->end(),  ShPath::FPType_Max);
-            std::fill(Predecessors->begin(), Predecessors->end(),  -1);
-        }
 };
 
 #endif

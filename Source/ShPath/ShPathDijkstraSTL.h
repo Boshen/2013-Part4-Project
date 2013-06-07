@@ -2,7 +2,6 @@
 #define _SH_PATH_DIJKSTRA_STL_
 
 #include "ShPathInterface.h"
-#include "../Path.h"
 
 class ShPathDijkstraSTL : public ShPathInterface {
     private:
@@ -55,7 +54,7 @@ class ShPathDijkstraSTL : public ShPathInterface {
                 if (curNode == NULL)
                     continue;
 
-                if (curNode->getIsZone())
+                if (curNode->getIsZone() && u != O)
                     continue;
 
                 for (nextLink = NP.beginLink();

@@ -12,7 +12,6 @@
 #include "ShPathAstarBidirect.h"
 
 #include "ShPathDijkstraBidirectSTL.h"
-#include "ShPathDijkstraBidirect.h"
 
 ShPathFactory::ShPathFactory(){}
 
@@ -59,9 +58,6 @@ ShPathInterface* ShPathFactory::getShPath(const std::string& algo, const std::st
 
     if ( algo == "AstarBidirect")
         return new ShPathAstarBidirect<SkewHeap>(_netPointer);
-
-    if ( algo == "DijkstraBidirect")
-        return new ShPathDijkstraBidirect<SkewHeap>(_netPointer);
 
     if ( algo == "DijkstraBidirectSTL")
         return new ShPathDijkstraBidirectSTL(_netPointer);

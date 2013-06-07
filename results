@@ -1,0 +1,76 @@
+
+----------------------------------------
+SiouxFalls
+ | FibonacciHeap | Dijkstra | 0.110000 | 69
+
+ | BinaryHeap | Dijkstra | 0.080000 | 58
+
+ | TernaryHeap | Dijkstra | 0.080000 | 53
+
+ | SkewHeap | Dijkstra | 0.100000 | 87
+
+ | PairingHeap | Dijkstra | 0.060000 | 44
+
+ | BinomialHeap | Dijkstra | 0.160000 | 52
+
+ | FibonacciHeap | Astar | 0.100000 | 69
+
+ | BinaryHeap | Astar | 0.060000 | 58
+
+ | TernaryHeap | Astar | 0.080000 | 53
+
+ | SkewHeap | Astar | 0.090000 | 87
+
+ | PairingHeap | Astar | 0.060000 | 44
+
+ | BinomialHeap | Astar | 0.120000 | 52
+
+----------------------------------------
+Anaheim
+ | FibonacciHeap | Dijkstra | 0.700000 | 10
+
+ | BinaryHeap | Dijkstra | 0.500000 | 10
+
+ | TernaryHeap | Dijkstra | 0.620000 | 10
+
+ | SkewHeap | Dijkstra | 0.500000 | 10
+
+ | PairingHeap | Dijkstra | 0.640000 | 10
+
+ | BinomialHeap | Dijkstra | 1.720000 | 10
+
+ | FibonacciHeap | Astar | 0.170000 | 10
+
+ | BinaryHeap | Astar | 0.140000 | 10
+
+ | TernaryHeap | Astar | 0.180000 | 10
+
+ | SkewHeap | Astar | 0.140000 | 10
+
+ | PairingHeap | Astar | 0.160000 | 10
+
+ | BinomialHeap | Astar | 0.340000 | 10
+
+----------------------------------------
+SiouxFalls
+ | DijkstraSTL | 0.070000 | 86
+
+ | DijkstraSet | 0.080000 | 54
+
+ | DijkstraBidirectSTL | 0.160000 | 87
+
+ | AstarSTL | 0.080000 | 87
+
+ | AstarBidirect | 0.200000 | 87
+
+----------------------------------------
+Anaheim
+ | DijkstraSTL | 0.310000 | 10
+
+ | DijkstraSet | 0.620000 | 10
+
+ | DijkstraBidirectSTL | 0.440000 | 10
+
+ | AstarSTL | 0.100000 | 10
+
+ | AstarBidirect | 0.280000 | 10

@@ -16,15 +16,17 @@
 //<NETWORK>: {Data/Instances/SiouxFalls_net.txt}
 //<OD_MATRIX>:{Data/Instances/SiouxFalls_trips.txt}
 
-<NETWORK>:{Data/Instances/ChicagoSketch_net.txt}
-<OD_MATRIX>:{Data/Instances/ChicagoSketch_trips.txt}
+//<NETWORK>:{Data/Instances/ChicagoSketch_net.txt}
+//<OD_MATRIX>:{Data/Instances/ChicagoSketch_trips.txt}
+
+<NETWORK>:{Data/Instances/Anaheim_net.txt}
+<OD_MATRIX>:{Data/Instances/Anaheim_trips.txt} 
 
 // Data/Instances/ART_Data/ART2/art2.links
 
 //Data/Instances/test1.net
 //Data/Instances/ex_book_p114.net
 //{Data/Instances/Andrea25Nodes.net}
-//{Data/Instances/Anaheim_net.txt}
 //{Data/Instances/SiouxFalls_net.txt} 
 //{Data/Instances/Winnipeg_net.txt}
 
@@ -40,7 +42,6 @@
 //Data/Instances/test1.od
 //Data/Instances/ex_book_p114.od
 // Data/Instances/Andrea25Nodes.od
-//{Data/Instances/Anaheim_trips.txt} 
 //{Data/Instances/SiouxFalls_trips.txt}
 //{Data/Instances/Winnipeg_trips.txt}
 <INDIFF_CURVE>: {} // path to file with indifference curves, if not specified the problem is considered to be additive
