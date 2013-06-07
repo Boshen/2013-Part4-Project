@@ -1,76 +1,190 @@
 
 ----------------------------------------
 SiouxFalls
- | FibonacciHeap | Dijkstra | 0.110000 | 69
+ | Dijkstra | FibonacciHeap | 0.100000 | 69
 
- | BinaryHeap | Dijkstra | 0.080000 | 58
+ | Dijkstra | BinaryHeap | 0.090000 | 58
 
- | TernaryHeap | Dijkstra | 0.080000 | 53
+ | Dijkstra | TernaryHeap | 0.100000 | 53
 
- | SkewHeap | Dijkstra | 0.100000 | 87
+ | Dijkstra | SkewHeap | 0.110000 | 87
 
- | PairingHeap | Dijkstra | 0.060000 | 44
+ | Dijkstra | PairingHeap | 0.060000 | 44
 
- | BinomialHeap | Dijkstra | 0.160000 | 52
+ | Dijkstra | BinomialHeap | 0.160000 | 52
 
- | FibonacciHeap | Astar | 0.100000 | 69
+ | Astar | FibonacciHeap | 0.090000 | 69
 
- | BinaryHeap | Astar | 0.060000 | 58
+ | Astar | BinaryHeap | 0.080000 | 58
 
- | TernaryHeap | Astar | 0.080000 | 53
+ | Astar | TernaryHeap | 0.080000 | 53
 
- | SkewHeap | Astar | 0.090000 | 87
+ | Astar | SkewHeap | 0.100000 | 87
 
- | PairingHeap | Astar | 0.060000 | 44
+ | Astar | PairingHeap | 0.060000 | 44
 
- | BinomialHeap | Astar | 0.120000 | 52
+ | Astar | BinomialHeap | 0.110000 | 52
 
 ----------------------------------------
 Anaheim
- | FibonacciHeap | Dijkstra | 0.700000 | 10
+ | Dijkstra | FibonacciHeap | 0.680000 | 10
 
- | BinaryHeap | Dijkstra | 0.500000 | 10
+ | Dijkstra | BinaryHeap | 0.490000 | 10
 
- | TernaryHeap | Dijkstra | 0.620000 | 10
+ | Dijkstra | TernaryHeap | 0.610000 | 10
 
- | SkewHeap | Dijkstra | 0.500000 | 10
+ | Dijkstra | SkewHeap | 0.510000 | 10
 
- | PairingHeap | Dijkstra | 0.640000 | 10
+ | Dijkstra | PairingHeap | 0.660000 | 10
 
- | BinomialHeap | Dijkstra | 1.720000 | 10
+ | Dijkstra | BinomialHeap | 1.700000 | 10
 
- | FibonacciHeap | Astar | 0.170000 | 10
+ | Astar | FibonacciHeap | 0.170000 | 10
 
- | BinaryHeap | Astar | 0.140000 | 10
+ | Astar | BinaryHeap | 0.140000 | 10
 
- | TernaryHeap | Astar | 0.180000 | 10
+ | Astar | TernaryHeap | 0.160000 | 10
 
- | SkewHeap | Astar | 0.140000 | 10
+ | Astar | SkewHeap | 0.130000 | 10
 
- | PairingHeap | Astar | 0.160000 | 10
+ | Astar | PairingHeap | 0.160000 | 10
 
- | BinomialHeap | Astar | 0.340000 | 10
+ | Astar | BinomialHeap | 0.320000 | 10
+
+----------------------------------------
+Barcelona
+ | Dijkstra | FibonacciHeap | 35.720000 | 32
+
+ | Dijkstra | BinaryHeap | 22.600000 | 29
+
+ | Dijkstra | TernaryHeap | 25.300000 | 28
+
+ | Dijkstra | SkewHeap | 23.420000 | 28
+
+ | Dijkstra | PairingHeap | 29.330000 | 27
+
+ | Dijkstra | BinomialHeap | 72.010000 | 27
+
+ | Astar | FibonacciHeap | 5.410000 | 29
+
+ | Astar | BinaryHeap | 4.540000 | 28
+
+ | Astar | TernaryHeap | 5.210000 | 27
+
+ | Astar | SkewHeap | 4.060000 | 27
+
+ | Astar | PairingHeap | 4.700000 | 27
+
+ | Astar | BinomialHeap | 9.590000 | 27
+
+----------------------------------------
+Winnipeg
+ | Dijkstra | FibonacciHeap | 73.660000 | 128
+
+ | Dijkstra | BinaryHeap | 56.940000 | 131
+
+ | Dijkstra | TernaryHeap | 62.210000 | 128
+
+ | Dijkstra | SkewHeap | 52.570000 | 127
+
+ | Dijkstra | PairingHeap | 69.830000 | 131
+
+ | Dijkstra | BinomialHeap | 165.800000 | 127
+
+ | Astar | FibonacciHeap | 17.990000 | 127
+
+ | Astar | BinaryHeap | 15.230000 | 126
+
+ | Astar | TernaryHeap | 17.330000 | 126
+
+ | Astar | SkewHeap | 14.160000 | 129
+
+ | Astar | PairingHeap | 16.750000 | 128
+
+ | Astar | BinomialHeap | 35.390000 | 128
+
+----------------------------------------
+ChicagoSketch
+ | Dijkstra | FibonacciHeap | 155.140000 | 25
+
+ | Dijkstra | BinaryHeap | 130.220000 | 25
+
+ | Dijkstra | TernaryHeap | 155.340000 | 25
+
+ | Dijkstra | SkewHeap | 120.450000 | 25
+
+ | Dijkstra | PairingHeap | 140.550000 | 25
+
+ | Dijkstra | BinomialHeap | 369.100000 | 25
+
+ | Astar | FibonacciHeap | 31.270000 | 26
+
+ | Astar | BinaryHeap | 28.000000 | 26
+
+ | Astar | TernaryHeap | 34.310000 | 26
+
+ | Astar | SkewHeap | 25.940000 | 26
+
+ | Astar | PairingHeap | 27.930000 | 26
+
+ | Astar | BinomialHeap | 59.760000 | 26
 
 ----------------------------------------
 SiouxFalls
- | DijkstraSTL | 0.070000 | 86
+ | DijkstraSTL | 0.080000 | 86
 
  | DijkstraSet | 0.080000 | 54
 
  | DijkstraBidirectSTL | 0.160000 | 87
 
- | AstarSTL | 0.080000 | 87
+ | AstarSTL | 0.070000 | 87
 
- | AstarBidirect | 0.200000 | 87
+ | AstarBidirect | 0.210000 | 87
 
 ----------------------------------------
 Anaheim
- | DijkstraSTL | 0.310000 | 10
+ | DijkstraSTL | 0.300000 | 10
 
  | DijkstraSet | 0.620000 | 10
 
- | DijkstraBidirectSTL | 0.440000 | 10
+ | DijkstraBidirectSTL | 0.430000 | 10
 
  | AstarSTL | 0.100000 | 10
 
  | AstarBidirect | 0.280000 | 10
+
+----------------------------------------
+Barcelona
+ | DijkstraSTL | 13.670000 | 27
+
+ | DijkstraSet | 27.360000 | 27
+
+ | DijkstraBidirectSTL | 20.930000 | 27
+
+ | AstarSTL | 2.990000 | 28
+
+ | AstarBidirect | 8.020000 | 30
+
+----------------------------------------
+Winnipeg
+ | DijkstraSTL | 34.890000 | 127
+
+ | DijkstraSet | 66.890000 | 127
+
+ | DijkstraBidirectSTL | 49.950000 | 126
+
+ | AstarSTL | 10.420000 | 126
+
+ | AstarBidirect | 24.810000 | 127
+
+----------------------------------------
+ChicagoSketch
+ | DijkstraSTL | 87.520000 | 25
+
+ | DijkstraSet | 145.950000 | 25
+
+ | DijkstraBidirectSTL | 157.750000 | 25
+
+ | AstarSTL | 18.750000 | 26
+
+ | AstarBidirect | 59.820000 | 26
