@@ -1,11 +1,12 @@
 <PARSER>: {DEFAULT} 
-<NETWORK>: {Data/Instances/ChicagoSketch_net.txt}
+<ShPathAlgo> : {AstarBidirect}
+<ShPathDataStruct> : {BinomialHeap}
+<NETWORK> : {Data/Instances/Anaheim_net.txt}
+<OD_MATRIX> : {Data/Instances/Anaheim_trips.txt}
 <NODES_ART2> {Data/Instances/ART_Data/ART2/art2.nodes}
 <FNC_ART2> {Data/Instances/ART_Data/ART2/art2.fnc}
-<OD_MATRIX>:{Data/Instances/ChicagoSketch_trips.txt}
 <INDIFF_CURVE>: {} 
-<ShPathAlgo> : {AstarSTL}
-<ShPathDataStruct> : {TernaryHeap}
+<NODES>: {} 
 <CONV_MEASURE>: {RGAP} 
 <PRECISION>: {1e-6} 
 <ZERO_FLOW>: {1e-10} 
@@ -13,17 +14,15 @@
 <LINE_SEARCH>: {QUAD_APP} 
 <LS_PRECISION>: {1e-10} 
 <ARMIJO_DEC>: {2} 
-<SPARSITY>: {0} 
-<SPARSITY_TOLERANCE>: {1e-30} 
 <EQUILIBRATION>: {EQI} 
 <APPROACH>: {APP3} 
 <ALPHA>: {0.5} 
 <SLOPE>: {1e-8} 
 <ISP_SCALE>: {0.15} 
+<NEWTON_STEPS>: {MULTI} 
 <DIR_TOLERANCE>: {1e-10} 
 <BIOBJ_SHPATH>: {} 
-<SHOW_CONVERGENCE>: {} 
-<SHOW_PATHSET>: {} 
+<SHOW_CONVERGENCE>: {yes} 
 <LINK_FLOWS>: {} 
 <PATH_SET>: {} 
 <CONVERGENCE>: {} 

@@ -77,4 +77,4 @@ cd /usr/include
 
 store previous value shortest path , compute value on that path, if path value not changed, return
 
-add if(v==u)continue;
+
