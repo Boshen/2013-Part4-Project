@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  28 MAY 2013 19:14
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  10 JUN 2013 10:36
 entering extended mode
  %&-line parsing enabled.
 **report
@@ -994,7 +994,7 @@ line 74.
 \openout2 = `./contents/titlepage.aux'.
 
  (./contents/titlepage.tex
-<img/logo.jpg, id=118, 319.1925pt x 159.59625pt>
+<img/logo.jpg, id=114, 319.1925pt x 159.59625pt>
 File: img/logo.jpg Graphic file (type jpg)
  <use img/logo.jpg>
 LaTeX Font Info:    Try loading font information for U+msa on input line 17.
@@ -1113,11 +1113,7 @@ Chapter 3.
 
 
 
-] [15]
-
-LaTeX Warning: Marginpar on page 16 moved.
-
-) [16]
+]) [15] [16]
 \openout2 = `./contents/results.aux'.
 
  (./contents/results.tex
@@ -1126,40 +1122,40 @@ Chapter 4.
 
 
 
-]
-Overfull \hbox (2.31206pt too wide) in paragraph at lines 110--110
+] [18]
+Overfull \hbox (2.31206pt too wide) in paragraph at lines 149--149
 [][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
  []
 
 
-Overfull \hbox (2.31206pt too wide) in paragraph at lines 110--110
+Overfull \hbox (2.31206pt too wide) in paragraph at lines 149--149
 [][][][]\OT1/cmr/m/n/10.95 (-20) incomplete  
  []
 
-<img/chicago_dijkstra.pdf, id=440, 1212.89232pt x 1188.45728pt>
+<img/chicago_dijkstra.pdf, id=437, 1212.89232pt x 1188.45728pt>
 File: img/chicago_dijkstra.pdf Graphic file (type pdf)
 
 <use img/chicago_dijkstra.pdf>
-<img/chicago_bidirect.pdf, id=443, 1212.89232pt x 1188.45728pt>
+<img/chicago_bidirect.pdf, id=440, 1212.89232pt x 1188.45728pt>
 File: img/chicago_bidirect.pdf Graphic file (type pdf)
 
 <use img/chicago_bidirect.pdf>
-<img/chicago_astar.pdf, id=446, 1212.89232pt x 1188.45728pt>
+<img/chicago_astar.pdf, id=443, 1212.89232pt x 1188.45728pt>
 File: img/chicago_astar.pdf Graphic file (type pdf)
 
-<use img/chicago_astar.pdf>) [18] [19] [20 <./img/chicago_dijkstra.pdf> <./img/
+<use img/chicago_astar.pdf>) [19] [20] [21 <./img/chicago_dijkstra.pdf> <./img/
 chicago_bidirect.pdf> <./img/chicago_astar.pdf>]
 \openout2 = `./contents/conclusions.aux'.
 
  (./contents/conclusions.tex
 Chapter 5.
-[21
+[22
 
 
 
 ]
 Chapter 6.
-) [22
+) [23
 
 ]
 \openout2 = `./contents/appendix.aux'.
@@ -1170,25 +1166,25 @@ Underfull \hbox (badness 1205) in paragraph at lines 4--6
  prob-lems', []$\OT1/cmtt/m/n/10.95 http : / / www . bgu . ac . il /
  []
 
-[23
+[24
 
 
 
 
-]) [24]
+]) [25]
 No complaints by nag.
 (./report.aux (./contents/titlepage.aux) (./contents/abstract.aux)
 (./contents/acknowledgement.aux) (./contents/introduction.aux)
 (./contents/chapter2.aux) (./contents/chapter3.aux) (./contents/results.aux)
 (./contents/conclusions.aux) (./contents/appendix.aux)) ) 
 Here is how much of TeX's memory you used:
- 24592 strings out of 493848
- 473226 string characters out of 1152824
- 615173 words of memory out of 3000000
- 27035 multiletter control sequences out of 15000+50000
- 16610 words of font info for 106 fonts, out of 3000000 for 9000
+ 24577 strings out of 493848
+ 472835 string characters out of 1152824
+ 613115 words of memory out of 3000000
+ 27022 multiletter control sequences out of 15000+50000
+ 16661 words of font info for 107 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 63i,12n,95p,500b,895s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 63i,11n,95p,500b,899s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texl
 ive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/t
 ype1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public
@@ -1204,9 +1200,9 @@ r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/tex
 mf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-texlive/
 fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts/type1
 /public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (31 pages, 421792 bytes).
+Output written on report.pdf (32 pages, 419944 bytes).
 PDF statistics:
- 646 PDF objects out of 1000 (max. 8388607)
- 132 named destinations out of 1000 (max. 500000)
- 22867 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 644 PDF objects out of 1000 (max. 8388607)
+ 128 named destinations out of 1000 (max. 500000)
+ 22859 words of extra memory for PDF output out of 24883 (max. 10000000)
 

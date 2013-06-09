@@ -1,8 +1,8 @@
 <PARSER>: {DEFAULT} 
 <ShPathAlgo> : {AstarBidirect}
 <ShPathDataStruct> : {BinomialHeap}
-<NETWORK> : {Data/Instances/Anaheim_net.txt}
-<OD_MATRIX> : {Data/Instances/Anaheim_trips.txt}
+<NETWORK> : {Data/Instances/ChicagoSketch_net.txt}
+<OD_MATRIX> : {Data/Instances/ChicagoSketch_trips.txt}
 <NODES_ART2> {Data/Instances/ART_Data/ART2/art2.nodes}
 <FNC_ART2> {Data/Instances/ART_Data/ART2/art2.fnc}
 <INDIFF_CURVE>: {} 
