@@ -36,17 +36,55 @@ for choosing the best algorithm and data structure.
 The correctness of the final shortest path trees are checked by comparing to the label correcting algorithm that is implemented by the co-supervisor of this project, which is guarantee to be correct.
 
 \section{Discussion of Computational Results}
-In Table~\ref{table:allresults} we present the running times for a complete run of the Traffic Assignment Path Equilibration method.
-For each network, each of the algorithms
+In Table~\ref{table:boostresult} and Table~\ref{table:allresults} we present the running times for a complete run of the Traffic Assignment Path Equilibration method.
+
+Table~\ref{table:boostresult} shows the performance of the Dijkstra's algorithm and the A* search algorithm using the 6 variants of the Heap implementations from the Boost library on the ChicagoSketch network.
+The numbers of iterations (ITERS)
+and total run time (seconds) of each algorithm took is shown.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c c c c } \toprule
+        Algorithm & Heap & ITERS & Time (sec)\\
+        \cmidrule(lr){1-1}
+        \cmidrule(lr){2-2}
+        \cmidrule(lr){3-3}
+        \cmidrule(lr){4-4}
+        \multirow{6}{*}{Dijkstra} & Fibonacci & \multirow{6}{*}{25}
+             & 155.14 \\
+        &    Binary   & & 130.22 \\
+        &    Ternary  & & 155.34 \\
+        &    Skew     & & 120.45 \\
+        &    Pairing  & & 140.55 \\
+        &    Binomial & & 369.10 \\
+        \cmidrule(lr){1-1}
+        \cmidrule(lr){2-2}
+        \cmidrule(lr){3-3}
+        \cmidrule(lr){4-4}
+        \multirow{6}{*}{A*} & Fibonacci & \multirow{6}{*}{26}
+                & 31.27 \\
+        &    Binary  &&  28.00 \\
+        &    Ternary &&  34.31 \\
+        &    Skew    &&  25.94 \\
+        &    Pairing &&  27.93 \\
+        &    Binomial&&  59.76 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Performance of Dijkstra's algorithm and A* search algorithm using 6 variants of the Heap implementation on the ChicagoSketch network. }
+    \label{table:boostresult}
+\end{table}
+
+Table~\ref{table:allresults} shows the performance of each of the algorithms
 \begin{itemize}
-    \item label correcting Bellman-Ford (B),
-    \item one source Dijkstra (1S-D),
-    \item point to point Dijkstra (P2P-D),
-    \item bidirectional Dijkstra (Bi-D),
-    \item A* search (A*),
-    \item bidirectional A* search (Bi-A*),
+    \item label correcting Bellman-Ford,
+    %\item one source Dijkstra (1S-D),
+    \item point to point Dijkstra using heap from C++ standard library,
+    \item point to point Dijkstra using binary search tree,
+    \item bidirectional Dijkstra,
+    \item A* search,
+    \item bidirectional A* search,
 \end{itemize}
-is used for each of the networks shown in Table~\ref{table:problemdata}.
+used on each of the networks shown in Table~\ref{table:problemdata}.
 The numbers of iterations (ITERS) each algorithm took,
 The overall number of nodes scanned in the network (COUNT),
 and the total run time (seconds) each algorithm took is shown.
@@ -66,36 +104,36 @@ Each algorithm is also compared to the label correcting algorithm to show the pe
         \cmidrule(lr){5-5}
         \cmidrule(lr){6-6}
         \cmidrule(lr){7-7}
-        SiouxFalls    & B     & 69 & & & 0.25 & \\
-        & 1S-D  & 69 & & & 0.24 & \\
-        & P2P-D & 64 & & & 0.15 & \\
-        & Bi-D  & & & & & \\
-        & A*    & 85 & & & 0.16 & \\
-        & Bi-A* & & & & & \\ \\
-        Anaheim       & B     & 10 & & & 1.20 & \\
-        & 1S-D  & 10 & & & 1.20 & \\
-        & P2P-D & 10 & & & 0.67 & \\
-        & Bi-D  & & & & & \\
-        & A*    & 10 & & & 0.15 & \\
-        & Bi-A* & & & & & \\ \\
-        Barcelona     & B     & 28 & & & 60.00 & \\
-        & 1S-D  & 28 & & & 43.00 & \\
-        & P2P-D & 27 & & & 27.71 & \\
-        & Bi-D  & & & & & \\
-        & A*    & 27 & & &  6.10 & \\
-        & Bi-A* & & & & & \\ \\
-        Winnipeg      & B     & 129 & & & 190.00 & \\
-        & 1S-D  & 129 & & & 137.00 & \\
-        & P2P-D & 129 & & &  70.00 & \\
-        & Bi-D  & & & & & \\
-        & A*    & 128 & & & 21.85 & \\
-        & Bi-A* & & & & & \\ \\
-        ChicagoSketch & B     & 25 & & & 500.00 & \\
-        & 1S-D  & 25 & & & 541.00 & \\
-        & P2P-D & 25 & & & 204.00 & \\
-        & Bi-D  & & & & & \\
-        & A*    & 26 & & & 42.90 & \\
-        & Bi-A* & & & & & \\
+        SiouxFalls    & Bellman-Ford     & 69 & & & 0.25 & \\
+        & Dijkstra (Heap) & 86 & & & 0.08 & \\
+        & Dijkstra (Tree) & 54 & & & 0.08 & \\
+        & Bidirectional Dijkstra & 87 & & & 0.16 & \\
+        & A*    & 87 & & & 0.07 & \\
+        & Bidirectional A* & 87 & & & 0.21 & \\ \\
+        Anaheim       & Bellman-Ford    & 10 & & & 1.20 & \\
+        & Dijkstra (Heap) & 10 & & & 0.30 & \\
+        & Dijkstra (Tree) & 10 & & & 0.62 & \\
+        & Bidirectional Dijkstra  & & & & 0.43 & \\
+        & A*    & 10 & & & 0.10 & \\
+        & Bidirectional A* & & & & 0.28 & \\ \\
+        Barcelona     & Bellman-Ford    & 28 & & & 60.00 & \\
+        & Dijkstra (Heap) & 27 & & & 13.67 & \\
+        & Dijkstra (Tree) & 27 & & & 27.36 & \\
+        & Bidirectional Dijkstra  & 27 & & & 20.93 & \\
+        & A*    & 28 & & &  2.99 & \\
+        & Bidirectional A* & 30 & & & 8.02 & \\ \\
+        Winnipeg      & Bellman-Ford    & 129 & & & 190.00 & \\
+        & Dijkstra (Heap) & 127 & & &  34.89 & \\
+        & Dijkstra (Tree) & 127 & & &  66.89 & \\
+        & Bidirectional Dijkstra  & 126 & & & 49.95 & \\
+        & A*    & 126 & & & 10.42 & \\
+        & Bidirectional A* & 127 & & & 24.81 & \\ \\
+        ChicagoSketch & Bellman-Ford    & 25 & & & 500.00 & \\
+        & Dijkstra (Heap) & 25 & & & 87.52 & \\
+        & Dijkstra (Tree) & 25 & & & 149.95 & \\
+        & Bidirectional Dijkstra  & 25 & & & 157.75 & \\
+        & A*    & 26 & & & 18.75 & \\
+        & Bidirectional A* & 26 & & & 59.82 & \\ \\
         \bottomrule
     \end{tabular}
     \caption{Results for all test networks. Showing the number of iterations for each network (ITERS), max number of scans (COUNT) and the speed up respect to the label correcting algorithm (SPD). }
@@ -109,6 +147,7 @@ We can see Dijkstra's algorithm scans the whole network.
 Bidirectional Dijkstra scans almost the whole network with a few nodes not being scanned.
 A* search scans only a small region of the network.
 \todo{incomplete}
+
 \begin{figure}
     \centering
     \begin{subfigure}{.5\textwidth}

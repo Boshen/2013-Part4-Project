@@ -15,10 +15,9 @@
 \contentsline {chapter}{\numberline {3}Implementation Details}{14}{chapter.3}
 \contentsline {section}{\numberline {3.1}Graph Storage}{14}{section.3.1}
 \contentsline {section}{\numberline {3.2}Priority Queue Implementations}{14}{section.3.2}
-\contentsline {section}{\numberline {3.3}Memory Management}{16}{section.3.3}
 \contentsline {chapter}{\numberline {4}Computational Results}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Problem Data and Result Explanation}{17}{section.4.1}
 \contentsline {section}{\numberline {4.2}Discussion of Computational Results}{18}{section.4.2}
-\contentsline {chapter}{\numberline {5}Conclusions}{21}{chapter.5}
-\contentsline {chapter}{\numberline {6}Future Works}{22}{chapter.6}
-\contentsline {chapter}{References}{23}{section*.50}
+\contentsline {chapter}{\numberline {5}Conclusions}{22}{chapter.5}
+\contentsline {chapter}{\numberline {6}Future Works}{23}{chapter.6}
+\contentsline {chapter}{References}{24}{section*.46}
