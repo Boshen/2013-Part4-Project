@@ -7,17 +7,17 @@
 \contentsline {section}{\numberline {2.2}Generic Shortest Path Algorithm}{5}{section.2.2}
 \contentsline {section}{\numberline {2.3}Label Correcting Algorithm}{7}{section.2.3}
 \contentsline {section}{\numberline {2.4}Label Setting Algorithm}{7}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Priority Queue Implementations}{7}{subsection.2.4.1}
-\contentsline {section}{\numberline {2.5}Bidirectional Label Setting Algorithm}{9}{section.2.5}
-\contentsline {section}{\numberline {2.6}A* Search}{10}{section.2.6}
-\contentsline {section}{\numberline {2.7}Bidirectional A* Search}{11}{section.2.7}
-\contentsline {section}{\numberline {2.8}Preprocessing and More}{12}{section.2.8}
-\contentsline {chapter}{\numberline {3}Implementation Details}{14}{chapter.3}
-\contentsline {section}{\numberline {3.1}Graph Storage}{14}{section.3.1}
-\contentsline {section}{\numberline {3.2}Priority Queue Implementations}{14}{section.3.2}
-\contentsline {chapter}{\numberline {4}Computational Results}{17}{chapter.4}
-\contentsline {section}{\numberline {4.1}Problem Data and Result Explanation}{17}{section.4.1}
-\contentsline {section}{\numberline {4.2}Discussion of Computational Results}{18}{section.4.2}
-\contentsline {chapter}{\numberline {5}Conclusions}{22}{chapter.5}
-\contentsline {chapter}{\numberline {6}Future Works}{23}{chapter.6}
-\contentsline {chapter}{References}{24}{section*.46}
+\contentsline {subsection}{\numberline {2.4.1}Priority Queue Implementations}{8}{subsection.2.4.1}
+\contentsline {section}{\numberline {2.5}Bidirectional Label Setting Algorithm}{10}{section.2.5}
+\contentsline {section}{\numberline {2.6}A* Search}{11}{section.2.6}
+\contentsline {section}{\numberline {2.7}Bidirectional A* Search}{13}{section.2.7}
+\contentsline {section}{\numberline {2.8}Preprocessing and More}{14}{section.2.8}
+\contentsline {chapter}{\numberline {3}Implementation Details}{15}{chapter.3}
+\contentsline {section}{\numberline {3.1}Graph Storage}{15}{section.3.1}
+\contentsline {section}{\numberline {3.2}Priority Queue Implementations}{15}{section.3.2}
+\contentsline {chapter}{\numberline {4}Computational Results}{18}{chapter.4}
+\contentsline {section}{\numberline {4.1}Problem Data and Result Explanation}{18}{section.4.1}
+\contentsline {section}{\numberline {4.2}Discussion of Computational Results}{19}{section.4.2}
+\contentsline {chapter}{\numberline {5}Conclusions}{23}{chapter.5}
+\contentsline {chapter}{\numberline {6}Future Works}{24}{chapter.6}
+\contentsline {chapter}{References}{25}{section*.49}

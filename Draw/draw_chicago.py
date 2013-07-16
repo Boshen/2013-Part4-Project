@@ -4,13 +4,10 @@ import matplotlib.pyplot as plt
 
 G = nx.DiGraph()
 
-path = "ChicagoSketch_net.txt"
-edgelist = []
-
 origin = 384
 destination = 368
 numZones = 386
-with open("ChicagoSketch_node.txt", 'r') as f:
+with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
     f.readline()
     while True:
         line = f.readline()
@@ -23,7 +20,8 @@ with open("ChicagoSketch_node.txt", 'r') as f:
             Y = int(ss[2])
             G.add_node(node, pos=(X, Y))
 
-with open(path, 'r') as f:
+edgelist = []
+with open("../Data/Instances/ChicagoSketch_net.txt", 'r') as f:
     readData = False
     while True:
         line = f.readline()
@@ -44,7 +42,7 @@ with open(path, 'r') as f:
 
 tree = []
 path = []
-with open("chicago_astar_data", 'r') as f:
+with open("chicago_dijkstra_data", 'r') as f:
     flag = False
     while True:
         line = f.readline()
@@ -62,10 +60,7 @@ with open("chicago_astar_data", 'r') as f:
 
 pos = nx.get_node_attributes(G, "pos")
 plt.figure(figsize=(20,20),dpi=240)
-#pos=nx.graphviz_layout(G, prog="dot") 
-#pos=nx.graphviz_layout(G, prog="neato") 
-#pos=nx.graphviz_layout(G, prog="fdp") 
-#pos=nx.graphviz_layout(G, prog="sfdp") 
+
 #nx.draw_networkx(G,pos,with_labels=True, alpha=0.1, node_size=1,widths=0.1, font_color='r',font_size=8,node_color='r',edge_color='k') 
 nx.draw_networkx_nodes(G, pos, nodelist=[origin,destination],node_size=100,node_color='r')
 p1 = nx.draw_networkx_edges(G, pos, edgelist=edgelist, edge_color='k', arrows=False, widths=0.1, alpha=0.1)
@@ -81,4 +76,4 @@ plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fo
 x, y = pos[destination]
 plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig("chicago.pdf", bbox_inches="tight")    
+plt.savefig("chicago_dijkstra3.pdf", bbox_inches="tight")    

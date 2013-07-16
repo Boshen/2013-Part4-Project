@@ -3,20 +3,19 @@
 
 Over the years,
 various algorithms have been developed 
-to address the problem of finding the shortest path in different situations.
-In this chapter,
-notations and definitions for the shortest path problem is stated first, 
-the theory for solving the shortest path problem is described next,
-algorithms that are applicable for road networks are then summarised,
+to address the problem of finding the shortest path.
+This chapter states notations and definitions for the shortest path problem and discusses
+the theory for solving it.
+Algorithms that are applicable for road networks are summarised,
 including the discussion of their advantages and drawbacks.
 
 \section{Notations and Definitions}
 The Shortest Path Problem (SPP) is the problem of finding the shortest path from a given origin  to some destination.
-There are two types of SPP hat are going to
+There are two types of SPP that are going to
 be analysed in this chapter:
 a single-source and a point to point SPP.  
 The Frank-Wolfe algorithm in the TA involves
-solving the single-source SPP by finding of shortest path going from one origin to every other destinations the network.
+solving the single-source SPP by finding shortest path going from one origin to every other destinations of the network.
 The Path Equilibration method in the TA
 Solving the point to point SPP solves from one origin to a specific destination and is used in the Path Equilibration method. 
 
@@ -28,13 +27,12 @@ which encapsulates information such as traffic flow, road capacity and travel sp
 This travel time function is always non-negative so taking advantage of this helps the selection of algorithms that uses this property.
 \todo{show equation?}
 
-Using notations from \citet{Cormen} and \citet{Klunder} and in the context
-of transportation networks,
-we denote $ G = ( V, E ) $ for a weighted, directed graph,
-where $ V $ denotes the set of nodes (origins, destinations, and intersections)
-and $ E $ the set of edges (roads);
-we say $ E $ is a subset of the set $ \{ (u, v)\, | \, u, v \in V \} $ of all ordered pairs of nodes.
-We denote the weight function $ c : E \rightarrow \mathbb{R} $ which assigns a cost (travel time) to any arc $ (u,v) \in E $.
+Here we present the notations mainly borrowed from \citet{Cormen} and \citet{Klunder},
+we denote $ G = ( V, E ) $ a weighted, directed graph,
+where $ V $ is the set of nodes (origins, destinations, and intersections)
+and $ E $ the set of edges (roads).
+We say $ E $ is a subset of the set $ \{ (u, v)\, | \, u, v \in V \} $ of all ordered pairs of nodes.
+We denote the link cost function $ c : E \rightarrow \mathbb{R} $ which assigns a cost (travel time) to any arc $ (u,v) \in E $ depending on traffic flow on that arc.
 We write the costs of arc $(u, v)$ as: $ c((u, v)) = c_{uv} $.
 
 The path $P$ inside a transportation network has to be a directed simple path, 
@@ -46,33 +44,86 @@ For simplicity, we denote $s$ to be the source (origin) and $t$ to be the target
 
 In a transportation network,
 the origins and destinations are often called centroids or zones.
-They are traffic analysis zones for generating trip demands and supplies
-and hold information such as household income and employment information,
-these information helps the understanding of trips that are produced and attracted within the zone.
+They are used for generating trip demands and supplies
+and hold information such as household income and employment information.
+These information helps to understand trips that are produced and attracted within the zone.
 The zones are conceptual nodes in the network and are untravellable,
 which means a path between two zone nodes must not contain another zone node.
+
+\begin{figure}[H]
+    \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
+    \tikzstyle{line} = [->, draw]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=3cm]
+            \node[main node] (zone) {zone};
+            \node[main node] (1) [below left of=zone] {1};
+            \node[main node] (2) [below right of=zone] {2};
+        %\path [line, red] (1) -- (zone);
+            \path [line, green!80!black] (zone) -- (2);
+            \path [line, green!80!black] (1) -- (2);
+            %\node (text) [yshift=-5em,above of=zone] {origin node};
+        %\node at ($(zone) !.5! (2)$) {$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.3ex, black] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$};
+        \end{tikzpicture}
+        \caption{zone as origin node}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=3cm]
+            \node[main node] (zone) {zone};
+            \node[main node] (1) [below left of=zone] {1};
+            \node[main node] (2) [below right of=zone] {2};
+            \path [line, green!80!black] (1) -- (zone);
+        %\path [line, red] (zone) -- (2);
+            \path [line, green!80!black] (1) -- (2);
+            %\node (text) [yshift=-5em,above of=zone] {destination node};
+        %\node at ($(zone) !.5! (2)$) {$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.3ex, black] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$};
+        \end{tikzpicture}
+        \caption{zone as destination node}
+    \end{subfigure}
+
+    \vspace{1cm}
+    \begin{subfigure}[t]{\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=3cm]
+            \node[main node] (zone) {zone};
+            \node[main node] (1) [below left of=zone] {1};
+            \node[main node] (2) [below right of=zone] {2};
+        %\path [line, green!80!black] (1) -- (zone);
+        %\path [line, red] (zone) -- (2);
+            \path [line, green!80!black] (1) -- (2);
+            %\node (text) [yshift=-5em,above of=zone] {neither};
+        %\node at ($(zone) !.5! (2)$) {$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.3ex, black] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$};
+        \end{tikzpicture}
+        \caption{zone as neither origin nor destination node}
+    \end{subfigure}
+    \caption{zone node and its allowable arc flows}
+\end{figure}
+
 \todo[inline]{Maybe a picture of the network explain what the zones are.}
 
 Through out the report,
-run-time analysis (big O and other notations) is used to demonstrate the estimation of algorithms running time regarding their input size. 
+run-time analysis (big O and other notations) is used to demonstrate the estimation of algorithm running time regarding their input size. 
 \todo[inline]{How do I nicely say `let the reader refer to other resources?'
-or do I desribe what big O notation is?}
+or do I describe what big O notation is?}
 
 \section{Generic Shortest Path Algorithm}
-A family of algorithms exist for solving SPP with directed non-negative length edges,
-in this section we describe the generic case for these
+A family of algorithms exists for solving SPP with directed non-negative length edges.
+In this section we describe the generic case for these
 algorithms, the generic shorest path algorithm (GSP).
 
-This family of algorithms aim at finding a 
+This family of algorithms aims at finding a 
 vector ($d_1, d_2,\dots d_v$) of distance labels and its corresponding shortest path \citep{Klunder}.
-Each $d_v$ keeps the least distance of any path going from $s$ to $v$, $d_v = \infty$ if no paths has been found.
+Each $d_v$ keeps the least distance of any path going from $s$ to $v$, $d_v = \infty$ if no path has been found.
 A shortest path is optimal when it satisfies the following conditions:
 \begin{align}
     d_v \leq d_u + c_{uv}, \quad \forall(u,v) \in E, \label{eq:Bellman1}\\
     d_v  =   d_u + c_{uv}, \quad \forall(u,v) \in P.
 \end{align}
-\todo[noline]{what is $P$?}
-The inequalities~(\ref{eq:Bellman1}) is called Bellman's condition \citep{Bellman}.
+\todo[noline]{define $P$}
+The inequalities~(\ref{eq:Bellman1}) are called Bellman's condition \citep{Bellman}.
 In other words,
 we wish to find a label vector $d$ which satisfies Bellman's condition for all of the vertices in the graph.
 To maintain the label vector, the algorithm uses a queue $\mathcal{Q}$ to store the label distances.
@@ -81,12 +132,12 @@ In the label vector,
 a node is said to be unvisited when $d_u = \infty$,
 scanned when $d_u \neq \infty$ and is still in the queue,
 and labelled when the node has been retrieved from the queue and its distance label cannot be updated further.
-If a node is labelled then its distance value is guaranteed to represent the minimal distance from $s$ to $t$, Bellman's condition must have been satisfied.
+If a node is labelled then its distance value is guaranteed to represent the minimal distance from $s$ to $t$.
 
 In the generic shortest path algorithm,
 we start by putting the origin node in the queue,
-and then iteratively find the arc that violates the Bellman's condition (i.e., $d_v > d_u + c_{uv}$),
-distance labels are set to a value which satisfies condition (\ref{eq:Bellman1}) to the corresponding node of that arc.
+and then iteratively find the arc that violates the Bellman's condition (i.e., $d_v > d_u + c_{uv}$).
+Distance labels are set to a value which satisfies condition (\ref{eq:Bellman1}) to the corresponding node of that arc.
 Shortest path going from $s$ to all other nodes in $V$ is found when (\ref{eq:Bellman1}) is satisfied for all edges in $E$.
 It may not be obvious but negative costs are permitted in the GSP but not negative cost cycles.
 
@@ -94,9 +145,28 @@ We use $p_u$ to denote the predecessor of node $u$.
 The shortest path can be constructed by following the predecessor of the destination node $t$ back to the origin node $s$. $p_s$ is often set to $-1$ to indicate it does not have a predecessor.
 
 \todo[inline]{diagram showing $u, v, c_{vw}$ etc.}
+\begin{figure}[H]
+    \centering
+    \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
+    \tikzstyle{line} = [->, draw]
+    \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=3cm]
+        \node [main node] (u)  {u};
+        \node [main node] (v) [right of=u] {v};
+        \node [main node] (o) [below left of=u, yshift=1cm]  {};
+        \node [main node] (d) [below right of=v, yshift=1cm] {};
+
+        \node [above] at (u.north) {$du$};
+        \node [above] at (v.north) {$dv = du + c_{vw}$};
+
+        \path [line] (u) -- (v);
+        \path [line] (o) -- (u);
+        \path [line] (v) -- (d);
+    \end{tikzpicture}
+    %\caption{zone as neither origin nor destination node}
+\end{figure}
 
 Algorithm~\ref{algo:gsp} \citep{Klunder} describes the generic shortest path algorithm mentioned above,
-with an extra constraint required when solving a TA problem: travelling through zone nodes are not permitted.
+with an extra constraint required when solving a TA problem: travelling through zone nodes is not permitted.
 In essence, this algorithm repeatedly selects node $u\in\mathcal{Q}$ and checks the violation of Bellman's condition for all emanating edges of node $u$.
 \begin{algorithm}
     \caption{The Generic Shortest Path Algorithm}
@@ -130,7 +200,7 @@ In essence, this algorithm repeatedly selects node $u\in\mathcal{Q}$ and checks 
 \end{algorithm}
 
 Algorithm~\ref{algo:gsp} is generic because of two reasons:
-the rule for selecting the next node $u$ (the next function in line 8) and
+the rule for selecting the next node $u$ (the `next' function in line 8) and
 the implementation for the queue $\mathcal{Q}$ is unspecified.
 Different algorithms use different rules and implementations to give 
 either the one-source or the point-to-point shortest path algorithm \citep{mplomer}.
@@ -147,8 +217,8 @@ the algorithm has to scan all edges $|V|-1$ times,
 giving a run time of $O(|V||E|)$.
 
 In this algorithm,
-the distance labels do not get permanently labelled when the next node in the queue is retrieved,
-another node may `correct' this node's distance label again,
+the distance labels do not get permanently labelled when the next node in the queue is retrieved.
+Another node may `correct' this node's distance label again,
 thus the name label correcting algorithm.
 This algorithm is also called the Bellman–Ford–Moore algorithm credited to \citet{Bellman, Ford} and \citet{Moore}.
 
@@ -248,6 +318,37 @@ Thus Dijkstra's algorithm can be run on the origin and destination simultaneousl
 The motivation for doing this is because the number of scanned nodes can be reduced when searching bidirectionally:
 two smaller circles growing outward radially instead of a larger one.
 \todo{illustrate this}
+
+\begin{figure}[H]
+    \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
+    \tikzstyle{big circle} = [circle, draw, dashed, text centered, minimum height=8em]
+    \tikzstyle{small circle} = [circle, draw, dashed, text centered, minimum height=5em]
+    \centering
+    \begin{subfigure}[t]{.4\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=2cm]
+            \node [main node] (s)  {s};
+            \node [main node] (t) [right of=s] {t};
+
+            \node [big circle] at (s) {};
+        \end{tikzpicture}
+        \caption{Dijkstra's algorithm}
+    \end{subfigure}
+    \begin{subfigure}[t]{.4\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=2cm]
+            \node [main node] (s) {s};
+            \node [main node] (t) [right of=s] {t};
+
+            \node [small circle] at (s) {};
+            \node [small circle] at (t) {};
+            \node [big circle, white] at (s) {};
+        \end{tikzpicture}
+        \caption{bidirectional}
+    \end{subfigure}
+    \caption{Difference between the scan area of label setting and its bidirectional version}
+\end{figure}
+
 It is common to conclude that the shortest path is found when the two searches meet somewhere in the middle,
 but this is not actually the case.
 There may exist another arc connecting the two frontiers of the searches that has a shorter path.
@@ -312,7 +413,6 @@ Dijkstra's algorithm does not take into account the location of the destination,
 the shortest path tree is grown out radially until the destination is labelled.
 In a traditional graph where actual distances are used for the distance labels,
 a heuristic can be used to direct the shortest path tree to grow toward the destination (an ellipsoid in stead of a circle).
-\todo{show figure}
 If the heuristic estimate is the distance from each node to the destination,
 and the estimate is smaller than or equal to the actual distance going to that destination,
 then a shortest path can be found. This is called A* search or goad directed search, first described by \citet{Astar}.
@@ -349,21 +449,31 @@ The heuristic function is consistent because the travel time from a node to the 
 
 \begin{figure}[H]
     \centering
-    \missingfigure[figwidth=\textwidth]{Travel time function}
-    %\begin{tikzpicture}
-    %    \begin{axis}
-    %        [
-    %            domain=0:2500,
-    %            black, no markers, smooth,
-    %        %xtick=\empty, ytick=\empty,
-    %            xlabel=flow(vehicles per hour), ylabel=travel time (hours),
-    %            xmin=0,xmax=2500,
-    %            ymin=0.16,ymax=0.2,
-    %            yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=3}
-    %        ]
-    %        \addplot {0.166*(1+0.15*(x/2000)^5)}; 
-    %    \end{axis}
-    %\end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}
+            [
+                domain=0:10000,
+                black, no markers, smooth,
+                xmin=0,xmax=10000,
+                ymin=0,ymax=130,
+                axis x line=bottom,
+                axis y line=left,
+                xlabel={Traffic Flow},
+                ylabel={Travel Time},
+                every axis y label/.style={at={(current axis.above origin)},anchor=north east, xshift=-2pt},
+                every axis x label/.style={at={(current axis.right of origin)},anchor=north west, xshift=-2pt},
+                extra y ticks={20},
+                extra y tick labels={Freeflow time},
+                extra y tick style={overlay},
+                xtick=\empty,
+                ytick=\empty,
+                xticklabel=\empty,
+                yticklabel=\empty,
+                scaled ticks=false
+            ]
+            \addplot [->, black] {20+0.15*(x/2000)^4}; 
+        \end{axis}
+    \end{tikzpicture}
     \caption{Travel time function.}
     \label{fig:flowfunction}
 \end{figure}
@@ -402,6 +512,35 @@ The strategy for the correct use of heuristic estimates and termination criterio
 The strategy is as follows. The heuristic estimates need to translated to consistent functions first. 
 We denote $\pi_f(v)$ the estimate on distance from node $v$ to the destination $t$ in the forward search and $\pi_r(v)$ the estimate on distance from origin $s$ to node $v$ in the backward (reverse) search.
 \todo{illustrate!}
+\begin{figure}[H]
+    \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
+    \tikzstyle{big circle} = [ellipse, draw, dashed, text centered, minimum width=8em, minimum height=5em]
+    \tikzstyle{small circle} = [ellipse, draw, dashed, text centered, minimum width=5.5em, minimum height=3.5em]
+    \centering
+    \begin{subfigure}[t]{.4\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=3cm]
+            \node [main node] (s)  {s};
+            \node [main node] (t) [right of=s] {t};
+
+            \node [big circle] at ($(s)+(0.9,0)$) {};
+        \end{tikzpicture}
+        \caption{A* search}
+    \end{subfigure}
+    \begin{subfigure}[t]{.4\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, node distance=3cm]
+            \node [main node] (s) {s};
+            \node [main node] (t) [right of=s] {t};
+
+            \node [small circle] at ($(s)+(0.4,0)$) {};
+            \node [small circle] at ($(t)-(0.4,0)$) {};
+            \node [big circle, white] at (s) {};
+        \end{tikzpicture}
+        \caption{bidirectional}
+    \end{subfigure}
+    \caption{Difference between the scan area of A* search and its bidirectional version}
+\end{figure}
 In general two arbitrary feasible functions $\pi_f$ and $\pi_r$ are not consistent, but their average is both feasible and consistent \citep{Ikeda}:
 \begin{align}
     p_f(v) = \frac{1}{2}(\pi_f(v)-\pi_r(v)) + \frac{\pi_r(t)}{2} \\
