@@ -134,6 +134,11 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
                 (*LabelVector)[link->getNodeToIndex()] = dist;
             }
             (*LabelVector)[O]= 0;
+
+
+            static int iter = 0;
+            std::cout << iter << " " << O << " " << D << " " << fScanned->size()+bScanned->size() << std::endl;
+            iter++;
         }
 
         bool fIterate(int O, int D){
@@ -159,6 +164,7 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
                         (*fDist)[v] = Duv;
                         (*fPred)[v] = nextLink->getIndex();
                         fQueue->push(ShPath::PQPair(Duv, v));
+                        fScanned->push_back(std::make_pair(u, v));
                     }
                     updateShortest(Duv, 0.0, v, D);
                 }
@@ -189,6 +195,7 @@ class ShPathDijkstraBidirectSTL : public ShPathInterface {
                         (*bDist)[v] = Duv;
                         (*bPred)[v] = nextLink->getIndex();
                         bQueue->push(ShPath::PQPair(Duv, v));
+                        bScanned->push_back(std::make_pair(u, v));
                     }
                     updateShortest(0.0, Duv, v, O);
                 }

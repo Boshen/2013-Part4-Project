@@ -2,12 +2,12 @@
 
 \todoin[inline]{CHECK LATEX LOG!!}
 
-\todo[inline]{use ` we ' less}
+\todo[inline]{use less ` we '}
 %\todoin[inline]{italic jargons?}
 
 \section{Project Motivation}
 
-As the result of forever increasing population,
+As the result of constantly increasing population,
 cities worldwide and their road networks are becoming
 more complex and difficult to navigate,
 leading to traffic congestions that are more problematic than ever
@@ -29,8 +29,8 @@ this is because the problem is only solved when the network reaches user equilib
 which means no traveller can lower their transportation cost through unilateral action: every traveller will strive to find the shortest path while ignoring all other travellers.
 \todo[inline]{reference user equilibrium - John Glen Wardrop principles of equilibrium}
 User equilibrium is difficult to find because in traffic assignment,
-travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow results slower travel time);
-as different routes are assigned to the travellers,
+travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow results slower travel time).
+As different routes are assigned to the travellers,
 congestion happen differently for each road in a nonlinear manner,
 making the result of relocation of travellers hard to calculate.
 
@@ -42,7 +42,7 @@ The method iteratively re-identifies new shortest path based on the new travel t
 \todo[inline]{ write about Frank-Wolfe }
 
 Both of these methods are iterative methods that require shortest path calculations for every trip origins in the network.
-It is not difficult to imagine that there would be millions of shortest path calculations if the network has hundreds of origins and destinations and takes some iterations to solve.
+It is not difficult to imagine that there would be many shortest path calculations if the network has hundreds of origins and destinations and takes some iterations to solve.
 Each shortest path calculation would also be very hard to solve if the network has a few hundred intersections and a few thousand roads for a realistic city road network.
 \citet{Sheffi} states that finding the shortest path is the most computation intensive component for the PE or Frank-Wolfe algorithms, 
 other components in the algorithms such as updating new values and convergence check only requires a few percentages of the total running time.
@@ -52,8 +52,8 @@ traffic forecasting would be solved faster for larger and more complicated road 
 which allow city designers predict traffic further into the future and make better decisions on road network design.
 
 \section{Project Aims}
-This project aims to embed well known shortest path algorithms that are applicable for traffic assignment methods, and find the fastest algorithm.
-The algorithm that are going to be experimented are:
+This project aims to embed well known shortest path algorithms that are applicable for traffic assignment methods, and find the fastest.
+The algorithm that are going to be tested are:
 \begin{itemize}
     \item Bellman-Ford Label Correcting Algorithm,
     \item Dijkstra Label Setting Algorithm (using different data structures),
@@ -70,11 +70,11 @@ This project also aims to find and discuss techniques that can speed shortest pa
 \todo{need more ideas \ldots}
 
 \section{Report Overview}
-This report continues in Chapter~\ref{chap:solvingspp} with the theory behind finding the shortest path under different conditions,
-and also the description, run time analysis and pseudocode for each algorithm mentioned in the project aims.
-Chapter~\ref{chap:implementation} presents the specific implementation details used to give the fastest algorithm possible.
+Chapter~\ref{chap:solvingspp} discusses the theory of finding the shortest path,
+and presents the description, run time analysis and pseudocode for each algorithm mentioned in the project aims.
+Chapter~\ref{chap:implementation} presents the specific implementation details.
 \todo{incomplete}
-Chapter~\ref{chap:results} shows and illustrates results from each algorithm mentioned in the project aims.
+Chapter~\ref{chap:results} shows results.
 \todo[inline]{Chapter 5 discussion chapter 6 conclusion \dots}
 
 

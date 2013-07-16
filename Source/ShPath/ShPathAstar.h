@@ -159,6 +159,7 @@ https://github.com/stegua/MyBlogEntries/blob/master/Dijkstra/dijkstra.cc
                         if( LB[v] == UNREACHED ){
                             K[v] = Q.push(ShPath::ValueKey(-Huv, v));
                             LB[v] = SCANNED;
+                            fScanned->push_back(std::make_pair(u, v));
                         }else if (LB[v] == SCANNED){
                             Q.increase(K[v], ShPath::ValueKey(-Huv, v));
                         }

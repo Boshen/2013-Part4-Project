@@ -1,3 +1,8 @@
+Install Boost
+wget http://superb-dca2.dl.sourceforge.net/project/boost/boost/1.53.0/boost_1_53_0.tar.bz2
+cd /usr/include
+(sudo, change /path/to/) tar --bzip2 -xf /path/to/boost_1_53_0.tar.bz2
+
 12/03
 1. Arranged first meeting with Andrea and Olga on 9am 13/03/13.
 
@@ -70,11 +75,12 @@ if we can make calculating shortet paths faster, that means we can predict furth
 05/05
 1. don't forget to remove code for plotting: (Scanned etc)
 
-Install Boost
-wget http://superb-dca2.dl.sourceforge.net/project/boost/boost/1.53.0/boost_1_53_0.tar.bz2
-cd /usr/include
-(sudo, change /path/to/) tar --bzip2 -xf /path/to/boost_1_53_0.tar.bz2
-
 store previous value shortest path , compute value on that path, if path value not changed, return
 
+if we were given permission for ART2, try ALT
+
+12/07
+1. too many results, maybe get rid of SixouxFalls, Anaheim and Barcelona?
+2. how do I plot shortest path change in each iteration, what do I record
+3. use bar graphs for run times instead of just numbers
 

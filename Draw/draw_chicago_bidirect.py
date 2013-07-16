@@ -45,7 +45,7 @@ with open(path, 'r') as f:
 forwardtree = []
 backwardtree = []
 path = []
-with open("chicago_bidirectSTL_data", 'r') as f:
+with open("chicago_bidirect2_data", 'r') as f:
     while True:
         line = f.readline()
         if not line:
@@ -92,4 +92,4 @@ plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fo
 x, y = pos[destination]
 plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig("chicago_bidirect.pdf", bbox_inches="tight")    
+plt.savefig("chicago_bidirect2.pdf", bbox_inches="tight")    

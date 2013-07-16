@@ -54,10 +54,11 @@ void Path::print(){
 	std::cout << " flow = " << _flow  << " prevFlow = " << _prevFlow << " cost = " << _currCost << " ";
 	for (StarLink *link = beginLink(); link != NULL; link = getNextLink()) {
 		//std::cout << "(" << link->getIndex() << ", " << link->getFlow() << ") ";
-		std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << "] " << link->getFlow() << ", " << link->getTime() << " ";
+		//std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << "] " << link->getFlow() << ", " << link->getTime() << " ";
+		std::cout << link->getNodeFromIndex() << " " << link->getNodeToIndex() << std::endl;
 		//std::cout << link->getIndex() << " ";
 	}//*/
-	std::cout << std::endl;
+	//std::cout << std::endl;
 };
 
 FPType Path::getPrevFlow() const{

@@ -113,9 +113,9 @@ Each algorithm is also compared to the label correcting algorithm to show the pe
         Anaheim       & Bellman-Ford    & 10 & & & 1.20 & \\
         & Dijkstra (Heap) & 10 & & & 0.30 & \\
         & Dijkstra (Tree) & 10 & & & 0.62 & \\
-        & Bidirectional Dijkstra  & & & & 0.43 & \\
+        & Bidirectional Dijkstra  & 10 & & & 0.43 & \\
         & A*    & 10 & & & 0.10 & \\
-        & Bidirectional A* & & & & 0.28 & \\ \\
+        & Bidirectional A* & 10 & & & 0.28 & \\ \\
         Barcelona     & Bellman-Ford    & 28 & & & 60.00 & \\
         & Dijkstra (Heap) & 27 & & & 13.67 & \\
         & Dijkstra (Tree) & 27 & & & 27.36 & \\
@@ -170,8 +170,7 @@ A* search scans only a small region of the network.
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
         \centering
-        \missingfigure[figwidth=\textwidth]{Bidirectional A*}
-    %    \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar}
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar_bidirect}
         \caption{Bidirectional A* Search}
         \label{fig:chicago_astar_bidirect}
     \end{subfigure}

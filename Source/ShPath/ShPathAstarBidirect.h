@@ -249,6 +249,10 @@ class ShPathAstarBidirect : public ShPathInterface {
             }
 
             LabelVector->at(O)= 0;
+
+            static int iter = 0;
+            std::cout << iter << " " << O << " " << D << " " << fScanned->size()+bScanned->size() << std::endl;
+            iter++;
         }
 
         bool fIterate(int O, int D){
@@ -286,6 +290,7 @@ class ShPathAstarBidirect : public ShPathInterface {
                             if( (*Labels)[v] == UNREACHED ){
                                 (*fValueKeys)[v] = fQueue->push(ShPath::ValueKey(-Huv, v));
                                 (*Labels)[v] = SCANNED;
+                                fScanned->push_back(std::make_pair(u, v));
                             }else if ((*Labels)[v] == SCANNED){
                                 fQueue->increase((*fValueKeys)[v], ShPath::ValueKey(-Huv, v));
                             }
@@ -346,6 +351,7 @@ class ShPathAstarBidirect : public ShPathInterface {
                             if( (*bLabels)[v] == UNREACHED ){
                                 (*bValueKeys)[v] = bQueue->push(ShPath::ValueKey(-Huv, v));
                                 (*bLabels)[v] = SCANNED;
+                                bScanned->push_back(std::make_pair(u, v));
                             }else if ((*bLabels)[v] == SCANNED){
                                 bQueue->increase((*bValueKeys)[v], ShPath::ValueKey(-Huv, v));
                             }

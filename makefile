@@ -1,8 +1,8 @@
 CC = g++
 #-DDOUBLE_COST_1 -pedantic -W -Wall 
 #-O3 #for optimization
-CFLAGS = -Wall -Ofast #-O3 #-pg # for profile
-LDFLAGS = -Wall -Wextra -Ofast # -O3 # -pg
+CFLAGS = -Wall -O3 #-O3 #-pg # for profile
+LDFLAGS = -Wall -Wextra -O3 # -O3 # -pg
 
 BOOST_DIR = /usr/include/boost_1_53_0 # /usr/local/include/boost
 SHPATH_DIR = Source/ShPath/
