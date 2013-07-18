@@ -9,49 +9,49 @@ origin = 384
 destination = 368
 numZones = 386
 
-pp = PdfPages('chicago_bellman_animation.pdf')
+pdf = PdfPages('chicago_astar_animation.pdf')
 
-for i in xrange(7):
-    with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
-        f.readline()
-        while True:
-            line = f.readline()
-            if not line:
-                break
-            ss = line.split()
+with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
+    f.readline()
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        ss = line.split()
+        if ss != []:
+            node = int(ss[0])-1
+            X = int(ss[1])
+            Y = int(ss[2])
+            G.add_node(node, pos=(X, Y))
+
+edgelist = []
+with open("../Data/Instances/ChicagoSketch_net.txt", 'r') as f:
+    readData = False
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        ss = line.split()
+        if readData :
             if ss != []:
-                node = int(ss[0])-1
-                X = int(ss[1])
-                Y = int(ss[2])
-                G.add_node(node, pos=(X, Y))
+                fr = int(ss[0])-1
+                to = int(ss[1])-1
+                length = float(ss[4])
+                #edgelist.append( (fr, to, length) )
+                if fr > numZones and to > numZones:
+                    edgelist.append( (fr, to) )
+                #G.add_edge(fr, to)
+        if len(ss) != 0 and ss[0] == '~':
+            readData = True
     
-    edgelist = []
-    with open("../Data/Instances/ChicagoSketch_net.txt", 'r') as f:
-        readData = False
-        while True:
-            line = f.readline()
-            if not line:
-                break
-            ss = line.split()
-            if readData :
-                if ss != []:
-                    fr = int(ss[0])-1
-                    to = int(ss[1])-1
-                    length = float(ss[4])
-                    #edgelist.append( (fr, to, length) )
-                    if fr > numZones and to > numZones:
-                        edgelist.append( (fr, to) )
-                    #G.add_edge(fr, to)
-            if len(ss) != 0 and ss[0] == '~':
-                readData = True
-    
+for i in xrange(5):
     tree, path = [], []
-    with open("chicago_bellman_data", 'r') as f:
+    with open("chicago_astar_data", 'r') as f:
         flag = False
         j = 0
         while True:
             j += 1
-            if j > i*200:
+            if j > i*100:
                 break
             line = f.readline()
             if not line:
@@ -78,8 +78,8 @@ for i in xrange(7):
     x, y = pos[destination]
     plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
     plt.axis("off")
-    pp.savefig(fig, bbox_inches='tight')
+    pdf.savefig(fig, bbox_inches='tight')
 
-pp.close()
+pdf.close()
 
 #plt.savefig("chicago_dijkstra3.pdf", bbox_inches="tight")    

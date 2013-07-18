@@ -94,10 +94,10 @@ int main(int argc, char *argv[]) {
 
         ShortestPath *shPath = manager.getShPath();
         LabelCorrectingAl* tmp = (LabelCorrectingAl*)shPath;
-        shPath->calculate(384, 368);
+        shPath->calculate(302, 248);
         tmp->printScanned();
         std::cout << "path" << std::endl;
-        StarLink *link = shPath->getInComeLink(368);
+        StarLink *link = shPath->getInComeLink(248);
         if(link==NULL){
             std::cout << "NULL" << std::endl;
             return -1;

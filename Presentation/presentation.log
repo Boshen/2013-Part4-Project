@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  16 JUL 2013 01:00
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.3)  17 JUL 2013 21:55
 entering extended mode
  %&-line parsing enabled.
 **presentation
@@ -645,7 +645,13 @@ Package: beamerinnerthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
 (/usr/share/texmf/tex/latex/beamer/base/themes/outer/beamerouterthemedefault.st
 y
 Package: beamerouterthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
-))) (/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
+))) (/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks41
+\verbatim@line=\toks42
+\verbatim@in@stream=\read2
+)
+(/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texmf/tex/latex/pgf/basiclayer/pgf.sty
 Package: pgf 2008/01/15 v2.10 (rcs-revision 1.12)
 
@@ -671,8 +677,8 @@ Package: pgfcomp-version-1-18 2007/07/23 v2.10 (rcs-revision 1.1)
 Package: pgffor 2010/03/23 v2.10 (rcs-revision 1.18)
 \pgffor@iter=\dimen180
 \pgffor@skip=\dimen181
-\pgffor@stack=\toks41
-\pgffor@toks=\toks42
+\pgffor@stack=\toks43
+\pgffor@toks=\toks44
 ))
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2010/10/13 v2.10 (rcs-revision 1.76)
@@ -795,8 +801,8 @@ LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 ))
 (/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
 Package: inputenc 2008/03/30 v1.1d Input encoding file
-\inpenc@prehook=\toks43
-\inpenc@posthook=\toks44
+\inpenc@prehook=\toks45
+\inpenc@posthook=\toks46
 
 (/usr/share/texmf-texlive/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
@@ -920,32 +926,32 @@ Package: beamerinnerthemerounded 2010/06/17  (rcs-revision d02a7cf4d8ae)
 ))
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\\' on input line 22.
+(hyperref)                removing `\\' on input line 24.
 
 (./presentation.aux)
 \openout1 = `presentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 35.
  (/usr/share/texmf-texlive/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Try loading font information for T1+lmss on input line 33.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Try loading font information for T1+lmss on input line 35.
 
 (/usr/share/texmf/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -998,13 +1004,13 @@ driver: pdftex
 \scratchbox=\box76
 \nofMPsegments=\count160
 \nofMParguments=\count161
-\everyMPshowfont=\toks45
+\everyMPshowfont=\toks47
 \MPscratchCnt=\count162
 \MPscratchDim=\dimen191
 \MPnumerator=\count163
-\everyMPtoPDFconversion=\toks46
+\everyMPtoPDFconversion=\toks48
 ) ABD: EveryShipout initializing macros
-Package hyperref Info: Link coloring OFF on input line 33.
+Package hyperref Info: Link coloring OFF on input line 35.
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
@@ -1014,55 +1020,55 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
 \c@section@level=\count164
 )
-LaTeX Info: Redefining \ref on input line 33.
-LaTeX Info: Redefining \pageref on input line 33.
+LaTeX Info: Redefining \ref on input line 35.
+LaTeX Info: Redefining \pageref on input line 35.
  (./presentation.out) (./presentation.out)
 \@outlinefile=\write5
 \openout5 = `presentation.out'.
 
 \AtBeginShipoutBox=\box77
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 33.
+(Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/lmr/bx/n --> OT1/cmss/bx/n on input line 33.
+(Font)                  OT1/lmr/bx/n --> OT1/cmss/bx/n on input line 35.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> T1/lmr/m/n on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 33.
+(Font)                  OT1/cmss/m/n --> T1/lmr/m/n on input line 35.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 33.
+(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 33.
+(Font)                  OT1/lmr/bx/n --> T1/lmss/bx/n on input line 35.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> T1/lmss/m/n on input line 33.
+(Font)                  OT1/lmss/m/n --> T1/lmss/m/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> T1/lmss/m/n on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 33.
+(Font)                  OT1/lmss/bx/n --> T1/lmss/m/n on input line 35.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> T1/lmss/m/it on input line 33.
+(Font)                  OT1/lmr/m/it --> T1/lmss/m/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/lmr/bx/it --> T1/lmss/m/it on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 33.
+(Font)                  OT1/lmr/bx/it --> T1/lmss/m/it on input line 35.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 33.
+(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 33.
+(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 33.
+(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 33.
+(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> T1/lmr/bx/n on input line 33.
+(Font)                  OT1/cmss/bx/n --> T1/lmr/bx/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  T1/lmss/bx/n --> T1/lmss/bx/n on input line 33.
+(Font)                  T1/lmss/bx/n --> T1/lmss/bx/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 33.
+(Font)                  T1/lmss/m/n --> T1/lmss/bx/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 33.
+(Font)                  T1/lmss/m/it --> T1/lmss/bx/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  T1/lmtt/m/n --> T1/lmtt/bx/n on input line 33.
+(Font)                  T1/lmtt/m/n --> T1/lmtt/bx/n on input line 35.
 
 (/usr/share/texmf/tex/latex/beamer/base/translator/dicts/translator-basic-dicti
 onary/translator-basic-dictionary-English.dict
@@ -1090,183 +1096,452 @@ Dictionary: translator-theorem-dictionary, Language: English
 ) (./presentation.nav)
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./presentation.toc)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
 [2
 
 ]
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 97.
- (/usr/share/texmf/tex/latex/lm/omllmm.fd
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[3
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[4
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[5
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[6
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[7
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[8
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[9
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[10
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+[11
+
+]
+Underfull \hbox (badness 1622) in paragraph at lines 100--100
+ [][][][]\T1/lmss/m/n/10.95 Update arc travel times 
+ []
+
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 100.
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 97.
-
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 100
+.
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 97.
-
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 100
+.
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 97.
+(Font)              <10.95> on input line 100.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 97.
+(Font)              <8> on input line 100.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 97.
-LaTeX Font Info:    Try loading font information for U+msa on input line 97.
+(Font)              <6> on input line 100.
+LaTeX Font Info:    Try loading font information for U+msa on input line 100.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 97.
+LaTeX Font Info:    Try loading font information for U+msb on input line 100.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 97.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 100.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <8> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 97.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 100.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <6> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 97.
- [3
-
-] [4
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 100.
+ [12
 
 ]
-<img/chicago_dijkstra_animation.pdf, id=66, page=1, 1212.89232pt x 1188.45728pt
->
+<img/chicago_dijkstra_animation.pdf, id=104, page=1, 1212.89232pt x 1188.45728p
+t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 1>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 165.
 
-[5
+[13
 
  <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_dijkstra_animation.pdf, id=99, page=2, 1212.89232pt x 1188.45728pt
->
+File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
+
+<use img/chicago_dijkstra_animation.pdf, page 1>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 192.
+
+[14
+
+]
+<img/chicago_dijkstra_animation.pdf, id=146, page=2, 1212.89232pt x 1188.45728p
+t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 2>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 192.
 
-[6
+[15
 
  <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_dijkstra_animation.pdf, id=132, page=3, 1212.89232pt x 1188.45728p
+<img/chicago_dijkstra_animation.pdf, id=179, page=3, 1212.89232pt x 1188.45728p
 t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 3>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 192.
 
-[7
+[16
 
  <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_dijkstra_animation.pdf, id=166, page=4, 1212.89232pt x 1188.45728p
+<img/chicago_dijkstra_animation.pdf, id=212, page=4, 1212.89232pt x 1188.45728p
 t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 4>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 192.
 
-[8
+[17
 
  <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_dijkstra_animation.pdf, id=199, page=5, 1212.89232pt x 1188.45728p
+<img/chicago_dijkstra_animation.pdf, id=245, page=5, 1212.89232pt x 1188.45728p
 t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 5>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 192.
 
-[9
+[18
 
  <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_dijkstra_animation.pdf, id=232, page=6, 1212.89232pt x 1188.45728p
+<img/chicago_dijkstra_animation.pdf, id=278, page=6, 1212.89232pt x 1188.45728p
 t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 6>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 192.
 
-[10
+[19
 
  <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_dijkstra_animation.pdf, id=265, page=7, 1212.89232pt x 1188.45728p
+<img/chicago_dijkstra_animation.pdf, id=312, page=7, 1212.89232pt x 1188.45728p
 t>
 File: img/chicago_dijkstra_animation.pdf Graphic file (type pdf)
  <use img/chicago_dijkstra_animation.pdf, page 7>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 123.
+ad of 0 percent on input line 192.
 
-[11
+[20
 
- <./img/chicago_dijkstra_animation.pdf>]
-<img/chicago_bidirect.pdf, id=298, 1212.89232pt x 1188.45728pt>
-File: img/chicago_bidirect.pdf Graphic file (type pdf)
+ <./img/chicago_dijkstra_animation.pdf>] [21
 
-<use img/chicago_bidirect.pdf>
+] [22
 
-Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 135.
-
-[12
-
- <./img/chicago_bidirect.pdf>]
-<img/chicago_astar.pdf, id=335, 1212.89232pt x 1188.45728pt>
-File: img/chicago_astar.pdf Graphic file (type pdf)
-
-<use img/chicago_astar.pdf>
+]
+<img/chicago_bidirect_animation.pdf, id=358, page=1, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 1>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 141.
+ad of 0 percent on input line 220.
 
-[13
+[23
 
- <./img/chicago_astar.pdf>]
-<img/chicago_astar_bidirect.pdf, id=369, 1212.89232pt x 1188.45728pt>
-File: img/chicago_astar_bidirect.pdf Graphic file (type pdf)
-
-<use img/chicago_astar_bidirect.pdf>
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_bidirect_animation.pdf, id=395, page=2, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 2>
 
 Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
-ad of 0 percent on input line 147.
+ad of 0 percent on input line 220.
 
-[14
+[24
 
- <./img/chicago_astar_bidirect.pdf>]
-File: img/chicago_astar.pdf Graphic file (type pdf)
- <use img/chicago_astar.pdf>
-File: img/chicago_astar_bidirect.pdf Graphic file (type pdf)
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_bidirect_animation.pdf, id=432, page=3, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 3>
 
-<use img/chicago_astar_bidirect.pdf>
-Overfull \vbox (44.07407pt too high) detected at line 154
- []
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 220.
 
-[15
+[25
 
-] <img/runtime.pdf, id=416, 2168.1pt x 1445.4pt>
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_bidirect_animation.pdf, id=470, page=4, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 4>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 220.
+
+[26
+
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_bidirect_animation.pdf, id=507, page=5, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 5>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 220.
+
+[27
+
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_bidirect_animation.pdf, id=544, page=6, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 6>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 220.
+
+[28
+
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_bidirect_animation.pdf, id=581, page=7, 1212.89232pt x 1188.45728p
+t>
+File: img/chicago_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_bidirect_animation.pdf, page 7>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 220.
+
+[29
+
+ <./img/chicago_bidirect_animation.pdf>]
+<img/chicago_astar_animation.pdf, id=618, page=1, 1212.89232pt x 1188.45728pt>
+File: img/chicago_astar_animation.pdf Graphic file (type pdf)
+
+<use img/chicago_astar_animation.pdf, page 1>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 228.
+
+[30
+
+ <./img/chicago_astar_animation.pdf>]
+<img/chicago_astar_animation.pdf, id=651, page=2, 1212.89232pt x 1188.45728pt>
+File: img/chicago_astar_animation.pdf Graphic file (type pdf)
+
+<use img/chicago_astar_animation.pdf, page 2>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 228.
+
+[31
+
+ <./img/chicago_astar_animation.pdf>]
+<img/chicago_astar_animation.pdf, id=685, page=3, 1212.89232pt x 1188.45728pt>
+File: img/chicago_astar_animation.pdf Graphic file (type pdf)
+
+<use img/chicago_astar_animation.pdf, page 3>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 228.
+
+[32
+
+ <./img/chicago_astar_animation.pdf>]
+<img/chicago_astar_animation.pdf, id=718, page=4, 1212.89232pt x 1188.45728pt>
+File: img/chicago_astar_animation.pdf Graphic file (type pdf)
+
+<use img/chicago_astar_animation.pdf, page 4>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 228.
+
+[33
+
+ <./img/chicago_astar_animation.pdf>]
+<img/chicago_astar_animation.pdf, id=751, page=5, 1212.89232pt x 1188.45728pt>
+File: img/chicago_astar_animation.pdf Graphic file (type pdf)
+
+<use img/chicago_astar_animation.pdf, page 5>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 228.
+
+[34
+
+ <./img/chicago_astar_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=784, page=1, 1212.89232pt x 1188.
+45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 1>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[35
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=821, page=2, 1212.89232pt x 1188.
+45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 2>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[36
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=858, page=3, 1212.89232pt x 1188.
+45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 3>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[37
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=896, page=4, 1212.89232pt x 1188.
+45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 4>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[38
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=933, page=5, 1212.89232pt x 1188.
+45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 5>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[39
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=970, page=6, 1212.89232pt x 1188.
+45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 6>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[40
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/chicago_astar_bidirect_animation.pdf, id=1007, page=7, 1212.89232pt x 1188
+.45728pt>
+File: img/chicago_astar_bidirect_animation.pdf Graphic file (type pdf)
+ <use img/chicago_astar_bidirect_animation.pdf, page 7>
+
+Class beamer Warning: Frame text is shrunk by a factor of 22.7951 percent inste
+ad of 0 percent on input line 236.
+
+[41
+
+ <./img/chicago_astar_bidirect_animation.pdf>]
+<img/runtime.pdf, id=1044, 2168.1pt x 1445.4pt>
 File: img/runtime.pdf Graphic file (type pdf)
  <use img/runtime.pdf>
-Overfull \hbox (21.73683pt too wide) in paragraph at lines 172--172
-[][]  
+Overfull \hbox (21.73683pt too wide) in paragraph at lines 255--255
+[][][]  
  []
 
-[16
+[42
 
  <./img/runtime.pdf>]
+File: img/runtime.pdf Graphic file (type pdf)
+ <use img/runtime.pdf>
+Overfull \hbox (21.73683pt too wide) in paragraph at lines 255--255
+[][][][]  
+ []
+
+[43
+
+] [44
+
+] [45
+
+] [46
+
+] [47
+
+] [48
+
+]
 \tf@nav=\write6
 \openout6 = `presentation.nav'.
 
@@ -1278,19 +1553,21 @@ Overfull \hbox (21.73683pt too wide) in paragraph at lines 172--172
 
  (./presentation.aux) ) 
 Here is how much of TeX's memory you used:
- 19756 strings out of 493848
- 394225 string characters out of 1152824
- 478847 words of memory out of 3000000
- 22470 multiletter control sequences out of 15000+50000
+ 19904 strings out of 493848
+ 397114 string characters out of 1152824
+ 480460 words of memory out of 3000000
+ 22554 multiletter control sequences out of 15000+50000
  34104 words of font info for 41 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 49i,16n,62p,397b,974s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/sha
-re/texmf/fonts/type1/public/lm/lmss10.pfb></usr/share/texmf/fonts/type1/public/
-lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss8.pfb>
-Output written on presentation.pdf (16 pages, 388609 bytes).
+ 49i,16n,62p,397b,790s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr
+/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/public/
+lm/lmss10.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/te
+xmf/fonts/type1/public/lm/lmss8.pfb></usr/share/texmf/fonts/type1/public/lm/lms
+y10.pfb>
+Output written on presentation.pdf (48 pages, 872831 bytes).
 PDF statistics:
- 497 PDF objects out of 1000 (max. 8388607)
- 35 named destinations out of 1000 (max. 500000)
- 226 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1187 PDF objects out of 1200 (max. 8388607)
+ 99 named destinations out of 1000 (max. 500000)
+ 388 words of extra memory for PDF output out of 10000 (max. 10000000)
 
