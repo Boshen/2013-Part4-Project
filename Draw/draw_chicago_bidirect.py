@@ -4,13 +4,12 @@ import matplotlib.pyplot as plt
 
 G = nx.DiGraph()
 
-path = "ChicagoSketch_net.txt"
 edgelist = []
 
 origin = 384
 destination = 368
 numZones = 386
-with open("ChicagoSketch_node.txt", 'r') as f:
+with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
     f.readline()
     while True:
         line = f.readline()
