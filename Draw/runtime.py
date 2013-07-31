@@ -27,7 +27,7 @@ for (i, j) in zip([620000, 1437860, 1437860, 1437860, 1437860], [140, 65, 100, 1
     k += 1
 
 pylab.title('Algorithm run times vs Different graph sizes')
-pylab.ylabel('Run Time (seconds)')
+pylab.ylabel('Run Time\n(seconds)', {'rotation':'horizontal'})
 pylab.xlabel('Number of Origin-Destination Pairs')
 x1, x2, y1, y2 = pylab.axis()
 #pylab.legend(algos)
