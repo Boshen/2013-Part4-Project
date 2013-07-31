@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
         gap->isConverged();
         */
 
-        //StarNetwork *net = manager.getNet();
+        StarNetwork *net = manager.getNet();
         /*
            net->print();
            ODMatrix *mat = manager.getODMatrix();
@@ -83,15 +83,17 @@ int main(int argc, char *argv[]) {
         //end = clock();
         timer.stop(); //will stop only if it was not stopped before
 
-        //net->printToFile("tmp.flows");
+        //net->printToFile("flows");
         //double timePassed = ((double)(end-start))/ (CLOCKS_PER_SEC);
-        StarNetwork *net = manager.getNet();
+        //StarNetwork *net = manager.getNet();
+        std::cout.precision(15);
         std::cout << std::fixed << timer.getTimePassed() << " | "  <<  nbIter << std::endl;
-        //std::cout << "MAX = " << Utils::checkFeasibility(net, manager.getODMatrix()) << std::endl;//*/
+        std::cout << "MAX = " << Utils::checkFeasibility(net, manager.getODMatrix()) << std::endl;//*/
         //net->print();
 
         //writeResults(params.getAutoFileName(' '), "test.res", nbIter, timer.getTimePassed());
 
+        /*
         ShortestPath *shPath = manager.getShPath();
         LabelCorrectingAl* tmp = (LabelCorrectingAl*)shPath;
         shPath->calculate(302, 248);
@@ -110,6 +112,7 @@ int main(int argc, char *argv[]) {
             link = shPath->getInComeLink(nextDest);
         }
         path.print();
+        */
 
         /*
            std::vector<std::pair<long, long> > nodeCoords(net->getNbNodes());

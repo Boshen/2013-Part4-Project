@@ -54,7 +54,11 @@ class ShPathInterface : public ShortestPath {
         std::vector<std::pair<int,int> > *fScanned;
         std::vector<std::pair<int,int> > *bScanned;
         std::map<std::pair<int, int>, std::vector<int>* > *sp_tree; // <<o,d>, tree>
-        std::map<std::pair<int, int>, FPType> *sp_tree_dist; // <<o,d>, tree>
+        std::map<std::pair<int, int>, int> *sp_tree_changed;
+        std::map<std::pair<int, int>, int> *iter;
+
+        std::map<std::pair<int, int>, FPType > *LabelVector_Cache; 
+        std::map<std::pair<int, int>, std::vector<int>* > *Predecessors_Cache; 
 
         inline void initNodes(){
             std::fill(LabelVector->begin(), LabelVector->end(),  ShPath::FPType_Max);
@@ -75,22 +79,36 @@ class ShPathInterface : public ShortestPath {
             fScanned = new std::vector<std::pair<int,int> >();
             bScanned = new std::vector<std::pair<int,int> >();
 
+            //LabelVector_Cache = new std::map<std::pair<int, int>, FPType >();
+            //Predecessors_Cache = new std::map<std::pair<int, int>, std::vector<int>* >();
+
             sp_tree = new std::map<std::pair<int, int>, std::vector<int>* >(); // <<o,d>, link indices>
-            sp_tree_dist = new std::map<std::pair<int, int>, FPType>(); // <<o,d>, dist>
+            sp_tree_changed = new std::map<std::pair<int, int>, int>(); // <<o,d>, dist>
+
+            //iter = new std::map<std::pair<int, int>, int>(); // <<o,d>, dist>
+            //
             //for(int i=0;i<_nNodes;i++){
             //    for(int j=0;j<_nNodes;j++){
-            //        sp_tree->insert(std::make_pair(std::make_pair(i,j), new std::vector<int>()));
-            //        sp_tree_changed->insert(std::make_pair(std::make_pair(i,j), 0));
+            //        LabelVector_Cache->insert(std::make_pair(std::make_pair(i,j), new std::vector<FPType>()));
+            //        Predecessors_Cache->insert(std::make_pair(std::make_pair(i,j), new std::vector<int>()));
+            //        //sp_tree_changed->insert(std::make_pair(std::make_pair(i,j), 0));
             //    }
             //}
 
         };
 
         ~ShPathInterface(){
-            //std::map<std::pair<int,int>, int>::iterator it;
-            //for(it=sp_tree_changed->begin();it!=sp_tree_changed->end();it++){
-            //    std::cout << it->first.first << " " << it->first.second << " " <<  it->second << std::endl;
-            //}
+            /*
+            std::map<std::pair<int,int>, std::vector<int>* >::iterator it;
+            for(it=Predecessors_Cache->begin();it!=Predecessors_Cache->end();it++){
+                std::cout << it->first.first << " " << it->first.second << " ";
+                for( size_t i = 0; i < it->second->size(); i++){
+                 
+                    std::cout << it->second->at(i) << " ";
+                }
+                std::cout << std::endl;
+            }
+            */
 
             delete LabelVector;
             delete Predecessors;
@@ -99,12 +117,21 @@ class ShPathInterface : public ShortestPath {
             delete fScanned;
             delete bScanned;
 
-            std::map<std::pair<int,int>, std::vector<int>* >::iterator it;
-            for(it=sp_tree->begin();it!=sp_tree->end();it++){
-                delete it->second;
-            }
+            //std::map<std::pair<int,int>, FPType >::iterator it1;
+            //for(it1=LabelVector_Cache->begin();it1!=LabelVector_Cache->end();it1++){
+            //    delete it1->second;
+            //}
+            //std::map<std::pair<int,int>, std::vector<int>* >::iterator it2;
+            //for(it2=Predecessors_Cache->begin();it2!=Predecessors_Cache->end();it2++){
+            //    delete it2->second;
+            //}
+
+            //delete LabelVector_Cache;
+            //delete Predecessors_Cache;
+
             delete sp_tree;
-            delete sp_tree_dist;
+            delete sp_tree_changed;
+            //delete iter;
         }
 
         virtual void calculate(int originIndex) =0;

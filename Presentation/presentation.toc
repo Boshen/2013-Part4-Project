@@ -1,4 +1,4 @@
 \beamer@endinputifotherversion {3.10pt}
 \beamer@sectionintoc {1}{Project motivation - Traffic Assignment}{2}{0}{1}
-\beamer@sectionintoc {2}{Solving the Traffic Assignment problem - faster shortest path calculations}{13}{0}{2}
-\beamer@sectionintoc {3}{Results - speed ups}{42}{0}{3}
+\beamer@sectionintoc {2}{Solving the Traffic Assignment problem - faster shortest path calculations}{11}{0}{2}
+\beamer@sectionintoc {3}{Results - speed ups}{40}{0}{3}

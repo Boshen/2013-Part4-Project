@@ -51,14 +51,16 @@ StarLink* Path::getNextLink() const{
 }; 
 
 void Path::print(){
-	std::cout << " flow = " << _flow  << " prevFlow = " << _prevFlow << " cost = " << _currCost << " ";
+    FPType cost = 0;
+	std::cout << "flow = " << _flow  << " prevFlow = " << _prevFlow << " cost = " << _currCost << std::endl;;
 	for (StarLink *link = beginLink(); link != NULL; link = getNextLink()) {
-		//std::cout << "(" << link->getIndex() << ", " << link->getFlow() << ") ";
+		std::cout << "(" << link->getNodeFromIndex() << ", " << link->getFlow() << " " << link->getTime() << ") ";
+        cost += link->getTime();
 		//std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << "] " << link->getFlow() << ", " << link->getTime() << " ";
-		std::cout << link->getNodeFromIndex() << " " << link->getNodeToIndex() << std::endl;
+		//std::cout << link->getNodeFromIndex() << " " << link->getNodeToIndex() << std::endl;
 		//std::cout << link->getIndex() << " ";
 	}//*/
-	//std::cout << std::endl;
+	std::cout << cost << std::endl;
 };
 
 FPType Path::getPrevFlow() const{

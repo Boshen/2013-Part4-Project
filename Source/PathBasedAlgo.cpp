@@ -71,9 +71,12 @@ int PathBasedAlgo::execute(){
 
 bool PathBasedAlgo::mainLoop(ODSet *odSet){
 	// update path set 
+    // go through every path and recalculate its cost. Link flows are NOT updated
 	odSet->updateSet();//**
 	
 	// try to improve path set (2) 
+	// calculate shortest path and check if it is shorter than current shortest path
+    // adds path to paths in odSet if there exist a shorter path
 	bool wasImproved = odSet->improveSet();//**
 	// if (2) was successful or solution is not equilibrated yet, equilibrate: flow move + deleting paths with zero flow
 	if (wasImproved || (odSet->getNbPaths() > 1)) {//**

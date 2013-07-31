@@ -20,7 +20,7 @@ for xx,yy in zip(x,y):
 
 pylab.xticks(x, map(str, x))
 
-pylab.title('ChicagoSketch - the percentage of shortest path change for each OD pair out of 26 iterations')
+pylab.title('ChicagoSketch - the percentage of shortest path change for each O-D pair out of 26 iterations')
 pylab.xlabel('Number of shortest path changes out of 26 iterations')
 pylab.ylabel('Percentage of total number O-D pairs')
 

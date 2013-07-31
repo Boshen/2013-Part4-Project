@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <cassert>
+#include <vector>
 
  DescDirectionPathPE::DescDirectionPathPE(FPType delta) : DescDirectionPath(delta){
  
@@ -28,6 +29,12 @@
   	assert((minPath != NULL) && (maxPath != NULL) && (minPath != maxPath));
   	// calculate direction
   	FPType dir = minDist - maxDist;
+    //std::cout << std::endl;
+    //std::cout << "min path" << std::endl;
+    //minPath->print();
+    //std::cout << "max path" << std::endl;
+    //maxPath->print();
+    //std::cout << std::endl;
   	if (-dir <= _delta) {
   		isEquilibrated = true;
   		for (int i = 0; i < size; i++) {

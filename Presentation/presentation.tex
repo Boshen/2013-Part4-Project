@@ -32,6 +32,8 @@
     University of Auckland\\
 }
 
+\date{}
+
 \begin{document}
 
 \begin{frame}[plain]
@@ -43,58 +45,49 @@
 %\end{frame}
 
 \section{Project motivation - Traffic Assignment}
-\begin{frame}[Traffic Assignment]
-    % A transportation network where some of the nodes have traffic supplies and demands that we wish to satisfy.
-    % Easy if travel time on arcs is fixed,
-    % but in reality they get congested once there are lots of traffic,
-    % so we have a non-linear cost function to capture the congestion effect.
-    % One well-established method of solving of this is the all or nothing assignment:
-    % we either send traffic all at once via the shortest path or we send none.
-    % Via the shortest path because we are selfish that we want to go to a place as fast as possible,
-    % this traffic assignment model is an iterative algorithm where
-    % first we assign traffic to the arcs with the 
-    % free time,
-    % then we recalculate the arcs travel times as now they have traffic flows,
-    % they become congested,
-    % then we repeat and reassign the traffics and update the arc costs,
-    % eventually ending up with equilibrium.
-    % As you can see during the process there will be lots of iterations if the supplies and demands are complicated and the graph is large,
-    % and each iteration we need to find the shortest path between every origin destination pair,
-    % so many shortest path calculations, speeding 1 will cumulatively making the solving much more faster
-    % thus we wish to find a faster shortest path algorithm compared to the standard Bellman-Ford or Dijkstra's algorithm.
+\begin{frame}{Traffic Assignment}
+    \pause
     \begin{itemize}[<+->]
         \item transportation network with supply and demand nodes
-        \item arcs have non-linear costs for capturing congestion effects
-        \item all-or-nothing assignment
-            \begin{itemize}
-                \item send traffic all at once to a node via the shortest path
-            \end{itemize}
+        \item minimise travel times
+        \item arcs have non-linear travel times for capturing congestion effects
+        %\item all-or-nothing assignment
+        %    \begin{itemize}
+        %        \item send traffic all at once to a node via the shortest path
+        %    \end{itemize}
     \end{itemize}
 
-    \pause
-    \begin{center}
-        \tikzstyle{block} = [rectangle, draw, text width=.6\paperwidth, text centered, rounded corners, minimum height=2em]
-        \tikzstyle{line} = [draw, -latex']
-        \begin{tikzpicture}[node distance=4em]
-            \node [block] (first) {Initialise: all-or-nothing assignment on shortest path with free flow travel times};
-            \pause
+    %\pause
+    \uncover<4->{
+        \begin{center}
+            \tikzstyle{block} = [rectangle, draw, text width=.5\paperwidth, text centered, rounded corners, minimum height=2em]
+            \tikzstyle{line} = [draw, -latex']
+            \begin{tikzpicture}[node distance=4em]
+                \uncover<5->{
+                    \node [block] (first) {Initialise: load all traffic on shortest path with free flow travel times};
+                }
 
-            \node [block, below of=first] (second) {Update arc travel times};
-            \path [line] (first) -- (second);
-            \pause
+                \uncover<6->{
+                    \node [block, below of=first] (second) {Update travel times};
+                    \path [line] (first) -- (second);
+                }
 
-            \node [block, below of=second] (third) {Load demand: all-or-nothing assignment on \only<1-10>{shortest path}\only<11>{\underline{shortest path}} computed from new arc travel times};
-            \path [line] (second) -- (third);
-            \pause
+                \uncover<7->{
+                    \node [block, below of=second] (third) {Reload traffic on shortest path with new travel times};
+                    \path [line] (second) -- (third);
+                }
 
-            \node [block, below of=third] (fourth) {Check stopping criterion (equilibrium)};
-            \path [line] (third) -- (fourth);
-            \pause
+                \uncover<8->{
+                    \node [block, below of=third] (fourth) {Check stopping criterion (equilibrium)};
+                    \path [line] (third) -- (fourth);
+                }
+                % none of the travellers can find a faster rote than the one he is currently using
 
-            \path [line] (fourth.west) -- ($(fourth.west)-(0.8,0)$) -- ($(second.west)-(0.8,0)$) -- (second.west);
-            %\path [line] ($(second.west)-(0.8,0)$) -- (second.west);
-            %\path [line] ($(third.west)-(0.8,0)$) -- (third.west);
-        \end{tikzpicture}
+                \uncover<9->{
+                    \path [line] (fourth.west) -- ($(fourth.west)-(0.8,0)$) -- ($(second.west)-(0.8,0)$) -- (second.west);
+                }
+            \end{tikzpicture}
+        }
     \end{center}
 
 \end{frame}
@@ -156,7 +149,7 @@
 \end{comment}
 
 \section{Solving the Traffic Assignment problem - faster shortest path calculations}
-\begin{frame}[shrink]{The Graph - 93,135 Origin-Destinations Pairs}
+\begin{frame}[shrink]{The Graph - 93,135 Origin-Destination Pairs}
     % Let me go through the steps I took to find a faster algorithm,
     % on this graph with more than 93,000 origin destination pairs
     \begin{center}
@@ -183,18 +176,20 @@
 \end{frame}
 \end{comment}
 
-\foreach \n in {1,...,7}{
-    \begin{frame}[shrink]{Dijkstra's Algorithm}
-        \begin{center}
-            \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_dijkstra_animation}
-        \end{center}
-    \end{frame}
-}
+\begin{frame}[shrink]{Dijkstra's Algorithm}
+    \foreach \n in {1,...,7}{
+        \only<\n>{
+            \begin{center}
+                \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_dijkstra_animation}
+            \end{center}
+        }
+    }
+\end{frame}
 
-% can talk about data strucutre here
+% can talk about data structure here
 \begin{frame}{Dijkstra's Algorithm - Priority Queue}
     \begin{itemize}
-        \item Pointer based Heap (C++ boost library)
+        \item pointer based Heap (C++ boost library)
             \begin{itemize}
                 \item Binomial
                 \item Pairing
@@ -204,42 +199,54 @@
                 \item Fibonacci
             \end{itemize}
         \item (red-black) binary search tree (C++ STL <set>)
-        \item array based Heap (C++ STL <priority\_queue>) \only<2>{$\leftarrow$ winner}
+        \item array based Heap (C++ STL <priority\_queue>)
     \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink]{Dijkstra's Algorithm - Priority Queue}
+    \begin{center}
+        \includegraphics[width=\paperwidth, height=\paperwidth, keepaspectratio, trim=0 0 0 25pt, clip]{img/pq_runtime}
+    \end{center}
 \end{frame}
 
 % since we have a origin and a destination, 
 % we can calculate from the two ends 
+\begin{frame}[shrink]{Bidirectional Dijkstra's Algorithm}
+    \foreach \n in {1,...,7}{
+        \only<\n>{
+            \begin{center}
+                \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_bidirect_animation}
+            \end{center}
+        }
+    }
+\end{frame}
 
-\foreach \n in {1,...,7}{
-    \begin{frame}[shrink]{Bidirectional Dijkstra's Algorithm}
-        \begin{center}
-            \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_bidirect_animation}
-        \end{center}
-    \end{frame}
-}
+\begin{frame}[shrink]{A* Search (Best-First Search)}
+    \begin{itemize}
+        \item Visit the next node that is on the expected shortest path.
+    \end{itemize}
+    \foreach \n in {1,...,5}{
+        \only<\n>{
+            \begin{center}
+                \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_astar_animation}
+            \end{center}
+        }
+    }
+\end{frame}
 
-\foreach \n in {1,...,5}{
-    \begin{frame}[shrink]{A* Search}
-        \begin{center}
-            \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_astar_animation}
-        \end{center}
-    \end{frame}
-}
-
-\foreach \n in {1,...,7}{
-    \begin{frame}[shrink]{Bidirectional A* search}
-        \begin{center}
-            \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_astar_bidirect_animation}
-        \end{center}
-    \end{frame}
-}
+\begin{frame}[shrink]{Bidirectional A* search}
+    \foreach \n in {1,...,7}{
+        \only<\n>{
+            \begin{center}
+                \includegraphics[page=\n,width=\paperwidth, height=\paperheight, keepaspectratio,trim=0 120px 48px 120px,clip]{img/chicago_astar_bidirect_animation}
+            \end{center}
+        }
+    }
+\end{frame}
 
 \section{Results - speed ups}
 \begin{frame}
     \includegraphics[width=\paperwidth, height=\paperheight, keepaspectratio, trim=0 0 0 60pt, clip]{img/runtime}
-    \pause
-
     \tikzstyle{block} = [circle, draw, inner sep=0pt,minimum size=1pt]
     \begin{tikzpicture}[overlay, shift={(1.6,0)}]
         \node [block, minimum size= 1.4pt] (a) {};
@@ -254,8 +261,7 @@
     \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Future Works}
-    \pause
+\begin{frame}{Future Work}
     \begin{itemize}[<+->]
         \item preprocessing
             \begin{itemize}
@@ -264,8 +270,12 @@
         \item use information from previous iteration
             \begin{itemize}
                 \item Incremental heuristic search - Lifelong Planning A*
-                % fix shortest path tree if altered somewhere
             \end{itemize}
+        \item avoid shortest path calculations if possible
+            \begin{itemize}
+                \item most of the shortest paths do not change after the first few iterations
+            \end{itemize}
+        % fix shortest path tree if altered somewhere
     \end{itemize}
 \end{frame}
 \end{document}

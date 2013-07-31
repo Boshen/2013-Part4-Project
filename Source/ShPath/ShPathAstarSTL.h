@@ -2,11 +2,13 @@
 #define _SH_PATH_ASTAR_STL
 
 #include "ShPathInterface.h"
+#include <cstdlib>
 
 class ShPathAstarSTL : public ShPathInterface {
     private:
         ShPath::PriorityQueue *Queue;
         std::vector<FPType> *zeroFlowTimes;
+
     public:
         ShPathAstarSTL(StarNetwork* netPointer):ShPathInterface(netPointer){
             Queue = new ShPath::PriorityQueue();
@@ -82,6 +84,7 @@ class ShPathAstarSTL : public ShPathInterface {
 
         void calculate(int O, int D) {
 
+            std::pair<int,int> p = std::make_pair(O, D);
 
             int u, v;
             FPType Duv;
@@ -94,25 +97,41 @@ class ShPathAstarSTL : public ShPathInterface {
             std::vector<int> &P = *Predecessors;
             StarNetwork &NP = *_netPointer;
 
-            std::pair<int,int> p = std::make_pair(O,D);
-            if( sp_tree->find(p) == sp_tree->end()){
+            if( sp_tree_changed->find(p) == sp_tree_changed->end() ){
                 sp_tree->insert(std::make_pair(p, new std::vector<int>()));
-            }else{
-
-                FPType dist = 0;
-                for(size_t i = 0; i < (*sp_tree)[p]->size() ;i++){
-
-                    dist += NP.getLink((*sp_tree)[p]->at(i))->getTime();
-                }
-                //if (abs(dist-(*sp_tree_dist)[p]) < 1e-6){
-                //    
-                //}
-                std::cout << O << " " << D << " " << dist << " " << (*sp_tree_dist)[p] << std::endl;
-
+                sp_tree_changed->insert(std::make_pair(p, 0));
             }
+
+            std::vector<int> &SP_TREE = (*(*sp_tree)[p]);
+            int &SP_TREE_CHANGED = (*sp_tree_changed)[p];
 
             initNodes();
             Q = ShPath::PriorityQueue();
+
+            if ( SP_TREE_CHANGED >= 2){ // didnt change in the last 2 iters
+                for (size_t i = 0; i < SP_TREE.size(); i++)
+                    P[NP.getLink(SP_TREE[i])->getNodeToIndex()] =  SP_TREE[i];
+                std::vector<int> q;
+                StarLink *link = getInComeLink(D);
+                while (link != NULL) {
+                    q.push_back(link->getIndex());
+                    link = getInComeLink(link->getNodeFromIndex());
+                }
+
+                FPType dist = 0.0;
+                for(int i = q.size()-1; i >= 0; i--){
+                    link = NP.getLink(q[i]);
+                    dist += link->getTime();
+                    L[link->getNodeToIndex()] = dist;
+                }
+
+                SP_TREE_CHANGED++;
+                if (SP_TREE_CHANGED == 15){ // don't comupte SP until 15 iters reached
+                    SP_TREE_CHANGED=0;
+                }
+
+                return;
+            }
 
             L[O] = 0;
             Q.push(ShPath::PQPair(0, O));
@@ -153,45 +172,25 @@ class ShPathAstarSTL : public ShPathInterface {
                 }
             }
 
-            //std::cout << O << " " << D << " " << fScanned->size() << std::endl;
-            /*
-
-            if( sp_tree->find(p) == sp_tree->end()){
-                sp_tree->insert(std::make_pair(p, new std::vector<int>()));
-                sp_tree_changed->insert(std::make_pair(p, 0));
-            }else{
-
-                size_t i = 0;
-                StarLink *link = getInComeLink(D);
-                int nextDest = link->getNodeFromIndex();
-                //std::cout << O << " " << D << std::endl;
-                while (link != NULL) {
-                    //std::cout << nextDest << " " << (*sp_tree)[p]->at(i) << " ";
-                    if((*sp_tree)[p]->at(i) != nextDest || i > (*sp_tree)[p]->size()){
-                        (*sp_tree_changed)[p]++;
-                        //std::cout << "changed" << std::endl;
-                        break;
-                    }
-                    nextDest = link->getNodeFromIndex();
-                    link = getInComeLink(nextDest);
-                    i++;
+            bool changed = false;
+            std::vector<int> tmp_v;
+            size_t i = 0;
+            nextLink = getInComeLink(D);
+            while (nextLink != NULL) {
+                tmp_v.push_back(nextLink->getIndex());
+                if( i >= SP_TREE.size() || NP.getLink(SP_TREE[i]) != nextLink){
+                    changed = true;
                 }
-                //std::cout << std::endl;
-
+                nextLink = getInComeLink(nextLink->getNodeFromIndex());
+                i++;
             }
-            */
 
-            (*sp_tree)[p]->clear();
-            StarLink *link = getInComeLink(D);
-            int nextDest = link->getNodeFromIndex();
-            FPType dist = 0;
-            while (link != NULL) {
-                dist += link->getTime();
-                (*sp_tree)[p]->push_back(link->getIndex());
-                nextDest = link->getNodeFromIndex();
-                link = getInComeLink(nextDest);
-            }
-            sp_tree_dist->insert(std::make_pair(p, dist));
+            SP_TREE_CHANGED = changed?0:SP_TREE_CHANGED+1;
+
+            SP_TREE.clear();
+            for (size_t i = 0;i<tmp_v.size();i++)
+                SP_TREE.push_back(tmp_v[i]);
+
         }
 
 };
