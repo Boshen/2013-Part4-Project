@@ -53,19 +53,21 @@ class ShPathInterface : public ShortestPath {
 
         std::vector<std::pair<int,int> > *fScanned;
         std::vector<std::pair<int,int> > *bScanned;
+        /*
         std::map<std::pair<int, int>, std::vector<int>* > *sp_tree; // <<o,d>, tree>
         std::map<std::pair<int, int>, int> *sp_tree_changed;
         std::map<std::pair<int, int>, int> *iter;
 
         std::map<std::pair<int, int>, FPType > *LabelVector_Cache; 
         std::map<std::pair<int, int>, std::vector<int>* > *Predecessors_Cache; 
+        */
 
         inline void initNodes(){
             std::fill(LabelVector->begin(), LabelVector->end(),  ShPath::FPType_Max);
             std::fill(Predecessors->begin(), Predecessors->end(),  -1);
 
-            fScanned->clear();
-            bScanned->clear();
+            //fScanned->clear();
+            //bScanned->clear();
         }
 
     public:
@@ -76,14 +78,18 @@ class ShPathInterface : public ShortestPath {
             Predecessors = new std::vector<int>(_nNodes);
             Labels = new std::vector<Label>(_nNodes);
 
+            /*
             fScanned = new std::vector<std::pair<int,int> >();
             bScanned = new std::vector<std::pair<int,int> >();
+            */
 
             //LabelVector_Cache = new std::map<std::pair<int, int>, FPType >();
             //Predecessors_Cache = new std::map<std::pair<int, int>, std::vector<int>* >();
 
+            /*
             sp_tree = new std::map<std::pair<int, int>, std::vector<int>* >(); // <<o,d>, link indices>
             sp_tree_changed = new std::map<std::pair<int, int>, int>(); // <<o,d>, dist>
+            */
 
             //iter = new std::map<std::pair<int, int>, int>(); // <<o,d>, dist>
             //
@@ -114,8 +120,10 @@ class ShPathInterface : public ShortestPath {
             delete Predecessors;
             delete Labels;
 
+            /*
             delete fScanned;
             delete bScanned;
+            */
 
             //std::map<std::pair<int,int>, FPType >::iterator it1;
             //for(it1=LabelVector_Cache->begin();it1!=LabelVector_Cache->end();it1++){
@@ -129,8 +137,10 @@ class ShPathInterface : public ShortestPath {
             //delete LabelVector_Cache;
             //delete Predecessors_Cache;
 
+            /*
             delete sp_tree;
             delete sp_tree_changed;
+            */
             //delete iter;
         }
 
@@ -148,6 +158,7 @@ class ShPathInterface : public ShortestPath {
             return  linkIndex == -1 ?  NULL :  _netPointer->getLink(linkIndex);
         }
 
+        /*
         void printScanned() {
 
             std::cout << "forwardtree" << std::endl;
@@ -161,6 +172,7 @@ class ShPathInterface : public ShortestPath {
             //}
 
         }
+        */
 
 
 };

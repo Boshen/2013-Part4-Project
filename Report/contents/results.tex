@@ -21,7 +21,6 @@ where the network name, numbers nodes, traffic analysis, origin-desitination (OD
     \caption{Network Problem Data}
     \label{table:problemdata}
 \end{table}
-\todo{the number of nodes listed in the table includes traffic zones}
 By examining the network problem data,
 we can see that the number of OD pairs increase
 significantly respect to the number of zone nodes,
@@ -33,9 +32,10 @@ Analysing the graph shows the degree of any vertex in the graph is no more than 
 This information is useful
 for choosing the best algorithm and data structure.
 
-The correctness of the final shortest path trees are checked by comparing to the label correcting algorithm that is implemented by the co-supervisor of this project, which is guarantee to be correct.
+The correctness of the final shortest path trees are checked by comparing to the label correcting algorithm that is implemented by the co-supervisor of this project, which is guaranteed to be correct.
 
 \section{Discussion of Computational Results}
+\begin{comment}
 In Table~\ref{table:boostresult} and Table~\ref{table:allresults} we present the running times for a complete run of the Traffic Assignment Path Equilibration method.
 
 Table~\ref{table:boostresult} shows the performance of the Dijkstra's algorithm and the A* search algorithm using the 6 variants of the Heap implementations from the Boost library on the ChicagoSketch network.
@@ -73,8 +73,31 @@ and total run time (seconds) of each algorithm took is shown.
     \caption{Performance of Dijkstra's algorithm and A* search algorithm using 6 variants of the Heap implementation on the ChicagoSketch network. }
     \label{table:boostresult}
 \end{table}
+\end{comment}
 
-Table~\ref{table:allresults} shows the performance of each of the algorithms
+Figure~\ref{fig:pq_runtime} shows the performance of Dijkstra's algorithm on the ChicagoSketch network with the following priority queue implementations from the C++ Boost library:
+\begin{itemize}
+    \item Binomial
+    \item Ternary
+    \item Fibonacci
+    \item Pairing
+    \item Binary
+    \item Skew
+\end{itemize}
+and from the C++ standard library:
+\begin{itemize}
+    \item set - implemented as red and black binary search tree
+    \item priority\_queue - implemented as heap tree.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/pq_runtime}
+    \caption{Dijkstra's algorithm run times using different priority queues on ChicagoSketch}
+    \label{fig:pq_runtime}
+\end{figure}
+
+Figure~\ref{fig:allresults} shows the performance of each of the algorithms
 \begin{itemize}
     \item label correcting Bellman-Ford,
     %\item one source Dijkstra (1S-D),
@@ -85,10 +108,23 @@ Table~\ref{table:allresults} shows the performance of each of the algorithms
     \item bidirectional A* search,
 \end{itemize}
 used on each of the networks shown in Table~\ref{table:problemdata}.
-The numbers of iterations (ITERS) each algorithm took,
+%The numbers of iterations (ITERS) each algorithm took,
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/runtime}
+    \caption{Performance of different algorithms on different networks}
+    \label{fig:allresults}
+\end{figure}
+
+\begin{comment}
 The overall number of nodes scanned in the network (COUNT),
 and the total run time (seconds) each algorithm took is shown.
 Each algorithm is also compared to the label correcting algorithm to show the percentage speed-up (SPD).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/runtime}
+    \caption{
+\end{figure}
 
 \begin{table}
     \centering
@@ -141,9 +177,10 @@ Each algorithm is also compared to the label correcting algorithm to show the pe
 \end{table}
 \todo[noline]{Result : average number of scans}
 \todo[inline]{Result table for all heaps}
+\end{comment}
 
-Figure~\ref{fig:long_sptree} shows the shortest path tree between two distant nodes in the ChicagoSketch network.
-We can see Dijkstra's algorithm scans the whole network.
+Figure~\ref{fig:long_sptree} shows the shortest path tree between two distant nodes on the ChicagoSketch network.
+We can see Dijkstra's algorithm scans the entire network.
 Bidirectional Dijkstra scans almost the whole network with a few nodes not being scanned.
 A* search scans only a small region of the network.
 \todo{incomplete}
@@ -206,6 +243,13 @@ initial flow,
 which means the heuristic is a very good estimation,
 which is our A* search is very fast.
 \end{comment}
-
-
 \todo[inline]{give results interpretation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/sp_change}
+    \caption{The percentage of shortest path change for each O-D pair out of 26 iterations for ChicagoSketch}
+    \label{fig:sp_change}
+\end{figure}
+
+
