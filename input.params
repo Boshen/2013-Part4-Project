@@ -10,14 +10,23 @@
 <ShPathAlgo> :{AstarSTL} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL, DijkstraBidirectSTL, AstarBidirect
 <ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
 
+//<OD_MATRIX>:{Data/Instances/Philadelphia_trips.txt} 
+//<NETWORK>:{Data/Instances/Philadelphia.net}
+
 //<OD_MATRIX>:{Data/Instances/Barcelona_trips.txt} 
 //<NETWORK>:{Data/Instances/Barcelona_net.txt}
 
 //<NETWORK>: {Data/Instances/SiouxFalls_net.txt}
 //<OD_MATRIX>:{Data/Instances/SiouxFalls_trips.txt}
 
-<NETWORK>:{Data/Instances/ChicagoSketch_net.txt}
-<OD_MATRIX>:{Data/Instances/ChicagoSketch_trips.txt}
+//<NETWORK>:{Data/Instances/ChicagoSketch_net.txt}
+//<OD_MATRIX>:{Data/Instances/ChicagoSketch_trips.txt}
+
+//<NETWORK>:{Data/Instances/ChicagoRegional_net.txt}
+//<OD_MATRIX>:{Data/Instances/ChicagoRegional_trips.txt}
+
+<NETWORK>:{Data/Instances/PRISM_M_Net.txt}
+<OD_MATRIX>:{Data/Instances/PRISM_M_Trips.txt}
 
 //<NETWORK>:{Data/Instances/Anaheim_net.txt}
 //<OD_MATRIX>:{Data/Instances/Anaheim_trips.txt} 
