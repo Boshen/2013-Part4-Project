@@ -24,8 +24,38 @@ different measurements such as distance and travel exist for the road length.
 But in traffic assignment,
 the road length is measured in a non-decreasing travel time function,
 which encapsulates information such as traffic flow, road capacity and travel speed.
-This travel time function is always non-negative so taking advantage of this helps the selection of algorithms that uses this property.
-\todo{show equation?}
+This travel time function (Figure~\ref{fig:flowfunction}) is always non-negative so taking advantage of this helps the selection of algorithms that uses this property.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}
+            [
+                domain=0:10000,
+                black, no markers, smooth,
+                xmin=0,xmax=10000,
+                ymin=0,ymax=130,
+                axis x line=bottom,
+                axis y line=left,
+                xlabel={Traffic Flow},
+                ylabel={Travel Time},
+                every axis y label/.style={at={(current axis.above origin)},anchor=north east, xshift=-2pt},
+                every axis x label/.style={at={(current axis.right of origin)},anchor=north west, xshift=-2pt},
+                extra y ticks={20},
+                extra y tick labels={Freeflow time},
+                extra y tick style={overlay},
+                xtick=\empty,
+                ytick=\empty,
+                xticklabel=\empty,
+                yticklabel=\empty,
+                scaled ticks=false
+            ]
+            \addplot [->, black] {20+0.15*(x/2000)^4}; 
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Travel time function.}
+    \label{fig:flowfunction}
+\end{figure}
 
 Here we present the notations mainly borrowed from \citet{Cormen} and \citet{Klunder},
 we denote $ G = ( V, E ) $ a weighted, directed graph,
@@ -49,6 +79,7 @@ and hold information such as household income and employment information.
 These information helps to understand trips that are produced and attracted within the zone.
 The zones are conceptual nodes in the network and are untravellable,
 which means a path between two zone nodes must not contain another zone node.
+Figure~\ref{fig:zonenodes} demonstrates how a zone node behaves under different conditions.
 
 \begin{figure}[H]
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
@@ -81,7 +112,7 @@ which means a path between two zone nodes must not contain another zone node.
             %\node (text) [yshift=-5em,above of=zone] {destination node};
         %\node at ($(zone) !.5! (2)$) {$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.3ex, black] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$};
         \end{tikzpicture}
-        \caption{zone as destination node}
+        \caption{Zone as destination node}
     \end{subfigure}
 
     \vspace{1cm}
@@ -97,22 +128,23 @@ which means a path between two zone nodes must not contain another zone node.
             %\node (text) [yshift=-5em,above of=zone] {neither};
         %\node at ($(zone) !.5! (2)$) {$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.3ex, black] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$};
         \end{tikzpicture}
-        \caption{zone as neither origin nor destination node}
+        \caption{Zone as neither origin nor destination node}
     \end{subfigure}
-    \caption{zone node and its allowable arc flows}
+    \caption{Zone node and its allowable arc flows}
+    \label{fig:zonenodes}
 \end{figure}
 
-\todo[inline]{Maybe a picture of the network explain what the zones are.}
-
+\begin{comment}
 Through out the report,
 run-time analysis (big O and other notations) is used to demonstrate the estimation of algorithm running time regarding their input size. 
 \todo[inline]{How do I nicely say `let the reader refer to other resources?'
 or do I describe what big O notation is?}
+\end{comment}
 
 \section{Generic Shortest Path Algorithm}
 A family of algorithms exists for solving SPP with directed non-negative length edges.
 In this section we describe the generic case for these
-algorithms, the generic shorest path algorithm (GSP).
+algorithms, the generic shortest path algorithm (GSP).
 
 This family of algorithms aims at finding a 
 vector ($d_1, d_2,\dots d_v$) of distance labels and its corresponding shortest path \citep{Klunder}.
@@ -122,7 +154,6 @@ A shortest path is optimal when it satisfies the following conditions:
     d_v \leq d_u + c_{uv}, \quad \forall(u,v) \in E, \label{eq:Bellman1}\\
     d_v  =   d_u + c_{uv}, \quad \forall(u,v) \in P.
 \end{align}
-\todo[noline]{define $P$}
 The inequalities~(\ref{eq:Bellman1}) are called Bellman's condition \citep{Bellman}.
 In other words,
 we wish to find a label vector $d$ which satisfies Bellman's condition for all of the vertices in the graph.
@@ -144,8 +175,8 @@ It may not be obvious but negative costs are permitted in the GSP but not negati
 We use $p_u$ to denote the predecessor of node $u$.
 The shortest path can be constructed by following the predecessor of the destination node $t$ back to the origin node $s$. $p_s$ is often set to $-1$ to indicate it does not have a predecessor.
 
-\todo[inline]{diagram showing $u, v, c_{vw}$ etc.}
-\begin{figure}[H]
+\begin{comment}
+\begin{figure}
     \centering
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
     \tikzstyle{line} = [->, draw]
@@ -162,8 +193,10 @@ The shortest path can be constructed by following the predecessor of the destina
         \path [line] (o) -- (u);
         \path [line] (v) -- (d);
     \end{tikzpicture}
-    %\caption{zone as neither origin nor destination node}
+    \caption{}
+    \label{}
 \end{figure}
+\end{comment}
 
 Algorithm~\ref{algo:gsp} \citep{Klunder} describes the generic shortest path algorithm mentioned above,
 with an extra constraint required when solving a TA problem: travelling through zone nodes is not permitted.
@@ -314,10 +347,10 @@ since we just delete the node from the tree and add the node with a different va
 \section{Bidirectional Label Setting Algorithm} \label{section:bidirectional}
 Dijkstra's algorithm can be imagined to be searching radially outward like a circle with the origin in the centre and destination on the boundary.
 Likewise, Dijkstra's algorithm can be used on the reverse graph (all edges reversed in the graph) from the destination node.
+(Figure~\ref{fig:bidirect})
 Thus Dijkstra's algorithm can be run on the origin and destination simultaneously at the same time.
 The motivation for doing this is because the number of scanned nodes can be reduced when searching bidirectionally:
 two smaller circles growing outward radially instead of a larger one.
-\todo{illustrate this}
 
 \begin{figure}[H]
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
@@ -347,6 +380,7 @@ two smaller circles growing outward radially instead of a larger one.
         \caption{bidirectional}
     \end{subfigure}
     \caption{Difference between the scan area of label setting and its bidirectional version}
+    \label{fig:bidirect}
 \end{figure}
 
 It is common to conclude that the shortest path is found when the two searches meet somewhere in the middle,
@@ -447,36 +481,6 @@ is assured to be admissible
 as no travel time can be lower than the zero flow travel at any time.
 The heuristic function is consistent because the travel time from a node to the destination must be no longer than all its predecessors.
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}
-            [
-                domain=0:10000,
-                black, no markers, smooth,
-                xmin=0,xmax=10000,
-                ymin=0,ymax=130,
-                axis x line=bottom,
-                axis y line=left,
-                xlabel={Traffic Flow},
-                ylabel={Travel Time},
-                every axis y label/.style={at={(current axis.above origin)},anchor=north east, xshift=-2pt},
-                every axis x label/.style={at={(current axis.right of origin)},anchor=north west, xshift=-2pt},
-                extra y ticks={20},
-                extra y tick labels={Freeflow time},
-                extra y tick style={overlay},
-                xtick=\empty,
-                ytick=\empty,
-                xticklabel=\empty,
-                yticklabel=\empty,
-                scaled ticks=false
-            ]
-            \addplot [->, black] {20+0.15*(x/2000)^4}; 
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Travel time function.}
-    \label{fig:flowfunction}
-\end{figure}
 
 \begin{comment}
 \subsection{Linear Programming Perspective}

@@ -16,13 +16,33 @@ for traffic designers and road users.
 A traffic model called the transportation forecasting model is built
 with the aim to reduce congestion and predict future traffic response when the behaviour of the traffic is changed.
 This model solves and estimates traffic flows for a given time period with the following four stages: trip generation,
-trip distribution, mode choice and traffic assignment.  \todo{show forecast model figure}
+trip distribution, mode choice and traffic assignment (Figure~\ref{fig:model}).
 In short,
 this model generates origins and destinations for travellers to travel from and to in different parts of the road network,
 it then calculates the number of trips that are required for each origin and destination pair
 and computes the proportion of trips between each pair that use a particular transportation method,
 in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
 assigns each traveller to their destination considering traffic congestion.
+
+\begin{figure}
+    \centering
+    \tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=2em]
+    \tikzstyle{line} = [draw, -latex']
+    \begin{tikzpicture}[node distance=4em]
+        \node [block] (first) {Trip Generation};
+        \node [block, below of=first] (second) {Trip Distribution};
+        \node [block, below of=second] (third) {Mode Choice};
+        \node [block, below of=third] (fourth) {Traffic Assignment};
+        \path [line] (second) -- (third);
+        \path [line] (first) -- (second);
+        \path [line] (third) -- (fourth);
+        \path [line] (fourth.west) -- ($(fourth.west)-(0.8,0)$) -- ($(first.west)-(0.8,0)$) -- (first.west);
+        \path [line] ($(second.west)-(0.8,0)$) -- (second.west);
+        \path [line] ($(third.west)-(0.8,0)$) -- (third.west);
+    \end{tikzpicture}
+    \caption{Transportation forecasting model}
+    \label{fig:model}
+\end{figure}
 
 The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
 this is because the problem is only solved when the network reaches user equilibrium,
@@ -65,15 +85,13 @@ The algorithm that are going to be tested are:
 This project also aims to find and discuss techniques that can speed shortest path calculations in an iterative environment:
 \begin{itemize}
     \item network preprocessing,
-    \item using information from the previous iteration for the current iteration.
+    \item using information from the previous iteration for the current iteration to avoid recalculating shortest paths that are not going to change.
 \end{itemize}
-\todo{need more ideas \ldots}
 
 \section{Report Overview}
 Chapter~\ref{chap:solvingspp} discusses the theory of finding the shortest path,
 and presents the description, run time analysis and pseudocode for each algorithm mentioned in the project aims.
 Chapter~\ref{chap:implementation} presents the specific implementation details.
-\todo{incomplete}
 Chapter~\ref{chap:results} shows results.
 \todo[inline]{Chapter 5 discussion chapter 6 conclusion \dots}
 
