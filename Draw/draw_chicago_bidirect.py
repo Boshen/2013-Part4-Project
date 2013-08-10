@@ -6,8 +6,8 @@ G = nx.DiGraph()
 
 edgelist = []
 
-origin = 384
-destination = 368
+origin = 170 #384
+destination = 142 #368
 numZones = 386
 with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
     f.readline()
@@ -22,7 +22,7 @@ with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
             Y = int(ss[2])
             G.add_node(node, pos=(X, Y))
 
-with open(path, 'r') as f:
+with open("../Data/Instances/ChicagoSketch_net.txt", 'r') as f:
     readData = False
     while True:
         line = f.readline()
@@ -44,7 +44,7 @@ with open(path, 'r') as f:
 forwardtree = []
 backwardtree = []
 path = []
-with open("chicago_bidirect2_data", 'r') as f:
+with open("chicago_astar_bidirect_data2", 'r') as f:
     while True:
         line = f.readline()
         if not line:
@@ -87,8 +87,10 @@ p4 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False,
 #plt.ylim(0,ymax)
 plt.legend([p1, p2, p3, p4],["unscanned arcs or\n arcs connecting zones", "forward scanned arcs", "backward scanned arcs", "shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
 x, y = pos[origin]
-plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
+#plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
+#plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
+plt.text(x-35000, y+10000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 x, y = pos[destination]
-plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
+plt.text(x+8000, y-10000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig("chicago_bidirect2.pdf", bbox_inches="tight")    
+plt.savefig("chicago_bidirect_astar2.pdf", bbox_inches="tight")    

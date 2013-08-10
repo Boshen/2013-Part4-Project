@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 G = nx.DiGraph()
 
-origin = 384
-destination = 368
+origin = 170 #384
+destination = 142 #368
 numZones = 386
 with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
     f.readline()
@@ -42,7 +42,7 @@ with open("../Data/Instances/ChicagoSketch_net.txt", 'r') as f:
 
 tree = []
 path = []
-with open("chicago_dijkstra_data", 'r') as f:
+with open("chicago_astar_data2", 'r') as f:
     flag = False
     while True:
         line = f.readline()
@@ -72,8 +72,8 @@ p3 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False,
 #plt.ylim(0,ymax)
 plt.legend([p1, p2, p3],["unscanned arcs or\n arcs connecting zones", "scanned arcs", "shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
 x, y = pos[origin]
-plt.text(x, y-25000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
+plt.text(x-35000, y+10000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 x, y = pos[destination]
-plt.text(x-25000, y+12000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
+plt.text(x+8000, y-10000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig("chicago_dijkstra3.pdf", bbox_inches="tight")    
+plt.savefig("chicago_astar2.pdf", bbox_inches="tight")    
