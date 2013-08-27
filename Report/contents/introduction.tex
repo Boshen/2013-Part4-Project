@@ -1,28 +1,53 @@
 \chapter{Introduction}
 
-\todoin[inline]{CHECK LATEX LOG!!}
+\todoin[inline]{CHECK \LaTeX LOG!!}
+\todoin[inline]{talk about things that doesn't work as well}
+\todoin[inline]{when do we use italics?}
 
-\todo[inline]{use less ` we '}
-%\todoin[inline]{italic jargons?}
+\todoin[inline]{italic all the ''Names``}
+\todoin[inline]{check sp time only vs total time}
 
-\section{Project Motivation}
+\section{Introduction to Traffic Modelling}
 
-As the result of constantly increasing population,
-cities worldwide and their road networks are becoming
-more complex and difficult to navigate,
-leading to traffic congestions that are more problematic than ever
-for traffic designers and road users.
+Nowadays a large portion of people's daily lives involve activities which relate to transportation,
+for example most people need to travel between their work place and residence twice a day,
+and buy goods from shops where the goods need to be delivered across the city.
+Meanwhile transportation networks expand and improve constantly to cater people's demand for an efficient transportation network,
+the rate of improvement does not confront with the rate of population increase.
+As a result, many obstacles caused by congestion have arisen.
 
-A traffic model called the transportation forecasting model is built
-with the aim to reduce congestion and predict future traffic response when the behaviour of the traffic is changed.
-This model solves and estimates traffic flows for a given time period with the following four stages: trip generation,
-trip distribution, mode choice and traffic assignment (Figure~\ref{fig:model}).
-In short,
-this model generates origins and destinations for travellers to travel from and to in different parts of the road network,
-it then calculates the number of trips that are required for each origin and destination pair
-and computes the proportion of trips between each pair that use a particular transportation method,
-in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
-assigns each traveller to their destination considering traffic congestion.
+Congestion lead to major economical losses due to time delays and increase usage of petrol.
+Congestion also cause air pollutions which increase respiratory problems such as asthma, 
+and the exhaust gas exacerbates global warming.
+It also increases noise pollution and cause frustration,
+which in turn accelerates accidents.
+It is important for traffic designers to be able to reduce congestion problems,
+and eliminate the negative effects of congestion.
+This include introducing road tolls to diverge traffic to less congested roads,
+or educating people to use public transportation instead of travelling by car.
+
+Since traffics improvements and expansions tend to be very costly,
+it is always necessary to make an optimal plan:
+use the least amount of investment for the greatest change.
+In order to make the optimal plan for traffic design,
+different mathematical models have been built in the past to simulate the current and future behaviour of the transportation system.
+One particular model called the transportation forecasting model is commonly used,
+the aim of this model is to estimate future traffic usage when the system is changed, e.g.\ upgrading new roads, changing roundabouts to traffic lights or adding new public transports. 
+
+The transportation forecasting model is divided into 4 steps (Figure~\ref{fig:model}): trip generation, trip distribution, mode choice and traffic assignment.
+In summary, 
+data about traffic demand is collected and the
+model generates origins and destinations for travellers in the road network (trip generation),
+it then calculates the number of trips that are required for between each origin and destination (trip distribution),
+which transportation method should be used for each trip is then decided (mode choice),
+and finally it decides the shortest path for each trip to take (traffic assignment).
+
+The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
+this is because when traffic is assigned onto the network,
+congestion occur and it is very difficult to find an equilibrium situation where everybody in the network finds their shortest path.
+Methods for solving the traffic assignment are mostly iterative,
+where shortest path between each origin and destination pair in the network need to be solved.
+This requirement lead to traffic assignment algorithms that spend most of their computational time on finding the shortest path.
 
 \begin{figure}
     \centering
@@ -44,6 +69,19 @@ assigns each traveller to their destination considering traffic congestion.
     \label{fig:model}
 \end{figure}
 
+\begin{comment}
+A traffic model called the transportation forecasting model is built
+with the aim to reduce congestion and predict future traffic response when the behaviour of the traffic is changed.
+This model solves and estimates traffic flows for a given time period with the following four stages: trip generation,
+trip distribution, mode choice and traffic assignment (Figure~\ref{fig:model}).
+In short,
+this model generates origins and destinations for travellers to travel from and to in different parts of the road network,
+it then calculates the number of trips that are required for each origin and destination pair
+and computes the proportion of trips between each pair that use a particular transportation method,
+in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
+assigns each traveller to their destination considering traffic congestion.
+
+
 The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
 this is because the problem is only solved when the network reaches user equilibrium,
 which means no traveller can lower their transportation cost through unilateral action: every traveller will strive to find the shortest path while ignoring all other travellers.
@@ -59,8 +97,6 @@ This method initially calculates the shortest paths between each trip origin and
 Traffic flows are assigned to these shortest paths and new travel times are updated accordingly.
 The method iteratively re-identifies new shortest path based on the new travel times and re-assigns traffic flows until user equilibration is reached.
 
-\todo[inline]{ write about Frank-Wolfe }
-
 Both of these methods are iterative methods that require shortest path calculations for every trip origins in the network.
 It is not difficult to imagine that there would be many shortest path calculations if the network has hundreds of origins and destinations and takes some iterations to solve.
 Each shortest path calculation would also be very hard to solve if the network has a few hundred intersections and a few thousand roads for a realistic city road network.
@@ -70,9 +106,18 @@ Overall, speeding up shortest path calculations would significantly speed up the
 As a result,
 traffic forecasting would be solved faster for larger and more complicated road networks,
 which allow city designers predict traffic further into the future and make better decisions on road network design.
+\end{comment}
 
-\section{Project Aims}
-This project aims to embed well known shortest path algorithms that are applicable for traffic assignment methods, and find the fastest.
+\section{Purpose of this Project}
+There exist different algorithms for solving the traffic assignment problem,
+one particular algorithm called the path equilibration method requires the calculation of shortest path between a specific origin and destination
+namely the point to point shortest path problem.
+Thus the aim of this project is to find the fastest algorithm which solves the point to point shortest path algorithm.
+As a result, traffic assignment would be solved faster,
+and larger and more complicated road networks would able to be tested in a shorter amount of time,
+which allows city designers estimate traffic flows further into the future and make better decisions on road network design.
+
+\begin{comment}
 The algorithm that are going to be tested are:
 \begin{itemize}
     \item Bellman-Ford Label Correcting Algorithm,
@@ -87,12 +132,11 @@ This project also aims to find and discuss techniques that can speed shortest pa
     \item network preprocessing,
     \item using information from the previous iteration for the current iteration to avoid recalculating shortest paths that are not going to change.
 \end{itemize}
+\end{comment}
 
-\section{Report Overview}
+\section{Structure of the Report}
 Chapter~\ref{chap:solvingspp} discusses the theory of finding the shortest path,
 and presents the description, run time analysis and pseudocode for each algorithm mentioned in the project aims.
 Chapter~\ref{chap:implementation} presents the specific implementation details.
 Chapter~\ref{chap:results} shows results.
 \todo[inline]{Chapter 5 discussion chapter 6 conclusion \dots}
-
-

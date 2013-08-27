@@ -7,12 +7,12 @@ The results are generated from using the g++ compiler using the -O3 optimise for
 \section{Problem Data and Result Explanation}
 The problem data for solving the TA problems are retrieved from Transportation Network Test Problems \citep{ProblemData}.
 Table~\ref{table:problemdata} shows the data that are going to be tested with,
-where the network name, numbers nodes, traffic analysis, origin-desitination (OD) pairs and edges are given.
+where the network name, numbers nodes, traffic analysis, origin-destination (OD) pairs and edges are given.
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrr} \toprule
         Network & Nodes & Zones & OD pairs & Edges \\ \cmidrule(lr){1-5}
-        SiouxFalls    & 24   & 24  & 528   & 76   \\
+        %SiouxFalls    & 24   & 24  & 528   & 76   \\
         Anaheim       & 416  & 38  & 1406  & 914  \\
         Barcelona     & 1020 & 110 & 7922  & 2522 \\
         Winnipeg      & 1052 & 147 & 4344  & 2836 \\
@@ -29,8 +29,7 @@ We can also roughly tell that these networks are very sparse;
 for a complete graph (every node is connected to every other node) of 1000 nodes have 499500 edges ($n(n-1)/2$),
 but the larger networks in our problem data only have about 0.4\% to 0.6\% of edges in the corresponding complete graph. 
 Analysing the graph shows the degree of any vertex in the graph is no more than 5.
-This information is useful
-for choosing the best algorithm and data structure.
+This information is useful for choosing the best algorithm and data structure.
 
 The correctness of the final shortest path trees are checked by comparing to the label correcting algorithm that is implemented by the co-supervisor of this project, which is guaranteed to be correct.
 
@@ -75,20 +74,18 @@ and total run time (seconds) of each algorithm took is shown.
 \end{table}
 \end{comment}
 
-Figure~\ref{fig:pq_runtime} shows the performance of Dijkstra's algorithm on the ChicagoSketch network with the following priority queue implementations from the C++ Boost library:
-\begin{itemize}
-    \item Binomial
-    \item Ternary
-    \item Fibonacci
-    \item Pairing
-    \item Binary
-    \item Skew
-\end{itemize}
-and from the C++ standard library:
-\begin{itemize}
-    \item set - implemented as red and black binary search tree
-    \item priority\_queue - implemented as heap tree.
-\end{itemize}
+Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime} shows the performance of Dijkstra's algorithm on both Winnipeg and ChicagoSketch network using priority queue implementations from the C++ Boost library and the Standard Template Library.
+
+On both networks, the Heap implementation from the C++ Standard Template Library out performs all other implementations.
+And the Fibonacci Heap does not have the promised runtime behaviour described in Section~\ref{section:pq_implementation}.
+What is interesting is that for the Heaps with $O(\log(N))$ behaviour, their run time vary a lot, especially for the Binomial Heap.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/pq_runtime2}
+    \caption{Dijkstra's algorithm run times using different priority queues on Winnipeg}
+    \label{fig:pq_runtime2}
+\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -112,78 +109,27 @@ used on each of the networks shown in Table~\ref{table:problemdata}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/runtime}
-    \caption{Performance of different algorithms on different networks}
+    \caption{Run time performances of different algorithms on different networks}
     \label{fig:allresults}
 \end{figure}
 
-\begin{comment}
-The overall number of nodes scanned in the network (COUNT),
-and the total run time (seconds) each algorithm took is shown.
-Each algorithm is also compared to the label correcting algorithm to show the percentage speed-up (SPD).
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{img/runtime}
-    \caption{
-\end{figure}
+Now we investigate the reason for the run time behaviours of the shortest path algorithms shown in Figure~\ref{fig:allresults}.
+Figure~\ref{fig:long_sptree} shows the shortest path trees of the point-to-point algorithms, where the origin and destination node is placed on the opposite side of the ChicagoSketch network.
+It can be seen that Dijkstra's algorithm scans the entire network;
+the Bidirectional Dijkstra scans almost the whole network but with a few nodes left out;
+The Bidirectional A* search scans a slightly larger region near the origin and destination nodes;
+and the A* search only scans a few nodes along the shortest path.
+The behaviour of the algorithms is shown further in Figure~\ref{fig:short_sptree},
+where the origin and destination is placed close to each other.
+The Dijkstra and Bidirectional Dijkstra algorithm need to scan many nodes before termination;
+And the A* and Bidirectional A* search only scan a small portion of network,
+and they do not scan the area behind the origin and destination node.
 
-\begin{table}
-    \centering
-    \begin{tabular}{l l r rr rr } \toprule
-        & & & \multicolumn{2}{c}{Max Scans} & \multicolumn{2}{c}{Time} \\ 
-        \cmidrule(lr){4-5}
-        \cmidrule(lr){6-7}
-        Network & Algorithm & ITERS & COUNT & SPD                     & SEC & SPD \\ 
-        \cmidrule(lr){1-1}
-        \cmidrule(lr){2-2}
-        \cmidrule(lr){3-3}
-        \cmidrule(lr){4-4}
-        \cmidrule(lr){5-5}
-        \cmidrule(lr){6-6}
-        \cmidrule(lr){7-7}
-        SiouxFalls    & Bellman-Ford     & 69 & & & 0.25 & \\
-        & Dijkstra (Heap) & 86 & & & 0.08 & \\
-        & Dijkstra (Tree) & 54 & & & 0.08 & \\
-        & Bidirectional Dijkstra & 87 & & & 0.16 & \\
-        & A*    & 87 & & & 0.07 & \\
-        & Bidirectional A* & 87 & & & 0.21 & \\ \\
-        Anaheim       & Bellman-Ford    & 10 & & & 1.20 & \\
-        & Dijkstra (Heap) & 10 & & & 0.30 & \\
-        & Dijkstra (Tree) & 10 & & & 0.62 & \\
-        & Bidirectional Dijkstra  & 10 & & & 0.43 & \\
-        & A*    & 10 & & & 0.10 & \\
-        & Bidirectional A* & 10 & & & 0.28 & \\ \\
-        Barcelona     & Bellman-Ford    & 28 & & & 60.00 & \\
-        & Dijkstra (Heap) & 27 & & & 13.67 & \\
-        & Dijkstra (Tree) & 27 & & & 27.36 & \\
-        & Bidirectional Dijkstra  & 27 & & & 20.93 & \\
-        & A*    & 28 & & &  2.99 & \\
-        & Bidirectional A* & 30 & & & 8.02 & \\ \\
-        Winnipeg      & Bellman-Ford    & 129 & & & 190.00 & \\
-        & Dijkstra (Heap) & 127 & & &  34.89 & \\
-        & Dijkstra (Tree) & 127 & & &  66.89 & \\
-        & Bidirectional Dijkstra  & 126 & & & 49.95 & \\
-        & A*    & 126 & & & 10.42 & \\
-        & Bidirectional A* & 127 & & & 24.81 & \\ \\
-        ChicagoSketch & Bellman-Ford    & 25 & & & 500.00 & \\
-        & Dijkstra (Heap) & 25 & & & 87.52 & \\
-        & Dijkstra (Tree) & 25 & & & 149.95 & \\
-        & Bidirectional Dijkstra  & 25 & & & 157.75 & \\
-        & A*    & 26 & & & 18.75 & \\
-        & Bidirectional A* & 26 & & & 59.82 & \\ \\
-        \bottomrule
-    \end{tabular}
-    \caption{Results for all test networks. Showing the number of iterations for each network (ITERS), max number of scans (COUNT) and the speed up respect to the label correcting algorithm (SPD). }
-    \label{table:allresults}
-\end{table}
-\todo[noline]{Result : average number of scans}
-\todo[inline]{Result table for all heaps}
-\end{comment}
-
-Figure~\ref{fig:long_sptree} shows the shortest path tree between two distant nodes on the ChicagoSketch network.
-We can see Dijkstra's algorithm scans the entire network.
-Bidirectional Dijkstra scans almost the whole network with a few nodes not being scanned.
-A* search scans only a small region of the network.
-\todo{incomplete}
+The run time of the shortest path algorithms are heavily dependent on the number of nodes they scan.
+The process of scanning a node consists of placing the node into a priority queue, taking it out sometime later, and check all its out going arcs.
+So cumulatively the less nodes an algorithm scans the faster it runs.
+And by examining Figure~\ref{fig:long_sptree} and Figure~\ref{fig:short_sptree},
+it is obvious to see A* search is the fastest.
 
 \begin{figure}
     \centering
@@ -203,7 +149,7 @@ A* search scans only a small region of the network.
         \centering
         \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar}
         \caption{A* Search}
-        \label{fig:chicago_Astar_bidirect}
+        \label{fig:chicago_astar}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
         \centering
@@ -212,10 +158,40 @@ A* search scans only a small region of the network.
         \label{fig:chicago_astar_bidirect}
     \end{subfigure}
     \vspace{1em}
-    \caption{Shortest Path Tree between Two Distant Nodes in the ChicagoSketch Network -D Pair}
+    \caption{Shortest path tree between two distant nodes in the ChicagoSketch Network}
     \label{fig:long_sptree}
 \end{figure}
-\todoin{draw 2 nodes that are close to each other}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/chicago_dijkstra2}
+        \caption{Dijkstra}
+        \label{fig:chicago_dijkstra2}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/chicago_bidirect2}
+        \caption{Bidirectional Dijkstra}
+        \label{fig:chicago_bidirect2}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar2}
+        \caption{A* Search}
+        \label{fig:chicago_astar2}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar_bidirect2}
+        \caption{Bidirectional A* Search}
+        \label{fig:chicago_astar_bidirect2}
+    \end{subfigure}
+    \vspace{1em}
+    \caption{Shortest path tree between two close nodes in the ChicagoSketch Network}
+    \label{fig:short_sptree}
+\end{figure}
 
 
 \begin{comment}
@@ -243,8 +219,73 @@ initial flow,
 which means the heuristic is a very good estimation,
 which is our A* search is very fast.
 \end{comment}
-\todo[inline]{give results interpretation}
 
+
+\section{Results on skipping shortest path calculations}
+In this section we consider skipping shortest path calculations in the iterative Path Equilibration algorithm discussed in Section~\ref{section:avoid}.
+
+First we investigate how the shortest paths change during a complete run of the Path Equilibration algorithm.
+Figure~\ref{fig:sp_change} shows 
+the percentage of how many times each O-D pairs' shortest path change during the 26 iterations of the algorithm run on the ChicagoSketch network.
+It is shown that most of the shortest paths only change a few times during the complete run of the Path Equilibration algorithm.
+This entails that after the first dozen of iterations,
+the rest of the algorithm spends its time balancing only a few shortest paths.
+From this observation,
+we can develop a strategy of skipping some shortest path calculations
+if they do not change in the previous two iterations.
+This result is shown in Figure~\ref{fig:skip_n} for the Terrassa and ChicagoSketch network, 
+where an arbitrary numbers of skipping are chosen.
+
+The Terrassa network mentioned above is a small network with 55 zones, 1609 nodes, 3264 links and 2215 O-D pairs.
+Using A* search,
+the algorithm takes 415 iterations to converge due to its complicated supply and demand description.
+
+Figure~\ref{fig:terrassa_skip_n} shows the A* search run time on Terrassa network.
+The strategy is to skip the next 15, 25, 50, 100 and 200 calculations for the O-D pair that did not change its shortest path in previous two iterations.
+This strategy worked very well as all of the run times are reduced by half,
+with only some change in the total number of iterations.
+Figure~\ref{fig:chicago_skip_n} shows the same information on the ChicagoSketch network, with skipping the next 5, 10 15 and 20 iterations.
+There are only a slight reduce of run times,
+with a relatively large increase in the total number of iterations.
+The strategy did not work well due to its large network size.
+
+The problem with this strategy is that we have to know how many iterations the algorithm will take and choose an appropriate number that is less than that,
+this is because choosing a `bad' skipping number will result either unnecessary computations or have no effect on reducing the run time.
+
+The next strategy we explore is to skip the next shortest path calculation randomly.
+The advantage of this strategy is that it does not need the number of iterations it will compute,
+but the disadvantage is that the run time may vary between different runs.
+Figure~\ref{fig:terrassa_random_n} shows the A* search run time on the Terrassa network with skipping the current O-D pair shortest path calculation using probabilities of 0.3, 0.4, 0.5, 0.6 and 0.7.
+In this case the run time dropped quite significantly for 0.5 probability,
+while the other probabilities all have reduced the run time by some amount.
+Figure~\ref{fig:chicago_random_n} shows the same strategy on the ChicagoSketch network.
+Again this time there is no significant reduction in run time but all of the run times are reduced slightly.
+
+Since the skipping shortest path strategy seems to work well,
+and because only small networks have been experimented so far,
+we will now experiment this strategy along with A* search on two more huge networks.
+
+The networks that is going to be experimented are the Philadelphia and ChicagoRegional network. 
+The Philadelphia network consists of $1,525$ zones, $13,389$ nodes, $40,004$ links and $1,149,795$ O-D pairs.
+The ChicagoRegional network consists of $1,790$ zones, $12,982$ nodes, $39,018$ links and $2,296,227$ O-D pairs.
+It is interesting to note that these two networks consist of 1 and 2 millions of O-D pairs, which means they require 1 and 2 millions shortest path calculations just for 1 iteration of the Path Equilibration algorithm.
+The run time comparisons are shown in Table~\ref{table:runtime_large_network}.
+
+Table~\ref{table:runtime_large_network} show both the A* search and A* with 0.5 probabilities of randomly skipping an shortest path calculation on the two networks mentioned above.
+The random skipping strategy has approximately 25\% and 27\% run time improvement on the Philadelphia and ChicagoRegional respectively.
+
+\begin{table}[H]
+    \begin{tabular}{p{0.3\textwidth} | c c}
+        & Philadelphia & ChicagoRegional \\ \cmidrule(lr){2-2} \cmidrule(lr){3-3}
+        A* search & 7.69 hours & 33.26 hours \\ 
+        A* with 0.5 probability of randomly skipping & 5.75 hours & 24.18 hours\\
+    \end{tabular}
+    \caption{Run time of A* search and the randomly skipping strategy on Philadelphia and ChicagoRegional network}
+    \label{table:runtime_large_network}
+\end{table}
+
+
+\todoin[inline]{maybe need random analysis}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/sp_change}
@@ -252,4 +293,39 @@ which is our A* search is very fast.
     \label{fig:sp_change}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=1,width=\textwidth]{img/random_time}
+        \caption{Terrassa network}
+        \label{fig:terrassa_skip_n}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=2,width=\textwidth]{img/random_time}
+        \caption{ChicagoSketch network}
+        \label{fig:chicago_skip_n}
+    \end{subfigure}
+    \caption{Run time for skipping shortest path calculations randomly}
+    \label{fig:skip_n}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=3,width=\textwidth]{img/random_time}
+        \caption{Terrassa network}
+        \label{fig:terrassa_random_n}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=4,width=\textwidth]{img/random_time}
+        \caption{ChicagoSketch network}
+        \label{fig:chicago_random_n}
+    \end{subfigure}
+    \caption{Run time for skipping shortest path calculations if the previous 2 did not change}
+    \label{fig:random_n}
+\end{figure}
 
