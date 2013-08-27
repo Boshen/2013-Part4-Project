@@ -374,5 +374,143 @@
     <bib_year>1994</bib_year>
     <bib_extra key="booktitle">Vehicle Navigation and Information Systems Conference</bib_extra>
   </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>LPA*</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi>10.1016/j.artint.2003.12.001</bib_doi>
+    <bib_title>Lifelong planning A*</bib_title>
+    <bib_authors>Koenig, Sven and Likhachev, Maxim and Furcy, David</bib_authors>
+    <bib_journal>Artif. Intell.</bib_journal>
+    <bib_volume>155</bib_volume>
+    <bib_number>1-2</bib_number>
+    <bib_pages>93-146</bib_pages>
+    <bib_year>2004</bib_year>
+    <bib_extra key="Issn">0004-3702</bib_extra>
+    <bib_extra key="Issue_date">May 2004</bib_extra>
+    <bib_extra key="Keywords">A*, continual planning, heuristic search, heuristic search-based planning, incremental search, lifelong planning, plan reuse, replanning, symbolic STRIPS-style planning</bib_extra>
+    <bib_extra key="Month">may</bib_extra>
+    <bib_extra key="Numpages">54</bib_extra>
+    <bib_extra key="Publisher">Elsevier Science Publishers Ltd.</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>GoldbergLandmarks</key>
+    <notes></notes>
+    <bib_type>inproceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Computing the shortest path: A search meets graph theory</bib_title>
+    <bib_authors>Goldberg, Andrew V. and Harrelson, Chris</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>156-165</bib_pages>
+    <bib_year>2005</bib_year>
+    <bib_extra key="address">Philadelphia, PA, USA</bib_extra>
+    <bib_extra key="booktitle">Proceedings of the sixteenth annual ACM-SIAM symposium on Discrete algorithms</bib_extra>
+    <bib_extra key="publisher">Society for Industrial and Applied Mathematics</bib_extra>
+    <bib_extra key="Series">SODA ’05</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>GoldbergReach</key>
+    <notes></notes>
+    <bib_type>inproceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Better Landmarks Within Reach</bib_title>
+    <bib_authors>Goldberg, Andrew V. and Kaplan, Haim and Werneck, Renato F.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>38-51</bib_pages>
+    <bib_year>2007</bib_year>
+    <bib_extra key="booktitle">Experimental Algorithms, 6th International Workshop, WEA 2007, Rome, Italy, June 6-8, 2007, Proceedings</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Wardrop</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Some theoretical aspects of road traffic research</bib_title>
+    <bib_authors>Wardrop, J.</bib_authors>
+    <bib_journal>Proceedings of the Institution of Civil Engineers, Part II</bib_journal>
+    <bib_volume>1</bib_volume>
+    <bib_number>36</bib_number>
+    <bib_pages>352-362</bib_pages>
+    <bib_year>1952</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Florian2008</key>
+    <notes></notes>
+    <bib_type>incollection</bib_type>
+    <bib_doi>10.1007/978-0-387-77247-9_22</bib_doi>
+    <bib_title>Traffic Assignment: Equilibrium Models</bib_title>
+    <bib_authors>Florian, Michael and Hearn, DonaldW.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume>17</bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>571-592</bib_pages>
+    <bib_year>2008</bib_year>
+    <bib_extra key="booktitle">Pareto Optimality, Game Theory And Equilibria</bib_extra>
+    <bib_extra key="Chapter">Springer Optimization and Its Applications</bib_extra>
+    <bib_extra key="editor">Chinchuluun, Altannar and Pardalos, PanosM. and Migdalas, Athanasios and Pitsoulis, Leonidas</bib_extra>
+    <bib_extra key="publisher">Springer New York</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Dafermos</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>An extended traffic assignment model with applications to two-way traffic</bib_title>
+    <bib_authors>Dafermos, Stella C.</bib_authors>
+    <bib_journal>Transportation Science</bib_journal>
+    <bib_volume>5</bib_volume>
+    <bib_number>4</bib_number>
+    <bib_pages>366-389</bib_pages>
+    <bib_year>1971</bib_year>
+    <bib_extra key="Publisher">INFORMS</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Rose</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>An examination of convergence error in equilibrium traffic assignment models</bib_title>
+    <bib_authors>Rose, Geoffrey and Daskin, Mark S. and Koppelman, Frank S.</bib_authors>
+    <bib_journal>Transportation Research Part B: Methodological</bib_journal>
+    <bib_volume>22</bib_volume>
+    <bib_number>4</bib_number>
+    <bib_pages>261-274</bib_pages>
+    <bib_year>1988</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Howard</key>
+    <notes></notes>
+    <bib_type>techreport</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>An empirical comparison of alternative user equilibrium traffic assignment methods</bib_title>
+    <bib_authors>Howard Slavin and Jonathan Brandon and Andres Rabinowicz</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>2006</bib_year>
+    <bib_extra key="institution">Caliper Corporation</bib_extra>
+    <bib_extra key="month">02</bib_extra>
+  </doc>
 </doclist>
 </library>

@@ -1,0 +1,115 @@
+\chapter{Implementation Details} \label{chap:implementation}
+\todo[inline]{this chapter has to be more formal, it is too colloquial at the moment. And I am not sure but some of the content.}
+
+The previous chapter has described all the algorithms that are going to be implemented for this report. 
+In this chapter, we seek and research specific implementation details that make the algorithms perform faster.
+
+Note the traffic assignment algorithms have already been implemented by the co-supervisor of this report in a Object Oriented C++ program.
+The programs includes Frank-Wolfe, Path Equilibration,
+label correcting algorithm and many more.
+
+\section{Graph Storage}
+The network graph storage is implemented as a Forward Star data structure.
+Information about Forward Star can be found in \citep{Sheffi}.
+In summary, Forward Star stores a network compactly with $O(|V|+|E|)$ space.
+It allows $O(1)$ access for any nodes in the graph and $O(1)$ access
+for all edges emanating from a random node,
+which are the requirements for the generic shortest path algorithms.
+Using Forward Star ensures that run time of accessing the graph can be neglected when analysing the shortest path algorithms.
+
+\section{Traffic Assignment Implementation}
+\todoin[inline]{Convergence and Rel gap! 1e-6 for all networks}
+Implemented by Olga, the co-supervisor.
+
+\section{Priority Queue Implementations} \label{section:pq_implementation}
+
+Various implementations of the priority queues exist,
+they include:
+\begin{itemize}
+    \item std::priority\_queue - an array based heap implementation from the C++ standard library,
+    \item std::set - a red and black binary search tree from the C++ standard library,
+    \item boost::heap - pointer based heap implementations from the boost library.
+\end{itemize}
+Each priority queue implementation have some advantages than the other.
+For example faster tree balancing, faster Extract-Min or Delete etc.
+
+We first examine the 6 variants of Heap implementations from the C++ Boost Heap Library shown in Table~\ref{table:heaps} \citep{BoostHeap}.
+Where N is the number of elements in the Heap tree, and all time complexities are measured in amortized time,
+i.e.\ the average run time if the operation is run for a long period of time,
+average out worse case and best case.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccccc}
+        & top() & push()    & pop()     & increase() & decrease() \\
+        d-ary (Binary)  & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        d-ary (Ternary) & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Binomial        & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Fibonacci       & O(1)  & O(1)      & O(log(N)) & O(1)       & O(log(N))  \\
+        Pairing         & O(1)  & O($2^{2*\log(\log(N))}$) & O(log(N)) & O($2^{2*\log(\log(N))}$) & O($2^{2*\log(\log(N))}$) \\
+        Skew            & O(1)  & O(log(N)) & O(log(N)) & O(log(N)) & O(log(N))   
+    \end{tabular}
+    \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity}
+    \label{table:heaps}
+\end{table}
+
+We are interested in using Boost library Heaps rather than the C++ standard library Heap is due to one reason:
+the decrease (or increase) function.
+The decrease (or increase) function is referred as the decrease-key (or increase-key) operation mentioned in Section~\ref{section:labelsettingalgorithm},
+which updates the value of the key in the Heap tree.
+Decrease-key is used for a min-heap and increase-key for a max-heap tree.
+For Dijkstra's algorithm,
+often nodes are scanned multiple times in the label updating step,
+instead of adding the node again into the Heap tree,
+we can use decrease-key on the node,
+updating its distance label.
+This means we can reduce the size of the Heap tree and run time by using decrease-key
+rather than adding the same node with different distance label in the queue again.
+
+In table~\ref{table:heaps},
+we observe the Fibonacci Heap has a very interesting time complexity:
+constant amortized time for the push, pop and increase-key operation time.
+But the fact is,
+we do not know how much constant time it really uses behind its big O.
+It is reported that Fibonacci Heaps only outperforms other Heaps when the graph is very dense\todo{this is going to be hard to find a good reference, all reports are from Stackoverflow.com},
+\todo{heap from boost are slower, as they are pointer based, not array based}
+but it is worth to experiment Fibonacci Heap as well as all other Heaps.
+
+The C++ standard library Heap is still going to be implemented and tested.
+The C++ standard library Heap does not support the decrease-key operation but
+careful implementation would not give wrong result.
+This is due to the fact that if a node has been added to the Heap more than once,
+the node with smaller distance label is always going to be removed from the queue and update its successors first,
+the same node with larger distance label will therefore not update its successors.
+
+%\todo[inline]{more details about Fibonacci, why good in theory not in practice}
+
+C++ Boost Library Heaps are implemented as max-heaps,
+which means in order to use the Fibonacci O(1) increase-key function,
+we need to negate the distance labels when we add them into the Heap.
+
+\begin{comment}
+\section{Memory Management}
+Memory management is important in programming which speeds up programs to run faster.
+It is well know that random memory access is slow compared to CPU cache memory access due to the fact CPU cache stores copies of data from RAM to speed up latency of RAM access, in other words, we want to keep data in the cache for as long as possible.
+Common techniques such as using smaller data types,
+organize data to avoid big spread of data,
+access adjacent memory address in a loop.
+
+In our program,
+we use boost::dynamic\_bitset in te Heap implementations to keep track of boolean variables for indicating whether a node is labelled or not.
+\todo{haven't implemented this, but will be}
+A bitset container is designed to store boolean values where each
+element uses only 1 bit memory,
+which greatly reduces memory usage.
+
+We use memset from the C library  to reset values to 0 for example resetting all distance labels.
+\todo{also haven't implemented}
+The memset function call is better than a simple for loop because this function is optimised to reset values faster,
+it is given a argument of the size of the memory to clear,
+the complier is able to generate optimised code to clear memory depending on its size, using techniques such as loop unrolling.
+\todo[inline]{Code generation of block move (memcpy) and block set (memset) was rewritten. GCC can now pick the best algorithm (loop, unrolled loop, instruction with rep prefix or a library call) based on the size of the block being copied and the CPU being optimized for.  - \url{http://gcc.gnu.org/gcc-4.3/changes.html}}
+
+\todo[inline]{talk about using the OOP factory pattern to provide different shortest path algorithms to the TA solver in run time instead of compile time?}
+\todo[inline]{talk about using C++ template to give a generic algorithm for the Boost Heaps? So instead of writing 6 similar algorithms we just write a generic one.}
+\end{comment}
