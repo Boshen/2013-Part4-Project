@@ -53,9 +53,9 @@ class ShPathInterface : public ShortestPath {
 
         std::vector<std::pair<int,int> > *fScanned;
         std::vector<std::pair<int,int> > *bScanned;
-        /*
         std::map<std::pair<int, int>, std::vector<int>* > *sp_tree; // <<o,d>, tree>
         std::map<std::pair<int, int>, int> *sp_tree_changed;
+        /*
         std::map<std::pair<int, int>, int> *iter;
 
         std::map<std::pair<int, int>, FPType > *LabelVector_Cache; 
@@ -86,10 +86,8 @@ class ShPathInterface : public ShortestPath {
             //LabelVector_Cache = new std::map<std::pair<int, int>, FPType >();
             //Predecessors_Cache = new std::map<std::pair<int, int>, std::vector<int>* >();
 
-            /*
             sp_tree = new std::map<std::pair<int, int>, std::vector<int>* >(); // <<o,d>, link indices>
             sp_tree_changed = new std::map<std::pair<int, int>, int>(); // <<o,d>, dist>
-            */
 
             //iter = new std::map<std::pair<int, int>, int>(); // <<o,d>, dist>
             //
@@ -124,11 +122,15 @@ class ShPathInterface : public ShortestPath {
             delete fScanned;
             delete bScanned;
             */
-
-            //std::map<std::pair<int,int>, FPType >::iterator it1;
-            //for(it1=LabelVector_Cache->begin();it1!=LabelVector_Cache->end();it1++){
-            //    delete it1->second;
+            //std::map<std::pair<int, int>, int >::iterator it2;
+            //for(it2=sp_tree_changed->begin();it2!=sp_tree_changed->end();it2++){
+            //    std::cout << it2->first.first << " " << it2->first.second << " " << it2->second << std::endl;
             //}
+
+            std::map<std::pair<int, int>, std::vector<int>* >::iterator it1;
+            for(it1=sp_tree->begin();it1!=sp_tree->end();it1++){
+                delete it1->second;
+            }
             //std::map<std::pair<int,int>, std::vector<int>* >::iterator it2;
             //for(it2=Predecessors_Cache->begin();it2!=Predecessors_Cache->end();it2++){
             //    delete it2->second;
@@ -137,10 +139,8 @@ class ShPathInterface : public ShortestPath {
             //delete LabelVector_Cache;
             //delete Predecessors_Cache;
 
-            /*
             delete sp_tree;
             delete sp_tree_changed;
-            */
             //delete iter;
         }
 

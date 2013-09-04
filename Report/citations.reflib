@@ -512,5 +512,54 @@
     <bib_extra key="institution">Caliper Corporation</bib_extra>
     <bib_extra key="month">02</bib_extra>
   </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>BPR</key>
+    <notes></notes>
+    <bib_type>manual</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Bureau of Public Roads</bib_title>
+    <bib_authors></bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>1964</bib_year>
+    <bib_extra key="address">Traffic Assignment Manual, U.S. Dept. of Commerce, Urban Planning Division, Washington D.C.</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Ertl1998</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi>10.1007/BF01545524</bib_doi>
+    <bib_title>Shortest path calculation in large road networks</bib_title>
+    <bib_authors>Ertl, Gerhard</bib_authors>
+    <bib_journal>Operations-Research-Spektrum</bib_journal>
+    <bib_volume>20</bib_volume>
+    <bib_number>1</bib_number>
+    <bib_pages>15-20</bib_pages>
+    <bib_year>1998</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Pearson</key>
+    <notes></notes>
+    <bib_type>inproceedings</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Some Experimental Results of Applying Heuristic Search to Route Finding.</bib_title>
+    <bib_authors>Pearson, John and Guesgen, Hans W.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>394-398</bib_pages>
+    <bib_year>1998</bib_year>
+    <bib_extra key="booktitle">FLAIRS Conference</bib_extra>
+    <bib_extra key="editor">Cook, Diane J.</bib_extra>
+    <bib_extra key="publisher">AAAI Press</bib_extra>
+  </doc>
 </doclist>
 </library>

@@ -99,7 +99,7 @@ void ODSet::updateSet(){
 	_minDist = std::numeric_limits<FPType>::max( );
 	//_maxDist = 0.0;
 	for (Path *path = beginPath(); path != NULL; path = getNextPath()) {
-		dist = _pathCost->calculate(path);
+		dist = _pathCost->calculate(path); // sum of cost on path
 		path->setCurrCost(dist);
 		if (dist < _minDist) _minDist = dist;
 		//if (dist > _maxDist) _maxDist = dist;

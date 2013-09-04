@@ -1,19 +1,16 @@
-\chapter{The Traffic Assignment Problem}
-
+\chapter{The Traffic Assignment Problem} \label{chap:ta}
 
 In a transportation network,
-every traveller wish to travel between different pairs of origins and destinations.
-As travellers start travelling in the network,
-congestion happen as traffic volume increase.
-The travelling speed on a given road tend to decrease more rapidly as traffic increase,
-due to more and more interactions between the travellers.
+every traveller wishes to travel between different pairs of origins and destinations.
+As travellers start to travel in the network,
+congestion happen and travel speed tend to decrease rapidly due to more and more interactions between the travellers and increase in traffic volume.
 This lead to the problem of travellers wishing to find the fastest route to travel on,
 meanwhile taking account of congestion as every other traveller is trying to do the same.
 From the road design point of view,
 we wish to find a flow pattern in the network with a given travel demand between the origin-destination pairs. 
 This is called the Traffic Assignment Problem.
 
-Traffic equilibrium models are commonly in use to solve the Traffic Assignment Problem.
+The Traffic Assignment Problem is commonly solved by traffic equilibrium models.
 The notion of traffic equilibrium was first formalized by \cite{Wardrop},
 where he introduced the postulate of the minimisation of the total travel costs.
 His first principle states that ``the journey times on all routes actually used are equal and less than those which would be experienced by a simple vehicle of any unused route.''
@@ -22,46 +19,46 @@ His first principle states that ``the journey times on all routes actually used 
 The traffic flows that satisfy this principle are referred to as ``user optimal'' flows,
 as each traveller chooses the route which is the best for them.
 On the other hand,
-we can solve for traffic flows that are ``system optimal'',
-which are characterized by Wardrop's second principle,
-which states the ``the average journey time is minimum''.
+we can also solve for traffic flows that are ``system optimal'',
+which is characterized by Wardrop's second principle, stating that ``the average journey time is minimum''.
 
 In this chapter,
 the network equilibrium model is first stated.
-Then one particular solution algorithm for solving such model is described.
-Finally the shortest path problem which arise from the solution algorithm is briefly explained.
+Then a particular solution algorithm for solving such model is described.
+Finally the reason for needing a faster algorithm for solving the shortest path problem is briefly explained.
 
 \section{The Network Equilibrium Model}
 In this section,
-the deterministic symmetric network equilibrium model for solving the user optimal of the traffic assignment is summarised from \citet{Florian, Florian2008}.
-The model assumes deterministic traffic demands,
-where they are fixed during the traffic assignment process.
-The model also assumes the network is symmetric.
-This is not assuming the underlying graph of the network is symmetric or bidirectional.
-But it means that the change on travel time of any link does not depend on the change in traffic flows of any other links.
-These assumptions may not be realistic but they result a set of simple algorithms that are easier for analysis.
+the deterministic symmetric network equilibrium model for solving the user optimal of the traffic assignment is summarised.
+This model assumes deterministic traffic demands,
+where the demands are fixed when the traffic assignment problem is getting solved.
+This model also assumes the network is symmetric,
+which does not mean the underlying graph of the network is symmetric or bidirectional,
+it means the change of travel time on any link does not depend on the change of traffic flows on the other links.
+These assumptions may not be realistic but they result a set of simple algorithms that are easier to analyse.
 
 %The model assumes the link cost functions are separable, i.e.\ the function values are only dependent on the flows on the link itself, not other flows that do not belong to that link.
 %The model also assumes the traffic demand of the network is fixed.
 
-Consider a transportation network represented as a graph $G = (N, A)$,
+Using notations from \citet{Florian, Florian2008},
+we consider a transportation network represented as a graph $G = (N, A)$,
 where $N$ is a set of nodes and $A$ a set of directed links in the network.
 The number of vehicles (or flow) on link $a$ is $v_a$ ($a \in A)$,
 and the cost of travelling on a link is given by a user cost function $s_a(v)$ ($a \in A$),
 where $v$ is the vector of link flows over the entire network.
 
-The $g_i$,
-$i \in I$, where $I$ is the set of origin-destination (O-D) pairs,
-are distribute over directed paths $k \in K_i$,
-where $K_i$ is the set of cycle-free paths for the O-D pair and it is assumed $k_i \neq \emptyset$. Also $K = \cup_{i \in I} K_i$.
-Let $h_k$ be the flows on paths $k$ which satisfy the conservation of flow and non-negativity constraints:
+Let $I$ be the set of origin-destination (O-D) pairs
+and $K_i$ be the set of cycle-free paths for O-D pair $i \in I$.
+The origin to destination traffic demands $g_i$ ($i \in I$) are distributed over directed paths $k \in K_i$,
+and it is assumed $k_i \neq \emptyset$ and $K = \cup_{i \in I} K_i$.
+Let $h_k$ be the flows on paths $k$ that satisfy the conservation of flow and non-negativity constraints:
 \begin{align} \label{model_1}
-    \sum_{k \in K_i} h_k & = g_i, \quad i \in I, k \in K, \\
+    \sum_{k \in K_i} h_k & = g_i, \quad \forall i \in I, k \in K, \\
     h_k &\geq 0.
 \end{align}
 The corresponding link flows $v_a$ are given by:
 \begin{equation}
-    v_a = \sum_{k \in K} \delta_{ak} h_k, \quad a \in A,
+    v_a = \sum_{k \in K} \delta_{ak} h_k, \quad \forall a \in A,
 \end{equation}
 where
 \begin{equation} \label{model_4}
@@ -79,45 +76,44 @@ the user optimal objective is
 \end{equation}
 
 In order to solve for user equilibrium,
-the Wardrop user equilibrium condition \citep{Wardrop} is applied.\\
+the \citep{Wardrop} user equilibrium condition is applied:
 
-\begin{equation}
+\begin{equation} \label{wardrop1}
     s_k(v^{\ast}) - u_i^{\ast} 
     \begin{cases}
         =0 & \text{if } h_k^{\ast} > 0 \\
         \geq 0 & \text{if } h_k^{\ast} = 0
     \end{cases}
     ,
-    \quad k \in K_i, i \in I,
+    \quad \forall k \in K_i, i \in I,
 \end{equation}
 where 
 \begin{equation}
-    s_k(v) = \sum_{a \in A} \delta_{ak} s_a(v), \quad k \in K
+    s_k(v) = \sum_{a \in A} \delta_{ak} s_a(v), \quad \forall k \in K
 \end{equation}
 and
-\begin{equation}
-    u_i = \min_{k \in K_i} \left[ s_k(v) \right], \quad i \in I.
+\begin{equation} \label{wardrop3}
+    u_i = \min_{k \in K_i} \left[ s_k(v) \right], \quad \forall i \in I.
 \end{equation}
 
-To elaborate, the principle means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
-Further more, the principle is under the assumption that the travellers have complete knowledge about the network,
+To elaborate, this condition means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
+Furthermore, this condition is under the assumption that the travellers have complete knowledge about the network,
 they always choose the best route to travel based on the current information about the network.
 This means the equilibrium is the result of everybody simultaneously attempting to minimize their own travel times.
 
 To model congestion effects,
-the Bureau of Public Road link cost function 
-\todo{ref}
-$t_a(v_a)$ is used for the travel time on link $a \in A$.
-The function is given by:
+the \citet{BPR} (BPR) link cost function
+$s_a(v_a)$ is used to model the travel time on link $a \in A$.
+The function is given by
 \begin{equation}
-    t_a(v_a) = t_f \left(1 + 0.15\left( \frac{v_a}{C_a} \right)^4 \right)
+    s_a(v_a) = s_f \left(1 + B \left( \frac{v_a}{C_a} \right)^\alpha \right)
 \end{equation}
-
-where $t_f$ and $C_a$ are the free-flow travel time and link capacity.
-This cost function only depends on the link flow, and is strictly monotonic, continuous and differentiable,
+where $B$ and $\alpha$ are the parameters for the level of congestion that can can be experienced,
+and $s_f$ and $C_a$ are the free-flow travel time and link capacity.
+It is important to note this cost function only depends on traffic flow on its own link, and it is strictly monotonic, continuous and differentiable,
 An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}
@@ -139,7 +135,9 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
                 ytick=\empty,
                 xticklabel=\empty,
                 yticklabel=\empty,
-                scaled ticks=false
+                scaled ticks=false,
+                extra x ticks={9000},
+                extra x tick style={xticklabel pos=right, xticklabels={Capacity}, xmajorgrids=true}
             ]
             \addplot [->, black] {20+0.15*(x/2000)^4}; 
         \end{axis}
@@ -147,26 +145,25 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
     \caption{Travel time function.}
     \label{fig:flowfunction}
 \end{figure}
-\todo{add in capacity line}
 
 \section{Path Equilibration Algorithms}
-The symmetric network equilibrium model is equivalent of a convex cost differentiable optimization problem,
+The deterministic symmetric network equilibrium model described in the previous section is equivalent to a convex cost differentiable optimization problem,
 where a wide range of algorithms exist for solving such problems.
-They include: the linear approximation method,
+They include, the linear approximation method,
 the linear approximation with parallel tangents method,
-the restricted simplicial decomposition,
-and path equilibration algorithm.
-\todo{ref these methods}
+the restricted simplicial decomposition method,
+and the path equilibration algorithm.
+All of these algorithm are described in \citet{Florian}.
 
-In this report, we focus on the path equilibration method.
-This method solves the network equilibrium problem in a sequence of sub-problems.
-The general approach of the method is equivalent to a 
+For this project,
+we focus on the path equilibration algorithm.
+The general approach of the algorithm is equivalent to
 Gauss-Seidel decomposition (an iterative method for solving a linear system of equations).
 In a step of the algorithm,
-path flow between a single O-D pair is solved by keeping the flows of other O-D pairs fixed.
-The algorithm iteratively solves each O-D pair until all of the path flows cannot be improved.
+path flow $h_k$ between a single O-D pair is solved by keeping the flows of all other O-D pairs fixed.
+The algorithm iteratively solves each O-D pair sub-problem until all of the path flows cannot be improved.
 
-The sub-problem for solving each O-D pair $i$ is another fixed-demand network equivalent problem.
+The sub-problem for solving each O-D pair $i$ is another fixed-demand network equilibrium problem.
 \begin{align} \label{eq:sb1}
     \min & \quad \sum_{a \in A} \int_0^{v_a^i + \bar{v}_a} s_a(x) \mathrm{d} x \\
     \text{s.t.} &\quad \sum_{k \in K_i} h_k = \bar{g}_i, \quad i \in I, \\
@@ -181,17 +178,16 @@ and
     v_a^i = \sum_{k \in K_i} \delta_{ak} h_k.
 \end{equation}
 
-The Gauss-Seidel decomposition (or 'cyclic decomposition' by O-D pair) is stated as follows.
+The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated as follows.
 
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
+        \hspace{-.5cm}\emph{`cyclic decomposition' by O-D pair} \\
         \emph{Step 0.} Given initial solution, set $l = 0$, $l' = 0$.\\
-        \emph{Step 1.} If $l' = |I|$, stop; otherwise set $l = l \text{mod} |I| + 1$ and continue.\\
-        \emph{Step 2.} If the current solution is optimal for the $i$th sub-problem \ref{eq:sb1}-\ref{eq:sb5}, set $l' = l' + 1$ and return to step 1; otherwise solve the $l$th sub-problem, update flows, set $l' = 0$ and return to step 1.\\
+        \emph{Step 1.} If $l' = |I|$, stop; otherwise set $l = l \text{ mod } |I| + 1$ and continue.\\
+        \emph{Step 2.} If the current solution is optimal for the $i$th sub-problem (\ref{eq:sb1})-(\ref{eq:sb5}), set $l' = l' + 1$ and return to step 1; otherwise solve the $l$th sub-problem, update the path flows, set $l' = 0$ and return to step 1.\\
     \end{tabular}
 \end{table}
-end
-The objective function of the problem is convex (any local minimum is also the global minimum) so the convergence of the Gauss-Seidel strategy can be ensured.
 
 The path equilibration algorithm for solving \ref{eq:sb1}-\ref{eq:sb5} 
 obtains the solution by balancing path flows between each O-D pair.
@@ -201,75 +197,68 @@ Let $K_i^{+} = \left\{ k \in K_i | h_k > 0 \right\}$ be the set of positive flow
 The algorithm for solving each O-D pair $i$ is stated as follows.
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
+        \hspace{-.5cm}\emph{Path Equilibration Algorithm} \\
         \emph{Step 0}. Find an initial solution $v_a^i$; $s_a = s_a(v_a^i+\bar{v}_a)$ and the initial $K_i^+$.\\
-        \emph{Step 1}. Compute the costs of the currently used paths $s_k$, $k \in K_i^+$. Find $k_1$ such that $s_{k_1} = \displaystyle \min_{k \in K_i^+} s_k$ and $k_2$ such that $s_{k_2} = \displaystyle \max_{k \in K_i^+} s_k$.\\
-        If $s_{k_2} - s_{k_1} \leq \epsilon$, go to step 4;
+        \emph{Step 1}. Compute the costs of the currently used paths $s_k$, $k \in K_i^+$. Find $k_1$ such that $s_{k_1} = \displaystyle \min_{k \in K_i^+} \left[ s_k \right]$ and $k_2$ such that $s_{k_2} = \displaystyle \max_{k \in K_i^+} \left[s_k \right]$.\\
+        If $(s_{k_2} - s_{k_1}) \leq \epsilon$, go to step 4;
         otherwise define the direction $d_{k_1} = (h_{k_2} - h_{k_1})$ for path flow $k_1$ and $d_{k_2} = (h_{k_1} - h_{k_2})$ for path flow $k_2$\\
         \emph{Step 2}. Find the step size $\lambda$ which redistributes the flow $h_{h_1} + h_{k_2}$ between the paths $k_1$ and $k_2$ in such a way that their costs become equal, that is, solve
     \end{tabular}
 \end{table}
+
 \begin{align}
-    \min_\lambda & \quad \max_{a \in A} \int_0^{y_a} s_a(x) \mathrm{d}x \\
+    \min_\lambda & \quad \max_{a \in A} \int_0^{v_a^i + \lambda y_a + \bar{v}_a} s_a(x) \mathrm{d}x \\
     \text{s.t.} & \quad 0 \leq \lambda \leq \left( \frac{-h_{k_2}}{d_{k_2}} \right), \\
-    & \quad y_a = v_a^i + (\delta_{ak_1} d_{k_1} - \delta_{ak_2} d_{k_2} ) \lambda + \bar{v}_a.
+    \text{where} & \quad y_a = \delta_{ak_1} d_{k_1} - \delta_{ak_2} d_{k_2}.
 \end{align}
-\begin{table}[H]
+
+\begin{table}
     \begin{tabular}{ m{0.8\textwidth} }
-        \emph{Step 3}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + (\delta_{ak_1} d_{k_1} - \delta_{ak_2} d_{k_2} ) \lambda ; s_a = s_a(v_a^i + \bar{v}_a$. \\
-        \emph{Step 4}. Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} s_k$; if $\tilde{s}_k < \displaystyle \min_{k \in K_i^+} s_k$, then the path $\tilde{k}$ is added to the set of kept paths, $K_i^+ = K_i^+ \cup \tilde{k}$ and return to step 1; otherwise stop.
+        \emph{Step 3}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + \lambda y_a; s_a = s_a(v_a^i + \bar{v}_a)$. \\
+        \emph{Step 4}. Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} \left[ s_k \right]$;
+        if $\tilde{s}_k < \displaystyle \min_{k \in K_i^+} \left[ s_k \right]$, then the path $\tilde{k}$ is added to the set of kept paths, $K_i^+ = K_i^+ \cup \tilde{k}$ and return to step 1; otherwise stop.
     \end{tabular}
 \end{table}
- 
+
 In step 0, an all-or-nothing assignment is performed for each of the O-D pairs,
 where it finds the shortest path and assigns all traffic flows along that path.
 In step 1 and 2, the algorithm finds the two paths that have the minimum and maximum cost, and balances the flow between them to equalize their cost.
-These two steps are equivalent of solving the Wardrop equilibrium.
+These two steps are equivalent of solving the Wardrop equilibrium shown in Equation~(\ref{wardrop1})-(\ref{wardrop3}).
 In step 4, the shortest path between the O-D pair is computed and added to the set of used paths for the all-or-nothing assignment and Wardrop equilibrium.
 
-Given a large network and assume many iterations of the algorithm are required to find the optimal solution,
-it can be shown that the shortest path calculation in step 4 would require a huge amount of computational time.
-For example if it takes 20 iterations to solve for a small network with $100,000$ O-D pairs,
-and each shortest path calculation takes 0.01 second,
-it would still take more than 6 minutes to solve.
-Thus for the rest of the report,
-we will investigate and find a faster shortest path algorithm for the traffic assignment problem.
+Now if we are given a large network and assume it requires many iterations to find the optimal solution,
+it can be shown that a huge number of shortest path calculations are needed in step 4 of the path equilibration algorithm.
+For example given the algorithm takes 20 iterations to solve for a small network with $100,000$ O-D pairs,
+it can take more than 6 minutes to solve if
+each shortest path calculation consumes 0.01 second,
+And in reality,
+networks may contain millions of O-D pairs.
+Thus for this project we wish to
+investigate and find a faster shortest path algorithm for the traffic assignment problem.
 
-\section{Convergence criterion} \label{sec:convergence}
+\section{Convergence Check} \label{sec:convergence}
+
 For completeness, the convergence criterion for the traffic assignment is discussed in this section.
+It it known that the objective function of the problem is convex (any local minimum is also the global minimum),
+so the convergence of the Gauss-Seidel strategy is ensured \citep{Florian2008}.
 The convergence criterion of traffic assignment algorithms are normally measured by the notion of relative gap.
-The relative gap is a measure of how close the current traffic assignment solution is to the user equilibrium solution.
+\cite{Rose} states that ``the relative gap is expressed by the difference between the current value of 
+the objective function and the lower bound as a percentage of the current objective function.''
+Here the objective function is the user equilibrium (UE) solution of the traffic assignment problem.
+And the lower bound refers to the all-or-nothing (AON) assignment in step 0 of the path equilibrium algorithm.
 
-``The relative gap is expressed by the difference between the current value of 
-the objective function and the lower bound as a percentage of the current objective function.''\cite{Rose}
-
-``The ``relative gap'' is the aforementioned difference between the cost of the
-current UE solution and the cost of the AON solution divided by the cost of the
-current UE solution. This is a fairly sensitive measure of convergence and is
-superior to many other stopping criteria such as simple functions of the
-differences between assignment iterates (Rose et al., 1985)`` \cite{Howard}
-
-In our path equilibrium algorithm,
-the relative gap (RGAP) is computed as
+The relative gap (RGAP) is computed as
 \begin{align}
-    \text{RGAP} &= 1 - \frac{\text{Minimum Travel Time}}{\text{Total Total Time}}
-    &= \frac{ \sum x_{UE} \cdot c(x_{UE}) - \sum x_{AON} \cdot c(x_{UE})}{\sum x_{UE} \cdot c(x_{UE}) }
+    \text{RGAP} &= \frac{\text{UE} - \text{AON}}{\text{UE}} \\
+                &= \frac{\sum_{a \in A} v_a s_a - \sum_{i \in I} g_i s_{\tilde{k}_i}}{\sum_{i \in I} g_i s_{\tilde{k}_i}}.
 \end{align}
-where
-\begin{equation}
-    \text{Minimum Travel Time} = \sum_{i \in I} g_i t_{\tilde{k}_i}
-\end{equation}
-\begin{equation}
-    \text{Total Travel Time} = \sum_{a \in A} v_a t_a
-\end{equation}
-The Minimum Travel Time is the sum of travel time $t_{\tilde{k}_i}$ for each user $g_i$ travelling on their shortest path $\tilde{k}_i$,
-which is the current user equilibrium solution.
-The Total Travel Time is the sum of travel time the network is experiencing in the current iteration,
-which is obviously different from the user equilibrium solution because travel flows are not on their shortest path yet.
-The traffic solution converges when the Minimum Travel Time and the Total Travel Time becomes the same,
-resulting the relative gap converging to 0.
+The AON solution is the sum of travel time $s_{\tilde{k}_i}$ of each traffic demand $g_i$ travelling on their shortest path $\tilde{k}_i$.
+The UE solution is the sum of travel time over the entire network.
+These two values are improved from iteration by iteration during the path equilibration algorithm until they become identical, i.e.\ RGAP converging toward 0.
+The traffic assignment problem is solve when RGAP is 0,
+but normally we stop the algorithm at some tolerance such as $1e-6$.
 
-In conclusion,
-the speed of convergence is highly depend on how small we set the relative gap to be,
+It is worth to notice that the speed of convergence is highly dependent on how small we set the relative gap to be,
 as well as the size and complexity of the network and number of supply and demand nodes.
 A smaller relative gap will result more iterations for the traffic assignment algorithms.
 

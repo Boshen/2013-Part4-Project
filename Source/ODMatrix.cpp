@@ -80,7 +80,7 @@ void ODMatrix::setIndexes(StarNetwork *net){
 		}
 	}
 	_nbODPairs = count;
-	//std::cout << "nbODPairs = " << _nbODPairs << std::endl;	
+	std::cout << "nbODPairs = " << _nbODPairs << std::endl;	
 };
 
 FPType ODMatrix::getDemandByIndex(int originIndex, int destIndex) const{

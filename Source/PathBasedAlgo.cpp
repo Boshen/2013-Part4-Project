@@ -60,7 +60,7 @@ int PathBasedAlgo::execute(){
 		end = clock();
 		timePassed += ((FPType)(end-start))/ (CLOCKS_PER_SEC);
 		//printf ("%4.5f \n", timePassed); 
-		//std::cout << timePassed << " " << _pathSet->getGap() << std::endl;
+		std::cout << nbIter << " | " << timePassed << " | " << _pathSet->getGap() << std::endl;
 		doSmthAfterLoop(timePassed, _pathSet->getGap());
 		
 	}
@@ -81,7 +81,7 @@ bool PathBasedAlgo::mainLoop(ODSet *odSet){
 	// if (2) was successful or solution is not equilibrated yet, equilibrate: flow move + deleting paths with zero flow
 	if (wasImproved || (odSet->getNbPaths() > 1)) {//**
 		//std::cout << "equilibrating" << std::endl;
-		if (odSet->equilibrate()) {
+		if (odSet->equilibrate()) { 
 			//std::cout << "was equilibrated. removing unused paths" << std::endl;
 			odSet->removeUnusedPaths();
 			return true;

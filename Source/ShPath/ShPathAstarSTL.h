@@ -84,7 +84,7 @@ class ShPathAstarSTL : public ShPathInterface {
 
         void calculate(int O, int D) {
 
-            //std::pair<int,int> p = std::make_pair(O, D);
+            std::pair<int,int> p = std::make_pair(O, D);
 
             int u, v;
             FPType Duv;
@@ -97,7 +97,6 @@ class ShPathAstarSTL : public ShPathInterface {
             std::vector<int> &P = *Predecessors;
             StarNetwork &NP = *_netPointer;
 
-            /*
             if( sp_tree_changed->find(p) == sp_tree_changed->end() ){
                 sp_tree->insert(std::make_pair(p, new std::vector<int>()));
                 sp_tree_changed->insert(std::make_pair(p, 0));
@@ -105,13 +104,13 @@ class ShPathAstarSTL : public ShPathInterface {
 
             std::vector<int> &SP_TREE = (*(*sp_tree)[p]);
             int &SP_TREE_CHANGED = (*sp_tree_changed)[p];
-            */
 
             initNodes();
             Q = ShPath::PriorityQueue();
 
             /*
             if ( SP_TREE_CHANGED >= 2){ // didnt change in the last 2 iters
+            //if ( SP_TREE_CHANGED == 1 && rand()/(double)RAND_MAX < 0.3){ // didnt change in the last 2 iters
                 for (size_t i = 0; i < SP_TREE.size(); i++)
                     P[NP.getLink(SP_TREE[i])->getNodeToIndex()] =  SP_TREE[i];
                 std::vector<int> q;
@@ -129,7 +128,7 @@ class ShPathAstarSTL : public ShPathInterface {
                 }
 
                 SP_TREE_CHANGED++;
-                if (SP_TREE_CHANGED == 15){ // don't comupte SP until 15 iters reached
+                if (SP_TREE_CHANGED == 20){ // don't comupte SP until 15 iters reached
                     SP_TREE_CHANGED=0;
                 }
 
@@ -176,7 +175,6 @@ class ShPathAstarSTL : public ShPathInterface {
                 }
             }
 
-            /*
             bool changed = false;
             std::vector<int> tmp_v;
             size_t i = 0;
@@ -190,12 +188,14 @@ class ShPathAstarSTL : public ShPathInterface {
                 i++;
             }
 
-            SP_TREE_CHANGED = changed?0:SP_TREE_CHANGED+1;
+            //SP_TREE_CHANGED = changed?0:SP_TREE_CHANGED+1;
+            if (changed)
+                SP_TREE_CHANGED += 1;
+            //SP_TREE_CHANGED = 1;
 
             SP_TREE.clear();
             for (size_t i = 0;i<tmp_v.size();i++)
                 SP_TREE.push_back(tmp_v[i]);
-                */
 
         }
 
