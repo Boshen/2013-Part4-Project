@@ -18,7 +18,7 @@ pylab.xticks(index, x, size='small', fontproperties=font)
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%d iters' % iters[i], xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('Astar search with skipping calculation randomly on Terrassa', fontproperties=font)
+pylab.title('A* search with skipping calculations randomly on Terrassa', fontproperties=font)
 pylab.xlabel('Probability of skipping a calculation', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
@@ -35,7 +35,8 @@ pylab.xticks(index, x, size='small', fontproperties=font)
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%d iters' % iters[i], xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('Astar search with skipping calculation randomly on ChicagoSketch', fontproperties=font)
+pylab.ylim([0, 25])
+pylab.title('A* search with skipping calculations randomly on ChicagoSketch', fontproperties=font)
 pylab.xlabel('Probability of skipping a calculation', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
@@ -52,8 +53,8 @@ pylab.xticks(index, x, size='small', fontproperties=font)
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('Astar search with skipping calculation if previous 2 is not changed on Terrassa', fontproperties=font)
-pylab.xlabel('Skip next n calculation', fontproperties=font)
+pylab.title('A* search with skipping calculations when no change occur on Terrassa', fontproperties=font)
+pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
 
@@ -69,8 +70,9 @@ pylab.xticks(index, x, size='small', fontproperties=font)
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('Astar search with skipping calculation if previous 2 is not changed on ChicagoSketch', fontproperties=font)
-pylab.xlabel('Skip next n calculation', fontproperties=font)
+pylab.ylim([0, 25])
+pylab.title('A* search with skipping calculations when change occur on ChicagoSketch', fontproperties=font)
+pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
 

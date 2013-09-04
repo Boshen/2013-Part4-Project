@@ -28,7 +28,7 @@ pylab.xticks(x, map(str, x), fontproperties=font)
 
 pylab.title('The percentage of shortest path change for each O-D pair out of 26 iterations for ChicagoSketch', fontproperties=font)
 pylab.xlabel('Number of shortest path changes out of 26 iterations', fontproperties=font)
-pylab.ylabel('Percentage of total number O-D pairs', fontproperties=font)
+pylab.ylabel('Percentage of total number of O-D pairs', fontproperties=font)
 
 pylab.autoscale(enable=True, axis='x', tight=None)
 fontt = {'size':14}

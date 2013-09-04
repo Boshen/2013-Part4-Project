@@ -2,6 +2,13 @@
 
 This chapter shows the results from testing all the shortest path algorithms detailed in Chapter~\ref{chap:solvingspp} using the specific implementation described in the previous chapter.
 
+\todoin[inline]{Convergence and Rel gap! 1e-6 for all networks}
+
+Implemented by Olga, the co-supervisor.
+Note the traffic assignment algorithms have already been implemented by the co-supervisor of this report in a Object Oriented C++ program.
+The programs includes Frank-Wolfe, Path Equilibration,
+label correcting algorithm and many more.
+
 The results are generated from using the g++ compiler using the -O3 optimise for speed option on Ubuntu 12.04 operating system, which has a Intel Core i5-3317U CPU with 3.8GiB RAM.
 
 \section{Problem Data and Result Explanation}
@@ -77,7 +84,7 @@ and total run time (seconds) of each algorithm took is shown.
 Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime} shows the performance of Dijkstra's algorithm on both Winnipeg and ChicagoSketch network using priority queue implementations from the C++ Boost library and the Standard Template Library.
 
 On both networks, the Heap implementation from the C++ Standard Template Library out performs all other implementations.
-And the Fibonacci Heap does not have the promised runtime behaviour described in Section~\ref{section:pq_implementation}.
+And the Fibonacci Heap does not have the promised runtime behaviour described in Section~\ref{sec:pq_implementation}.
 What is interesting is that for the Heaps with $O(\log(N))$ behaviour, their run time vary a lot, especially for the Binomial Heap.
 
 \begin{figure}[H]

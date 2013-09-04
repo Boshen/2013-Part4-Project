@@ -10,46 +10,49 @@
 \section{Introduction to Traffic Modelling}
 
 Nowadays a large portion of people's daily lives involve activities which relate to transportation,
-for example most people need to travel between their work place and residence twice a day,
-and buy goods from shops where the goods need to be delivered across the city.
-Meanwhile transportation networks expand and improve constantly to cater people's demand for an efficient transportation network,
-the rate of improvement does not confront with the rate of population increase.
-As a result, many obstacles caused by congestion have arisen.
+For example, most people need to travel between their workplace and residence twice a day,
+or buy goods from shops where they need to be delivered across the city.
+In the meanwhile, 
+transportation networks expand and improve constantly to cater people's demand for an efficient transportation network,
+but the rate of improvement does not confront with the rate of population growth.
+As a result,
+the network becomes inefficient, causing traffic congestion.
 
 Congestion lead to major economical losses due to time delays and increase usage of petrol.
-Congestion also cause air pollutions which increase respiratory problems such as asthma, 
-and the exhaust gas exacerbates global warming.
-It also increases noise pollution and cause frustration,
-which in turn accelerates accidents.
+Congestion cause air pollutions that increase respiratory problems such as asthma, 
+And the exhaust gas exacerbates global warming.
+Congestion also increase noise pollution and cause frustration,
+which in turn accelerate traffic accidents.
 It is important for traffic designers to be able to reduce congestion problems,
-and eliminate the negative effects of congestion.
-This include introducing road tolls to diverge traffic to less congested roads,
-or educating people to use public transportation instead of travelling by car.
+and eliminate its negative effects.
+The transportation network can be improved by for example,
+introduce road tolls to diverge traffic to less congested roads,
+or educate people to use public transports.
 
-Since traffics improvements and expansions tend to be very costly,
-it is always necessary to make an optimal plan:
+Making improvements to the transportation network tend to be very costly,
+so an optimal plan is always necessary:
 use the least amount of investment for the greatest change.
-In order to make the optimal plan for traffic design,
-different mathematical models have been built in the past to simulate the current and future behaviour of the transportation system.
-One particular model called the transportation forecasting model is commonly used,
-the aim of this model is to estimate future traffic usage when the system is changed, e.g.\ upgrading new roads, changing roundabouts to traffic lights or adding new public transports. 
+In order to make optimal plans for traffic design,
+different mathematical models have been built to simulate the current and future behaviour of the transportation system.
+One particular model called the transportation forecasting model is commonly used.
+The aim of this model is to estimate future traffic usage when the system is changed.
+For example, upgrading or adding roads, changing roundabouts to traffic lights or provide better public transports. 
 
-The transportation forecasting model is divided into 4 steps (Figure~\ref{fig:model}): trip generation, trip distribution, mode choice and traffic assignment.
+The transportation forecasting model has 4 stages (shown in Figure~\ref{fig:model}):
+trip generation, trip distribution, mode choice and traffic assignment.
+In the model,
+each of the next stage can pass information to the previous stages to improve traffic design.
 In summary, 
-data about traffic demand is collected and the
-model generates origins and destinations for travellers in the road network (trip generation),
-it then calculates the number of trips that are required for between each origin and destination (trip distribution),
-which transportation method should be used for each trip is then decided (mode choice),
-and finally it decides the shortest path for each trip to take (traffic assignment).
+the model collects traffic demand data and 
+generates origins and destinations for travellers(trip generation),
+it then calculates the number of trips that are required between each origin and destination (trip distribution),
+and decides which transportation method should be used for each trip(mode choice),
+finally it decides the best route (e.g.\ shortest path) that each trip need to travel on (traffic assignment).
+The traffic assignment problem in the last stage of the forecast model is a very complicated problem.
+This is because congestion occur as traffic flows are assigned onto the network,
+and it is very difficult to find an equilibrium situation where everybody in the network find their best route.
 
-The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
-this is because when traffic is assigned onto the network,
-congestion occur and it is very difficult to find an equilibrium situation where everybody in the network finds their shortest path.
-Methods for solving the traffic assignment are mostly iterative,
-where shortest path between each origin and destination pair in the network need to be solved.
-This requirement lead to traffic assignment algorithms that spend most of their computational time on finding the shortest path.
-
-\begin{figure}
+\begin{figure}[H]
     \centering
     \tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=2em]
     \tikzstyle{line} = [draw, -latex']
@@ -69,6 +72,8 @@ This requirement lead to traffic assignment algorithms that spend most of their 
     \label{fig:model}
 \end{figure}
 
+
+
 \begin{comment}
 A traffic model called the transportation forecasting model is built
 with the aim to reduce congestion and predict future traffic response when the behaviour of the traffic is changed.
@@ -80,7 +85,6 @@ it then calculates the number of trips that are required for each origin and des
 and computes the proportion of trips between each pair that use a particular transportation method,
 in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
 assigns each traveller to their destination considering traffic congestion.
-
 
 The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
 this is because the problem is only solved when the network reaches user equilibrium,
@@ -109,13 +113,19 @@ which allow city designers predict traffic further into the future and make bett
 \end{comment}
 
 \section{Purpose of this Project}
-There exist different algorithms for solving the traffic assignment problem,
-one particular algorithm called the path equilibration method requires the calculation of shortest path between a specific origin and destination
-namely the point to point shortest path problem.
-Thus the aim of this project is to find the fastest algorithm which solves the point to point shortest path algorithm.
-As a result, traffic assignment would be solved faster,
-and larger and more complicated road networks would able to be tested in a shorter amount of time,
-which allows city designers estimate traffic flows further into the future and make better decisions on road network design.
+The transportation forecasting model has been implemented in many software for traffic design.
+One key observation from these software is that,
+the traffic assignment problem takes days, or even weeks to solve.
+It turns out that,
+the bottleneck is in the algorithm for solving the shortest path problem.
+This is because algorithms for solving the traffic assignment problem are usually iterative,
+where each iteration (sometimes there are hundreds of iterations) require to find millions of shortest paths between every origin and destination in the network.
+Although each shortest path calculation may take only a fraction of the time,
+but cumulatively the computation is huge.
+So the purpose of this project is to find a faster algorithm for solving the shortest path problem in an iterative environment.
+As a result, the traffic assignment will be solved faster
+for larger and more complicated road networks,
+and this will allow city designers estimate traffic flows further into the future and make better decisions on road network design.
 
 \begin{comment}
 The algorithm that are going to be tested are:
@@ -135,8 +145,11 @@ This project also aims to find and discuss techniques that can speed shortest pa
 \end{comment}
 
 \section{Structure of the Report}
-Chapter~\ref{chap:solvingspp} discusses the theory of finding the shortest path,
-and presents the description, run time analysis and pseudocode for each algorithm mentioned in the project aims.
-Chapter~\ref{chap:implementation} presents the specific implementation details.
-Chapter~\ref{chap:results} shows results.
-\todo[inline]{Chapter 5 discussion chapter 6 conclusion \dots}
+Chapter~\ref{chap:ta} gives a short description of the traffic assignment problem
+and presents a specific algorithm (The Path Equilibration Algorithm) that solves it.
+This algorithm is going to be experimented for this project.
+Chapter~\ref{chap:solvingspp} introduces the shortest path problem and presents some of the well established algorithms that solves it very fast.
+Strategies for solving the shortest path problem faster in an iteration environment is also describe in this chapter.
+Implementation details are presented in Chapter~\ref{chap:implementation}.
+And Chapter~\ref{chap:results} shows the results and their discussions.
+Finally conclusions are drawn in Chapter~\ref{chap:conclusions}.
