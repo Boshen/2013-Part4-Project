@@ -29,8 +29,8 @@ its performance is heavily depended on the implementation of the priority queue.
 Various priority queue implementations exist,
 they include:
 \begin{itemize}
-    \item $\langle$priority\_queue$\rangle$ from the C++ standard library - an array based heap implementation,
-    \item $\langle$set$\rangle$ from the C++ standard library - a binary search tree implementation,
+    \item $\langle$priority\_queue$\rangle$ from the C++ standard template library - an array based heap implementation,
+    \item $\langle$set$\rangle$ from the C++ standard template library - a binary search tree implementation,
     \item $\langle$heap$\rangle$ from the C++ Boost library - a family of pointer based heap implementations.
 \end{itemize}
 Each priority queue implementation has some advantages than the other,
@@ -59,7 +59,7 @@ Amortized time: how much time is taken in total when an operation is repeated a 
 
 We are interested in using Boost library Heaps rather than the C++ standard library Heap is due to one reason:
 the decrease (or increase) function.
-The decrease (or increase) function is referred as the decrease-key (or increase-key) operation mentioned in the priority queue section (Section~\ref{section:labelsettingalgorithm}).
+The decrease (or increase) function is referred as the decrease-key (or increase-key) operation mentioned in the priority queue section (Section~\ref{sec:dijkstra}).
 The difference between decrease and increase is that Decrease-key is used for a min-heap trees (minimum value on top) and increase-key is used for max-heap trees (maximum value on top).
 The function is used to change the distance labels in the priority queue when a node is scanned and updated during the shortest path calculations.
 In Dijkstra's algorithm,

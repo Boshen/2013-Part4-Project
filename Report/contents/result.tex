@@ -1,0 +1,186 @@
+\chapter{Experimental Results}\label{chap:results}
+
+In this chapter we present experimental results.
+All experiments are run under 12.04 Ubuntu Linux on an ASUS K46C laptop,
+which has a Intel Core i5-3317U CPU and 2.8GiB RAM.
+
+Various algorithms (including the path equilibration algorithm) for solving
+the traffic assignment problem has already been implemented by Olga Perederieieva, the co-supervisor of this project.
+The algorithms are written in C++, compiled by the g++ compiler using the `-O3' optimization flag.
+
+All run times are measured between the start and end of the traffic assignment
+to produce consistent results.
+The traffic assignment will use $1\text{e}^{-6}$ relative gap for the stopping criterion.
+
+\section{Road Networks}
+
+Table~\ref{table:problemdata} shows the road network data retrieved from \citet{ProblemData}.
+The table shows an extra column showing the minimum number of iterations the path equilibration algorithm takes to solve the networks.
+Anaheim, Barcelona and Winnipeg are relatively small networks.
+ChicagoSketch is a medium sized network that is part of the ChicagoRegional network.
+Terrassa is a small network that suffers high congestion, the network takes most number of iterations to solve.
+Philadelphia and ChicagoRegional are two large networks that have over a million number of O-D pairs.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrr|r} \toprule
+        Network         & Nodes & Arcs & Zones & O-D pairs & Iterations \\ \cmidrule(lr){1-6}
+        %SiouxFalls     & 24    & 24   & 528     & 76    \\
+        Anaheim         & $  416 $   & $  914$    & $38      $ & $1{,}406   $    & 10  \\
+        Barcelona       & $ 1{,}020$ & $ 2{,}522$ & $110     $ & $7{,}922   $    & 27  \\
+        Winnipeg        & $ 1{,}052$ & $ 2{,}836$ & $147     $ & $4{,}344   $    & 126 \\
+        ChicagoSketch   & $  933 $   & $ 2{,}950$ & $387     $ & $93{,}135  $    & 25  \\ 
+        Terrassa        & $ 1{,}609$ & $ 3{,}264$ & $55      $ & $2{,}215   $    & 415 \\
+        Philadelphia    & $13{,}389$ & $40{,}004$ & $16{,}525$ & $1{,}149{,}795$ & 81  \\
+        ChicagoRegional & $12{,}982$ & $39{,}018$ & $16{,}790$ & $2{,}296{,}227$ & 152 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Network Problem Data}
+    \label{table:problemdata}
+\end{table}
+
+
+\section{Results on Priority Queues}
+
+In this section we experiment with all the priority queues discussed in Section~\ref{sec:pq_implementation}.
+Dijkstra's algorithm are used on the Winnipeg and ChicagoSketch network.
+The results are shown in Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime} (numbers used are shown in Appendix~\ref{appendix:pq_results}).
+
+On both network, 
+$\langle$priority\_queue$\rangle$ has the best performance and the Binomial heap has the worst performance.
+Skew heap has the best performance in the 6 variant heap implementations from the Boost library.
+Fibonacci heap does not perform as well as promised for its $O(1)$ Increase-Key operation, it has worse performance compared some of the other implementations.
+$\langle$set$\rangle$ is comparably slower than $\langle$priority\_queue$\rangle$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth, height=.4\textheight]{img/pq_runtime2}
+    \caption{Dijkstra's algorithm run times using different priority queues on Winnipeg}
+    \label{fig:pq_runtime2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth, height=.4\textheight]{img/pq_runtime}
+    \caption{Dijkstra's algorithm run times using different priority queues on ChicagoSketch}
+    \label{fig:pq_runtime}
+\end{figure}
+
+\section{Results on Shortest Path Algorithms}
+Now we use $\langle$priority\_queue$\rangle$ from the C++ standard template library and implement Dijkstra's algorithms and A* search, as well as their bidirectional versions.
+Figure~\ref{fig:allresults} shows the performance of the mentioned algorithms on the Anaheim, Barcelona, Winnipeg and ChicagoSketch networks
+(numbers used are shown in Appendix~\ref{appendix:sp_results}).
+The networks are spaced out on the x-axis to show their relative sizes.
+The Bellman-Ford-More algorithm is also run to show the based line for the implement algorithms.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/runtime}
+    \caption{Run time performances of different algorithms on different networks}
+    \label{fig:allresults}
+\end{figure}
+
+The Bellman-Ford-More algorithm has the worst performance while the A* search has the best performance on all networks.
+The bidirectional versions of Dijkstra's algorithm and A* search are more than twice slower than their unidirectional version.
+
+\section{Results on avoiding shortest path calculations}
+In this section we consider avoiding shortest path calculations in the iterative path equilibration algorithm discussed in Section~\ref{section:avoid}.
+A* search is used to generate results for this section.
+
+As mentioned in Section~\ref{section:avoid},
+in order to apply shortest path avoiding strategies,
+we need to first prove that most of the shortest paths do not change often.
+
+Figure~\ref{fig:sp_change} shows that on the ChicagoSketch network,
+out of 26 iterations,
+the percentage of O-D pairs that changed their shortest path once, twice, three times etc.
+The figure shows that 60\% of O-D pairs have not changed their shortest path after the initial iteration,
+and 16\% of O-D pairs changed their shortest path only once.
+So after the first iterations,
+the algorithm spends most of its time changing only a dozen of O-D pairs' shortest path.
+From the observations,
+it is assured that time can be saved if we avoid shortest path calculations on the ones that do not change.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/sp_change}
+    \caption{The percentage of shortest path change for each O-D pair out of 26 iterations for ChicagoSketch}
+    \label{fig:sp_change}
+\end{figure}
+
+We now present the strategy of avoiding a pre-defined number of shortest path calculations for each O-D pair if the previous two iterations are the same.
+The results are shown in Figure~\ref{fig:skip_n},
+where the strategy is experimented on the Terrassa and ChicagoSketch network.
+On the Terrassa network,
+we choose to avoid the next 15, 25, 50, 100 and 200 iterations of shortest path calculations if the previous two are the same.
+And on the ChicagoSketch network,
+we choose to avoid the next 5, 10, 15 and 20 iterations of shortest path calculations if the previous two are the same.
+The strategy worked well on the Terrassa network,
+where run time is decreased by half for all of the chosen number of avoiding iterations.
+Due to small size of the network,
+the run time is not affected even though the total number of iterations increased to 563 when calculations are avoided by 200 iterations.
+The strategy also worked well on the ChicagoSketch network.
+Skipping 5 iterations resulted the same 26 iterations and the run time is decreased by 4 seconds.
+And for all the numbers,
+there is a slight decrease in runtime while the total number of iterations increased.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=3,width=\textwidth]{img/random_time}
+        \caption{Terrassa network}
+        \label{fig:terrassa_random_n}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=4,width=\textwidth]{img/random_time}
+        \caption{ChicagoSketch network}
+        \label{fig:chicago_random_n}
+    \end{subfigure}
+    \caption{Run time for avoiding shortest path calculations if the previous 2 do not change}
+    \label{fig:random_n}
+\end{figure}
+
+The next strategy we explore is to skip the next shortest path calculation randomly.
+%The advantage of this strategy is that it does not need the number of iterations it will compute,
+%but the disadvantage is that the run time may vary between different runs.
+Figure~\ref{fig:terrassa_random_n} shows the results on the Terrassa network, probabilities of 0.3, 0.4, 0.5, 0.6 and 0.7 for skipping the next calculation.
+The strategy reduced the run time quite significantly for all probabilities,
+especially 0.5.
+Figure~\ref{fig:chicago_random_n} shows the same strategy on the ChicagoSketch network.
+This time all run time reduced slightly, with 0.4 having the most reduction.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=1,width=\textwidth]{img/random_time}
+        \caption{Terrassa network}
+        \label{fig:terrassa_skip_n}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[page=2,width=\textwidth]{img/random_time}
+        \caption{ChicagoSketch network}
+        \label{fig:chicago_skip_n}
+    \end{subfigure}
+    \caption{Run time for skipping shortest path calculations randomly}
+    \label{fig:skip_n}
+\end{figure}
+
+The random strategy can be used before knowing the total number of iterations the path equilibration algorithm going to produce,
+And because so far only small networks have been tested,
+we now experiment the random strategy on the Philadelphia and ChicagoRegional network, where they have over a million number of O-D pairs.
+The run time comparisons are shown in Table~\ref{table:runtime_large_network},
+where the random skipping strategy have a 50\% probability to skip a shortest path calculation.
+The strategy has a 25\% and 27\% run time improvement on the Philadelphia and ChicagoRegional respectively.
+
+\begin{table}[H]
+    \begin{tabular}{p{0.3\textwidth} | c c}
+        & Philadelphia & ChicagoRegional \\ \cmidrule(lr){2-2} \cmidrule(lr){3-3}
+        A* search & 7.69 hours & 33.26 hours \\ 
+        A* with 0.5 probability of randomly skipping & 5.75 hours & 24.18 hours\\
+    \end{tabular}
+    \caption{Run time of A* search and the randomly skipping strategy on Philadelphia and ChicagoRegional network}
+    \label{table:runtime_large_network}
+\end{table}
