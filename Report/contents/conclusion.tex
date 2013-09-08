@@ -1,3 +1,34 @@
-\chapter{Conclusions} \label{chap:conclusions}
-A* search out performs all other algorithms \ldots
+\chapter{Summary and conclusions} \label{chap:conclusions}
+To summarise,
+in this project we have studied the point-to-point shortest path problem embedded in the path equilibration algorithm for solving the traffic assignment problem.
+We have implemented Dijkstra's algorithm, A* search and their bidirectional versions.
+Two strategies were developed to improve the performance of these shortest path algorithms when they are used in the iterative path equilibration algorithm.
+The first strategy is to avoid the next few number of iterations
+when the shortest path of the previous two iterations are the same.
+The second strategy is to randomly skip the next shortest path calculation,
+where we hope for the shortest path in the current iterations is going to be the same as the previous iteration.
+In addition,
+we have also investigated the possibility of using preprocessing algorithms such as the A* search with landmarks algorithm.
 
+We now conclude this project with the following points:
+\begin{itemize}
+    \item The A* search algorithm using zero-flow travel times as heuristic estimates has the best performance.
+    \item Bidirectional versions of Dijkstra's algorithm and the A* search have worse performances. Bidirectional Dijkstra is worse because its need to check the stopping criterion at each step. Bidirectional A* is worse because its search area is larger than unidirectional A*.
+    \item The strategy of avoiding next few iterations of shortest path calculations is not viable as it is difficult to find the best number of iterations to skip.
+    \item The strategy of avoiding shortest path calculations randomly is viable. By using A* search and 50\% probability on large networks that require millions of shortest path calculations in each iteration, the run time is improved further by about 25\%.
+    %\item Preprocessing shortest path algorithms are not applicable for the traffic assignment problem, due to their long preprocessing time can slow down the whole traffic assignment process when the road network need to be changed frequently.
+    \item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model.
+\end{itemize}
+
+\section{Future work}
+The current A* search algorithm only runs on a single thread.
+The algorithm can be improved by implementing a multi-threaded version developed
+by \citet{Inam},
+the algorithm will run extremely fast as it is designed for GPGPU (General Purpose GPU) run on the multi processors using many threads concurrently.
+The main difference is that  
+instead of sequentially update all emanating arcs from the labelled node,
+we update them in parallel using multiple threads.
+
+A* search with landmarks algorithm can be investigated
+if we decide to concentrate on a specific road network.
+Deciding on how many landmarks need to be used and finding out where to place them need to be experimented in order to find the best combination of preprocessing run time and actual query time.

@@ -561,5 +561,21 @@
     <bib_extra key="editor">Cook, Diane J.</bib_extra>
     <bib_extra key="publisher">AAAI Press</bib_extra>
   </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Inam</key>
+    <notes></notes>
+    <bib_type>phdthesis</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>A* Algorithm for Multicore Graphics Processors</bib_title>
+    <bib_authors>Rafia Inam</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>2009</bib_year>
+    <bib_extra key="school">Chalmers University of Technology</bib_extra>
+  </doc>
 </doclist>
 </library>

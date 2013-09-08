@@ -2,87 +2,87 @@
 %\appendixpage
 \addappheadtotoc
 
-\chapter{Priority Queue Results} \label{appendix:pq_results}
+\chapter{Priority queue results} \label{appendix:pq_results}
 \begin{table}[H]
     \centering
     \scalebox{0.9}{
-     \begin{tabular}{l l r r} \toprule
+        \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l r r} \toprule
         Network & Priority Queue & Iterations & Time (seconds) \\ 
         \cmidrule(lr){1-1}
         \cmidrule(lr){2-2}
         \cmidrule(lr){3-3}
         \cmidrule(lr){4-4}
         %SiouxFalls    & Bellman-Ford     & 69 & & & 0.25 & \\
-        %& Dijkstra (Heap) & 86 & & & 0.08 & \\
-        %& Dijkstra (Tree) & 54 & & & 0.08 & \\
+        %& Dijkstra $\langle$priority\_queue$\rangle$ & 86 & & & 0.08 & \\
+        %& Dijkstra $\langle$set$\rangle$ & 54 & & & 0.08 & \\
         %& Bidirectional Dijkstra & 87 & & & 0.16 & \\
-        %& A*    & 87 & & & 0.07 & \\
-        %& Bidirectional A* & 87 & & & 0.21 & \\ \\
+        %& A* search    & 87 & & & 0.07 & \\
+        %& Bidirectional A* search & 87 & & & 0.21 & \\ \\
         Winnipeg      & Fibonacci               & 128 & 73.66\\
                       & Binary                  & 131 & 56.94\\
                       & Ternary                 & 128 & 62.21\\
                       & Skew                    & 127 & 52.57\\
                       & Pairing                 & 131 & 69.83\\
                       & Binomial                & 127 & 165.8\\
-                      & STL Binary Search Tree  & 127 & 66.89\\
-                      & STL Heap                & 127 & 34.89\\ \\
+                      & $\langle$priority\_queue$\rangle$  & 127 & 66.89\\
+                      & $\langle$set$\rangle$                & 127 & 34.89\\ \\
         ChicagoSketch & Fibonacci               & 25  & 155.14\\
                       & Binary                  & 25  & 130.22\\
                       & Ternary                 & 25  & 155.34\\
                       & Skew                    & 25  & 120.45\\
                       & Pairing                 & 25  & 140.55\\
                       & Binomial                & 25  & 369.10\\
-                      & STL Binary Search Tree  & 25  & 145.95\\
-                      & STL Heap                & 25  & 87.52\\
+                      & $\langle$priority\_queue$\rangle$  & 25  & 145.95\\
+                      & $\langle$set$\rangle$                & 25  & 87.52\\
         \bottomrule
-     \end{tabular}
+     \end{tabular*}
      \caption{Priority queues run time results on Winnipeg and ChicagoSketch network}
      \label{table:pqresults}
  }
 \end{table}
 
-\chapter{Shortest Path Algorithms results} \label{appendix:sp_results}
+\chapter{Shortest path algorithms results} \label{appendix:sp_results}
 \begin{table}[H]
     \centering
     \scalebox{0.8}{
-     \begin{tabular}{l l r r} \toprule
+        \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l r r} \toprule
         Network & Algorithm & Iterations & Time (seconds) \\ 
         \cmidrule(lr){1-1}
         \cmidrule(lr){2-2}
         \cmidrule(lr){3-3}
         \cmidrule(lr){4-4}
         %SiouxFalls    & Bellman-Ford     & 69 & & & 0.25 & \\
-        %& Dijkstra (Heap) & 86 & & & 0.08 & \\
-        %& Dijkstra (Tree) & 54 & & & 0.08 & \\
+        %& Dijkstra $\langle$priority\_queue$\rangle$ & 86 & & & 0.08 & \\
+        %& Dijkstra $\langle$set$\rangle$ & 54 & & & 0.08 & \\
         %& Bidirectional Dijkstra & 87 & & & 0.16 & \\
-        %& A*    & 87 & & & 0.07 & \\
-        %& Bidirectional A* & 87 & & & 0.21 & \\ \\
+        %& A* search    & 87 & & & 0.07 & \\
+        %& Bidirectional A* search & 87 & & & 0.21 & \\ \\
         Anaheim       & Bellman-Ford            & 10 & 1.20\\
-                      & Dijkstra (Heap)         & 10 & 0.30\\
-                      & Dijkstra (Tree)         & 10 & 0.62\\
+                      & Dijkstra $\langle$priority\_queue$\rangle$         & 10 & 0.30\\
+                      & Dijkstra $\langle$set$\rangle$         & 10 & 0.62\\
                       & Bidirectional Dijkstra  & 10 & 0.43\\
-                      & A*                      & 10 & 0.10\\
-                      & Bidirectional A*        & 10 & 0.28\\ \\
+                      & A* search                      & 10 & 0.10\\
+                      & Bidirectional A* search        & 10 & 0.28\\ \\
         Barcelona     & Bellman-Ford            & 28 & 60.00\\
-                      & Dijkstra (Heap)         & 27 & 13.67\\
-                      & Dijkstra (Tree)         & 27 & 27.36\\
+                      & Dijkstra $\langle$priority\_queue$\rangle$         & 27 & 13.67\\
+                      & Dijkstra $\langle$set$\rangle$         & 27 & 27.36\\
                       & Bidirectional Dijkstra  & 27 & 20.93\\
-                      & A*                      & 28 & 2.99\\
-                      & Bidirectional A*        & 30 & 8.02\\ \\
+                      & A* search                      & 28 & 2.99\\
+                      & Bidirectional A* search        & 30 & 8.02\\ \\
         Winnipeg      & Bellman-Ford            & 129 & 190.00\\
-                      & Dijkstra (Heap)         & 127 & 34.89\\
-                      & Dijkstra (Tree)         & 127 & 66.89\\
+                      & Dijkstra $\langle$priority\_queue$\rangle$         & 127 & 34.89\\
+                      & Dijkstra $\langle$set$\rangle$         & 127 & 66.89\\
                       & Bidirectional Dijkstra  & 126 & 49.95\\
-                      & A*                      & 126 & 10.42\\
-                      & Bidirectional A*        & 127 & 24.81\\ \\
+                      & A* search                      & 126 & 10.42\\
+                      & Bidirectional A* search        & 127 & 24.81\\ \\
         ChicagoSketch & Bellman-Ford            & 25 & 500.00\\
-                      & Dijkstra (Heap)         & 25 & 87.52\\
-                      & Dijkstra (Tree)         & 25 & 149.95\\
+                      & Dijkstra $\langle$priority\_queue$\rangle$         & 25 & 87.52\\
+                      & Dijkstra $\langle$set$\rangle$         & 25 & 149.95\\
                       & Bidirectional Dijkstra  & 25 & 157.75\\
-                      & A*                      & 26 & 18.75\\
-                      & Bidirectional A*        & 26 & 59.82\\ \\
+                      & A* search                      & 26 & 18.75\\
+                      & Bidirectional A* search        & 26 & 59.82\\ 
         \bottomrule
-     \end{tabular}
+     \end{tabular*}
      \caption{Shorest path algorithms run time results on all test networks}
      \label{table:allresults}
 }

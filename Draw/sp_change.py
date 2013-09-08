@@ -14,7 +14,7 @@ with open('chicago_sp_change', 'r') as f:
         counts.append(count)
 
 x, y = map(list,zip(*Counter(counts).items()))
-x = map(lambda t:t+1, x)
+#x = map(lambda t:t, x)
 y = map(lambda t:100*t/93135.0, y)
 
 fig = pylab.figure(figsize=(14,10),dpi=240)
@@ -26,7 +26,7 @@ for xx,yy in zip(x,y):
 
 pylab.xticks(x, map(str, x), fontproperties=font)
 
-pylab.title('The percentage of shortest path change for each O-D pair out of 26 iterations for ChicagoSketch', fontproperties=font)
+pylab.title('The percentage of shortest path change for each O-D pair on ChicagoSketch', fontproperties=font)
 pylab.xlabel('Number of shortest path changes out of 26 iterations', fontproperties=font)
 pylab.ylabel('Percentage of total number of O-D pairs', fontproperties=font)
 

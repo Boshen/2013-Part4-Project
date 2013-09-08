@@ -1,8 +1,8 @@
-\chapter{Experimental Results}\label{chap:results}
+\chapter{Experimental results}\label{chap:results}
 
 In this chapter we present experimental results.
 All experiments are run under 12.04 Ubuntu Linux on an ASUS K46C laptop,
-which has a Intel Core i5-3317U CPU and 2.8GiB RAM.
+which has a Intel Core i5-3317U CPU and 3.8GiB RAM.
 
 Various algorithms (including the path equilibration algorithm) for solving
 the traffic assignment problem has already been implemented by Olga Perederieieva, the co-supervisor of this project.
@@ -12,7 +12,7 @@ All run times are measured between the start and end of the traffic assignment
 to produce consistent results.
 The traffic assignment will use $1\text{e}^{-6}$ relative gap for the stopping criterion.
 
-\section{Road Networks}
+\section{Road networks}
 
 Table~\ref{table:problemdata} shows the road network data retrieved from \citet{ProblemData}.
 The table shows an extra column showing the minimum number of iterations the path equilibration algorithm takes to solve the networks.
@@ -23,7 +23,7 @@ Philadelphia and ChicagoRegional are two large networks that have over a million
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{lrrrr|r} \toprule
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} lrrrr|r} \toprule
         Network         & Nodes & Arcs & Zones & O-D pairs & Iterations \\ \cmidrule(lr){1-6}
         %SiouxFalls     & 24    & 24   & 528     & 76    \\
         Anaheim         & $  416 $   & $  914$    & $38      $ & $1{,}406   $    & 10  \\
@@ -34,13 +34,13 @@ Philadelphia and ChicagoRegional are two large networks that have over a million
         Philadelphia    & $13{,}389$ & $40{,}004$ & $16{,}525$ & $1{,}149{,}795$ & 81  \\
         ChicagoRegional & $12{,}982$ & $39{,}018$ & $16{,}790$ & $2{,}296{,}227$ & 152 \\
         \bottomrule
-    \end{tabular}
+    \end{tabular*}
     \caption{Network Problem Data}
     \label{table:problemdata}
 \end{table}
 
 
-\section{Results on Priority Queues}
+\section{Results on priority queues}
 
 In this section we experiment with all the priority queues discussed in Section~\ref{sec:pq_implementation}.
 Dijkstra's algorithm are used on the Winnipeg and ChicagoSketch network.
@@ -54,18 +54,18 @@ $\langle$set$\rangle$ is comparably slower than $\langle$priority\_queue$\rangle
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth, height=.4\textheight]{img/pq_runtime2}
+    \includegraphics[page=1, width=\textwidth, height=.4\textheight]{img/pq_runtime}
     \caption{Dijkstra's algorithm run times using different priority queues on Winnipeg}
     \label{fig:pq_runtime2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth, height=.4\textheight]{img/pq_runtime}
+    \includegraphics[page=2, width=\textwidth, height=.4\textheight]{img/pq_runtime}
     \caption{Dijkstra's algorithm run times using different priority queues on ChicagoSketch}
     \label{fig:pq_runtime}
 \end{figure}
 
-\section{Results on Shortest Path Algorithms}
+\section{Results on shortest path algorithms}
 Now we use $\langle$priority\_queue$\rangle$ from the C++ standard template library and implement Dijkstra's algorithms and A* search, as well as their bidirectional versions.
 Figure~\ref{fig:allresults} shows the performance of the mentioned algorithms on the Anaheim, Barcelona, Winnipeg and ChicagoSketch networks
 (numbers used are shown in Appendix~\ref{appendix:sp_results}).
@@ -176,11 +176,11 @@ where the random skipping strategy have a 50\% probability to skip a shortest pa
 The strategy has a 25\% and 27\% run time improvement on the Philadelphia and ChicagoRegional respectively.
 
 \begin{table}[H]
-    \begin{tabular}{p{0.3\textwidth} | c c}
-        & Philadelphia & ChicagoRegional \\ \cmidrule(lr){2-2} \cmidrule(lr){3-3}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l | c c}
+        & Philadelphia & ChicagoRegional \\ \midrule
         A* search & 7.69 hours & 33.26 hours \\ 
-        A* with 0.5 probability of randomly skipping & 5.75 hours & 24.18 hours\\
-    \end{tabular}
+        A* search with 50\% random skipping & 5.75 hours & 24.18 hours\\
+    \end{tabular*}
     \caption{Run time of A* search and the randomly skipping strategy on Philadelphia and ChicagoRegional network}
     \label{table:runtime_large_network}
 \end{table}

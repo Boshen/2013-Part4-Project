@@ -1,16 +1,50 @@
-\chapter{Discussion on Results}
+\chapter{Further discussions}
+The previous chapter presented results that indicate that A* search using priority queue from the C++ standard template library.
+The results also shows that shortest path calculations can be sped up further when it is in an iterative environment.
+In this chapter we discuss the details behind the mentioned results,
+including why some of the algorithms that should have performed better but failed to do so.
 
-By examining the network problem data,
-we can see that the number of OD pairs increase
-significantly respect to the number of zone nodes,
-this is important because it indicates how many point to point SPPs need to be solved for each iteration of the PE method.
-We can also roughly tell that these networks are very sparse;
-for a complete graph (every node is connected to every other node) of 1000 nodes have 499500 edges ($n(n-1)/2$),
-but the larger networks in our problem data only have about 0.4\% to 0.6\% of edges in the corresponding complete graph. 
-Analysing the graph shows the degree of any vertex in the graph is no more than 5.
-This information is useful for choosing the best algorithm and data structure.
+\section{Priority queues}
+The priority queue implementation results showed that
+all of the heap implementations from the Boost library is worse than $\langle$priority\_queue$\rangle$ standard template library.
+The reason behind this can be explained using the Binary heap implementation.
+It turns out that the implementation of $\langle$priority\_queue$\rangle$ is almost similar to Binary heap from the Boost library,
+the only difference is their underlying storage of node information.
+Nodes are stored using an array in the standard library version,
+where as the Boost library uses pointers to keep track of 
+the nodes.
+Due to computer cache coherence,
+it is known that accessing data from a nearby memory (RAM) locations in a short period of time is faster than accessing from distant memory locations (this is due to cache memory access  is much faster than RAM access,
+and internally a block of memory are pre-fetched in to the cache in a hope they will be access in a short period of time).
+In the shortest path algorithms,
+the Heap tree need to be searched over and over in a short period of time when nodes are being scanned and inserted.
+The standard library version uses an array where data are stored linearly in a nearby location,
+so it is faster than the pointer version where memory are allocated in random locations when nodes are inserted.
 
-Now we investigate the reason for the run time behaviours of the shortest path algorithms shown in Figure~\ref{fig:allresults}.
+\subsection{Fibonacci heap}
+Here we discuss the reason behind Fibonacci heap not performing well despite its $O(1)$ amortized time Decrease-Key operation.
+As described in the two priority queue sections (Section~\ref{sec:pq} and \ref{sec:pq_implementation}),
+the Decrease-Key operation is used to change the distance label of a node when the node is already in the heap.
+It was discovered that the $O(1)$ time has a very high constant factor,
+and Fibonacci heap only work well if the underlying graph is large and dense (i.e.\ every node connects to almost every other node).
+This discovery comes from the fact that 
+the Decrease-Key operation is only used frequent when the graph is dense,
+so cumulatively its high constant $O(1)$ time will perform better compared to $O(\log(N))$ time in other heap implementations, where $N$ need to be a large number.
+
+Now we confirm our graph is indeed not dense and the Decrease-Key is not used frequent,
+so the mentioned reasons cause the Fibonacci heap not to perform well.
+We find that all of our graphs are very sparse.
+The degree of any node of any graph is no more than 5,
+as it is already really rare to have an intersection with 5 roads connected.
+The graphs only have about 0.4\% to 0.6\% of arcs in the corresponding complete graph (every node connects to every other node).
+We also find that in all of the experimented graphs when using Dijkstra's algorithm,
+the probability of using Decrease-Key on any node is around 1 to 5 percent.
+
+\section{Bidirectional algorithms}
+In this section we investigate the reason for the run time behaviours of the shortest path algorithms shown in Figure~\ref{fig:allresults},
+specifically why the bidirectional searches perform worse than their unidirectional versions.
+
+We examine whether their search areas are what is expected.
 Figure~\ref{fig:long_sptree} shows the shortest path trees of the point-to-point algorithms, where the origin and destination node is placed on the opposite side of the ChicagoSketch network.
 It can be seen that Dijkstra's algorithm scans the entire network;
 the Bidirectional Dijkstra scans almost the whole network but with a few nodes left out;
@@ -22,11 +56,22 @@ The Dijkstra and Bidirectional Dijkstra algorithm need to scan many nodes before
 And the A* and Bidirectional A* search only scan a small portion of network,
 and they do not scan the area behind the origin and destination node.
 
-The run time of the shortest path algorithms are heavily dependent on the number of nodes they scan.
-The process of scanning a node consists of placing the node into a priority queue, taking it out sometime later, and check all its out going arcs.
-So cumulatively the less nodes an algorithm scans the faster it runs.
-And by examining Figure~\ref{fig:long_sptree} and Figure~\ref{fig:short_sptree},
-it is obvious to see A* search is the fastest.
+The search areas of the Dijkstra's algorithms match what is expected,
+but not the run times.
+The reason for reduction in run time is due to our implementation of the bidirectional Dijkstra.
+In both forward and backward search,
+the current shortest path $\mu$ need to be updated
+while a node is scanned,
+and the stopping criterion need to be checked when a node is labelled.
+Furthermore,
+once the algorithm terminates,
+we need to retrieve the shortest path in both directions by following their predecessors and concatenate them together for the full shortest.
+So it is concluded that these addition computations slowed down the run time.
+
+For A* search,
+the bidirectional version scans more nodes than the unidirectional version.
+And since the bidirectional version has similar stopping criterion compared to the bidirectional Dijkstra's algorithm,
+it is easy to understand why Bidirectional A* searched performed worse.
 
 \begin{figure}
     \centering
@@ -90,30 +135,16 @@ it is obvious to see A* search is the fastest.
     \label{fig:short_sptree}
 \end{figure}
 
+\section{A* search with landmarks}
+A* search with landmarks algorithm is not implemented for this project.
+This is due to two reasons.
+The first reason is due to its sophisticated graph dependent implementation,
+where we need to either manually or dynamically decide the number of landmarks and their placement locations.
+The second reason is due to its high chance of not being able to work,
+as the algorithm is aimed at geographic node locations and Euclidean distances,
+not our travel times that based on traffic flows.
 
-
-All of these run times are slower than the STL version of the Heap.
-Upon inspection,
-it is found that the increase-key operation is used about between 5\% to 10\%
-of the time,
-\todo{not actual count yet}
-which means the graphs are not dense enough for these Heap structures to outperform a
-simple array based priority queue.
-Comparing the Dijkstra and A* search algorithm's result,
-we see an approximately 5 times improvement.
-By looking at the shortest path tree generated
-by the ChicagoSketch network,
-there are only a few scanned nodes,
-the path goes straight to the destination.
-(TODO reference) says the closer the heuristic is to the actual distance,
-the better/faster shortest path calculation,
-by looking at the travel time function (Figure~\ref{fig:flowfunction}, we can see the slope
-is really shallow near the start,
-and by comparing the initial flow and final flow (TODO, data),
-they are very close so the final flow is very close to the
-initial flow,
-which means the heuristic is a very good estimation,
-which is our A* search is very fast.
-
-%The problem with this strategy is that we have to know how many iterations the algorithm will take and choose an appropriate number that is less than that,
-%this is because choosing a `bad' skipping number will result either unnecessary computations or have no effect on reducing the run time.
+Preprocessing algorithms are not really practical for the traffic assignment problem and the transportation forecasting model.
+This is because normally these algorithms tend to spend much longer time than just running its standard version.
+And since the purpose of the traffic assignment is to modify the network and resolve the problem to see its affect on congestion,
+so it is not ideal to rerun the preprocessing algorithm every time the network is modified.
