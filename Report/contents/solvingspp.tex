@@ -1,4 +1,4 @@
-\chapter{Solving the Shortest Path Problem}
+\chapter{Solving the shortest path problem}
 \label{chap:solvingspp}
 
 Over the years,
@@ -9,7 +9,7 @@ the theory of solving it.
 Algorithms that are applicable for the traffic assignment problem are summarised,
 including the discussion of their advantages and drawbacks.
 
-\section{Notations and Definitions}
+\section{Notations and definitions}
 The Shortest Path Problem (SPP) is the problem of finding the shortest path from a given origin  to some destination.
 There are two types of SPP that are going to
 be analysed in this chapter:
@@ -110,7 +110,7 @@ run-time analysis (big O and other notations) is used to demonstrate the estimat
 or do I describe what big O notation is?}
 \end{comment}
 
-\section{Generic Shortest Path Algorithm}
+\section{Generic shortest path algorithm}
 A family of algorithms exist for solving the shortest path problem.
 In this section the generic case for these algorithms are described.
 
@@ -195,7 +195,7 @@ Different algorithms use different rules and implementations to give
 either the one-source or the point-to-point shortest path algorithm \citep{mplomer}.
 The rules and implementations are described in the following sections to give concrete algorithms for solving the SPP.
 
-\section{Bellman-Ford-Moore Algorithm} \label{section:labelcorrectingalgorithm}
+\section{Bellman-Ford-Moore algorithm} \label{section:labelcorrectingalgorithm}
 When some specific strategy is applied to maintain the queue $\mathcal{Q}$
 and arc costs are allowed to have negative values,
 the generic shortest path algorithm is addressed as the label correcting algorithm,
@@ -220,7 +220,7 @@ In order to satisfy the Bellman's condition for all edges,
 the algorithm has to scan all edges $|N|-1$ times,
 resulting a run time of $O(|N||A|)$.
 
-\section{Dijkstra's Algorithm} \label{sec:dijkstra}
+\section{Dijkstra's algorithm} \label{sec:dijkstra}
 The classic algorithm for solving the single-source shortest path problem is the label setting algorithm published by \citet{Dijkstra}.
 The algorithm is addressed as label setting because when the next node $u$ is retrieved from the queue,
 it gets permanently labelled;
@@ -238,7 +238,7 @@ the algorithm can be stopped for the point-to-point shortest path problem.
 This reduces the total run time as the algorithm does not have to scan the entire graph,
 which is desirable for the Path Equilibration algorithm described in the previous chapter.
 
-\subsection{Priority Queues}
+\subsection{Priority queues} \label{sec:pq}
 The run time performance of Dijkstra's algorithm depends heavily on the implementation of the queue for storing the scanned nodes.
 \citet{Cormen} suggests the use of min-priority queues.
 Min-priority queues are a collection of data structures that always serve the element with highest priority.
@@ -318,7 +318,7 @@ The advantage of using a binary search tree is that we do not have to keep track
 this is because when performing the Decrease-Key operation,
 we simply delete the node and add a new node with the updated value.
 
-\section{Bidirectional Label Setting Algorithm} \label{section:bidirectional}
+\section{Bidirectional Dijkstra's algorithm} \label{section:bidirectional}
 Dijkstra's algorithm can be imagined to be searching radially outward in a circle with the origin in the centre and destination on the boundary.
 Likewise, Dijkstra's algorithm can be used on the reverse graph (all edges reversed in the graph) from the destination node.
 Thus Dijkstra's algorithm can be started from the origin and destination at the same time.
@@ -379,7 +379,7 @@ Similarly, $\mathcal{R}^t$ contains contains the set of nodes in the backward se
 which have corresponding label distances $d_v^t$.
 
 \begin{algorithm}[H]
-    \caption{Bidirectional Label Setting Algorithm }
+    \caption{Bidirectional Dijkstra's Algorithm}
     \label{algo:bidirectional}
     \begin{algorithmic}[1]
         \Procedure{Bidirectional}{$s, t$}
@@ -425,12 +425,13 @@ the location of the destination does not affect how the shortest path tree is gr
 In fact, heuristic estimates can be used to guide the shortest path tree toward the destination,
 forming an ellipsoid shape.
 The use of heuristic estimates was first described by \citet{Astar},
-where the algorithm is given the name A* search (or goal directed search).
+where the algorithm is given the name A* search.
+A* search is a goal directed search where the direction of search is aimed at the destination.
 
 %In traditional road networks,
 %straight Euclidean distances are used for the heuristic estimates.
 
-Formally the following is defined.
+Formally we define the following.
 Let $h_v$ be the heuristic estimate for the distance between node $v$ to destination $t$.
 And we apply Bellman's conditions such that an optimal solution exist, that is 
 \begin{align}
@@ -438,10 +439,11 @@ And we apply Bellman's conditions such that an optimal solution exist, that is
     &h(t) = 0.
 \end{align}
 
-In order to have an guaranteed solution,
+Although heuristic estimates are used,
+optimal solution can be achieved under the following conditions.
 \citet{Astar} states that the heuristic estimate function $h$ must be admissible and consistent.
 In the context of road networks that use geographical coordinates and Euclidean distances,
-admissible means that the heuristic must never overestimate the actual path length.
+admissible means that the heuristic must never over-estimate the distance to the goal.
 And consistent means that the estimated length of a node reaching its destination must not be greater than the estimated length of its predecessors.
 This means that if the heuristic estimate is the distance from each node to the destination,
 and the estimate is smaller than or equal to the actual distance going to that destination,
@@ -453,12 +455,18 @@ then the shortest path can always be found.
 
 To implement A* search,
 Dijkstra's algorithm is modified.
-Instead of selecting the node with the minimum distance label in the priority queue,
-next node $u$ is selected such that it has the minimum distance label added with the heuristic value ($d_u + h_{u}$).
-$h_u$ can be the straight Euclidean distance between node $u$ and destination $t$.
+When a node $v$ is about to be added to the priority queue (Insert$(\mathcal{Q},v)$),
+the heuristic estimate $h_v$ is calculated.
+Compared to Dijkstra's algorithm,
+instead of inserting node $v$ with its distance label $d_v$,
+we now insert with $d_v + h_v$.
+By doing so,
+nodes that are closer to the destination are now labelled first.
 
-In the traffic assignment problem,
-geographical coordinates and Euclidean distances can not be used for the heuristic estimate.
+In graphs that are measured by Euclidean distances,
+the heuristic estimate $h_u$ is the straight Euclidean distance between node $u$ and destination $t$.
+But in our traffic assignment problem,
+geographical coordinates and Euclidean distances can not be used.
 This is because the length of the arcs are determined by the BPR link cost function,
 where it determines the travel time on the link based on the traffic flow.
 When the traffic assignment is getting solved,
@@ -491,7 +499,7 @@ In the case of using road networks,
 \citet{GoldbergLandmarks} concludes that A* search does not improve the run time compared to Dijkstra's algorithm when using Euclidean distance estimates.
 But it does a worth try to use zero-flow travel times for the heuristic estimates.
 
-\section{Bidirectional A* Search}
+\section{Bidirectional A* search}
 Since bidirectional search can be applied to Dijkstra's algorithm,
 it can also be applied to A* search.
 The bidirectional A* search can be imagined to be having two ellipsoids extending from the origin and destination respectively.
@@ -592,7 +600,7 @@ Bidirectional A* search with Euclidean distance heuristic estimates has been exp
 It is not evident whether bidirectional A* search can guarantee significant improvement,
 as the result is heavily dependent on the configuratoin of the road network and the quality of the heuristic estimates.
 
-\section{Preprocessing Algorithms}
+\section{Preprocessing algorithms}
 In the last 2 decades,
 extensive researches have been done on the idea of speeding up shortest path calculations using pre-calculated data.
 They include reach-based pruning \citep{Goldberg}, A* search with landmarks \citep{GoldbergLandmarks}, Hierarchical search \citep{Ertl1998, Pearson} etc.
@@ -601,7 +609,7 @@ These preprocessing techniques generally need to spend some amount of time to pr
 The next section discusses the A* search with landmarks algorithm,
 and its drawback when used for the traffic assignment's path equilibration algorithm.
 
-\subsection{A* Search with Landmarks}
+\subsection{A* search with landmarks}
 In the A* search section (Section~\ref{section:A*}), 
 it is shown that different methods can be used to obtain the heuristic estimation of the shortest path distance between any scanned node and the destination.
 The landmarks method developed by \citet{GoldbergLandmarks} is another way to obtain the heuristic estimates.
@@ -664,21 +672,21 @@ which is undesirable for transportation planning.
 The second drawback is that both preprocessing and shortest path solving time are heavily depend on the quantity and placement of the landmarks,
 which results another optimization problem where different strategies and algorithms need to be applied.
 
-\section{Techniques for Iterative Calculations}
+\section{Techniques for iterative calculations}
 So far solving the shortest path problem on static graphs have been discussed.
 But in the path equilibration algorithm for solving the traffic assignment,
 we have a graph that keeps changing its arc costs between iterations.
 This observation motivates us to find algorithms that are suitable for finding shortest path in an iterative environment.
 Performance can be improved if we can use information from previous iterations.
 
-\subsection{Lifelong Planning A*}
+\subsection{Lifelong planning A*}
 A family of algorithms exist for dynamically changing graphs,
 for example they can be used on graphs that have moving nodes or changing arcs.
 One particular algorithm that tackles the problem of changing arc length is the Lifelong Planning A*, developed by \citet{LPA*}.
 \citet{LPA*} were able to show experimentally that LPA* is more efficient than A* if the graph change only slightly and the changes are close to the goal.
 This means Lifelong Planning A* can be used for our problem if we can prove that the graph only changes slightly between each iteration of the path equilibration algorithm.
 
-\subsection{Avoiding Shortest Path Calculations} \label{section:avoid}.
+\subsection{Avoiding shortest path calculations} \label{section:avoid}
 All of the algorithms mentioned so far need to fully calculate the shortest path between every O-D pair in each iteration.
 It turns out that for every O-D pair in the path equilibration algorithm,
 their shortest path calculation can be avoided to reduce computational time by using solution from the previous iteration in the current iteration.

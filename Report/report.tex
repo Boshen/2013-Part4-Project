@@ -3,14 +3,14 @@
 
 \usepackage[left=30mm, right=20mm]{geometry}
 \usepackage[nodayofweek]{datetime}
-\newdateformat{mydate}{\monthname, \THEYEAR}
+\newdateformat{mydate}{\monthname \ \THEYEAR}
 
 \usepackage{microtype}
 \usepackage{fixltx2e}
 
 \usepackage{parskip}
-\usepackage{titlesec}
-%\usepackage[compact]{titlesec}
+\usepackage[pagestyles]{titlesec}
+\usepackage{fancyhdr}
 
 \usepackage[nottoc,notlof,notlot]{tocbibind}
 \usepackage[sort,authoryear]{natbib}
@@ -74,7 +74,19 @@
 \usepackage[draft, shadow, color=gray!15, linecolor=black]{todonotes} % disable, draft
 \newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{ \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
 
+\titleformat{\chapter}[display]   
+{\normalfont\Huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}   
+\titlespacing*{\chapter}{0pt}{-20pt}{1.5em}
+
+\linespread{1.2}
+
 \begin{document}
+
+\pagestyle{fancy}
+\fancyhf{ }
+\setlength{\headheight}{15.2pt}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
 
 \thispagestyle{empty}
 \setcounter{page}{0}
@@ -117,9 +129,6 @@
 
 \newpage
 \include{./contents/conclusion}
-
-\newpage
-\include{./contents/futurework}
 
 \newpage
 \include{./contents/appendix}

@@ -1,9 +1,9 @@
-\chapter{Implementation Details} \label{chap:implementation}
+\chapter{Implementation details} \label{chap:implementation}
 
 The previous chapters have described all the algorithms that are going to be considered for this report. 
 In this chapter, specific implementation details of the algorithms that provide better performance are discussed.
 
-\section{Traffic Assignment Implementation}
+\section{Traffic assignment implementation}
 The path equilibration algorithm and other algorithms for solving the traffic assignment problem has already been implemented by Olga Perederieieva, the co-co-supervisor of this project.
 The algorithms are implemented in the C++ programming language,
 where the language has a superior run time performance compared to the others.
@@ -15,7 +15,7 @@ The algorithm will also spend time running parts of the algorithm,
 but most of that time is dedicated to the convergence check step mention in Section~\ref{sec:convergence} ,
 where the algorithm require to run the Bellman-Ford-More algorithm on all of the zones for the all-or-nothing solution.
 
-\section{Graph Storage}
+\section{Graph storage}
 The storage of the underlying graph need to be implemented in such a way that it can provide the most efficient access to its nodes and arcs.
 The most efficient implementation is the Forward Star data structure described in \citet{Sheffi}.
 The data structure compactly stores graphs in $O(|N|+|A|)$ spaces,
@@ -23,7 +23,7 @@ and provides $O(1)$ random access to all of its nodes,
 as well as $O(1)$ access to all emanating arcs of a chosen node.
 Using the Forward Star ensures that run time of accessing the graph can be neglected when analysing shortest path algorithms.
 
-\section{Priority Queue Implementations} \label{sec:pq_implementation}
+\section{Priority queue implementations} \label{sec:pq_implementation}
 As mentioned in the Dijkstra's algorithm section (Section~\ref{sec:dijkstra},
 its performance is heavily depended on the implementation of the priority queue.
 Various priority queue implementations exist,
@@ -44,15 +44,15 @@ Amortized time: how much time is taken in total when an operation is repeated a 
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{cccccc}
-        & top() & push()    & pop()     & increase() & decrease() \\
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l|cccccc}
+        & top() & push()    & pop()     & increase() & decrease() \\ \midrule
         d-ary (Binary)  & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
         d-ary (Ternary) & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
         Binomial        & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
         Fibonacci       & O(1)  & O(1)      & O(log(N)) & O(1)       & O(log(N))  \\
         Pairing         & O(1)  & O($2^{2*\log(\log(N))}$) & O(log(N)) & O($2^{2*\log(\log(N))}$) & O($2^{2*\log(\log(N))}$) \\
         Skew            & O(1)  & O(log(N)) & O(log(N)) & O(log(N)) & O(log(N))   
-    \end{tabular}
+    \end{tabular*}
     \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity \citep{BoostHeap}}
     \label{table:heaps}
 \end{table}

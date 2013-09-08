@@ -9,7 +9,7 @@ from matplotlib.font_manager import FontProperties
 networks = ['Anaheim',  'Barcelona', 'Winnipeg', 'ChicagoSketch']
 algos = ['Bellman-Ford', 'Dijkstra', 'Bidirectional Dijkstra', 'A* search', 'Bidirectional A* search']
 
-zones = [14060, 213894, 547344, 2328375]
+zones = [14060, 253894, 547344, 2328375]
 times = [[1.2, 60, 190, 500],
         [0.3, 13.67, 34.89, 87.52],
         [0.43, 20.93, 49.95, 157.75],
@@ -32,9 +32,10 @@ for (i, j) in zip([620000, 1437860, 1437860, 1437860, 1437860], [140, 65, 100, 1
     k += 1
 
 
-pylab.title('Algorithm run times vs Different graph sizes', fontproperties=font)
+pylab.title('Algorithm run times on different networks', fontproperties=font)
 pylab.ylabel('Run Time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
-pylab.xlabel('Number of Origin-Destination Pairs', fontproperties=font)
+#pylab.xlabel('Number of Origin-Destination Pairs', fontproperties=font)
+pylab.xlabel('Networks', fontproperties=font)
 x1, x2, y1, y2 = pylab.axis()
 #pylab.legend(algos)
 pylab.axis((x1, x2, y1, 160))
