@@ -205,14 +205,14 @@ The algorithm for solving each O-D pair $i$ is stated as follows.
         \emph{Step 2}. Find the step size $\lambda$ which redistributes the flow $h_{h_1} + h_{k_2}$ between the paths $k_1$ and $k_2$ in such a way that their costs become equal, that is, solve
     \end{tabular}
 \end{table}
-
+\vspace{-3em}
 \begin{align}
     \min_\lambda & \quad \max_{a \in A} \int_0^{v_a^i + \lambda y_a + \bar{v}_a} s_a(x) \mathrm{d}x \\
     \text{s.t.} & \quad 0 \leq \lambda \leq \left( \frac{-h_{k_2}}{d_{k_2}} \right), \\
     \text{where} & \quad y_a = \delta_{ak_1} d_{k_1} - \delta_{ak_2} d_{k_2}.
 \end{align}
-
-\begin{table}
+\vspace{-2em}
+\begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
         \emph{Step 3}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + \lambda y_a; s_a = s_a(v_a^i + \bar{v}_a)$. \\
         \emph{Step 4}. Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} \left[ s_k \right]$;
