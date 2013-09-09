@@ -1,6 +1,5 @@
 \chapter{Implementation details} \label{chap:implementation}
-
-The previous chapters have described all the algorithms that are going to be considered for this report. 
+The previous chapters have described all the algorithms that are considered for this project.
 In this chapter, specific implementation details of the algorithms that provide better performance are discussed.
 
 \section{Traffic assignment implementation}
@@ -8,36 +7,37 @@ The path equilibration algorithm and other algorithms for solving the traffic as
 The algorithms are implemented in the C++ programming language,
 where the language has a superior run time performance compared to the others.
 
-The current implementation of the path equilibration algorithm uses the Bellman-Ford-More algorithm for its point-to-point shortest path calculations.
+The current implementation of the path equilibration algorithm uses Bellman-Ford-More algorithm for its point-to-point shortest path calculations.
 When solving the traffic assignment problem,
-the algorithm will spend most of its time computing shortest paths.
-The algorithm will also spend time running parts of the algorithm,
-but most of that time is dedicated to the convergence check step mention in Section~\ref{sec:convergence} ,
+the algorithm spends most of its time computing shortest paths.
+Time is also spent on other parts of the algorithm,
+the majority of it is dedicated to the convergence check step mentioned in Section~\ref{sec:convergence},
 where the algorithm require to run the Bellman-Ford-More algorithm on all of the zones for the all-or-nothing solution.
 
 \section{Graph storage}
-The storage of the underlying graph need to be implemented in such a way that it can provide the most efficient access to its nodes and arcs.
-The most efficient implementation is the Forward Star data structure described in \citet{Sheffi}.
+To obtain information from the graph when running shortest path algorithms,
+the storage of the underlying graph has been implemented in such a way that it can provide the most efficient access to its nodes and arcs.
+The current implementation uses the Forward Star data structure described in \citet{Sheffi}.
 The data structure compactly stores graphs in $O(|N|+|A|)$ spaces,
 and provides $O(1)$ random access to all of its nodes,
-as well as $O(1)$ access to all emanating arcs of a chosen node.
-Using the Forward Star ensures that run time of accessing the graph can be neglected when analysing shortest path algorithms.
+it also provides $O(1)$ access to all emanating arcs of that randomly chosen node.
+Using the Forward Star ensures the run time of accessing the graph can be neglected when analysing the shortest path algorithms.
 
 \section{Priority queue implementations} \label{sec:pq_implementation}
-As mentioned in the Dijkstra's algorithm section (Section~\ref{sec:dijkstra},
-its performance is heavily depended on the implementation of the priority queue.
+As mentioned in the Dijkstra's algorithm section (Section~\ref{sec:dijkstra}),
+the performance of shortest path algorithms is heavily dependent on the implementation of the priority queue data structure.
 Various priority queue implementations exist,
 they include:
 \begin{itemize}
-    \item $\langle$priority\_queue$\rangle$ from the C++ standard template library - an array based heap implementation,
-    \item $\langle$set$\rangle$ from the C++ standard template library - a binary search tree implementation,
-    \item $\langle$heap$\rangle$ from the C++ Boost library - a family of pointer based heap implementations.
+    \item $\langle$priority\_queue$\rangle$ from the C++ standard template library,
+    \item $\langle$set$\rangle$ from the C++ standard template library,
+    \item $\langle$heap$\rangle$ from the C++ Boost library.
 \end{itemize}
-Each priority queue implementation has some advantages than the other,
-for example some provide faster tree balancing while others provide faster Extract-Min or Delete operation.
-For this project, all of these implementations are going to be experimented.
+Each priority queue implementation has some advantages and disadvantages.
+For example some provide faster tree balancing while others provide faster Extract-Min or Delete operation.
+All of these implementations are going to be experimented for this project.
 
-First we examine the 6 variants of Heap implementations from the C++ Boost $\langle$heap$\rangle$ library, shown in Table~\ref{table:heaps}.
+First we examine the 6 variants of heap implementations from the C++ Boost $\langle$heap$\rangle$ library shown in Table~\ref{table:heaps}.
 In the table, N is the number of elements in the priority queue and
 the time complexities are measured in amortized time\footnote{
 Amortized time: how much time is taken in total when an operation is repeated a millions for example, with different inputs. Run time is averaged out between the worst-case and the best-case.}.
@@ -45,44 +45,42 @@ Amortized time: how much time is taken in total when an operation is repeated a 
 \begin{table}[H]
     \centering
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l|cccccc}
-        & top() & push()    & pop()     & increase() & decrease() \\ \midrule
-        d-ary (Binary)  & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
-        d-ary (Ternary) & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
-        Binomial        & O(1)  & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
-        Fibonacci       & O(1)  & O(1)      & O(log(N)) & O(1)       & O(log(N))  \\
-        Pairing         & O(1)  & O($2^{2*\log(\log(N))}$) & O(log(N)) & O($2^{2*\log(\log(N))}$) & O($2^{2*\log(\log(N))}$) \\
-        Skew            & O(1)  & O(log(N)) & O(log(N)) & O(log(N)) & O(log(N))   
+                        & Insert    & Extract-Min      & Increase-Key & Decrease-Key \\ \midrule
+        Binary          & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Ternary         & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Binomial        & O(log(N)) & O(log(N)) & O(log(N))  & O(log(N))  \\
+        Fibonacci       & O(1)      & O(log(N)) & O(1)       & O(log(N))  \\
+        Pairing         & O($2^{2*\log(\log(N))}$) & O(log(N)) & O($2^{2*\log(\log(N))}$) & O($2^{2*\log(\log(N))}$) \\
+        Skew            & O(log(N)) & O(log(N)) & O(log(N)) & O(log(N))   
     \end{tabular*}
     \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity \citep{BoostHeap}}
     \label{table:heaps}
 \end{table}
 
 We are interested in using Boost library Heaps rather than the C++ standard library Heap is due to one reason:
-the decrease (or increase) function.
-The decrease (or increase) function is referred as the decrease-key (or increase-key) operation mentioned in the priority queue section (Section~\ref{sec:dijkstra}).
-The difference between decrease and increase is that Decrease-key is used for a min-heap trees (minimum value on top) and increase-key is used for max-heap trees (maximum value on top).
-The function is used to change the distance labels in the priority queue when a node is scanned and updated during the shortest path calculations.
+the Decrease-Key (or Increase-Key) operation.
+The operation is used to change the distance labels in the priority queue when a node is scanned and updated during the shortest path calculations.
+The Decrease-Key operation is used for min-heap trees (minimum value on top) and the Increase-key operation is used for max-heap trees (maximum value on top).
 In Dijkstra's algorithm,
-often nodes are scanned multiple times in the label updating step,
+nodes are often scanned multiple times in the label updating step,
 so instead of adding the node again into the Heap tree with a difference value,
-we can just use the decrease-key operation.
-The advantage of using this operation is that we can reduce the size of the Heap tree, which results a performance improvement as it takes less time to search and add nodes to small heap trees.
+we can use the Decrease-Key operation.
+The advantage of using this operation is that we can reduce the size of the Heap tree, which results a performance improvement as it takes less time to search and insert nodes to smaller heap trees.
 
 In table~\ref{table:heaps},
-we observe the Fibonacci Heap has a very interesting time complexity;
-it has a constant amortized time ($O(1)$) for the push, pop and increase-key operation.
-This is very attractive for us, but the problem is that
-we do not know how much constant time it really uses behind its big O notation.
-
+we observe the Fibonacci Heap has a very interesting time complexity.
+It has a constant amortized ($O(1)$) time for the Insert and Increase-Key operation.
+This is very attractive for us,
+but the problem is that we do not know how much constant time it really uses behind its big O notation.
 C++ Boost Library Heaps are implemented as max-heaps,
-which means in order to use the Fibonacci O(1) increase-key function,
-all of the distance labels need to be negated when added to the heap.
+which means in order to use the Fibonacci $O(1)$ Increase-Key operation,
+all of the distance labels need to be negated when inserted into the heap.
 
 Next we examine $\langle$priority\_queue$\rangle$ from the C++ standard library.
 This implementation also provides $O(\log(N))$ push and pop operation,
 but it does not have the decrease-key operation nor does it have a way to change node values somewhere else in the tree.
 So when solving the shortest path problem,
-the priority queue is going to have many nodes that are the same but with different distance labels.
+the priority queue is going to have many nodes that have the same but with different distance labels.
 This is not a problem for our shortest path algorithms.
 When a node is added to the queue more than once with different distance labels,
 the one with the smaller distance label is always going to be in front of the queue waiting to be labelled first,
@@ -90,7 +88,7 @@ so once that node is labelled,
 all the other same node will simply be ignored in the algorithm.
 
 Finally we examine $\langle$set$\rangle$ from the C++ standard library.
-A set is a data structure used to store unique elements that follow a specific order.
+A \emph{set} is a data structure used to store unique elements that follow a specific order.
 In the C++ standard library, it is implemented as a red-black binary search tree.
 This data structure can be used for our shortest path algorithms because it provides $O(\log(N))$ insert, search and delete operations.
 For our shortest path algorithms,
@@ -102,4 +100,4 @@ And for the ordering requirement,
 we can just order the nodes non-decreasingly by their distance labels,
 so the node with the minimum label always come first.
 The advantage of $\langle$set$\rangle$ compared to $\langle$priority\_queue$\rangle$ is that nodes can be removed from anywhere in the data structure,
-so $\langle$set$\rangle$ can be faster than $\langle$priority\_queue$\rangle$ because the performance of their operations are heavily dependent by the number of nodes in the data structures.
+so $\langle$set$\rangle$ may be faster than $\langle$priority\_queue$\rangle$ because the performance of their operations are heavily dependent by the number of nodes in the data structures.

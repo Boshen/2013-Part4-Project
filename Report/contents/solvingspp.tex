@@ -426,28 +426,28 @@ In fact, heuristic estimates can be used to guide the shortest path tree toward 
 forming an ellipsoid shape.
 The use of heuristic estimates was first described by \citet{Astar},
 where the algorithm is given the name A* search.
-A* search is a goal directed search where the direction of search is aimed at the destination.
+A* search is a goal directed search where the direction of search is aimed toward the destination.
 
 %In traditional road networks,
 %straight Euclidean distances are used for the heuristic estimates.
 
 Formally we define the following.
-Let $h_v$ be the heuristic estimate for the distance between node $v$ to destination $t$.
-And we apply Bellman's conditions such that an optimal solution exist, that is 
+Let $h_v$ be the heuristic estimate for the shortest path distance between node $v$ to destination $t$.
+We apply Bellman's conditions such that an optimal solution exist, that is 
 \begin{align}
-    &h_v \leq h_u + c_{uv} \quad \forall(u,v) \in A, \\
-    &h(t) = 0.
+    &h_v \leq h_u + c_{uv} \quad \forall(u,v) \in A, \label{eq:A*1}\\
+    &h(t) = 0. \label{eq:A*2}
 \end{align}
 
-Although heuristic estimates are used,
-optimal solution can be achieved under the following conditions.
+Although $h_v$ is a heuristic function,
+optimal solution can still be achieved under the following conditions.
 \citet{Astar} states that the heuristic estimate function $h$ must be admissible and consistent.
-In the context of road networks that use geographical coordinates and Euclidean distances,
+In context of road networks that use geographical coordinates and Euclidean distances,
 admissible means that the heuristic must never over-estimate the distance to the goal.
-And consistent means that the estimated length of a node reaching its destination must not be greater than the estimated length of its predecessors.
-This means that if the heuristic estimate is the distance from each node to the destination,
+And consistent means that the estimated length of a node reaching its destination must not be greater than the estimated length of its predecessors (i.e.\ Equation~\ref{eq:A*1} and \ref{eq:A*2}).
+This two conditions mean that if the heuristic estimate is the shortest path distance from each node to the destination,
 and the estimate is smaller than or equal to the actual distance going to that destination,
-then the shortest path can always be found. 
+then the optimal shortest path can always be found. 
 
 %Note a consistent heuristic is also admissible but not the opposite.
 %\citet{Astar} proves if the heuristic function (such as using geographical coordinates and Euclidean distance) is admissible and consistent,
@@ -455,7 +455,7 @@ then the shortest path can always be found.
 
 To implement A* search,
 Dijkstra's algorithm is modified.
-When a node $v$ is about to be added to the priority queue (Insert$(\mathcal{Q},v)$),
+When a node $v$ is about to be added to the priority queue,
 the heuristic estimate $h_v$ is calculated.
 Compared to Dijkstra's algorithm,
 instead of inserting node $v$ with its distance label $d_v$,
@@ -496,8 +496,8 @@ but it can improve the average case by scanning less nodes in the network.
 It does not improve worst case is because when $h_u = 0, \forall u \in N$, A* search is equivalent to Dijkstra's algorithm.
 A* search has been experimented in various situations.
 In the case of using road networks,
-\citet{GoldbergLandmarks} concludes that A* search does not improve the run time compared to Dijkstra's algorithm when using Euclidean distance estimates.
-But it does a worth try to use zero-flow travel times for the heuristic estimates.
+\citet{GoldbergLandmarks} concludes that A* search with Euclidean distance estimates does not improve the run time compared to Dijkstra's algorithm when using Euclidean distance estimates,
+but it is still worth a try to use zero-flow travel times for the heuristic estimates.
 
 \section{Bidirectional A* search}
 Since bidirectional search can be applied to Dijkstra's algorithm,
@@ -581,51 +581,60 @@ Here $\pi_f(v)$ is the estimate on distance from node $v$ to the destination $t$
 The new heuristic functions are:
 \begin{align}
     p_f(v) = \frac{1}{2}(\pi_f(v)-\pi_r(v)) + \frac{\pi_r(t)}{2}, \\
-    p_r(v) = \frac{1}{2}(\pi_r(v)-\pi_f(v)) + \frac{\pi_f(s)}{2},
+    p_r(v) = \frac{1}{2}(\pi_r(v)-\pi_f(v)) + \frac{\pi_f(s)}{2}.
 \end{align}
-where the two constants $\frac{\pi_r(t)}{2}$ and $\frac{\pi_f(s)}{2}$ are added by \citet{GoldbergEPP} to provide better estimates.
+The two constants $\frac{\pi_r(t)}{2}$ and $\frac{\pi_f(s)}{2}$ are added by \citet{GoldbergEPP} to provide better estimates.
 These two modified heuristic estimates are now consistent and the frontiers of the two searches is guaranteed to meet.
-The only drawback of the modification is that they now provide worse bounds compared to the original $\pi$ values.
+The drawback of this modification is that they now provide worse bounds compared to the original $\pi$ values,
+the search area may now be large than the unidirectional A* search.
 
-\citet{GoldbergEPP} showed and proved a better stopping criterion compared to the one published by \citet{Pohl}.
-They extended the bidirectional Dijkstra's termination criterion,
-the bidirectional A* search can be stopped when
+\citet{GoldbergEPP} showed and proved a better stopping criterion compared to the one published by \citet{Pohl},
+where they extended the bidirectional Dijkstra's termination criterion,
+bidirectional A* search now need to be stopped when
 \begin{align}
     \text{top}_f + \text{top}_r \geq \mu + p_r(t).
 \end{align}
-Here $\mu$ the best $s-t$ path seen fast,
+Here $\mu$ is the best $s-t$ path seen so far during the search,
 $\text{top}_f$ and $\text{top}_r$ are the minimum distance labels in the forward and backward search respectively (they are the nodes at the top (front) of the priority queues).
 
 Bidirectional A* search with Euclidean distance heuristic estimates has been experimented by different academics, e.g.\ \citet{Klunder} and \citet{Goldberg05}.
 It is not evident whether bidirectional A* search can guarantee significant improvement,
-as the result is heavily dependent on the configuratoin of the road network and the quality of the heuristic estimates.
+as the result is heavily dependent on the configuration of the road network and the quality of the heuristic estimates.
 
 \section{Preprocessing algorithms}
 In the last 2 decades,
 extensive researches have been done on the idea of speeding up shortest path calculations using pre-calculated data.
-They include reach-based pruning \citep{Goldberg}, A* search with landmarks \citep{GoldbergLandmarks}, Hierarchical search \citep{Ertl1998, Pearson} etc.
-These preprocessing techniques generally need to spend some amount of time to pre-calculate in order to speed up the subsequent shortest path queries.
+They include reach-based pruning \citep{Goldberg}, A* search with landmarks \citep{GoldbergLandmarks} and Hierarchical search \citep{Ertl1998, Pearson} etc.
+These preprocessing techniques generally need to spend quite a long time to pre-calculate the required data for in order to speed up the subsequent shortest path queries.
 
 The next section discusses the A* search with landmarks algorithm,
-and its drawback when used for the traffic assignment's path equilibration algorithm.
+and its drawback when used for the traffic assignment problem.
 
 \subsection{A* search with landmarks}
-In the A* search section (Section~\ref{section:A*}), 
-it is shown that different methods can be used to obtain the heuristic estimation of the shortest path distance between any scanned node and the destination.
-The landmarks method developed by \citet{GoldbergLandmarks} is another way to obtain the heuristic estimates.
+It is shown in the A* search section (Section~\ref{section:A*}), 
+different methods can be used to obtain the heuristic estimates of the shortest path distance between a node to the destination.
+The landmarks algorithm developed by \citet{GoldbergLandmarks} is another way to obtain the heuristic estimates.
 %In fact the class of A* search algorithms that use a feasible function (heuristic estimate) $\pi_t$ with $\pi_t(t) = 0$ as lower-bounding algorithms.
 %\citet{GoldbergLandmarks} concludes that better lower bounds give better performance, 
 %where landmarks with triangle inequalities can give a better lower bounds.
-Next we describe the procedure for the landmarks method.
-First a small set of landmarks are selected and placed in different locations on the graph.
-Shortest path trees are then calculated for every landmark using Dijkstra's algorithm.
-Now a set of heuristic estimates exist for every node in the graph,
-they can be obtained from the two triangle inequalities (see Figure~\ref{fig:landmarks}):
-$ \textcolor{blue}{\text{dist}(L,w)-\text{dist}(L,v)} \leq \text{dist}(v, w)$ 
-and
-$ \textcolor{red}{\text{dist}(v,L)-\text{dist}(w,L)} \leq \text{dist}(v, w)$.
+%To obtained the estimates,
+%The procedure of the landmarks algorithm 
+%Next we describe the procedure for the landmarks algorithm.
+First a small set of landmarks need to be positioned in different locations on the graph,
+where shortest path trees are calculated for every landmark using Dijkstra's algorithm.
+Heuristic estimates can now be obtained for every node in the graph using the shortest path trees of the landmarks,
+Figure~\ref{fig:landmarks} demonstrates the calculation of the estimates using the two triangle inequalities when a landmark is either placed in front of the scanned node $v$ or behind the destination $t$.
+The two triangle inequalities are:
+\begin{align}
+     \text{dist}(v, t) & \geq \textcolor{blue}{\text{dist}(L,t)-\text{dist}(L,v)} \\
+     \text{dist}(v, t) & \geq \textcolor{red}{\text{dist}(v,L)-\text{dist}(t,L)}  
+\end{align}
 The heuristic estimate to be used during A* search is the maximum over all landmarks:
-$ \max\{ \textcolor{blue}{\text{dist}(L,w)-\text{dist}(L,v)}, \textcolor{red}{\text{dist}(v,L)-\text{dist}(w,L)} \} \leq \text{dist}(v,w)$.
+\begin{equation}
+  \text{dist}(v,t) \geq \max\{ \textcolor{blue}{\text{dist}(L,t)-\text{dist}(L,v)}, \textcolor{red}{\text{dist}(v,L)-\text{dist}(t,L)} \}.
+\end{equation}
+With these formulations, \citet{GoldbergLandmarks} concluded that it is best to place the landmarks in front of the origins or behind the destinations,
+i.e.\ around the edges of the graph.
 
 \begin{figure}[H]
     \centering
@@ -634,12 +643,12 @@ $ \max\{ \textcolor{blue}{\text{dist}(L,w)-\text{dist}(L,v)}, \textcolor{red}{\t
     \begin{subfigure}[t]{.4\textwidth}
         \centering
         \begin{tikzpicture}[>=stealth', line width=1pt]
-            \node [node, label={[xshift=5pt, yshift=0pt]v}] (v) at (0,0) {};
-            \node [node, label={[xshift=5pt, yshift=0pt]w}] (w) at (4,0) {};
-            \node [node, label={[xshift=5pt, yshift=0pt]L}] (L) at (-2,1) {};
-            \path [line,blue] (L) -- (w);
+            \node [node, label={[xshift=5pt, yshift=0pt]$v$}] (v) at (0,0) {};
+            \node [node, label={[xshift=5pt, yshift=0pt]$t$}] (t) at (4,0) {};
+            \node [node, label={[xshift=5pt, yshift=0pt]$L$}] (L) at (-2,1) {};
+            \path [line,blue] (L) -- (t);
             \path [line,blue] (L) -- (v);
-            \path [line, dashed] (v) -- (w);
+            \path [line, dashed] (v) -- (t);
         \end{tikzpicture}%
         \caption{Landmark placed before $v$}
     \end{subfigure}
@@ -647,14 +656,14 @@ $ \max\{ \textcolor{blue}{\text{dist}(L,w)-\text{dist}(L,v)}, \textcolor{red}{\t
     \begin{subfigure}[t]{.4\textwidth}
         \centering
         \begin{tikzpicture}[>=stealth', line width=1pt]
-            \node [node, label={[xshift=5pt, yshift=0pt]v}] (v) at (0,0) {};
-            \node [node, label={[xshift=5pt, yshift=0pt]w}] (w) at (4,0) {};
-            \node [node, label={[xshift=5pt, yshift=0pt]L}] (L) at (6,1) {};
+            \node [node, label={[xshift=5pt, yshift=0pt]$v$}] (v) at (0,0) {};
+            \node [node, label={[xshift=5pt, yshift=0pt]$t$}] (t) at (4,0) {};
+            \node [node, label={[xshift=5pt, yshift=0pt]$L$}] (L) at (6,1) {};
             \path [line,red] (v) -- (L);
-            \path [line,red] (w) -- (L);
-            \path [line, dashed] (v) -- (w);
+            \path [line,red] (t) -- (L);
+            \path [line, dashed] (v) -- (t);
         \end{tikzpicture}
-        \caption{Landmark placed after $w$}
+        \caption{Landmark placed after $t$}
     \end{subfigure}
     \caption{Explanatory diagram for triangle inequality}
     \label{fig:landmarks}
@@ -666,44 +675,47 @@ For our traffic assignment's path equilibration algorithm,
 it is unknown whether using zero-flow travel times can provide better estimates compared to Euclidean distances.
 
 The landmarks method and similar preprocessing techniques have a few drawbacks that need to be considered.
-The first drawback is that the preprocessing time may be longer than the actual shortest path solving time, resulting longer combined time.
-What follow this drawback is that the whole network has to be re-preprocessed whenever there is a physical change in the road network,
-which is undesirable for transportation planning.
-The second drawback is that both preprocessing and shortest path solving time are heavily depend on the quantity and placement of the landmarks,
-which results another optimization problem where different strategies and algorithms need to be applied.
+The first drawback is that the preprocessing time may be longer than the actual shortest path solving time,
+so combined combined running time may take longer.
+What follows this drawback is that the preprocessing stage need to be re-run whenever there is a physical change in the road network,
+which is undesirable for transportation planning because the road network need to be constantly changed to improve congestion.
+The second drawback is that both preprocessing and shortest path solving time are heavily dependent on the quantity and placement of the landmarks,
+which is another optimization problem where different strategies and algorithms need to be experimented.
 
 \section{Techniques for iterative calculations}
-So far solving the shortest path problem on static graphs have been discussed.
-But in the path equilibration algorithm for solving the traffic assignment,
-we have a graph that keeps changing its arc costs between iterations.
-This observation motivates us to find algorithms that are suitable for finding shortest path in an iterative environment.
-Performance can be improved if we can use information from previous iterations.
+So far we have only been dealing with solving the shortest path problem on static graphs.
+In this section we discuss solving the problem in the path equilibration algorithm where
+the graph dynamically changes its arc costs between iterations.
+Better performance can be achieved if we are able to use information from previous iterations.
+%This observation motivates us to find algorithms that are suitable for finding shortest path in an iterative environment.
+%Performance can be improved if we can use information from previous iterations.
 
 \subsection{Lifelong planning A*}
 A family of algorithms exist for dynamically changing graphs,
 for example they can be used on graphs that have moving nodes or changing arcs.
-One particular algorithm that tackles the problem of changing arc length is the Lifelong Planning A*, developed by \citet{LPA*}.
-\citet{LPA*} were able to show experimentally that LPA* is more efficient than A* if the graph change only slightly and the changes are close to the goal.
-This means Lifelong Planning A* can be used for our problem if we can prove that the graph only changes slightly between each iteration of the path equilibration algorithm.
+One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A*, developed by \citet{LPA*}.
+\citet{LPA*} were able to show experimentally that LPA* is more efficient than A* if the change in arc costs are close to the destination.
+This means Lifelong Planning A* can be used for our problem if we can show the only changes are close to the destination.
 
 \subsection{Avoiding shortest path calculations} \label{section:avoid}
 All of the algorithms mentioned so far need to fully calculate the shortest path between every O-D pair in each iteration.
 It turns out that for every O-D pair in the path equilibration algorithm,
 their shortest path calculation can be avoided to reduce computational time by using solution from the previous iteration in the current iteration.
-Two situations can occur if we choose to so.
-The first situation is when the shortest path between the two iterations is going to be the same,
+Two situations can occur if we choose to do so.
+The first situation is when the shortest path between the previous and current iteration is going to be the same,
 then we have successfully avoided the calculation and reduced the computational time.
 The second situation is when they are going to be different,
-then the path equilibration algorithm is not going to converge in the current iteration,
+then the path equilibration algorithm is not going to converge for the current iteration,
 which causes an increase in total number of iterations and computational time.
 
-While traffic flows and arc costs are changing between iterations,
-if it can be proven that shortest path do not change often for every O-D pairs,
-then some strategies can be used to avoid shortest path calculations.
+While traffic flows and arc costs change between iterations,
+if we can prove that shortest path do not change often between iterations,
+then some strategies can be used to avoid the calculations.
 The overall computational time is reduced when most shortest path calculations are avoided on the O-D pairs that are not going to change often.
 
 The first strategy is as follows.
-For each O-D pair, if its shortest path do not change in the last 2 iterations,
+For each O-D pair,
+if its shortest path did not change in the last 2 iterations,
 then we can delay the calculation by a few iterations.
 This strategy requires prior knowledge of how many iterations there is going to be during a standard run.
 This is because if we choose to skip calculations that are larger than the total number of iterations,
@@ -716,28 +728,28 @@ That is, when it comes to calculate the shortest path for every O-D pair,
 we generate an random number and decide whether to do the calculation based on that number.
 The advantage of this strategy is that we do not need to know how many iterations the algorithm will take.
 The disadvantage is that the computational time can vary between different runs,
-resulting unpredictable results.
+resulting unpredictable run times.
 
 \begin{comment}
-\section{Preprocessing and More}
-Preprocessing - trade memory to get faster time.
-We can either do a fast preprocessing between iterations to make query in each iteration (so combined speed is still faster) 
-or do a long preprocessing at the start and use the computed heuristic values
-\begin{itemize}
-    \item A* landmarks and triangle inequality (ALT)
-    \item Reach-based routing 
-    \item ALT + Reach
-    \item Geometric Containers
-    \item Arc Flags
-\end{itemize}
+    \section{Preprocessing and More}
+    Preprocessing - trade memory to get faster time.
+    We can either do a fast preprocessing between iterations to make query in each iteration (so combined speed is still faster) 
+    or do a long preprocessing at the start and use the computed heuristic values
+    \begin{itemize}
+        \item A* landmarks and triangle inequality (ALT)
+        \item Reach-based routing 
+        \item ALT + Reach
+        \item Geometric Containers
+        \item Arc Flags
+    \end{itemize}
 
-If we have more data on the network we can use
-algorithms that use hierarchies.
-Consider roads with higher speed first: use a hierarchy of subgraphs.
-\begin{itemize}
-    \item Radius search.
-    \item multi-level approach
-    \item highway hierarchies
-\end{itemize}
+    If we have more data on the network we can use
+    algorithms that use hierarchies.
+    Consider roads with higher speed first: use a hierarchy of subgraphs.
+    \begin{itemize}
+        \item Radius search.
+        \item multi-level approach
+        \item highway hierarchies
+    \end{itemize}
 \end{comment}
 
