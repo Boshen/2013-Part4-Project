@@ -566,7 +566,7 @@
     <relative_filename></relative_filename>
     <key>Inam</key>
     <notes></notes>
-    <bib_type>phdthesis</bib_type>
+    <bib_type>mastersthesis</bib_type>
     <bib_doi></bib_doi>
     <bib_title>A* Algorithm for Multicore Graphics Processors</bib_title>
     <bib_authors>Rafia Inam</bib_authors>
