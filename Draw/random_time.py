@@ -5,6 +5,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 pdf = PdfPages('random_time.pdf')
 font = FontProperties()
 font.set_family('serif')
+fontsize = {'size':16}
 
 #--------------------------------------------- 
 fig = pylab.figure(figsize=(9,5), dpi=200)
@@ -18,9 +19,10 @@ pylab.xticks(index, x, size='small', fontproperties=font)
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%d iters' % iters[i], xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('A* search with skipping calculations randomly on Terrassa', fontproperties=font)
+pylab.title('A* search with random skipping on Terrassa', fontproperties=font)
 pylab.xlabel('Probability of skipping a calculation', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pylab.rc('font', **fontsize)
 pdf.savefig(fig, bbox_inches='tight')
 
 #--------------------------------------------- 
@@ -36,9 +38,10 @@ for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%d iters' % iters[i], xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
 pylab.ylim([0, 25])
-pylab.title('A* search with skipping calculations randomly on ChicagoSketch', fontproperties=font)
+pylab.title('A* search with random skipping on ChicagoSketch', fontproperties=font)
 pylab.xlabel('Probability of skipping a calculation', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pylab.rc('font', **fontsize)
 pdf.savefig(fig, bbox_inches='tight')
 
 #--------------------------------------------- 
@@ -53,9 +56,10 @@ pylab.xticks(index, x, size='small', fontproperties=font)
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('A* search with skipping calculations when no change occur on Terrassa', fontproperties=font)
+pylab.title('A* search with skipping calculations on Terrassa', fontproperties=font)
 pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pylab.rc('font', **fontsize)
 pdf.savefig(fig, bbox_inches='tight')
 
 #--------------------------------------------- 
@@ -71,9 +75,10 @@ for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
 pylab.ylim([0, 25])
-pylab.title('A* search with skipping calculations when change occur on ChicagoSketch', fontproperties=font)
+pylab.title('A* search with skipping calculations on ChicagoSketch', fontproperties=font)
 pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pylab.rc('font', **fontsize)
 pdf.savefig(fig, bbox_inches='tight')
 
 pdf.close()
