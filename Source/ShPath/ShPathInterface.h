@@ -51,8 +51,8 @@ class ShPathInterface : public ShortestPath {
         std::vector<Label> *Labels;
         StarNetwork *_netPointer;
 
-        std::vector<std::pair<int,int> > *fScanned;
-        std::vector<std::pair<int,int> > *bScanned;
+        //std::vector<std::pair<int,int> > *fScanned;
+        //std::vector<std::pair<int,int> > *bScanned;
         std::map<std::pair<int, int>, std::vector<int>* > *sp_tree; // <<o,d>, tree>
         std::map<std::pair<int, int>, int> *sp_tree_changed;
         /*
@@ -127,10 +127,10 @@ class ShPathInterface : public ShortestPath {
             //    std::cout << it2->first.first << " " << it2->first.second << " " << it2->second << std::endl;
             //}
 
-            std::map<std::pair<int, int>, std::vector<int>* >::iterator it1;
-            for(it1=sp_tree->begin();it1!=sp_tree->end();it1++){
-                delete it1->second;
-            }
+            //std::map<std::pair<int, int>, std::vector<int>* >::iterator it1;
+            //for(it1=sp_tree->begin();it1!=sp_tree->end();it1++){
+            //    delete it1->second;
+            //}
             //std::map<std::pair<int,int>, std::vector<int>* >::iterator it2;
             //for(it2=Predecessors_Cache->begin();it2!=Predecessors_Cache->end();it2++){
             //    delete it2->second;

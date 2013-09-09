@@ -23,10 +23,6 @@
 //};
 
 
-inline double distance(long x1, long y1, long x2, long y2){
-    return sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
-}
-
 #define NB_INPUT_PARAMS 2
 /** Input: ./ta input.params 
  *	input.params - path to the file with parameters

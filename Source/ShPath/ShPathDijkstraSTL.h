@@ -69,15 +69,15 @@ class ShPathDijkstraSTL : public ShPathInterface {
                         L[v] = Duv;
                         P[v] = nextLink->getIndex();
                         Q.push(ShPath::PQPair(Duv, v));
-                        fScanned->push_back(std::make_pair(u, v));
+                        //fScanned->push_back(std::make_pair(u, v));
                     }
 
                 } 
             } 
 
-            static int iter = 0;
-            std::cout << iter << " " << O << " " << D << " " << fScanned->size() << std::endl;
-            iter++;
+            //static int iter = 0;
+            //std::cout << iter << " " << O << " " << D << " " << fScanned->size() << std::endl;
+            //iter++;
         }
 
 };

@@ -108,9 +108,8 @@ class ShPathAstarSTL : public ShPathInterface {
             initNodes();
             Q = ShPath::PriorityQueue();
 
-            /*
-            if ( SP_TREE_CHANGED >= 2){ // didnt change in the last 2 iters
-            //if ( SP_TREE_CHANGED == 1 && rand()/(double)RAND_MAX < 0.3){ // didnt change in the last 2 iters
+            //if ( SP_TREE_CHANGED >= 2){ // didnt change in the last 2 iters
+            if ( SP_TREE_CHANGED == 1 && rand()/(double)RAND_MAX < 0.7){ // didnt change in the last 2 iters
                 for (size_t i = 0; i < SP_TREE.size(); i++)
                     P[NP.getLink(SP_TREE[i])->getNodeToIndex()] =  SP_TREE[i];
                 std::vector<int> q;
@@ -127,14 +126,13 @@ class ShPathAstarSTL : public ShPathInterface {
                     L[link->getNodeToIndex()] = dist;
                 }
 
-                SP_TREE_CHANGED++;
-                if (SP_TREE_CHANGED == 20){ // don't comupte SP until 15 iters reached
-                    SP_TREE_CHANGED=0;
-                }
+                //SP_TREE_CHANGED++;
+                //if (SP_TREE_CHANGED == 3){ // don't comupte SP until n iters reached
+                //    SP_TREE_CHANGED=0;
+                //}
 
                 return;
             }
-            */
 
             L[O] = 0;
             Q.push(ShPath::PQPair(0, O));
@@ -188,10 +186,10 @@ class ShPathAstarSTL : public ShPathInterface {
                 i++;
             }
 
-            //SP_TREE_CHANGED = changed?0:SP_TREE_CHANGED+1;
+            //SP_TREE_CHANGED = changed?0:SP_TREE_CHANGED+1; // skip n
             if (changed)
-                SP_TREE_CHANGED += 1;
-            //SP_TREE_CHANGED = 1;
+                SP_TREE_CHANGED += 1; //skip random
+            //SP_TREE_CHANGED = 1; 
 
             SP_TREE.clear();
             for (size_t i = 0;i<tmp_v.size();i++)
