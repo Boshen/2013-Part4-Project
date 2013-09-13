@@ -23,7 +23,6 @@ class Astar : public ShortestPath {
 
         typedef std::priority_queue<PQPair, std::vector<PQPair>, Prioritize > PriorityQueue;
 
-
         PriorityQueue *Queue;
 
         std::vector<FPType> *zeroFlowTimes;

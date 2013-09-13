@@ -6,7 +6,7 @@
  *************************************************************************************************************/
  <PARSER>: {DEFAULT} // possible values: DEFAULT - for usual parsing
  			//            ART2 - for ART2
-<NETWORK>: {Data/Instances/Winnipeg_net.txt}// path to file with network
+<NETWORK>: {Data/Instances/ChicagoSketch_net.txt}// path to file with network
 //Data/Instances/ChicagoRegional_net.txt
 //Data/Instances/ART2_fromKeith/art2.links
 // Data/Instances/ART_Data/ART2/art2.links
@@ -26,7 +26,7 @@
 <FNC_ART2> {Data/Instances/ART2_fromKeith/art2.fnc}
 //Data/Instances/ART_Data/ART2/art2.fnc
 
-<OD_MATRIX>: {Data/Instances/Winnipeg_trips.txt} //path to file with O-D matrix
+<OD_MATRIX>: {Data/Instances/ChicagoSketch_trips.txt} //path to file with O-D matrix
 //Data/Instances/ChicagoRegional_trips.txt
 //Data/Instances/ART2_fromKeith/art2.demand
 //Data/Instances/ART_Data/ART2/art2.demand

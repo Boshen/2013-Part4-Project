@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 		
 		StarNetwork *net = manager.getNet();
 		//net->print();
-		//net->printToFile("tmpCh.flows");
+		//net->printToFile("tmp.flows");
 		std::cout << "Time: " << timer.getTimePassed() << " s."  << " nbIter = " << nbIter << std::endl;
 		std::cout << "MAX = " << Utils::checkFeasibility(net, manager.getODMatrix()) << std::endl;//*/
 		manager.printCounters();
