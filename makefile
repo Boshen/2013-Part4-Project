@@ -5,11 +5,10 @@ CFLAGS = -Wall  -g -O3 #-pg # for profile
 LDFLAGS = -Wall -g -O3 -Wextra # -pg
 
 BOOST_DIR = /usr/local/include/boost
-SHPATH_DIR = Source/ShPath/
 
 DIR = Source
 
-.PHONY: clean ShPath
+.PHONY: clean
 
 #  OriginSetTapas.h LinkCost.h BiObjLinkCost.h  OriginSetTapas.cpp OnePathDerivative.h OnePathDerivative.cpp PathDerivative.h PathDerivative.cpp
 
@@ -26,7 +25,7 @@ HEADERS = Error.h DecoratedEqAlgo.h EqAlgo.h AlgoDecorator.h ParseParams.h Param
 		DAGraphNode.h SpiessFnc.h SpiessFncCreator.h FileReader.h ConstFnc.h SpiessFncComb.h FileWriter.h \
 		UtilsString.h DAGraphLUCE.h DAGraphB.h OriginBushLUCE.h PlusLinearFnc.h PAS.h PASManager.h DAGraphTapas.h OriginBasedAlgoTapas.h OriginBushTapas.h \
 		OriginBushB.h  OriginBasedAlgoEQII.h ODSetWithStep.h AddHookScreenOut.h AddHook.h AddHookStoreOut.h AddHookScreenAndStore.h AlgoDecoratorWriteLinks.h \
-		Timer.h ODSetGPApp3.h OperationCounter.h CounterContainer.h
+		Timer.h ODSetGPApp3.h OperationCounter.h CounterContainer.h Astar.h
 
 SOURCES = Error.cpp main.cpp AlgoDecorator.cpp ParseParams.cpp Params.cpp ObjectManager.cpp StarNetwork.cpp ODMatrix.cpp StarNode.cpp StarLink.cpp \
 		Parser.cpp Utils.cpp Origin.cpp PairOD.cpp LinkFncContainer.cpp LinearFnc.cpp BprFnc.cpp MarginalFnc.cpp FWAlgo.cpp LinkFlows.cpp \
@@ -38,7 +37,7 @@ SOURCES = Error.cpp main.cpp AlgoDecorator.cpp ParseParams.cpp Params.cpp Object
 		EquilibrationI.cpp DAGraphNode.cpp SpiessFnc.cpp SpiessFncCreator.cpp FileReader.cpp ConstFnc.cpp SpiessFncComb.cpp \
 		FileWriter.cpp UtilsString.cpp DAGraphLUCE.cpp OriginBushLUCE.cpp PlusLinearFnc.cpp PAS.cpp PASManager.cpp DAGraphTapas.cpp OriginBasedAlgoTapas.cpp \
 		OriginBushTapas.cpp DAGraphB.cpp OriginBushB.cpp OriginBasedAlgoEQII.cpp ODSetWithStep.cpp AlgoDecoratorWriteLinks.cpp \
-		Timer.cpp ODSetGPApp3.cpp CounterContainer.cpp
+		Timer.cpp ODSetGPApp3.cpp CounterContainer.cpp Astar.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
@@ -46,25 +45,20 @@ OBJS = $(patsubst %,$(DIR)/%,$(OBJECTS))
 SRCS = $(patsubst %,$(DIR)/%,$(SOURCES))
 HDRS = $(patsubst %,$(DIR)/%,$(HEADERS))
 
-ShPathObjects = $(DIR)/ShPath/ShPathFactory.o
 EXTRA_FLAGS =
 $(DIR)/Utils.o: EXTRA_FLAGS=-I $(BOOST_DIR)
-$(DIR)/ObjectManager.o: EXTRA_FLAGS=-I $(BOOST_DIR) -I Source/ShPath/
+$(DIR)/ObjectManager.o: EXTRA_FLAGS=-I $(BOOST_DIR)
 
-all: ShPath $(PROG) 
+all: $(PROG) 
 
 $(PROG) : $(OBJS) 
-	$(CC) $(LDFLAGS) -o $@ $^ $(ShPathObjects)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS)
 
 $(DIR)/%.o : $(DIR)/%.cpp $(DIR)/%.h
 	$(CC) $(CFLAGS) $(EXTRA_FLAGS) -c -o $@ $<
 
-ShPath:
-	$(MAKE) -C $(SHPATH_DIR)
-
 clean : 
 	rm -f core $(PROG) $(OBJS)
-	$(MAKE) clean -C $(SHPATH_DIR)
 
 TAGS : $(SRCS) $(HDRS)
 	etags -t $(SRCS) $(HDRS)  

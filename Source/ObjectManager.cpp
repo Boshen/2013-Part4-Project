@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <iostream>
+#include <stdlib.h> #include <iostream>
 
 #include "ObjectManager.h"
 #include "UtilsString.h"
@@ -7,6 +6,7 @@
 #include "FWAlgo.h"
 #include "RelGap.h"
 #include "LabelCorrectingAl.h"
+#include "Astar.h"
 #include "Bisection.h"
 #include "Armijo.h"
 #include "QuadApp.h"
@@ -19,7 +19,6 @@
 #include "OriginBasedAlgo.h"
 #include "OriginBasedAlgoTapas.h"
 #include "OriginBasedAlgoEQII.h"
-#include "ShPath/ShPathFactory.h"
 #include "AddHookScreenAndStore.h"
 #include "AlgoDecorator.h"
 #include "AlgoDecoratorWriteLinks.h"
@@ -191,12 +190,12 @@ ShortestPath* ObjectManager::getShPath(){
             std::cout << "Creating shortest path" << std::endl;
             //_shPath = new LabelCorrectingAl(getNet());
             std::string algo = _params->getParamWoSpaces("ShPathAlgo");
-            std::string datastruct = _params->getParamWoSpaces("ShPathDataStruct");
             if( algo == "LC"){
                 _shPath = new LabelCorrectingAl(getNet(), *getCounterContainer());
-            } else {
-                _shPath = ShPathFactory::get()->getShPath(algo, datastruct, getNet(), getODMatrix());
-            }//*/
+            }
+            if( algo == "Astar"){
+                _shPath = new Astar(getNet(), getODMatrix());
+            }
             std::cout << "Shortest path created" << std::endl;
         } else {
             // non-additive shortest path will be here
