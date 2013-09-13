@@ -1,8 +1,8 @@
 #include "StepSizeAdd.h"
 #include <stdlib.h>
 #include <iostream>
-StepSizeAdd::StepSizeAdd(DescDirection *algo, LineSearch *lineSearch, Derivative *der) : 
-			StepSize(algo, lineSearch), _der(der){
+StepSizeAdd::StepSizeAdd(LineSearch *lineSearch, Derivative *der) : 
+			StepSize(lineSearch), _der(der){
 
 };
 
@@ -10,7 +10,7 @@ StepSizeAdd::~StepSizeAdd(){
 
 };
 
-void StepSizeAdd::initialiseDerivative(){
+void StepSizeAdd::initialiseDerivative(DescDirection *algo){
 	//std::cout << "Setting data pointers" << std::endl;
-	_der->setDataPointers(_algo->getSize(), _algo->getLinkFlows(), _algo->getProjectedDirection(), _algo->getIndexes());
+	_der->setDataPointers(algo->getSize(), algo->getLinkFlows(), algo->getProjectedDirection(), algo->getIndexes());
 };

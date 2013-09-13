@@ -8,7 +8,7 @@ class OriginBasedAlgoEQII : public OriginBasedAlgo {
 		OriginBasedAlgoEQII(OriginSet *originSet, ODMatrix *mat, StarNetwork *net, AddHook *component);
 		~OriginBasedAlgoEQII();
 		
-		void mainLoop(OriginBush *bush, bool wasImproved, int nbIter);
+		bool mainLoop(OriginBush *bush, bool wasImproved, int nbIter);
 };
 
 #endif

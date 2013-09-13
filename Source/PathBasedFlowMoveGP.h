@@ -5,10 +5,11 @@
 
 class PathBasedFlowMoveGP : public PathBasedFlowMove {
 	public:
-		PathBasedFlowMoveGP(FPType alpha, FPType demand, DescDirectionPath* pathDirectionAlgo);
+		PathBasedFlowMoveGP(FPType alpha, DescDirectionPath* pathDirectionAlgo);
 		~PathBasedFlowMoveGP();
 		
 		bool executeFlowMove();
+		void setDemand(FPType demand);
 		
 	private:
 		FPType _alpha;

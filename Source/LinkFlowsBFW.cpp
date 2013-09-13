@@ -11,7 +11,7 @@
 	}
 };*/
 
-LinkFlowsBFW::LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) : LinkFlowsCFW(net, mat, linkFncCont, shPath, der, lineSearch, conv){
+LinkFlowsBFW::LinkFlowsBFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, StepSize* stepSize, ConvMeasure *conv) : LinkFlowsCFW(net, mat, linkFncCont, shPath, stepSize, conv){
 	_linkFlowsBFW = new FPType[_nbLinks];
 	for (int i = 0; i < _nbLinks; i++) {
 		_linkFlowsBFW[i] = 0.0;
@@ -29,7 +29,7 @@ LinkFlowsBFW::~LinkFlowsBFW(){
 void LinkFlowsBFW::initialise(){
 	updateLinkFlows();
 	_minTravelTime = _aon->execute(this);
-	for(int i = 0; i < _nbLinks; i++) {
+	for(int i = 0; i < _nbLinks; ++i) {
 		_linkFlows[i] = _linkFlowsAux[i];
 		_linkFlowsCFW[i] = 0.0;
 		_linkFlowsBFW[i] = 0.0;
@@ -54,7 +54,7 @@ void LinkFlowsBFW::calculateDirection(){
 		alpha = calculateAlpha();
 	}
 	FPType promVal = 0.0;
-	for (int i = 0; i < _nbLinks; i++) {
+	for (int i = 0; i < _nbLinks; ++i) {
 		if (_tmp == 0) {
 			_linkFlowsCFW[i] =  _linkFlowsAux[i];
 			_linkFlowsBFW[i] = 0.0;
@@ -69,7 +69,7 @@ void LinkFlowsBFW::calculateDirection(){
 		_direction[i] = _linkFlowsCFW[i] - _linkFlows[i];
 		
 	}
-	_tmp++;
+	++_tmp;
 	
 };
 
@@ -88,7 +88,7 @@ void LinkFlowsBFW::calcCoeff(FPType &beta0, FPType &beta1, FPType &beta2){
 		FPType dir_2 = 0.0;
 		FPType dir_1 = 0.0;
 		LinkFnc* link = NULL;
-		for (int i = 0; i < _nbLinks; i++) {
+		for (int i = 0; i < _nbLinks; ++i) {
 			link = _linkFncCont->getLinkFnc(i);
 			der = link->evaluateDerivative(_linkFlows[i]);
 			dir_fw = _linkFlowsAux[i] - _linkFlows[i];

@@ -2,7 +2,6 @@
 #define _DESC_DIRECTION_PATH_ISP_
 
 #include "DescDirectionPath.h"
-#include "OnePathDerivative.h"
 
 class DescDirectionPathISP : public DescDirectionPath {
 	public:
@@ -12,11 +11,11 @@ class DescDirectionPathISP : public DescDirectionPath {
 		PathAndDirection** createPathDirection(int &size, const std::list<Path*> &paths, bool &isEquilibrated);
 		
 	private:
-		FPType _slope;
-		FPType _scaleFact;
-		OnePathDerivative _pathDir;
+		const FPType _slope;
+		const FPType _scaleFact;
 		
 		FPType calculateThreshold(FPType minDist, FPType maxDist) const;
+		FPType calculateDerivative(Path* path) const;
 };
 
 #endif

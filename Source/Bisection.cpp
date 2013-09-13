@@ -7,10 +7,8 @@
 #include <iostream>
 #include <math.h>
 
-Bisection::Bisection(FPType precision, Derivative *der){
+Bisection::Bisection(FPType precision, Derivative *der) : precision_(precision), der_(der){
 	assert(precision > 0.0 && der != NULL);
-	_precision = precision;
-	_der = der;
 };
 
 Bisection::~Bisection(){
@@ -19,21 +17,23 @@ Bisection::~Bisection(){
 
 FPType Bisection::execute(FPType a, FPType b){
 	
+	//std::cout << "a = " << a  << " b = " << b << std::endl; 
 	assert(a <= b);
 	FPType alpha = 0.0;
-	FPType der = _der->calculate(b);
+	FPType der = der_->calculate(b);
 	if (der <= 0.0) return b; 
-	if (_der->calculate(0.0) > 0.0) return 0.0;
+	if (der_->calculate(0.0) > 0.0) return 0.0;
 	
 	while (true) {
 		alpha = (a + b) / 2.0;
-		der = _der->calculate(alpha);
+		if (alpha == a || alpha == b) return alpha; // to prevent looping
+		der = der_->calculate(alpha);
 		if (der <= 0.0) {
 			a = alpha;
 		} else {
 			b = alpha;
 		};
-		if (((b - a) <= 2 * _precision) || (fabs(der) <= 1e-20)){
+		if (((b - a) <= 2 * precision_) || (fabs(der) <= 1e-25)){
 			break;
 		}
 	}
@@ -42,6 +42,6 @@ FPType Bisection::execute(FPType a, FPType b){
 };
 
 FPType Bisection::getPrecision(){
-	return _precision;
+	return precision_;
 };
 

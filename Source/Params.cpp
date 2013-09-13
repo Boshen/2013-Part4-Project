@@ -52,5 +52,7 @@ std::string Params::getAlgoParams(){
 std::string Params::getAutoFileName(char del){
 	std::string netName;
 	Utils::extractName(getParam("NETWORK").c_str(), netName);
-	return netName + del + getParam("ALGORITHM") + del + getParam("EQUILIBRATION") + del + getParam("APPROACH") + del + getParam("LINE_SEARCH");
+	std::string sg = getParamWoSpaces("NEWTON_STEPS");
+	if (sg != "") return netName + del + getParam("ALGORITHM") + del + getParam("EQUILIBRATION") + del + getParam("APPROACH") + del + getParam("LINE_SEARCH") + del + sg + del + getParam("ShPathAlgo");
+	return netName + del + getParam("ALGORITHM") + del + getParam("EQUILIBRATION") + del + getParam("APPROACH") + del + getParam("LINE_SEARCH") + del + getParam("ShPathAlgo");
 };

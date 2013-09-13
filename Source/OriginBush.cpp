@@ -122,3 +122,7 @@ void OriginBush::printOriginFlow() const{
 FPType OriginBush::getOriginFlow(int linkIndex) const{
 	return daGraph_->getOriginFlow(linkIndex);
 };
+
+FPType OriginBush::checkOFlowsFeasibility(){
+	return daGraph_->checkOFlowsFeasibility();
+}; 

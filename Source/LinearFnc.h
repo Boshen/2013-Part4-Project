@@ -12,15 +12,15 @@ class LinearFnc : public LinkFnc {
 		LinearFnc(FPType a, FPType b);
 		~LinearFnc();
 	
-		FPType evaluate(FPType arcFlow);
-		FPType evaluateDerivative(FPType arcFlow);
+		FPType evaluate(FPType arcFlow) const;
+		FPType evaluateDerivative(FPType arcFlow) const;
 
 		void print() const;
 	
 	private:
 	
-		FPType _param1;
-		FPType _param2;
+		const FPType _param1;
+		const FPType _param2;
 };
 
 #endif

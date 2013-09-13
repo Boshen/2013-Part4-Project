@@ -6,10 +6,10 @@
 
 class StepSizeAdd : public StepSize {
 	public:
-		StepSizeAdd(DescDirection *algo, LineSearch *lineSearch, Derivative *der);
+		StepSizeAdd(LineSearch *lineSearch, Derivative *der);
 		~StepSizeAdd();
 		
-		void initialiseDerivative();
+		void initialiseDerivative(DescDirection *algo);
 	private:
 		Derivative *_der;
 };

@@ -6,13 +6,16 @@
 
 class PathBasedFlowMoveWithStep : public PathBasedFlowMove {
 	public:
-		PathBasedFlowMoveWithStep(StepSize *stepSize, DescDirectionPath* pathDirectionAlgo);
+		PathBasedFlowMoveWithStep(StepSize *stepSize, DescDirectionPath* pathDirectionAlgo, FPType zeroFlow);
 		~PathBasedFlowMoveWithStep();
 		
 		bool executeFlowMove();
+		void setDescDirection(DescDirection* dir);
 		
 	private:
-		StepSize *_stepSize;
+		StepSize *stepSize_;
+		const FPType zeroFlow_;
+		DescDirection* dir_;
 };
 
 #endif

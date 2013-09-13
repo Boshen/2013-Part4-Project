@@ -7,13 +7,12 @@
 
 class ParseParams {
 	public:
-		ParseParams(std::string paramsFile);
+		explicit ParseParams();
 		~ParseParams();
 		
-		void execute(Params *params);
+		void execute(const std::string &fileName, Params *params);
 		
 	private:
-		std::string _fileName;
 		bool _longComment;
 		
 		std::string skipComments(std::string line);

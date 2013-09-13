@@ -15,8 +15,8 @@ class Bisection : public LineSearch {
 		FPType getPrecision();
 	
 	private:
-		FPType _precision;
-		Derivative *_der;
+		const FPType precision_;
+		Derivative *der_;
 };
 
 #endif

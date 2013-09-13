@@ -14,8 +14,8 @@ class AddHookScreenOut : public AddHook {
 		AddHookScreenOut(int precision = 10) : precision_(precision) {assert(precision >= 1 && precision < 17);}; 
 		virtual ~AddHookScreenOut() {};
 		
-		void produceOut(double timePassed, FPType gap){
-			//std::cout << std::setprecision(precision_) << timePassed << " " << gap << std::endl;
+		virtual void produceOut(double timePassed, FPType gap){
+			std::cout << std::setprecision(precision_) << timePassed << " " << gap << std::endl;
 		};
 		
 	private:

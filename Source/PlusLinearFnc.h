@@ -8,16 +8,16 @@ class PlusLinearFnc : public LinkFnc {
 		explicit PlusLinearFnc(LinkFnc *fnc, FPType multiply, FPType add);
 		~PlusLinearFnc();
 		
-		FPType evaluate(FPType linkFlow);
-		FPType evaluateDerivative(FPType linkFlow);
+		FPType evaluate(FPType linkFlow) const;
+		FPType evaluateDerivative(FPType linkFlow) const;
 		void print() const;
 		
 		LinkFnc * clone() const {return new PlusLinearFnc(*this);}
 		
 	private:
 		LinkFnc *fnc_;
-		FPType multiply_;
-		FPType add_;
+		const FPType multiply_;
+		const FPType add_;
 };
 
 #endif

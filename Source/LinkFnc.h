@@ -14,9 +14,9 @@ class LinkFnc {
 	
 		virtual ~LinkFnc(){};
 	
-		virtual FPType evaluate(FPType linkFlow) =0;
-		virtual FPType evaluateDerivative(FPType linkFlow) =0;
-		virtual FPType evaluateSecondDerivative(FPType linkFlow) { return 0.0; };
+		virtual FPType evaluate(FPType linkFlow) const =0;
+		virtual FPType evaluateDerivative(FPType linkFlow) const =0;
+		virtual FPType evaluateSecondDerivative(FPType linkFlow) const { return 0.0; };
 
 		// for marginal cost function
 		virtual FPType getSOCost(FPType linkFlow) const {return 0.0;};

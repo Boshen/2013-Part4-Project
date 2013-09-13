@@ -10,11 +10,11 @@ LinearFnc::~LinearFnc(){
 
 };
 
-FPType LinearFnc::evaluate(FPType arcFlow){
+FPType LinearFnc::evaluate(FPType arcFlow) const {
 	return _param1*arcFlow + _param2;
 };
 
-FPType  LinearFnc::evaluateDerivative(FPType arcFlow){
+FPType  LinearFnc::evaluateDerivative(FPType arcFlow) const {
 	return _param1;
 };
 

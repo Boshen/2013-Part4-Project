@@ -13,19 +13,19 @@ class SpiessFnc : public LinkFnc {
 		//explicit SpiessFnc(FPType freeFlow, FPType alpha, FPType beta, FPType capacity, FPType toll);
 		~SpiessFnc();
 		
-		FPType evaluate(FPType linkFlow);
-		FPType evaluateDerivative(FPType linkFlow);
+		FPType evaluate(FPType linkFlow) const;
+		FPType evaluateDerivative(FPType linkFlow) const;
 		void print() const;
 		
-		LinkFnc * clone() const {return new SpiessFnc(*this);}
+		LinkFnc * clone() const {return new SpiessFnc(*this);};
 	
 	private:
 	
-		FPType freeFlow_;
-		FPType capacity_;
-		FPType alpha_;
-		FPType beta_;
-		FPType betaSq_;
+		const FPType freeFlow_;
+		const FPType capacity_;
+		const FPType alpha_;
+		const FPType beta_;
+		const FPType betaSq_;
 		
 };
 

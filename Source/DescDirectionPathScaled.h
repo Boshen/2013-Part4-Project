@@ -11,7 +11,7 @@ class DescDirectionPathScaled : public DescDirectionPath {
 		
 	private:
 		DescDirectionPath *_pathDir;
-		int _nbLinks;
+		const int _nbLinks;
 };
 
 #endif

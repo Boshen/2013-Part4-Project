@@ -12,12 +12,12 @@ class AlgoDecorator : public DecoratedEqAlgo {
 		AlgoDecorator(DecoratedEqAlgo *algo, AddHookStoreOut *hook, const std::string& fileName, Timer &timer);
 		~AlgoDecorator();
 		
-		int execute();
+		virtual int execute();
 		
 	private:
-		DecoratedEqAlgo *_component;
-		AddHookStoreOut *_hook;
-		std::string _fileName;
+		DecoratedEqAlgo *component_;
+		AddHookStoreOut *hook_;
+		std::string fileName_;
 		Timer &timer_;
 };
 

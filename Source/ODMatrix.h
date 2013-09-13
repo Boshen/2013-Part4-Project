@@ -4,6 +4,10 @@
 #include "Origin.h"
 #include "StarNetwork.h"
 
+#include <string>
+#include <tr1/unordered_map>
+
+
 class ODMatrix {
 	public:
 		ODMatrix(int nbNodes);
@@ -27,12 +31,13 @@ class ODMatrix {
 		
 	private:
 	
-		int _nbNodes; // number of nodes in the network	
+		const int _nbNodes; // number of nodes in the network	
 		int _nbODPairs;
-		Origin **_odMatrix; // internal representation of O-D matrix	
-		int _curOrigin;
-		int _size;
-		FPType **_demandByIndex;
+		std::list<Origin*> _odMatrix; // internal representation of O-D matrix	
+		//int _curOrigin;
+		std::list<Origin*>::iterator _curOrigin;
+		//int _size;
+		std::tr1::unordered_map<std::string, FPType> _demandByIndex;
 };
 
 #endif

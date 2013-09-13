@@ -1,9 +1,11 @@
 #include "OriginBasedAlgo.h"
 #include "Utils.h"
+#include "Timer.h"
 
 #include <stdlib.h>
 #include <iostream>
 #include <stdio.h>
+#include <math.h>
 
 //#define PRINT false
 
@@ -20,33 +22,29 @@ int OriginBasedAlgo::execute(){
 	std::cout << "Initialisation" << std::endl;
 	originSet_->initialise();
 	
-	//std::cout << "Initialisation done" << std::endl;
+	std::cout << "Initialisation done" << std::endl;
+	
 	//main loop
 	int nbIter = 0; 
-	clock_t start, end;
+	Timer timer;
 	double timePassed = 0.0;
 	while (true) {
-		start = clock();
+		timer.start();
 		nbIter++;
 		
 		// global convergence check
 		if (originSet_->isConverged()){
 			break;
 		}
-		//if (nbIter == 1) {
-			//originSet_->loadOriginFlows(); // now it is in initialise()
-			//std::cout << "origin flows after AON " << std::endl;
-			//originSet_->print();
-			//originSet_->printNet();
-		//}
 		//std::cout << "nbIter = " << nbIter << std::endl;
 		//if (nbIter == 2) break;
 		
 		// decomposition by origins
-		//int count = 0;
+		int count = 0;
 		//std::cout << "*****************************************ITER = " << nbIter << std::endl;
 		for (OriginBush *bush = originSet_->beginSet(); bush != NULL; bush = originSet_->getNextSet()){
-			//std::cout << "Origin = " << bush->getOriginIndex() << std::endl;
+			//std::cout << "---------------------------------------------Origin = " << bush->getOriginIndex() << std::endl;
+			//bush->print();
 			bush->updateSet();
 			//std::cout << "Improving set " << std::endl;
 			bool wasImproved = bush->improve();
@@ -55,31 +53,66 @@ int OriginBasedAlgo::execute(){
 				mainLoop(bush, wasImproved, nbIter);
 				//	if (!wasImproved) break; // for EQII
 				//}; // for EQII
-			//count++;
+			count++;
 			//if (count == 1) break;
 			//std::cout << "MAX = " << Utils::checkFeasibility(net_, mat_) << std::endl;//*/
+			//break;
+			//if (bush->getOriginIndex() == 1) return 0;
 		}
-		
+		/*FPType linkFlows[net_->getNbLinks()];
+		for (int k = 0; k < net_->getNbLinks(); ++k) linkFlows[k] = 0.0;
+		for (OriginBush *bush = originSet_->beginSet(); bush != NULL; bush = originSet_->getNextSet()){
+			for (int k = 0; k < net_->getNbLinks(); ++k) {
+				linkFlows[k] += bush->getOriginFlow(k);
+			}
+		}
+		for (StarLink *link = net_->beginOnlyLink(); link != NULL; link = net_->getNextOnlyLink()) {
+			std::cout << "link = " << link->getIndex() << " diff = " << fabs(linkFlows[link->getIndex()] - link->getFlow()) << std::endl;
+		}*/
+		/*for (OriginBush *bush = originSet_->beginSet(); bush != NULL; bush = originSet_->getNextSet()){
+			std::cout << "Origin = " << bush->getOriginIndex() << " MAX = " << bush->checkOFlowsFeasibility() << std::endl;
+		}//*/
+		//return 0;
+		//std::cout << "Here we should go inside of OriginBasedAlgoTapas" << std::endl;
 		doSmthAfterOrigins(nbIter); // hook method - does nothing by default
-		
-		end = clock();
-		timePassed += ((FPType)(end-start))/ (CLOCKS_PER_SEC);
+		timer.stop(); 
+		timePassed += timer.getTimePassed(); //((FPType)(end-start))/ (CLOCKS_PER_SEC);
 		doSmthAfterLoop(timePassed, originSet_->getGapVal());
-		//std::cout << timePassed << " " << originSet_->getGapVal() << std::endl; //" MAX = " << Utils::checkFeasibility(net_, mat_) << std::endl; //printf ("%4.5f %4.5f \n", timePassed, originSet_->getGapVal()); 
+		//std::cout << timePassed << " " << originSet_->getGapVal() << " MAX = " << Utils::checkFeasibility(net_, mat_) << std::endl; 
+		//originSet_->printTotalOriginFlows();
+		//if (nbIter == 15) break;
 		
-		//break;
 	}
+	doSmthAfterLoop(timePassed, originSet_->getGapVal());
+	//net_->print();
 	std::cout << "FINISH!!!! nbIter = " << nbIter << std::endl;
 	return nbIter;
 };
 
-void OriginBasedAlgo::mainLoop(OriginBush *bush, bool wasImproved, int nbIter){
+bool OriginBasedAlgo::mainLoop(OriginBush *bush, bool wasImproved, int nbIter){
+	
+	//if (bush->getOriginIndex() == 9) {
+		//std::cout << "current bush:" << std::endl;
+		//bush->print();
+		//std::cout << " MAX = " << Utils::checkFeasibility(net_, mat_) << std::endl; 
+	//}
+	//std::cout << "current net:" << std::endl;
+	//net_->print();
 	
 	//std::cout << "Equilibration" << std::endl;
-	bush->equilibrate(wasImproved, nbIter); //bool canMoveFlow = 
+	bool canMoveFlow = bush->equilibrate(wasImproved, nbIter); //bool canMoveFlow = 
+
+	//if (bush->getOriginIndex() == 9){
+		//std::cout << "bush after equilibration:" << std::endl;
+		//bush->print();
+	//}
+		
+	//std::cout << "current net:" << std::endl;
+	//net_->print();
 	
 	//std::cout << "Removing unused links" << std::endl;
 	bush->removeUnusedLinks();
+	return canMoveFlow;
 	
 	//return true;
 	

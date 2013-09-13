@@ -11,11 +11,9 @@
 //originIndex_ == 94 && index == 104
 //originIndex_ == ORIGIN
 
-FPType DAGraphB::zeroFlow_ = 0.0;
 FPType DAGraphB::dirTol_ = 0.0;
 
-DAGraphB::DAGraphB(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol, int originIndex, bool useMultiStep) : DAGraph(net, mat, zeroFlow, dirTol, originIndex), useMultiStep_(useMultiStep), originIndex_(originIndex) {
-	zeroFlow_ = zeroFlow;
+DAGraphB::DAGraphB(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol, int originIndex, bool useMultiStep) : DAGraph(net, mat, zeroFlow, originIndex), useMultiStep_(useMultiStep) {
 	dirTol_ = dirTol;
 };
 
@@ -36,7 +34,7 @@ bool DAGraphB::moveFlow(int iter){
 			//if (originIndex_ == 27) std::cout << "node = " << i << " demand = " << nodes_[i]->getDemand() << std::endl;
 			//printShPath(i);
 			//printMaxShPath(i);
-			canMoveTmp = performFlowMove(i, originIndex_); 
+			canMoveTmp = performFlowMove(i, getOriginIndex()); 
 			if (canMoveTmp) {
 				canMove = true;
 				buildMinMaxTrees(i);

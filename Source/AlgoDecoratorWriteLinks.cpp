@@ -12,7 +12,8 @@ AlgoDecoratorWriteLinks::~AlgoDecoratorWriteLinks() {
 int AlgoDecoratorWriteLinks::execute(){
 	int nbIter = component_->execute();
 	timer_.stop();
-	net_->printToFile(fileName_);
+	std::cout << "Writing link flows to file: " << fileName_ << std::endl;
+	net_->printToFile(fileName_); //"Results/Test2/LinkFlows/" + 
 	return nbIter;
 };
 

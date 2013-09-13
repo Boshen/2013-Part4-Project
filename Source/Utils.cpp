@@ -217,7 +217,7 @@ int Utils::parseSpiessFnc(const std::string& input, SpiessFncCreator &spCreator,
     }
     if (plusLinear) {
     	spCreator.setParamsLinear(addParam, multiplyParam);
-    	printf("multiply = %e \n", multiplyParam);
+    	//printf("multiply = %e \n", multiplyParam);
     	std::cout << "PlusLinearFnc is parsed: add = " << addParam << " multiply = " << multiplyParam << std::endl;
     }
     return id;
@@ -287,4 +287,27 @@ bool Utils::checkPathIsValid(Path * path, int originIndex, int destIndex, int nb
 		return false;
 	}
 	return true;
+};
+
+FPType Utils::calculate(Path *path, Path *minPath, int nbLinks){
+	//assert(_nbLinks > 0);
+	std::list<StarLink*> list;
+	Utils::getDisjointLinks(path, minPath, list, nbLinks);
+	return calculateForDisjoint(list);
+	
+};
+
+FPType Utils::calculateForDisjoint(const std::list<StarLink*> &list){
+	StarLink* link = NULL;
+	FPType der = 0.0;
+	for (std::list<StarLink*>::const_iterator it = list.begin(); it != list.end(); it++) {
+		link = *it;
+		//der += link->getDerivative(); 
+		der += (link->getLinkFnc())->evaluateDerivative(link->getFlow());
+	}
+	return der;
+};
+
+FPType Utils::calculateForDisjoint2(const std::list<StarLink*> &list1, const std::list<StarLink*> &list2){
+	return calculateForDisjoint(list1) + calculateForDisjoint(list2);
 };

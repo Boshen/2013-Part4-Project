@@ -13,7 +13,7 @@ Derivative::~Derivative(){
 
 };
 
-FPType Derivative::calculate(FPType alpha){
+FPType Derivative::calculate(FPType alpha) const {
 	FPType sum = 0.0;
 	FPType inputFlow = 0.0;
 	LinkFnc *link = NULL;

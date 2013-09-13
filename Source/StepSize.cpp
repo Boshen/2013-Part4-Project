@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 
-StepSize::StepSize(DescDirection *algo, LineSearch *lineSearch) : _lineSearch(lineSearch), _algo(algo) {
+StepSize::StepSize(LineSearch *lineSearch) : _lineSearch(lineSearch) {
 	/*_lineSearch = lineSearch;
 	_algo = algo;
 	_precision = precision;
@@ -20,9 +20,9 @@ StepSize::~StepSize(){
 	//delete[] _indexes;
 };
 
-FPType StepSize::getStepSize(){
-	initialiseDerivative();
-	return  _lineSearch->execute(0.0, _algo->getUpperBound());
+FPType StepSize::getStepSize(DescDirection *algo){
+	initialiseDerivative(algo);
+	return  _lineSearch->execute(0.0, algo->getUpperBound());
 };
 
 /*void StepSize::fillIndexes() {

@@ -9,22 +9,23 @@ class BprFnc : public LinkFnc {
 	
 	public:
 	
-	BprFnc(FPType freeFlow, FPType B, FPType capacity, FPType power);
-	~BprFnc();
+		BprFnc(FPType freeFlow, FPType B, FPType capacity, FPType power);
+		~BprFnc();
 	
-	FPType evaluate(FPType linkFlow);
-	FPType evaluateDerivative(FPType linkFlow);
-	FPType evaluateSecondDerivative(FPType linkFlow);
+		FPType evaluate(FPType linkFlow) const;
+		FPType evaluateDerivative(FPType linkFlow) const;
+		FPType evaluateSecondDerivative(FPType linkFlow) const;
 	
-	void print() const;
+		void print() const;
 	
-	LinkFnc * clone() const {return new BprFnc(*this);}
+		LinkFnc * clone() const {return new BprFnc(*this);}
+	
 	private:
 	
-	FPType _freeFlow;
-	FPType _B;
-	FPType _capacity;
-	FPType _power;
+		const FPType _freeFlow;
+		const FPType _B;
+		const FPType _capacity;
+		const FPType _power;
 
 };
 

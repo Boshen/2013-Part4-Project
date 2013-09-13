@@ -15,9 +15,9 @@ class StarNode {
 		void setIndex(int index);
 		
 	private:
-		int _id;
+		const int _id;
 		int _index;
-		bool _isZone;
+		const bool _isZone;
 
 };
 

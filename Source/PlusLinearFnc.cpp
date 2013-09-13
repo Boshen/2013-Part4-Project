@@ -10,11 +10,11 @@ PlusLinearFnc::~PlusLinearFnc() {
 	delete fnc_;
 }; 
 
-FPType PlusLinearFnc::evaluate(FPType linkFlow) {
+FPType PlusLinearFnc::evaluate(FPType linkFlow) const {
 	 return fnc_->evaluate(linkFlow) + add_ + multiply_ * linkFlow;
 }; 
 
-FPType PlusLinearFnc::evaluateDerivative(FPType linkFlow) {
+FPType PlusLinearFnc::evaluateDerivative(FPType linkFlow) const {
 	 return fnc_->evaluateDerivative(linkFlow) + multiply_;
 }; 
 

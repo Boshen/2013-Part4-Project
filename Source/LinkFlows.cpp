@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-void LinkFlows::initialiseObject(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv){
+LinkFlows::LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, StepSize* stepSize, ConvMeasure *conv) : _stepSize(stepSize) {
 	_mat = mat;
 	_net = net;
 	_linkFncCont = linkFncCont;
@@ -27,11 +27,6 @@ void LinkFlows::initialiseObject(StarNetwork *net, ODMatrix *mat, LinkFncContain
 	_stepPrevPrev = 0.0;
 };
 
-LinkFlows::LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) {
-	initialiseObject(net, mat, linkFncCont, shPath, der, lineSearch, conv);	
-	_stepSize = new StepSizeAdd(this, lineSearch, der);
-};
-
 /*LinkFlows::LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision){
 	initialiseObject(net, mat, linkFncCont, shPath, der, lineSearch, conv);	
 	_stepSize = new StepSizeSparsity(new StepSizeAdd(this, _nbLinks, sparsityPrecision, lineSearch, der));	
@@ -41,7 +36,7 @@ LinkFlows::~LinkFlows(){
 	delete[] _linkFlows;
 	delete[] _linkFlowsAux;
 	delete _aon;
-	delete _stepSize;
+	//delete _stepSize;
 	delete[] _indexes;
 };
 
@@ -115,7 +110,7 @@ void LinkFlows::equilibrate(){
 	calculateDirection();
 	
 	_stepPrevPrev = _stepPrev;
-	_stepPrev = _stepSize->getStepSize();
+	_stepPrev = _stepSize->getStepSize(this);
 	
 	//bool ins = false;
 	for(int i = 0; i < _nbLinks; i++) {
@@ -133,6 +128,6 @@ bool LinkFlows::isConverged(){
 	return _conv->isConverged(_minTravelTime); // 
 };
 
-void LinkFlows::initialiseItself(StarLink* link, PairOD *dest){
+void LinkFlows::initialiseItself(StarLink* link, PairOD *dest, int originIndex){
 	_linkFlowsAux[link->getIndex()] += dest->getDemand();
 };

@@ -6,7 +6,7 @@
 
 class PathBasedFlowMove {
 	public:
-		virtual ~PathBasedFlowMove(){delete _pathDirectionAlgo; };
+		virtual ~PathBasedFlowMove(){};
 		
 		bool calculatePathDirection(const std::list<Path*> &paths);
 		virtual bool executeFlowMove() = 0;
@@ -25,7 +25,7 @@ class PathBasedFlowMove {
 		
 	private:
 		
-		DescDirectionPath* _pathDirectionAlgo;
+		DescDirectionPath* _pathDirectionAlgo; // is deallocated in ObjectManager
 };
 
 #endif

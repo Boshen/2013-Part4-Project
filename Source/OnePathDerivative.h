@@ -11,7 +11,7 @@ class OnePathDerivative {
 		FPType calculate(Path *path);
 		
 	private:
-		int _slope;
+		const int _slope;
 };
 
 #endif

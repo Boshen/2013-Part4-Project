@@ -8,7 +8,7 @@
 class PathBasedAlgo : public EqAlgo {//, public EquilibrationType {
 	
 	public:
-		PathBasedAlgo(PathSet *pathSet, bool useEqI, AddHook *component);
+		PathBasedAlgo(PathSet *pathSet, bool useEqI, AddHook *component, ConvMeasure *conv); //, StarNetwork *net, ODMatrix *mat);
 		virtual ~PathBasedAlgo();
 		int execute();
 		bool mainLoop(ODSet *odSet);
@@ -18,6 +18,9 @@ class PathBasedAlgo : public EqAlgo {//, public EquilibrationType {
 	private:
 		PathSet *_pathSet;
 		EquilibrationType *_eq;
+		ConvMeasure *_conv;
+		//StarNetwork *net_;
+		//ODMatrix *mat_;
 };
 
 #endif

@@ -31,7 +31,7 @@ class DescDirectionPath {
 		
 	protected:
 		
-		FPType _delta;
+		const FPType _delta;
 		DescDirectionPath(FPType delta) :  _delta(delta), _pathDirection(NULL), _size(0) {};
 		
 		Path* findMinPath(const std::list<Path*> &paths) const{

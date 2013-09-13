@@ -13,8 +13,8 @@ class OriginBush {
 		
 		virtual void updateSet();
 		bool equilibrate(bool wasImproved, int iter);
-		bool improve();
-		void removeUnusedLinks();
+		virtual bool improve();
+		virtual void removeUnusedLinks();
 		
 		void addLink(StarLink *link);
 		
@@ -27,6 +27,9 @@ class OriginBush {
 		
 		static void updateLinkCosts();
 		static StarNetwork* getNet();
+		
+		FPType checkOFlowsFeasibility(); 
+		
 		
 	protected:
 		OriginBush(int index, StarNetwork *net);

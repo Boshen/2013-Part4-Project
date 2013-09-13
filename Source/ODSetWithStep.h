@@ -3,14 +3,11 @@
 
 #include "ODSet.h"
 #include "DescDirection.h"
-#include "Derivative.h"
-#include "LineSearch.h"
-#include "StepSize.h"
+#include "PathBasedFlowMoveWithStep.h"
 
 class ODSetWithStep : public ODSet, public DescDirection {
 	public:
-		ODSetWithStep(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, Derivative *der, FPType *linkFlows, LineSearch *lineSearch, PathAlgoCreator *algoCreator);
-		//ODSetWithStep(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, Derivative *der, FPType *linkFlows, LineSearch *lineSearch, FPType sparsityPrecision, PathAlgoCreator *algoCreator);
+		ODSetWithStep(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, FPType zeroFlow, FPType *linkFlows, PathBasedFlowMoveWithStep* flowMove);
 		~ODSetWithStep();
 		
 		// from DescDirection
@@ -21,12 +18,13 @@ class ODSetWithStep : public ODSet, public DescDirection {
 		int* getIndexes();
 		
 	private:
-		StepSize *_stepSize;
 		FPType *_projDir;
 		int *_indexes;
 		int _size;
+		static PathBasedFlowMoveWithStep* flowMoveStep_;
 		
 		void calculateProjectedDirection();
+		void deallocProjectedDirection();
 };
 
 #endif

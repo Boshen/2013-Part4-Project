@@ -14,15 +14,15 @@ SpiessFncComb::~SpiessFncComb(){
 	delete fnc2_;
 };
 		
-FPType SpiessFncComb::evaluate(FPType linkFlow){
+FPType SpiessFncComb::evaluate(FPType linkFlow) const {
 	return fnc1_->evaluate(linkFlow) + fnc2_->evaluate(linkFlow);
 };
 
-FPType SpiessFncComb::evaluateDerivative(FPType linkFlow){
+FPType SpiessFncComb::evaluateDerivative(FPType linkFlow) const {
 	return fnc1_->evaluateDerivative(linkFlow) + fnc2_->evaluateDerivative(linkFlow);
 };
 
-void SpiessFncComb::print() const{
+void SpiessFncComb::print() const {
 	fnc1_->print();
 	fnc2_->print();
 };

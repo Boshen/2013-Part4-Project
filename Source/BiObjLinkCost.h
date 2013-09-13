@@ -5,19 +5,19 @@
 
 class BiObjLinkCost : public LinkCost {
 	public:
-		BiObjLinkCost(){};
+		BiObjLinkCost() : toll_(0) {};
 		~BiObjLinkCost(){};
 		
 		void setToll(int toll){
-			_toll = toll;
+			toll_ = toll;
 		};
 		
 		int getToll(){
-			return _toll;
+			return toll_;
 		};
 		
 	private:
-		int _toll;
+		int toll_;
 };
 
 #endif

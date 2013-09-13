@@ -17,9 +17,9 @@
 
 class ODSet { 
 	public:
-		ODSet(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType *linkFlows, PathAlgoCreator *algoCreator);
-		ODSet(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType *linkFlows, FPType zeroFlow, PathAlgoCreator *algoCreator);
-		ODSet(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType *linkFlows, FPType zeroFlow, FPType alpha, FPType demand, PathAlgoCreator *algoCreator);
+		ODSet(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, FPType zeroFlow, FPType *linkFlows, PathBasedFlowMove* flowMove);
+		//ODSet(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, FPType *linkFlows, FPType zeroFlow, DescDirectionPath* descDirPath);
+		//ODSet(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, FPType *linkFlows, FPType zeroFlow, FPType alpha, FPType demand, DescDirectionPath* descDirPath);
 		virtual ~ODSet();
 		
 		int getIndex() const;
@@ -49,29 +49,34 @@ class ODSet {
 	protected:
 		
 		virtual void calculateProjectedDirection() {}; // does nothing by default - hook method for algos with step size
+		virtual void deallocProjectedDirection() {}; // does nothing by default - hook method for algos with step size
 		
-		PathBasedFlowMove *_flowMove;
+		
 		FPType *_linkFlows;
-		int _nbLinks;
-		std::list<StarLink*> _commonLinks;
+		const int _nbLinks;
+		
+		const int _destIndex;
+		const int _originIndex;
 			
 	private:
-		StarNetwork *_net;
-		ShortestPath *_shPath;
-		ConvMeasure *_conv;
+		static StarNetwork *_net;
+		static ShortestPath *_shPath;
 		
-		int _index;
-		int _destIndex;
-		int _originIndex;
-		PathCost *_pathCost;
+		const int _index;
+		
+		static PathCost *_pathCost;
 		FPType _minDist;
-		FPType _zeroFlow;
+		static FPType _zeroFlow;
 		
 		std::list<Path*> _allPaths;
 		mutable std::list<Path*>::const_iterator _it;
 		int _size;
 		
-		void initialiseObject(int index, int destIndex, int originIndex, PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv,  FPType zeroFlow, FPType *linkFlows, PathAlgoCreator *algoCreator);
+		static PathBasedFlowMove *_flowMove;
+		
+		//std::list<FPType> prevFlows_;
+		
+		//void initialiseObject(PathCost *pathCost, StarNetwork *net, ShortestPath *shPath, FPType zeroFlow, FPType *linkFlows);
 		
 };
 

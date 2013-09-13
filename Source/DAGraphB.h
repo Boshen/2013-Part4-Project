@@ -31,10 +31,6 @@ class DAGraphB : public DAGraph {
 		void printMinPathOFlows(int index) const;
 		void printMaxPathOFlows(int index) const;
 		
-		// for debugging
-		int originIndex_;
-		
-		static FPType zeroFlow_;
 		static FPType dirTol_;
 };
 

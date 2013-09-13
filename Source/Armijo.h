@@ -17,8 +17,8 @@ class Armijo : public LineSearch {
 	
 	private:
 	
-		FPType _decriment;
-		Derivative *_der;
+		const FPType decriment_;
+		Derivative *der_;
 	
 };
 

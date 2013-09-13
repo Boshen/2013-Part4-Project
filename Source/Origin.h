@@ -12,7 +12,7 @@ class Origin {
 	
 	public:
 	
-		explicit Origin(int id);
+		explicit Origin(int index);
 		~Origin();
 	
 		void addDestination(PairOD *dest);
@@ -20,19 +20,19 @@ class Origin {
 		PairOD* beginDest();
 		PairOD* getNextDest();
 	
-		int getID() const;
+		//int getID() const;
 		int getIndex() const;
 		bool isEmpty() const;
 		int getNbDest() const;
 	
-		void setIndex(int index);
+		//void setIndex(int index);
 	
 	private:
 	
-		int _id;
+		//const int _id;
 		int _index;
-		bool _isEmpty;
-		int _nbDest;
+		//bool _isEmpty;
+		//int _nbDest;
 		std::list<PairOD*>::iterator _it;
 		std::list<PairOD*> _destList;	
 };

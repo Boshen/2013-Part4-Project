@@ -6,6 +6,7 @@
 #include <map>
 
 #include "../StarNetwork.h"
+#include "../ODMatrix.h"
 
 #include "ShPathInterface.h"
 
@@ -33,7 +34,7 @@ class ShPathFactory {
     public:
         static ShPathFactory* get();
 
-        ShPathInterface* getShPath(const std::string& algo, const std::string& dataStruct, StarNetwork* _netPointer);
+        ShPathInterface* getShPath(const std::string& algo, const std::string& dataStruct, StarNetwork* _netPointer, ODMatrix* _odMatrix);
 
 };
 

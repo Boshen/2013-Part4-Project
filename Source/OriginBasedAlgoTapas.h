@@ -6,13 +6,13 @@
 
 class OriginBasedAlgoTapas : public OriginBasedAlgo {
 	public:
-		explicit OriginBasedAlgoTapas(OriginSet *originSet, ODMatrix *mat, StarNetwork *net, PASManager& pasSet, AddHook *component);
+		explicit OriginBasedAlgoTapas(OriginSet *originSet, ODMatrix *mat, StarNetwork *net, PASManager* pasSet, AddHook *component);
 		~OriginBasedAlgoTapas();
 	
 		void doSmthAfterOrigins(int iter);		
 		
 	private:
-		PASManager& pasSet_;
+		PASManager* pasSet_;
 };
 
 #endif

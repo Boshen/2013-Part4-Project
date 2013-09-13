@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-DAGraphNode::DAGraphNode(int index, FPType demand) : demand_(demand), flowMoved_(demand), nodeIndex_(index), pre_(0), post_(0), minDist_(0.0), 
-							maxDist_(0.0) {//, hasLinkWithFlow_(false) {
+DAGraphNode::DAGraphNode(int index, FPType demand) : minLink_(NULL), maxLink_(NULL), demand_(demand), nodeIndex_(index), pre_(0), post_(0), minDist_(0.0), 
+							maxDist_(0.0) {
 
 };
 
@@ -45,25 +45,8 @@ void DAGraphNode::setMaxDist(FPType maxDist){
 	maxDist_ = maxDist;
 };
 
-/*bool DAGraphNode::hasLinkWithFlow() const{
-	return hasLinkWithFlow_;
-};
-
-void DAGraphNode::setHasLinkWithFlow(bool hasFlow){
-	hasLinkWithFlow_ = hasFlow;
-};*/
-
 FPType DAGraphNode::getDemand() const{
 	return demand_;
-};
-
-FPType DAGraphNode::getFlowMoved() const{
-	return flowMoved_;
-};
-
-void DAGraphNode::setFlowMoved(FPType newFlow){
-	assert(newFlow >= 0.0);
-	flowMoved_ = newFlow;
 };
 
 void DAGraphNode::setMinLink(StarLink* link){

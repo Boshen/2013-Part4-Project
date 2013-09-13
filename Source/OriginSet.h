@@ -8,11 +8,14 @@
 #include "AONAssignment.h"
 #include "ShortestPath.h"
 #include "ConvMeasure.h"
+#include "PASManager.h"
 
 class OriginSet : public InitialiseSolution {
 	
 	public:
 		OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE, bool useMultiStep);
+		// creator for TAPAS
+		OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, PASManager *pasManager);
 		~OriginSet();
 		
 		// for OriginBasedAlgo
@@ -25,7 +28,7 @@ class OriginSet : public InitialiseSolution {
 		OriginBush* getNextSet();
 		
 		// fot InitialiseSolution
-		void initialiseItself(StarLink* link, PairOD *dest);
+		void initialiseItself(StarLink* link, PairOD *dest, int originIndex);
 		
 		void loadOriginFlows();
 		
@@ -41,11 +44,15 @@ class OriginSet : public InitialiseSolution {
 		int nbLinks_;
 		
 		AONAssignment *aon_;
-		ConvMeasure *conv_;
 		
 		// for iterating
 		int currBushIndex_;
 		
+		void initialise(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath);
+	
+	protected:
+		ConvMeasure *conv_;
+			
 };
 
 #endif

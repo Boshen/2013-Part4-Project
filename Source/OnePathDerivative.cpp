@@ -1,7 +1,7 @@
 #include "OnePathDerivative.h"
 
-OnePathDerivative::OnePathDerivative(FPType slope){
-	_slope = slope; 
+OnePathDerivative::OnePathDerivative(FPType slope) : _slope(slope) {
+
 };
 
 OnePathDerivative::~OnePathDerivative(){

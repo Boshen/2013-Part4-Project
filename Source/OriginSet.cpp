@@ -1,8 +1,9 @@
 #include "OriginSet.h"
 #include "OriginBushLUCE.h"
 #include "OriginBushB.h"
+#include "OriginBushTapas.h"
 
-OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE, bool useMultiStep) : net_(net), conv_(conv), currBushIndex_(-1) {
+void OriginSet::initialise(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath){
 	nbOrigins_ = mat->getNbOrigins();
 	bushes_ = new OriginBush*[nbOrigins_];
 	indexes_ = new int[net->getNbNodes()];
@@ -11,14 +12,7 @@ OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, Conv
 	}
 	int i = 0;
 	for (Origin* origin = mat->beginOrigin(); origin != NULL; origin = mat->getNextOrigin()) {
-		if (useLUCE) {
-			bushes_[i] = new OriginBushLUCE(origin->getIndex(), net);
-		} else {
-			bushes_[i] = new OriginBushB(origin->getIndex(), net, useMultiStep);
-		}
-		//std::cout << " i = " << i << std::endl;
-		bushes_[i]->allocateDAG(origin->getIndex(), net, mat, zeroFlow, dirTol);
-		//bushes_[i]->print();
+		bushes_[i] = NULL; 
 		indexes_[origin->getIndex()] = i; 
 		i++;
 	}
@@ -26,6 +20,32 @@ OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, Conv
 	nbLinks_ = net->getNbLinks();
 };
 
+OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, bool useLUCE, bool useMultiStep) :  net_(net), currBushIndex_(-1), conv_(conv) {
+	initialise(mat, net, shPath);
+	int i = 0;
+	for (Origin* origin = mat->beginOrigin(); origin != NULL; origin = mat->getNextOrigin()) {
+		if (useLUCE) {
+			bushes_[i] = new OriginBushLUCE(origin->getIndex(), net);
+		} else {
+			bushes_[i] = new OriginBushB(origin->getIndex(), net, useMultiStep);
+		}
+		bushes_[i]->allocateDAG(origin->getIndex(), net, mat, zeroFlow, dirTol);
+		//bushes_[i]->print();
+		i++;
+	}
+};
+
+
+OriginSet::OriginSet(ODMatrix *mat, StarNetwork *net, ShortestPath *shPath, ConvMeasure *conv, FPType zeroFlow, FPType dirTol, PASManager *pasManager) : net_(net), currBushIndex_(-1),  conv_(conv) {
+	initialise(mat, net, shPath);
+	int i = 0;
+	for (Origin* origin = mat->beginOrigin(); origin != NULL; origin = mat->getNextOrigin()) {
+		bushes_[i] = new OriginBushTapas(origin->getIndex(), net, shPath, pasManager);
+		bushes_[i]->allocateDAG(origin->getIndex(), net, mat, zeroFlow, dirTol);
+		//bushes_[i]->print();
+		i++;
+	}
+};
 OriginSet::~OriginSet(){
 	for(int i = 0; i < nbOrigins_; i++){
 		delete bushes_[i];
@@ -67,8 +87,8 @@ OriginBush* OriginSet::getNextSet(){
 	return bushes_[currBushIndex_];
 };
 
-void OriginSet::initialiseItself(StarLink* link, PairOD *dest){
-	int originIndex = dest->getOriginIndex();
+void OriginSet::initialiseItself(StarLink* link, PairOD *dest, int originIndex){
+	//int originIndex = dest->getOriginIndex();
 	//std::cout << "inside initItself: originIndex = " << originIndex << " indexes_[originIndex] = " << indexes_[originIndex] << std::endl; 
 	//bushes_[indexes_[originIndex]]->print();
 	//std::cout << "print done" << std::endl; 
@@ -123,6 +143,11 @@ void OriginSet::printTotalOriginFlows(){
 	}
 	for (int i = 0; i < nbLinks_; i++) {
 		std::cout << flows[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "diff with link flows" << std::endl;
+	for (StarLink* link = net_->beginOnlyLink(); link != NULL; link = net_->getNextOnlyLink()) {
+		std::cout << link->getFlow() - flows[link->getIndex()] << " ";
 	}
 	std::cout << std::endl;
 };

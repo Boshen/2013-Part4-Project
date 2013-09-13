@@ -5,7 +5,7 @@
 #include <iostream>
 
 DescDirectionPathISP::DescDirectionPathISP(FPType slope, FPType scaleFact, FPType delta) : DescDirectionPath(delta), 
-												_slope(slope), _scaleFact(scaleFact), _pathDir(slope){
+												_slope(slope), _scaleFact(scaleFact) {
 };
 
 DescDirectionPathISP::~DescDirectionPathISP(){
@@ -18,7 +18,7 @@ PathAndDirection** DescDirectionPathISP::createPathDirection(int &size, const st
 	size = paths.size();
 	// allocate memory
 	PathAndDirection **returnSet = new PathAndDirection*[size];
-  	for (int i = 0; i < size; i++) {
+  	for (int i = 0; i < size; ++i) {
   		returnSet[i] = new PathAndDirection();
   	}
   	
@@ -31,7 +31,7 @@ PathAndDirection** DescDirectionPathISP::createPathDirection(int &size, const st
   	// check is O-D is equilibrated
   	if (maxDist - minDist <= _delta){
   		isEquilibrated = true;
-  		for (int i = 0; i < size; i++) {
+  		for (int i = 0; i < size; ++i) {
 			delete returnSet[i];
 		}
 		delete[] returnSet;
@@ -48,7 +48,7 @@ PathAndDirection** DescDirectionPathISP::createPathDirection(int &size, const st
   	Path *curPath = NULL;
   	int countCheap = 0;
   	int indexes[size];
-  	for (std::list<Path*>::const_iterator it = paths.begin(); it != paths.end(); it++) {
+  	for (std::list<Path*>::const_iterator it = paths.begin(); it != paths.end(); ++it) {
   		curPath = *it;
   		assert(curPath != NULL);
   		pathCost = curPath->getCurrCost();
@@ -69,14 +69,14 @@ PathAndDirection** DescDirectionPathISP::createPathDirection(int &size, const st
   	FPType totalSlope = 0.0;
   	FPType curSlope = 0.0;
   	FPType slopes[countCheap];
-  	for (int i = 0; i < countCheap; i++){
-  		curSlope = _pathDir.calculate((returnSet[indexes[i]])->getPath());
+  	for (int i = 0; i < countCheap; ++i){
+  		curSlope = calculateDerivative((returnSet[indexes[i]])->getPath());
   		if (curSlope < _slope) curSlope = _slope;
   		slopes[i] = curSlope;
   		totalSlope += 1.0 / (curSlope);
   	}
   	// calculate direction of cheaper paths
-  	for (int i = 0; i < countCheap; i++){
+  	for (int i = 0; i < countCheap; ++i){
   		count = indexes[i];
   		dir = totalDir / (slopes[i] * totalSlope);
   		(returnSet[count])->setDirection(dir);
@@ -86,4 +86,17 @@ PathAndDirection** DescDirectionPathISP::createPathDirection(int &size, const st
 
 FPType DescDirectionPathISP::calculateThreshold(FPType minDist, FPType maxDist) const{
 	return minDist + _scaleFact * (maxDist - minDist);
+};
+
+FPType DescDirectionPathISP::calculateDerivative(Path* path) const{
+	FPType der = 0.0;
+	FPType flow = 0.0;
+	for (StarLink* link = path->beginLink(); link != NULL; link = path->getNextLink()) {
+		flow = link->getFlow();
+		if (flow < _slope) {
+			flow = _slope;
+		} 
+		der +=  (link->getLinkFnc())->evaluateDerivative(flow);
+	}
+	return der;
 };

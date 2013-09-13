@@ -7,18 +7,18 @@
 #include <fstream>
 #include <algorithm>
 
-ParseParams::ParseParams(std::string paramsFile){
-	_fileName = paramsFile;
-	_longComment = false;
+ParseParams::ParseParams() : _longComment(false){
+
 };
 
 ParseParams::~ParseParams(){
 
 };
 
-void ParseParams::execute(Params *params){
+void ParseParams::execute(const std::string &fileName, Params *params){
 	// open file
-	std::ifstream paramsFile(_fileName.c_str());
+	_longComment = false;
+	std::ifstream paramsFile(fileName.c_str());
 	if (paramsFile.is_open()) {
 		
 		// parse all fields
@@ -42,7 +42,7 @@ void ParseParams::execute(Params *params){
 		paramsFile.close();
 	} else {
 		std::string message = "Unable to open a file: ";
-		message.append(_fileName);
+		message.append(fileName);
 		Error er(message);
 		throw er;
 	}

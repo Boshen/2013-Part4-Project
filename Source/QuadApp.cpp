@@ -29,7 +29,7 @@ FPType QuadApp::execute(FPType a, FPType b){
 		sum1 += link->evaluate(x) * y;
 		sum2 += link->evaluateDerivative(x) * y * y;
 	}
-	if (fabs(sum1) <= 1e-15) {
+	if (fabs(sum1) <= 1e-25) {
 		return 0.0;
 	}
 	if (sum1 >= 0.0) { 

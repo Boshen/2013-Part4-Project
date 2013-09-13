@@ -13,7 +13,7 @@
 
 class LinkFlows : public InitialiseSolution, public DescDirection {
 	public:
-		LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
+		LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, StepSize* stepSize, ConvMeasure *conv);
 		//LinkFlows(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv, FPType sparsityPrecision);
 		virtual ~LinkFlows();
 		
@@ -25,7 +25,7 @@ class LinkFlows : public InitialiseSolution, public DescDirection {
 		FPType getMinTravelTime() const;
 		
 		// for InitialiseSolution
-	 	void initialiseItself(StarLink* link, PairOD *dest);
+	 	void initialiseItself(StarLink* link, PairOD *dest, int originIndex);
 	 	
 	 	// from DescDirection
 	 	virtual FPType* getProjectedDirection();
@@ -62,7 +62,7 @@ class LinkFlows : public InitialiseSolution, public DescDirection {
 		
 		int *_indexes;
 		
-		void initialiseObject(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
+		//void initialiseObject(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv);
 		
 };
 

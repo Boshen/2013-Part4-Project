@@ -5,29 +5,30 @@
 #include "ODSet.h"
 #include "ODMatrix.h"
 #include "PathCost.h"
-#include "Derivative.h"
-#include "LineSearch.h"
+#include "PathBasedFlowMoveWithStep.h"
+#include "PathBasedFlowMoveGP.h"
 
 class PathSet : public InitialiseSolution {
 	public:
 		
-		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, Derivative *der, LineSearch *lineSearch, PathAlgoCreator *algoCreator);
-		//PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, Derivative *der, LineSearch *lineSearch, FPType sparsityPrecision, PathAlgoCreator *algoCreator);
-		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, FPType zeroFlow, PathAlgoCreator *algoCreator);
-		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost, FPType zeroFlow, FPType alpha, PathAlgoCreator *algoCreator);
+		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, PathCost *pathCost, FPType zeroFlow, PathBasedFlowMove* flowMove);
+		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, PathCost *pathCost, FPType zeroFlow, PathBasedFlowMoveWithStep* flowMove);
+		PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, PathCost *pathCost, FPType zeroFlow, PathBasedFlowMoveGP* flowMove);
+		//PathSet(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, PathCost *pathCost, FPType zeroFlow, FPType alpha, DescDirectionPath* descDirPath);
 		
 		virtual ~PathSet();
 		
 		virtual void initialise();
 		
-		void initialiseItself(StarLink* link, PairOD *dest);
+		void initialiseItself(StarLink* link, PairOD *dest, int originIndex);
 		
 		// iterate through path set
 		ODSet* beginSet();
 		ODSet* getNextSet();
 		
-		bool isConverged() const;
-		FPType getGap() const;
+		//bool isConverged() const;
+		//FPType getGap() const;
+		long int getNbPath();
 		
 		void print();
 		
@@ -42,7 +43,7 @@ class PathSet : public InitialiseSolution {
 		ShortestPath *_shPath;
 	private:
 		ODSet **_odSetList;
-		ConvMeasure *_conv;
+		//ConvMeasure *_conv;
 		int _size;
 		Path *_currPath;
 		PathCost *_pathCost;
@@ -55,7 +56,7 @@ class PathSet : public InitialiseSolution {
 		
 		//LinkFncContainer *_linkFncCont;
 		
-		void initialiseObject(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, ConvMeasure *conv, PathCost *pathCost);
+		void initialiseObject(StarNetwork *net, ODMatrix *mat, ShortestPath *shPath, PathCost *pathCost);
 };
 
 #endif

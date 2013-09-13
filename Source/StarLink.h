@@ -21,19 +21,21 @@ class StarLink {
 		
 		FPType getFlow() const;
 		void setFlow(FPType flow);
+		void setFlowToZero();
 		void addFlow(FPType flow);
 		
 		int getIndex() const;
 		void setIndex(int index);
 		
 		void updateTime();
+		std::string toString() const;
 		
 		//FPType getDerivative() const;
 		
 	private:
 		int _index;
-		int _nodeFrom;
-		int _nodeTo;
+		const int _nodeFrom;
+		const int _nodeTo;
 		int _nodeFromIndex;
 		int _nodeToIndex;
 		FPType _flow;

@@ -9,13 +9,13 @@
 class InitialiseSolution {
 	public:
 		virtual ~InitialiseSolution(){};
-		virtual void initialiseItself(StarLink* link, PairOD *dest) = 0;
-		void initialiseSolution(PairOD *dest, ShortestPath *shPath){
+		virtual void initialiseItself(StarLink* link, PairOD *dest, int originIndex) = 0;
+		void initialiseSolution(PairOD *dest, ShortestPath *shPath, int originIndex){
 			StarLink *link = shPath->getInComeLink(dest->getIndex());
 			int nextDest = link->getNodeFromIndex();
 			while (link != NULL) {
 				//std::cout << "nextDest = " << nextDest << std::endl;
-				initialiseItself(link, dest);
+				initialiseItself(link, dest, originIndex);
 				nextDest = link->getNodeFromIndex();
 				link = shPath->getInComeLink(nextDest);
 			}

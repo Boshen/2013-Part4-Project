@@ -9,7 +9,7 @@ class Derivative {
 		Derivative(FPType zeroFlow, LinkFncContainer *fnc);
 		~Derivative();
 		
-		FPType calculate(FPType alpha);
+		FPType calculate(FPType alpha) const;
 		
 		void setDataPointers(int size, FPType *x, FPType *y, int *indexes);
 		FPType getZeroFlow() const;

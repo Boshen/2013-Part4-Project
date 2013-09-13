@@ -18,7 +18,7 @@ class FileReader {
 		
 	private:
 		std::ifstream file_;
-		std::string name_;
+		const std::string name_;
 };
 
 #endif

@@ -13,7 +13,7 @@ class OriginBasedAlgo : public EqAlgo {
 		
 		int execute();
 		
-		virtual void mainLoop(OriginBush *bush, bool wasImproved, int nbIter); // default - EQI
+		virtual bool mainLoop(OriginBush *bush, bool wasImproved, int nbIter); // default - EQI
 		
 	protected:
 		virtual void doSmthAfterOrigins(int iter){}; // hook method - does nothing by default

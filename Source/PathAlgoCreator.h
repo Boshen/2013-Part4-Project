@@ -6,18 +6,18 @@
 
 class PathAlgoCreator {
 	public:
-		PathAlgoCreator(PathAlgoType algo, PathApp app, int nbLinks, FPType delta, FPType slope, FPType scaleFact);
+		PathAlgoCreator();
 		~PathAlgoCreator();
 		
-		DescDirectionPath* allocateDescDirectionPath();
+		DescDirectionPath* allocateDescDirectionPath(PathAlgoType algo, PathApp app, int nbLinks, FPType delta, FPType slope, FPType scaleFact);
 		
-	private:
+	/*private:
 		PathAlgoType _algo;
 		PathApp _app;
 		int _nbLinks;
 		FPType _delta;
 		FPType _slope;
-		FPType _scaleFact;
+		FPType _scaleFact;*/
 		
 };
 

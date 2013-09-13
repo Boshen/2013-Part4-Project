@@ -6,13 +6,14 @@
 
 #include <vector>
 #include <sstream>
+#include <iomanip>
 
-class AddHookStoreOut : public AddHookScreenOut {
+class AddHookStoreOut : public AddHook { //AddHookScreenOut {
 		public:
 			AddHookStoreOut(){};
 			virtual ~AddHookStoreOut(){};
 			
-			void produceOut(double timePassed, FPType gap) {
+			virtual void produceOut(double timePassed, FPType gap) {
 				times_.push_back(timePassed);
 				gaps_.push_back(gap);
 			};
@@ -24,7 +25,7 @@ class AddHookStoreOut : public AddHookScreenOut {
 				std::string line("");
 				for (int i = 0; i < size; ++i){
 					std::ostringstream strs;
-					strs << times_[i] << " " << gaps_[i] << "\n";
+					strs << std::setprecision(5)  << times_[i] << " " << std::setprecision(16) << gaps_[i] << "\n";
 					line = strs.str();
 					wfile.writeLine(line);
 				}

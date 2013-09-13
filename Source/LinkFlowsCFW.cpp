@@ -15,7 +15,7 @@
 	_nbCalls = 0;
 };*/
 
-LinkFlowsCFW::LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, Derivative *der, LineSearch *lineSearch, ConvMeasure *conv) : LinkFlows(net, mat, linkFncCont, shPath, der, lineSearch, conv){
+LinkFlowsCFW::LinkFlowsCFW(StarNetwork *net, ODMatrix *mat, LinkFncContainer *linkFncCont, ShortestPath *shPath, StepSize* stepSize, ConvMeasure *conv) : LinkFlows(net, mat, linkFncCont, shPath, stepSize, conv){
 	_linkFlowsCFW = new FPType[_nbLinks];
 	_direction = new FPType[_nbLinks];
 	for (int i = 0; i < _nbLinks; i++) {

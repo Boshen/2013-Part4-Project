@@ -8,15 +8,17 @@ OriginBasedAlgoEQII::~OriginBasedAlgoEQII() {
 
 }; 
 
-void OriginBasedAlgoEQII::mainLoop(OriginBush *bush, bool wasImproved, int nbIter) {
+bool OriginBasedAlgoEQII::mainLoop(OriginBush *bush, bool wasImproved, int nbIter) {
   //bool wasImpCopy = wasImproved;
 	while (true) { // for EQII
 		//wasImpCopy = mainLoop(bush, wasImpCopy, nbIter);
 		//std::cout << "Equilibration" << std::endl;
-		bool canMoveFlow = bush->equilibrate(wasImproved, nbIter);
+		
+		//bool canMoveFlow = bush->equilibrate(wasImproved, nbIter);
 	
 		//std::cout << "Removing unused links" << std::endl;
-		bush->removeUnusedLinks();
+		//bush->removeUnusedLinks();
+		bool canMoveFlow = OriginBasedAlgo::mainLoop(bush, wasImproved, nbIter);
 	
 		// for equilibration II
 		if (!canMoveFlow) break;
@@ -24,6 +26,6 @@ void OriginBasedAlgoEQII::mainLoop(OriginBush *bush, bool wasImproved, int nbIte
 		
 		if (!bush->improve()) break; // for EQII
 	}; // for EQII
-	//return true;
+	return false;
 }; 
 

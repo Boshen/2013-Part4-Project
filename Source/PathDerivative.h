@@ -8,9 +8,11 @@ class PathDerivative {
 		PathDerivative(int nbLinks);
 		~PathDerivative();
 		FPType calculate(Path *path, Path *minPath);
+		FPType calculateForDisjoint(const std::list<StarLink*> &list);
+		FPType calculateForDisjoint2(const std::list<StarLink*> &list1, const std::list<StarLink*> &list2);
 		
 	private:
-		int _nbLinks;
+		const int _nbLinks;
 };
 
 #endif

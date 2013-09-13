@@ -157,8 +157,9 @@ void Parser::checkEmptyValue(int value){
 	}
 };
 
-ODMatrix* Parser::parseODMatrix(const std::string& fileName, int nbNodes){
+ODMatrix* Parser::parseODMatrix(const std::string& fileName, StarNetwork* net){
 	// open file
+	int nbNodes = net->getNbNodes();
 	std::ifstream matFile(fileName.c_str());
 	if (matFile.is_open()) {
 		// skip metadata
@@ -196,7 +197,7 @@ ODMatrix* Parser::parseODMatrix(const std::string& fileName, int nbNodes){
 				if (found != std::string::npos) {
 					//if (origin != NULL) prevNbPairs = origin->getNbDest();
 					originID = atoi((line.substr(found + 7)).c_str());
-					origin = new Origin(originID);
+					origin = new Origin(net->getNodeIndex(originID));
 					mat->addOrigin(origin);	
 				}
 				assert(origin != NULL);
@@ -207,7 +208,7 @@ ODMatrix* Parser::parseODMatrix(const std::string& fileName, int nbNodes){
 					if ((destID != originID) && (demand != 0.0)) {
 						//odIndex = origin->getIndex() * prevNbPairs + origin->getNbDest();
 						//std::cout << "odIndex = " << odIndex << " origin->getIndex()  = " << origin->getIndex()  << " prevNbPairs  = " << prevNbPairs <<  " origin->getNbDest() = " << origin->getNbDest() << std::endl; 
-						dest = new PairOD(destID, demand);
+						dest = new PairOD(net->getNodeIndex(destID), demand); //origin->getIndex()
 						origin->addDestination(dest);
 					}
 					pos = extractDestination(pos, line, destID, demand);
@@ -550,8 +551,9 @@ StarNetwork* Parser::parseARTNetwork(const std::string& fileNodes, const std::st
 	return net;
 };
 
-ODMatrix* Parser::parseARTODMatrix(const std::string &fileName, int nbNodes){
+ODMatrix* Parser::parseARTODMatrix(const std::string &fileName, StarNetwork* net){
 	FileReader fileMat(fileName);
+	int nbNodes = net->getNbNodes();
 	std::string line;
 	Origin *origin = NULL;
 	PairOD *dest = NULL;
@@ -567,7 +569,7 @@ ODMatrix* Parser::parseARTODMatrix(const std::string &fileName, int nbNodes){
 		if (!newLine.empty()){
 			originID = extractInt(line, 0);
 			if (prevOrigin != originID) {
-				origin = new Origin(originID);
+				origin = new Origin(net->getNodeIndex(originID));
 				mat->addOrigin(origin);	
 				prevOrigin = originID;
 			}
@@ -577,7 +579,7 @@ ODMatrix* Parser::parseARTODMatrix(const std::string &fileName, int nbNodes){
 				
 			while (pos != std::string::npos){
 				if ((destID != originID) && (demand != 0.0)) {
-					dest = new PairOD(destID, demand);
+					dest = new PairOD(net->getNodeIndex(destID), demand); //origin->getIndex(),
 					origin->addDestination(dest);
 				}
 				pos = extractARTDestination(pos, line, destID, demand);

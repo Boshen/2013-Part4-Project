@@ -16,12 +16,12 @@ SpiessFnc::~SpiessFnc(){
 	//std::cout << "SpiessFnc destructor" << std::endl;
 };
 
-FPType SpiessFnc::evaluate(FPType linkFlow){
+FPType SpiessFnc::evaluate(FPType linkFlow) const {
 	FPType input = alpha_ * (1.0 - linkFlow / capacity_);
 	return freeFlow_ * ( beta_ - input + sqrt(input * input + betaSq_));
 };
 
-FPType  SpiessFnc::evaluateDerivative(FPType linkFlow){
+FPType  SpiessFnc::evaluateDerivative(FPType linkFlow) const {
 	FPType input = 1.0 - linkFlow / capacity_;
 	FPType alCap = alpha_ / capacity_;
 	return freeFlow_ * (alCap - (alCap * alpha_ * input) / sqrt(alpha_ * alpha_ * input * input + betaSq_) );

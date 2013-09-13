@@ -41,11 +41,11 @@ class StarNetwork {
 		
 		// to get mapped index
 		// AVOID calling this function as much as possible. It has log(n) complexity.
-		int getNodeIndex(int id); // return a number from 0 to nbNodes-1
+		int getNodeIndex(int id); // returns a number from 0 to nbNodes-1
 		
 		void print();
-		void printToFile(std::string fileName);
-		void loadFromFile(std::string fileName);
+		void printToFile(const std::string& fileName);
+		void loadFromFile(const std::string& fileName);
 		void calculateLinkCosts();
 		
 	private:

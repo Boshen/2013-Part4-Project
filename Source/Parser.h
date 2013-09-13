@@ -9,11 +9,11 @@ class Parser {
 		Parser();
 		~Parser();
 		StarNetwork* parseNetwork(const std::string& fileName, bool isAdditive);
-		ODMatrix* parseODMatrix(const std::string& fileName, int nbNodes);
+		ODMatrix* parseODMatrix(const std::string& fileName, StarNetwork* net);
 		
 		// for ART network
 		StarNetwork* parseARTNetwork(const std::string& fileNodes, const std::string& fileLinks, const std::string& fileLinkFnc, bool isAdditive);
-		ODMatrix* parseARTODMatrix(const std::string& fileName, int nbNodes);
+		ODMatrix* parseARTODMatrix(const std::string& fileName, StarNetwork* net);
 		
 	private:
 		void checkEmptyValue(int value);

@@ -7,22 +7,23 @@
 
 class StepSize {//: public StepSizeABC {
 	public:
-		StepSize(DescDirection *algo, LineSearch *lineSearch);
+		
 		virtual ~StepSize();
 		
-		FPType getStepSize();
+		FPType getStepSize(DescDirection *algo);
 		//void fillIndexes();
 		
 	protected:
-	
+		
+		StepSize(LineSearch *lineSearch);
 		LineSearch *_lineSearch;
-		DescDirection *_algo;
+		//DescDirection *_algo;
 		//FPType _precision;
 		//int _size;
 		//int _nbLinks;
 		//int *_indexes;
 		
-		virtual void initialiseDerivative() = 0;
+		virtual void initialiseDerivative(DescDirection *algo) = 0;
 };
 
 #endif

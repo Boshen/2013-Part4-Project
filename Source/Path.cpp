@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-Path::Path() : _flow(0.0), _prevFlow(0.0), _currCost(0.0){ 
+Path::Path() : _flow(0.0), _prevFlow(0.0), _currCost(0.0){ //
 	_it = _links.begin();
 };
 
@@ -51,16 +51,13 @@ StarLink* Path::getNextLink() const{
 }; 
 
 void Path::print(){
-    FPType cost = 0;
-	std::cout << "flow = " << _flow  << " prevFlow = " << _prevFlow << " cost = " << _currCost << std::endl;;
+	std::cout << " flow = " << _flow  << " prevFlow = " << _prevFlow << " cost = " << _currCost << " ";
 	for (StarLink *link = beginLink(); link != NULL; link = getNextLink()) {
-		std::cout << "(" << link->getNodeFromIndex() << ", " << link->getFlow() << " " << link->getTime() << ") ";
-        cost += link->getTime();
-		//std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << "] " << link->getFlow() << ", " << link->getTime() << " ";
-		//std::cout << link->getNodeFromIndex() << " " << link->getNodeToIndex() << std::endl;
+		//std::cout << "(" << link->getIndex() << ", " << link->getFlow() << ") ";
+		std::cout << "[" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << "] " << link->getFlow() << ", " << link->getTime() << " ";
 		//std::cout << link->getIndex() << " ";
 	}//*/
-	std::cout << cost << std::endl;
+	std::cout << std::endl;
 };
 
 FPType Path::getPrevFlow() const{

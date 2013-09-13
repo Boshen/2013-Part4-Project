@@ -1,12 +1,19 @@
 #include "PathBasedFlowMoveGP.h"
 
-PathBasedFlowMoveGP::PathBasedFlowMoveGP(FPType alpha, FPType demand, DescDirectionPath* pathDirectionAlgo) : PathBasedFlowMove(pathDirectionAlgo){
-	_alpha = alpha;
-	_demand = demand;
+#include <cassert>
+
+PathBasedFlowMoveGP::PathBasedFlowMoveGP(FPType alpha, DescDirectionPath* pathDirectionAlgo) : PathBasedFlowMove(pathDirectionAlgo), _alpha(alpha), _demand(0.0) {
+
 };
 
 PathBasedFlowMoveGP::~PathBasedFlowMoveGP(){
 
+};
+
+void PathBasedFlowMoveGP::setDemand(FPType demand){
+	//std::cout << "demand = " << demand << std::endl;
+	//assert(demand > 0.0);
+	_demand = demand;
 };
 
 bool PathBasedFlowMoveGP::executeFlowMove(){

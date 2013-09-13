@@ -14,7 +14,8 @@ class DAGraph {
 		virtual ~DAGraph();
 		
 		void addLink(StarLink *link);
-		bool removeUnusedLinks(); 	
+		bool removeUnusedLinks(); 
+		bool removeUnusedLinks(const std::list<StarLink*> &links); 	
 
 		// ascending and descending passes
 		//const std::list<StarLink*>& getIncomeLinks(int nodeIndex) const;
@@ -28,16 +29,19 @@ class DAGraph {
 		int beginDescPass();
 		int getNextDescPass();
 		
-		void topologicalSort();
+		bool topologicalSort();
 		
 		virtual bool moveFlow(int iter) = 0;
 		
 		void addOriginFlow(int linkIndex, FPType demand);
+		void addOriginFlow(StarLink* link, FPType demand);
+		void setOriginFlowToZero(int linkIndex);
 		
 		void print() const;
 		void printOriginFlow() const;
 		FPType getOriginFlow(int linkIndex) const;
-		
+		int getOriginIndex() const;
+			
 		// for bush improvement
 		bool addBetterLinks();
 		
@@ -47,19 +51,37 @@ class DAGraph {
 		void printShPath(int node);
 		void printMaxShPath(int node);
 		
+		static FPType getZeroFlow();
+		FPType checkOFlowsFeasibility();
+		
 	protected:
 		
-		DAGraph(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, FPType dirTol, int originIndex);
+		DAGraph(StarNetwork *net, ODMatrix *mat, FPType zeroFlow, int originIndex);
 		
 		static StarNetwork* getNet();
-		static FPType getZeroFlow();
+		
 		FPType getDemand(int nodeIndex) const;
-		int getOriginIndex() const;
+		
 		void setOriginFlow(int index, FPType flow);
 		DAGraphNode* const getNode(int index) const;
-		//
-		//void setOriginFlow(int index, FPType flow);
 		
+		void removeFromLinkIndexes(int index);
+		bool removeLink(int index);
+		virtual bool handleBackEdge(StarLink* link);
+		virtual void handleExploredLink(StarLink* link) {}; // does nothing by default
+		virtual bool checkPositiveFlow(int linkIndex) {return true;};
+		
+		
+		// TODO: for debugging
+		static StarNetwork * net_;
+		static ODMatrix *mat_;
+	
+		// TODO: temporary solution - just for iteration without top.order
+		int *nodeIndexes_;
+		int nodeSize_;
+		
+		//static data
+		static FPType zeroFlow_;
 		
 	private:
 		int originIndex_;
@@ -67,9 +89,6 @@ class DAGraph {
 		
 		FPType *originFlows_;
 		DAGraphNode **nodes_;
-		
-		int *nodeIndexes_;
-		int nodeSize_;
 		
 		StarLink **links_;
 		int linkSize_; 
@@ -86,27 +105,26 @@ class DAGraph {
 		
 		// for improving set
 		std::list<int> p2Cont_;
-		bool worthAdding(int linkIndex);
+		
+		bool worthAdding(StarLink* link);
 		bool addFromP2();
 		
 		// traversal of the links that are NOT in the bush
 		int getNextNotInSet(int startIndex) const;
-		bool isReachable(int nodeIndex) const;
+		bool isReachable(StarLink* link) const;
 		
 		// for topological sort
 		int clock_;
-		void explore(int vertex, bool *visited);
+	//	bool backEdgeDetected_;
+	
+		bool explore(int vertex, bool *visited);
 		void preVisit(int vertex);
 		void postVisit(int vertex);
-		
-		//static data
-		static StarNetwork * net_;
-		static ODMatrix *mat_;
-		static FPType zeroFlow_;
 		
 		// to keep track of initialisation of static variables
 		static bool wasInitialised_; 
 		static void initialiseStaticMembers(StarNetwork *net, ODMatrix *mat, FPType zeroFlow);
+		
 };
 
 #endif

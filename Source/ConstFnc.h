@@ -8,13 +8,13 @@ class ConstFnc : public LinkFnc {
 		ConstFnc(FPType param);
 		~ConstFnc();
 		
-		FPType evaluate(FPType linkFlow);
-		FPType evaluateDerivative(FPType linkFlow);
+		FPType evaluate(FPType linkFlow) const;
+		FPType evaluateDerivative(FPType linkFlow) const;
 		void print() const;
 		
 		LinkFnc * clone() const {return new ConstFnc(*this);}
 	private:
-		FPType param_;
+		const FPType param_;
 };
 
 #endif

@@ -27,7 +27,7 @@ class ConvMeasure {
 		
 	private:
 		
-		FPType _precision;
+		const FPType _precision;
 		FPType _gap;
 };
 

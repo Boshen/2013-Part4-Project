@@ -19,6 +19,18 @@ class ShortestPath {
 		virtual StarLink* getInComeLink(int destIndex) const =0; // returns pointer to a link that belongs to the shortest path to node destIndex
 									// MUST return NULL if the origin is passed or if destIndex ia not reachable from current origin 
 		
+		void printPath(int destIndex) const {
+			StarLink *link = getInComeLink(destIndex);
+			int nextDest = -1;
+			std::string str;
+			while (link != NULL) {
+				str = link->toString() + " " + str;
+				nextDest = link->getNodeFromIndex();
+				link = getInComeLink(nextDest);
+			}
+			std::cout << str << std::endl;
+		};
+		
 	protected:
 		ShortestPath(){};
 

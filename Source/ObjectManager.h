@@ -20,6 +20,10 @@
 #include "AddHook.h"
 #include "AddHookStoreOut.h"
 #include "Timer.h"
+#include "PASManager.h"
+#include "StepSizeAdd.h"
+#include "PathBasedFlowMoveGP.h"
+#include "OperationCounter.h"
 
 class ObjectManager {
 	public:
@@ -38,19 +42,22 @@ class ObjectManager {
 		PathSet* getPathSet();
 		PathCost* getPathCost();
 		OriginSet* getOriginSet();
+		PASManager* getPASManager();
+		
+		CounterContainer* getCounterContainer();
+		
+		void printCounters() const;
 		
 		// for now
 		bool getIfAdditive();
-		bool getSparsity();
 		PathAlgoType getPathAlgoType();
 		PathApp getPathAlgoApp();
-		
+				
 	private:
 		Params *_params;
 		Parser _parser;
 		
 		int _isAdditive;
-		int _useSparsity;
 		PathAlgoType _algoType;
 		PathApp _algoApp;
 		
@@ -71,12 +78,26 @@ class ObjectManager {
 		OriginSet *_originSet;
 		AddHook *_addHook;
 		AddHookStoreOut *_addHookStore; // just a copy of _addHook, but explicit time is specified
+		PASManager* _pasManager;
+		DescDirectionPath* _descDirPath;
+		PathBasedFlowMove* _flowMove;
+		StepSize* _stepSize;
+		StepSizeAdd* _stepSizeAdd;
+		PathBasedFlowMoveWithStep* _flowMoveWithStep;
+		PathBasedFlowMoveGP* _flowMoveGP;
 		
 		Timer &timer_;
+		CounterContainer *counters_;
 		
 		FPType getFloatValue(std::string paramName);
-		PathAlgoCreator* getPathAlgoCreator();
+		//PathAlgoCreator* getPathAlgoCreator();
+		DescDirectionPath* getDescDirectionPath();
 		AddHook* getAddHook();
+		PathBasedFlowMove* getPathBasedFlowMove();
+		PathBasedFlowMoveWithStep* getPathBasedFlowMoveWithStep();
+		PathBasedFlowMoveGP* getPathBasedFlowMoveGP();
+		StepSize* getStepSize();
+		StepSizeAdd* getStepSizeAdd();
 };
 
 #endif

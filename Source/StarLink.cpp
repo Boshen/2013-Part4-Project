@@ -1,6 +1,8 @@
 #include "StarLink.h"
 
-StarLink::StarLink(int nodeFrom, int nodeTo, LinkFnc *fnc) : _index(-1), _nodeFrom(nodeFrom), _nodeTo(nodeTo),  
+#include <sstream>
+
+StarLink::StarLink(int nodeFrom, int nodeTo, LinkFnc *fnc) : _index(-1),  _nodeFrom(nodeFrom), _nodeTo(nodeTo) ,
 								_nodeFromIndex(-1), _nodeToIndex(-1), _flow(0.0), _fnc(fnc){
 								//_der(0.0){
 	updateTime();
@@ -71,3 +73,13 @@ void StarLink::updateTime(){
 /*FPType StarLink::getDerivative() const{
 	return _der;
 };*/
+
+void StarLink::setFlowToZero(){
+	_flow = 0.0;
+};
+
+std::string StarLink::toString() const{
+	std::stringstream ss;
+	ss << "Link: " << _index << " [" << _nodeFromIndex << ", " << _nodeToIndex << "]";
+	return ss.str();
+};

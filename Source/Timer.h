@@ -2,7 +2,6 @@
 #define TIMER_
 
 #include <ctime>
-//#include <sys/time.h>
 
 class Timer {
 	public:
@@ -11,14 +10,13 @@ class Timer {
 		
 		void start();
 		void stop();
+		void stopAnyway();
 		
 		double getTimePassed() const;
 		
 	private:
 		clock_t start_;
 		clock_t end_;
-        //timeval start_;
-        //timeval end_;
 		bool stopCalled_;
 		
 };

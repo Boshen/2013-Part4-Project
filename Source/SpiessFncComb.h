@@ -8,11 +8,11 @@ class SpiessFncComb : public LinkFnc {
 		SpiessFncComb(SpiessFnc* fnc1, SpiessFnc* fnc2); // responsible for memory deallocation of these functions
 		~SpiessFncComb();
 		
-		FPType evaluate(FPType linkFlow);
-		FPType evaluateDerivative(FPType linkFlow);
+		FPType evaluate(FPType linkFlow) const;
+		FPType evaluateDerivative(FPType linkFlow) const;
 		void print() const;
 		
-		LinkFnc * clone() const {return new SpiessFncComb(*this);}
+		LinkFnc * clone() const {return new SpiessFncComb(*this);};
 	private:
 		SpiessFnc *fnc1_;
 		SpiessFnc *fnc2_;

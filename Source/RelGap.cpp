@@ -50,13 +50,13 @@ FPType RelGap::getMinTravelTime(){
 FPType RelGap::getTotalTravelTime() {
 	FPType totalTravelTime = 0.0;
 	FPType totalFlow = 0.0;
-	//bool t = true;
+	bool t = true;
 	for (StarLink *link = _net->beginOnlyLink(); link != NULL; link = _net->getNextOnlyLink()) {
 		totalTravelTime += link->getFlow() * link->getTime();
-	//	if (totalTravelTime != totalTravelTime && t) {
-	//		std::cout << "totalTravelTime = " << totalTravelTime << " flow = " << link->getFlow() << " time = " << link->getTime() << std::endl;
-	//		t = false;
-	//	}
+		if (totalTravelTime != totalTravelTime && t) {
+			std::cout << "totalTravelTime = " << totalTravelTime << " flow = " << link->getFlow() << " time = " << link->getTime() << std::endl;
+			t = false;
+		}
 		totalFlow += link->getFlow();
 	}
 	//std::cout << "totalTravelTime = " << totalTravelTime << std::endl;
@@ -79,6 +79,7 @@ bool RelGap::checkConvergence(FPType minTravelTime, FPType totalTravelTime) {
 
 
 bool RelGap::isConverged(){
+	
 	return checkConvergence(getMinTravelTime(), getTotalTravelTime());
 };
 

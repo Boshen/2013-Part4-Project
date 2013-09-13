@@ -3,9 +3,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 #include "StarNetwork.h"
 #include "Error.h"
+#include "FileWriter.h"
 
 StarNetwork::StarNetwork(int nbNodes, int nbLinks, std::string &netName) : _netName(netName), _nbNodes(nbNodes), _nbLinks(nbLinks),  _size(0), _sizeLinks(0), 
 										_curNode(-1), _curLink(-1), _curOnlyLink(-1), _linkAdded(true) {
@@ -55,11 +57,11 @@ void StarNetwork::createIndexes(){
 	int id = -1;
 	int count = _size;
 	for (StarLink *link = beginOnlyLink(); link != NULL; link = getNextOnlyLink()){
-		id = link->getNodeTo();
+		id = link->getNodeTo(); // only nodeTo is considered because all nodes with out-going links were added during construction
 		got = _idMap.find(id);
 		if (got == _idMap.end()) {
 			_idMap.insert(std::make_pair<int, int>(id, count));
-			count++;
+			++count;
 			assert(count <= _nbLinks);
 		}
 	}
@@ -72,8 +74,9 @@ void StarNetwork::addNode(StarNode *node){
 	_nodes[_size] = node;
 	_idMap.insert(std::make_pair<int, int>(node->getID(), _size)); 
 	_pointers[_size] = _sizeLinks;
-	_pointers[_size + 1] = _nbLinks;
-	_size++;
+	++_size;
+	_pointers[_size] = _nbLinks;
+	
 	_linkAdded = false;
 };
 
@@ -82,7 +85,7 @@ void StarNetwork::addLink(StarLink *link){
 	_links[_sizeLinks] = link;
 	link->setIndex(_sizeLinks);
 	link->setNodeFromIndex(_size - 1);
-	_sizeLinks++;
+	++_sizeLinks;
 	_linkAdded = true;
 };
 		
@@ -118,7 +121,7 @@ StarNode* StarNetwork::beginNode(int index){
 };
 
 StarNode* StarNetwork::getNextNode(){
-	_curNode++;
+	++_curNode;
 	if (_curNode == _size) {
 		_curLink = -1;
 		return NULL;
@@ -132,7 +135,7 @@ StarLink* StarNetwork::beginLink(){
 };
 
 StarLink* StarNetwork::getNextLink(){
-	_curLink++;
+	++_curLink;
 	if (_curLink == _pointers[_curNode + 1]) {
 		return NULL;
 	}
@@ -145,7 +148,7 @@ StarLink* StarNetwork::beginOnlyLink(){
 };
 
 StarLink* StarNetwork::getNextOnlyLink(){
-	_curOnlyLink++;
+	++_curOnlyLink;
 	if (_curOnlyLink == _nbLinks) return NULL;
 	return _links[_curOnlyLink];
 };
@@ -153,13 +156,22 @@ StarLink* StarNetwork::getNextOnlyLink(){
 void StarNetwork::print(){
 	std::cout << "network name: " << getNetName() << " nbNodes = " << _nbNodes << " nbLinks = " << _nbLinks	 << std::endl;
 	for (StarNode *node = beginNode(); node != NULL; node = getNextNode()){
-	  //std::cout << "Node ID = " << node->getID()  << " node index = " << node->getIndex() << std::endl;
+	  std::cout << "Node ID = " << node->getID()  << " node index = " << node->getIndex() << std::endl;
 		for (StarLink *link = beginLink(); link != NULL; link = getNextLink()) {
-		  if (link->getFlow() > 0.0) std::cout << " link-> (" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << ") cost-> (" << link->getTime() << ") flow = " << link->getFlow() << std::endl;
+			
+		  std::cout << " link " << link->getIndex() << "  (" << link->getNodeFromIndex() << ", " << link->getNodeToIndex() << ") cost-> (" << link->getTime() << ") flow = " << link->getFlow() << std::endl;
 			//if (link->getFlow() > 0.0) std::cout <<  link->getIndex() << " " << link->getNodeFrom() << " " << link->getNodeTo() << " (" << link->getNodeFromIndex()  << ", " << link->getNodeToIndex() << ") " << " " << link->getFlow() << " " << link->getTime() << std::endl;
 			//" (" << link->getNodeFromIndex()  << ", " << link->getNodeToIndex() << ") "
 		}
-	}
+	}//*/
+	
+	/*std::cout << "***************** only links" << std::endl;
+	for (StarLink *link = beginOnlyLink(); link != NULL; link = getNextOnlyLink()) {
+			if (link->getNodeFrom() == 5055 || link->getNodeFrom() == 5056) {
+				std::cout << "**************** link->getNodeFrom() = " << link->getNodeFrom() << " " << link->getNodeTo() << std::endl;
+				link->getLinkFnc()->print();
+				}
+	}*/
 };
 
 int StarNetwork::getNodeIndex(int id){
@@ -172,20 +184,20 @@ int StarNetwork::getNodeIndex(int id){
 	return got->second;
 };
 
-void StarNetwork::printToFile(std::string fileName){
+void StarNetwork::printToFile(const std::string &fileName){
 	
-	FILE * pFile = NULL;
-	std::cout << "file name: " << fileName << std::endl;
-	pFile = fopen (fileName.c_str(),"w");
-	assert(pFile);
-	//for (int i = 0; i < _nbNodes; i++){
-		for (StarLink *link = beginOnlyLink(); link != NULL; link = getNextOnlyLink()) {
-			//myfile << _nodeList[i]._id << " " << _arcList[j].getNodeID() << " " << _arcList[j].getCurrFlow() << " " << _arcList[j].getCurrDist() << "\n";
-			fprintf (pFile, "%u %u %21.15e %21.15e \n", link->getNodeFrom(), link->getNodeTo(), link->getFlow(), link->getTime());
-		}	
-	//}
+	FileWriter fw(fileName);
+	std::string line;
+	std::ostringstream strs;
+					
+	for (StarLink *link = beginOnlyLink(); link != NULL; link = getNextOnlyLink()) {
+		//fprintf (pFile, "%u %u %21.15e %21.15e \n", link->getNodeFrom(), link->getNodeTo(), link->getFlow(), link->getTime());
+		strs.str("");
+		strs << link->getNodeFromIndex() << " " << link->getNodeToIndex() << " " <<  std::setprecision(16) << link->getFlow() << " " << link->getTime() << "\n";
+		line = strs.str();
+		fw.writeLine(line);
+	}	
 	
-	fclose(pFile);
 };
 
 bool StarNetwork::assignLinkFlow(int nodeFrom, int nodeTo, FPType flow){
@@ -198,7 +210,7 @@ bool StarNetwork::assignLinkFlow(int nodeFrom, int nodeTo, FPType flow){
 	return false;
 };
 
-void StarNetwork::loadFromFile(std::string fileName){
+void StarNetwork::loadFromFile(const std::string& fileName){
 	std::ifstream myfile(fileName.c_str());
 	int nodeFrom = -1;
 	int nodeTo = 1;
