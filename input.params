@@ -10,8 +10,8 @@
 <ShPathAlgo> :{AstarSTL} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL, DijkstraBidirectSTL, AstarBidirect
 <ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
 
-<OD_MATRIX>:{Data/Instances/berlin_center_ODflows.txt} 
-<NETWORK>:{Data/Instances/berlin_center_net.txt}
+//<OD_MATRIX>:{Data/Instances/berlin_center_ODflows.txt} 
+//<NETWORK>:{Data/Instances/berlin_center_net.txt}
 
 //<OD_MATRIX>:{Data/Instances/Terrassa_trips.txt} 
 //<NETWORK>:{Data/Instances/Terrassa_net.txt}
@@ -43,27 +43,41 @@
 //<NETWORK>:{Data/Instances/Winnipeg_net2.txt}
 //<OD_MATRIX>:{Data/Instances/Winnipeg_trips2.txt} 
 
+<NETWORK>: {Data/Instances/ChicagoSketch_net.txt} // path to file with network
+//Data/Instances/ChicagoRegional_net.txt
+//Data/Instances/ART2_fromKeith/art2.links
+
 // Data/Instances/ART_Data/ART2/art2.links
 
+//{Data/Instances/ChicagoSketch_net.txt}
 //Data/Instances/test1.net
 //Data/Instances/ex_book_p114.net
 //{Data/Instances/Andrea25Nodes.net}
+//{Data/Instances/Anaheim_net.txt}
 //{Data/Instances/SiouxFalls_net.txt} 
+//{Data/Instances/Barcelona_net.txt}
 //{Data/Instances/Winnipeg_net.txt}
 
 //if ART2 is set, then two more files must be provided
-<NODES_ART2> {Data/Instances/ART_Data/ART2/art2.nodes}
-<FNC_ART2> {Data/Instances/ART_Data/ART2/art2.fnc}
+<NODES_ART2> {Data/Instances/ART2_fromKeith/art2.nodes}
+//Data/Instances/ART_Data/ART2/art2.nodes
+<FNC_ART2> {Data/Instances/ART2_fromKeith/art2.fnc}
+//Data/Instances/ART_Data/ART2/art2.fnc
 
-//<OD_MATRIX>: {Data/Instances/SiouxFalls_trips.txt} //path to file with O-D matrix
-
+<OD_MATRIX>: {Data/Instances/ChicagoSketch_trips.txt} //path to file with O-D matrix
+//Data/Instances/ChicagoRegional_trips.txt
+//Data/Instances/ART2_fromKeith/art2.demand
+//Data/Instances/ART_Data/ART2/art2.demand
 //Data/Instances/ART_Data/ART2/art2.demand
 
+//{Data/Instances/ChicagoSketch_trips.txt}
 //SiouxFalls_trips_easy.txt
 //Data/Instances/test1.od
 //Data/Instances/ex_book_p114.od
 // Data/Instances/Andrea25Nodes.od
+//{Data/Instances/Anaheim_trips.txt} 
 //{Data/Instances/SiouxFalls_trips.txt}
+//{Data/Instances/Barcelona_trips.txt} 
 //{Data/Instances/Winnipeg_trips.txt}
 <INDIFF_CURVE>: {} // path to file with indifference curves, if not specified the problem is considered to be additive
 <NODES>: {} // path to file with node coordinates, not compalsory
@@ -72,8 +86,8 @@
  ** Algorithms and Parameters 
  ** Compalsory fields:  <CONV MEASURE>, <PRECISION>, <ZERO FLOW>, <ALGORITHM>, <ShPathAlgo>
  *************************************************************************************************************/
-//<ShPathAlgo> : {Dijkstra} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL]
-//<ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
+<ShPathAlgo> : {AstarSTL} // LC, Dijkstra, Astar, DijkstraSTL, AstarSTL]
+<ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
 <CONV_MEASURE>: {RGAP} // convergence measure; possible values: RGAP, MAX_DIFF (if problem is non-additive, MAX_DIFF is used)
 <PRECISION>: {1e-6} // algorithm precision
 <ZERO_FLOW>: {1e-10} // zero flow tolerance
@@ -82,41 +96,38 @@
 		 	<LINE_SEARCH>: {QUAD_APP} // line search, possible values: BISEC, ARMIJO, QUAD_APP
 				<LS_PRECISION>: {1e-10} // line serch precision
 				<ARMIJO_DEC>: {2} // decriment in Armijo line search
-			//<SPARSITY>: {1} // sparsity, possible values: 0, 1 - IS NOT SUPPORTED ANYMORE
-			//	<SPARSITY_TOLERANCE>: {1e-30} // must be small enough for correct derivative calculation!!!  - IS NOT SUPPORTED ANYMORE
 		// {PE} // path equilibration
 		//	<LINE_SEARCH>: {} 
 		//		<LS_PRECISION>: {} 
 		//		<ARMIJO_DEC>: {} 
-		//	<SPARSITY>: {}
 			<EQUILIBRATION>: {EQI} // type of equilibration, possible values: EQI, EQII
 			<APPROACH>: {APP3} // approach, possible values: APP1, APP3
 		// {GP} // gradient projection
 		//	<LINE_SEARCH>: {} 
 		//		<LS_PRECISION>: {} 
 		//		<ARMIJO_DEC>: {} 
-		//	<SPARSITY>: {}
 		//	<EQUILIBRATION>: {}
 		//	<APPROACH>: {} // approach, possible values: APP1, APP2, APP3
-			<ALPHA>: {0.5} // for approach 3 GP
+			<ALPHA>: {0.25} // for approach 3 GP
 		// {PG} // projected gradient
 		//	<LINE_SEARCH>: {} 
 		//		<LS_PRECISION>: {} 
 		//		<ARMIJO_DEC>: {} 
-		//	<SPARSITY>: {}
 		//	<EQUILIBRATION>: {}
 		// {ISP} // improved sotial pressure
 		// 	<LINE_SEARCH>: {} 
 		//		<LS_PRECISION>: {} 
 		//		<ARMIJO_DEC>: {} 
-		//	<SPARSITY>: {}
 		//	<EQUILIBRATION>: {}
-			<SLOPE>: {1e-8} // minimum slope of derivative of link cost function
+			<SLOPE>: {1e-10} // minimum slope of derivative of link cost function
 			<ISP_SCALE>: {0.15} // ISP parameter
 		// {B} // algorithm B // 
-			<NEWTON_STEPS>: {MULTI} // possible values: SINGLE, MULTI
+			<NEWTON_STEPS>: {SINGLE} // possible values: SINGLE, MULTI
 			//<EQUILIBRATION>: {EQI} 
 		// {LUCE} // algorithm LUCE
+		// {TAPAS} // TAPAS
+			<MU>: {0.5} //for cost-effective PAS
+			<V>: {0.25} // for flow-effective PAS
 		<DIR_TOLERANCE>: {1e-10} // is compulsory for any path-based algo, tolerance of descent direction
 <BIOBJ_SHPATH>: {} // bi-objective shoretest path algorithm, possible values: LAB_SET, A_LAB_SET, A_LAB_SET_BOUND. <INDIFF CURVE> is required for this option
 
@@ -132,11 +143,11 @@
  ** Compalsory fields: 
  *************************************************************************************************************/
 <LINK_FLOWS>: {} // path to file where link flows must be written. If set AUTO, automatically generated name will be used
-<PATH_SET>: {} // path to file where path set must be written if available. If set AUTO, automatically generated name will be used
+//<PATH_SET>: {} // path to file where path set must be written if available. If set AUTO, automatically generated name will be used
 <CONVERGENCE>: {} // path to file where convergence must be written. If set AUTO, automatically generated name will be used
-<TOLLS>: {} // path to file where a new instance with tolls must be written. <INDIFF CURVE> is required for this option.
+//<TOLLS>: {} // path to file where a new instance with tolls must be written. <INDIFF CURVE> is required for this option.
 		// If set AUTO, automatically generated name will be used	
-<LATEX>: {} // path to file where a tex-file must be written. <NODES> is required for this option. If set AUTO, automatically generated name will be used
-	<SCALE>: {} // scale of picture in tex-file
-<NEW_CURVES>: {} // path to file where new curves must be written. Curves specified in <INDIFF CURVE> are ignored. If set AUTO, automatically generated name will be used
+//<LATEX>: {} // path to file where a tex-file must be written. <NODES> is required for this option. If set AUTO, automatically generated name will be used
+//	<SCALE>: {} // scale of picture in tex-file
+//<NEW_CURVES>: {} // path to file where new curves must be written. Curves specified in <INDIFF CURVE> are ignored. If set AUTO, automatically generated name will be used
 	
