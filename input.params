@@ -10,8 +10,11 @@
 <ShPathAlgo> :{AstarSTL} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL, DijkstraBidirectSTL, AstarBidirect
 <ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
 
-<OD_MATRIX>:{Data/Instances/Terrassa_trips.txt} 
-<NETWORK>:{Data/Instances/Terrassa_net.txt}
+<OD_MATRIX>:{Data/Instances/berlin_center_ODflows.txt} 
+<NETWORK>:{Data/Instances/berlin_center_net.txt}
+
+//<OD_MATRIX>:{Data/Instances/Terrassa_trips.txt} 
+//<NETWORK>:{Data/Instances/Terrassa_net.txt}
 
 //<OD_MATRIX>:{Data/Instances/Hessen_trips.txt} 
 //<NETWORK>:{Data/Instances/Hessen_net.txt}
