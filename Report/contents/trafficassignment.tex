@@ -34,7 +34,7 @@ In order to formulate a model for solving the traffic assignment problem,
 two assumptions are made.
 We assume deterministic traffic flows and fixed demand,
 and the change of travel time on any link does not depend on the change of traffic flows on the other links.
-These assumptions may not be realistic \todo{keep?} but they allow us to formulate the traffic assignment model as a mathematical probram.
+These assumptions may not be realistic \todo{keep?} but they allow us to formulate the traffic assignment model as a mathematical program.
 %The model assumes the link cost functions are separable, i.e.\ the function values are only dependent on the flows on the link itself, not other flows that do not belong to that link.
 %The model also assumes the traffic demand of the network is fixed.
 
@@ -42,7 +42,7 @@ Using notations from \citet{Florian, Florian2008},
 we consider a transportation network represented as a graph $G = (N, A)$,
 where $N$ is a set of nodes and $A$ a set of directed links in the network.
 The number of vehicles (or flow) on link $a$ is $v_a$ ($a \in A)$,
-and the cost of travelling on a link is given by a link cost function $s_a(v)$ ($a \in A$),
+and the cost of travelling on a link is given by a link cost function $c_a(v)$ ($a \in A$),
 where $v$ is the vector of link flows over the entire network.
 
 Let $I$ be the set of origin-destination (O-D) pairs
@@ -69,15 +69,15 @@ where
 
 With constraints \eqref{model_1} - \eqref{model_4},
 the user optimal objective is
-\begin{equation}
-    \min S(v) = \sum_{a\in A} \int_0^{v_a} s_a(x) \mathrm{d} x.
+\begin{equation} \label{eq:user_optimal}
+    \min S(v) = \sum_{a\in A} \int_0^{v_a} c_a(x) \mathrm{d} x.
 \end{equation}
 
 In order to solve for user equilibrium,
 the \citep{Wardrop} user equilibrium condition is applied:
 
 \begin{equation} \label{wardrop1}
-    s_k(v^{\ast}) - u_i^{\ast} 
+    c_k(v^{\ast}) - u_i^{\ast} 
     \begin{cases}
         =0 & \text{if } h_k^{\ast} > 0 \\
         \geq 0 & \text{if } h_k^{\ast} = 0
@@ -87,11 +87,11 @@ the \citep{Wardrop} user equilibrium condition is applied:
 \end{equation}
 where 
 \begin{equation}
-    s_k(v) = \sum_{a \in A} \delta_{ak} s_a(v), \quad \forall k \in K
+    c_k(v) = \sum_{a \in A} \delta_{ak} c_a(v), \quad \forall k \in K
 \end{equation}
 and
 \begin{equation} \label{wardrop3}
-    u_i = \min_{k \in K_i} \left[ s_k(v) \right], \quad \forall i \in I.
+    u_i = \min_{k \in K_i} \left[ c_k(v) \right], \quad \forall i \in I.
 \end{equation}
 
 To elaborate, this condition means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
@@ -100,13 +100,13 @@ they always choose the best route to travel based on the current information abo
 This means the equilibrium is the result of everybody simultaneously attempting to minimize their own travel times.
 
 The \citet{BPR} (BPR) link cost function
-$s_a(v_a)$ is often used to model the travel time on link $a \in A$.
+$c_a(v_a)$ is often used to model the travel time on link $a \in A$.
 The function is given by
 \begin{equation}
-    s_a(v_a) = s_f \left(1 + B \left( \frac{v_a}{C_a} \right)^\alpha \right)
+    c_a(v_a) = c_f \left(1 + B \left( \frac{v_a}{C_a} \right)^\alpha \right)
 \end{equation}
 where $B$ and $\alpha$ are the parameters for the level of congestion that can be experienced,
-and $s_f$ and $C_a$ are the free-flow travel time and link capacity.
+and $c_f$ and $C_a$ are the free-flow travel time and link capacity.
 It is important to note this cost function only depends on traffic flow on its own link, and it is strictly monotonic, continuous and differentiable.
 An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
 
@@ -126,7 +126,7 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
                 every axis y label/.style={at={(current axis.above origin)},anchor=north east, xshift=-2pt},
                 every axis x label/.style={at={(current axis.right of origin)},anchor=north west, xshift=-2pt},
                 extra y ticks={20},
-                extra y tick labels={Freeflow time $(s_f)$},
+                extra y tick labels={Freeflow time $(c_f)$},
                 extra y tick style={overlay},
                 xtick=\empty,
                 ytick=\empty,
@@ -158,20 +158,20 @@ we focus on the path equilibration algorithm.
 The general approach of the algorithm is equivalent to
 Gauss-Seidel decomposition (an iterative method for solving a linear system of equations).
 In a step of the algorithm,
-path flow $h_k$ between a single O-D pair is solved by keeping the flows of all other O-D pairs fixed.
-The algorithm iteratively solves each O-D pair sub-problem until all of the path flows cannot be improved.
+path flows $h_k \forall k \in K_i$ between a single O-D pair $i$ are considered by keeping the flows of all other O-D pairs fixed.
+The algorithm iteratively solves each O-D pair sub-problem until any of them cannot be improved.
 
 The sub-problem for solving each O-D pair $i$ is another fixed-demand network equilibrium problem.
 \begin{align} \label{eq:sb1}
-    \min & \quad \sum_{a \in A} \int_0^{v_a^i + \bar{v}_a} s_a(x) \mathrm{d} x \\
+    \min & \quad \sum_{a \in A} \int_0^{v_a^i + \bar{v}_a} c_a(x) \mathrm{d} x \\
     \text{s.t.} &\quad \sum_{k \in K_i} h_k = \bar{g}_i, \quad i \in I, \\
     & \quad h_k \geq 0, \quad k \in K_i,
 \end{align}
-where 
+where flows $\bar{v}_a$ are fixed:
 \begin{equation}
-    \bar{v}_a = \sum_{i' \neq i} \sum_{k \in K_i} \delta_{ak} h_k
+    \bar{v}_a = \sum_{i' \neq i} \sum_{k \in K_i} \delta_{ak} h_k,
 \end{equation}
-and
+and flows $v_a^i$ are varied:
 \begin{equation} \label{eq:sb5}
     v_a^i = \sum_{k \in K_i} \delta_{ak} h_k.
 \end{equation}
@@ -180,66 +180,71 @@ The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated
 
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
-        \hspace{-.5cm}\emph{`cyclic decomposition' by O-D pair} \\
+        \hspace{-.5cm}\emph{`cyclic decomposition' by O-D pair \citep{Florian}} \\
         \emph{Step 0.} Given initial solution, set $l = 0$, $l' = 0$.\\
         \emph{Step 1.} If $l' = |I|$, stop; otherwise set $l = l \text{ mod } |I| + 1$ and continue.\\
         \emph{Step 2.} If the current solution is optimal for the $i$th sub-problem (\ref{eq:sb1})-(\ref{eq:sb5}), set $l' = l' + 1$ and return to step 1; otherwise solve the $l$th sub-problem, update the path flows, set $l' = 0$ and return to step 1.\\
     \end{tabular}
 \end{table}
 
-The path equilibration algorithm for solving \ref{eq:sb1}-\ref{eq:sb5} 
-obtains the solution by balancing path flows between each O-D pair.
-One such algorithm, proposed by \cite{Dafermos}, 
-finds the shortest and longest path and equalizes the flows between them.
-Let $K_i^{+} = \left\{ k \in K_i | h_k > 0 \right\}$ be the set of positive flows.
+The path equilibration algorithm for solving \eqref{eq:sb1}-\eqref{eq:sb5} 
+finds the solution of the traffic assignment problem by balancing path flows between each O-D pair.
+One such algorithm, proposed by \citet{Dafermos}, 
+finds the shortest and longest path and equalizes the travel times between them.
+Let $K_i^{+} = \left\{ k \in K_i | h_k > 0 \right\}$ be the set of paths with positive flows.
+
 The algorithm for solving each O-D pair $i$ is stated as follows.
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
-        \hspace{-.5cm}\emph{Path Equilibration Algorithm} \\
-        \emph{Step 0}. Find an initial solution $v_a^i$; $s_a = s_a(v_a^i+\bar{v}_a)$ and the initial $K_i^+$.\\
-        \emph{Step 1}. Compute the costs of the currently used paths $s_k$, $k \in K_i^+$. Find $k_1$ such that $s_{k_1} = \displaystyle \min_{k \in K_i^+} \left[ s_k \right]$ and $k_2$ such that $s_{k_2} = \displaystyle \max_{k \in K_i^+} \left[s_k \right]$.\\
-        If $(s_{k_2} - s_{k_1}) \leq \epsilon$, go to step 4;
-        otherwise define the direction $d_{k_1} = (h_{k_2} - h_{k_1})$ for path flow $k_1$ and $d_{k_2} = (h_{k_1} - h_{k_2})$ for path flow $k_2$\\
+        \hspace{-.5cm}\emph{Path Equilibration Algorithm \citep{Florian}} \\
+        \emph{Step 0}. All-or-nothing assignment: find an initial solution $v_a^i$; $c_a = c_a(v_a^i+\bar{v}_a)$ and the initial $K_i^+$.\\
+        \emph{Step 1}. Compute the costs of the currently used paths $c_k$, $k \in K_i^+$. Find $k_1$ such that $c_{k_1} = \displaystyle \min_{k \in K_i} \left[ c_k \right]$ and $k_2$ such that $c_{k_2} = \displaystyle \max_{k \in K_i^+} \left[c_k \right]$.\\
+        If $(c_{k_2} - c_{k_1}) \leq \epsilon$, go to step 4;
+        otherwise define the direction $d_{k_1} = (c_{k_2} - c_{k_1})$ for path flow $k_1$ and $d_{k_2} = (c_{k_1} - c_{k_2})$ for path flow $k_2$\\
         \emph{Step 2}. Find the step size $\lambda$ which redistributes the flow $h_{h_1} + h_{k_2}$ between the paths $k_1$ and $k_2$ in such a way that their costs become equal, that is, solve
     \end{tabular}
 \end{table}
 \vspace{-3em}
 \begin{align}
-    \min_\lambda & \quad \max_{a \in A} \int_0^{v_a^i + \lambda y_a + \bar{v}_a} s_a(x) \mathrm{d}x \\
+    \min_\lambda & \quad \sum_{a \in A} \int_0^{v_a^i + \lambda y_a + \bar{v}_a} c_a(x) \mathrm{d}x \\
     \text{s.t.} & \quad 0 \leq \lambda \leq \left( \frac{-h_{k_2}}{d_{k_2}} \right), \\
     \text{where} & \quad y_a = \delta_{ak_1} d_{k_1} - \delta_{ak_2} d_{k_2}.
 \end{align}
 \vspace{-2em}
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
-        \emph{Step 3}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + \lambda y_a; s_a = s_a(v_a^i + \bar{v}_a)$. \\
-        \emph{Step 4}. Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} \left[ s_k \right]$;
-        if $\tilde{s}_k < \displaystyle \min_{k \in K_i^+} \left[ s_k \right]$, then the path $\tilde{k}$ is added to the set of kept paths, $K_i^+ = K_i^+ \cup \tilde{k}$ and return to step 1; otherwise stop.
+        \emph{Step 3}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + \lambda y_a; c_a = c_a(v_a^i + \bar{v}_a)$. \\
+        \emph{Step 4}. Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} \left[ c_k \right]$;
+        if $\tilde{s}_k < \displaystyle \min_{k \in K_i^+} \left[ c_k \right]$, then the path $\tilde{k}$ is added to the set of kept paths, $K_i^+ = K_i^+ \cup \tilde{k}$ and return to step 1; otherwise stop.
     \end{tabular}
 \end{table}
+\todo[inline]{fix this, see page 8 Andrea fix}
 
-In step 0, an all-or-nothing assignment is performed for each of the O-D pairs,
+In step 0, a so called all-or-nothing assignment is performed for each of the O-D pairs,
 where it finds the shortest path and assigns all traffic flows along that path.
-In step 1 and 2, the algorithm finds the two paths that have the minimum and maximum cost, and balances the flow between them to equalize their cost.
-These two steps are equivalent of solving the Wardrop equilibrium shown in Equation~(\ref{wardrop1})-(\ref{wardrop3}).
+In step 1 and 2, the algorithm finds the two paths that have the minimum and maximum cost,
+and balances the flow between them to equalize their costs.
+These two steps are equivalent to solving the Wardrop equilibrium shown in Equations~\eqref{wardrop1}-\eqref{wardrop3}.
 In step 4, the shortest path between the O-D pair is computed and added to the set of used paths for the all-or-nothing assignment and Wardrop equilibrium.
+\todo[inline]{rewrite}
 
 Now if we are given a large network and assume it requires many iterations to find the optimal solution,
-it can be shown that a huge number of shortest path calculations are needed in step 4 of the path equilibration algorithm.
-For example given the algorithm takes 20 iterations to solve for a small network with $100,000$ O-D pairs,
+it can be shown that a large number of shortest path calculations are needed.
+For example, 
+given the algorithm takes 20 iterations to solve a small network with $100,000$ O-D pairs,
 it can take more than 6 minutes to solve if
-each shortest path calculation consumes 0.01 second,
-And in reality,
+each shortest path calculation consumes 0.01 second.
+In reality,
 networks may contain millions of O-D pairs.
 Thus for this project we wish to
-investigate and find a faster shortest path algorithm for the traffic assignment problem.
+investigate and find a faster shortest path algorithm,
+and also investigate other ways of improving it for the traffic assignment problem.
 
 \section{Convergence and stopping criterion} \label{sec:convergence}
-
 For completeness, the convergence criterion for the traffic assignment is discussed in this section.
-It it known that the objective function of the problem is convex (any local minimum is also the global minimum),
+It it known that the objective function of the problem (Equation~\ref{eq:user_optimal} is convex (any local minimum is also the global minimum),
 so the convergence of the Gauss-Seidel strategy is ensured \citep{Florian2008}.
-The convergence criterion of traffic assignment algorithms are normally measured by the notion of relative gap.
+The convergence criterion of traffic assignment algorithms is normally measured by so called relative gap \citep{Rose}.
 \cite{Rose} states that ``the relative gap is expressed by the difference between the current value of 
 the objective function and the lower bound as a percentage of the current objective function.''
 Here the objective function is the user equilibrium (UE) solution of the traffic assignment problem.
@@ -248,15 +253,15 @@ And the lower bound refers to the all-or-nothing (AON) assignment in step 0 of t
 The relative gap (RGAP) is computed as
 \begin{align}
     \text{RGAP} &= \frac{\text{UE} - \text{AON}}{\text{UE}} \\
-                &= \frac{\sum_{a \in A} v_a s_a - \sum_{i \in I} g_i s_{\tilde{k}_i}}{\sum_{i \in I} g_i s_{\tilde{k}_i}}.
+                &= \frac{\sum_{a \in A} v_a c_a - \sum_{i \in I} g_i c_{\tilde{k}_i}}{\sum_{a \in A} v_a c_a}.
 \end{align}
-The AON solution is the sum of travel time $s_{\tilde{k}_i}$ of each traffic demand $g_i$ travelling on their shortest path $\tilde{k}_i$.
-The UE solution is the sum of travel time over the entire network.
-These two values are improved from iteration by iteration during the path equilibration algorithm until they become identical, i.e.\ RGAP converging toward 0.
-The traffic assignment problem is solve when RGAP is 0,
-but normally we stop the algorithm at some tolerance such as $1e-6$.
+The AON solution is the sum of travel times $c_{\tilde{k}_i}$ of each traffic demand $g_i$ travelling on their shortest path $\tilde{k}_i$.
+The UE solution is the sum of travel times over the entire network.
+These two values are improved from iteration to iteration during the path equilibration algorithm until they become identical, i.e.\ RGAP is converging towards 0.
+The traffic assignment problem is solved when RGAP is 0,
+but normally we stop the algorithm at some tolerance such as $10^{-6}$.
+\todo[inline]{it doesn't decrease monotonically though\ldots}
 
-It is worth to notice that the speed of convergence is highly dependent on how small we set the relative gap to be,
+It is worth to notice that the speed of convergence is highly dependent on how small we set the relative gap,
 as well as the size and complexity of the network and number of supply and demand nodes.
-A smaller relative gap will result more iterations for the traffic assignment algorithms.
-
+A smaller relative gap will result in more iterations for the traffic assignment algorithms.

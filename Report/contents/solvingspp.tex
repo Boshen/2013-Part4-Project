@@ -1,20 +1,20 @@
-\chapter{Solving the Shortest Path Problem}
-\label{chap:solvingspp}
+\chapter{Solving the Shortest Path Problem} \label{chap:solvingspp}
 
 Over the years,
 various algorithms have been developed 
 to address the problem of finding the shortest path.
-This chapter states notations and definitions for the shortest path problem and discusses
+This chapter states notation and definitions for the shortest path problem and discusses
 the theory of solving it.
 Algorithms that are applicable for the traffic assignment problem are summarised,
 including the discussion of their advantages and drawbacks.
+\todo[inline]{see comment p.23 Andrea fix for what to add here}
 
 \section{Notations and definitions}
 The Shortest Path Problem (SPP) is the problem of finding the shortest path from a given origin  to some destination.
 There are two types of SPP that are going to
 be analysed in this chapter:
 a single-source and a point-to-point SPP.  
-More emphasise is going to be put on the point-point-point SPP for the path equilibration algorithm described in the previous chapter.
+More emphasis is going to be put on the point-to-point SPP required by the path equilibration algorithm described in the previous chapter.
 %The Frank-Wolfe algorithm in the TA involves
 %solving the single-source SPP by finding shortest path going from one origin to every other destinations of the network.
 %The Path Equilibration method in the TA
@@ -27,7 +27,7 @@ More emphasise is going to be put on the point-point-point SPP for the path equi
 %which encapsulates information such as traffic flow, road capacity and travel speed.
 %This travel time function (Figure~\ref{fig:flowfunction}) is always non-negative so taking advantage of this helps the selection of algorithms that uses this property.
 
-Now we present the notations mainly borrowed from \citet{Cormen} and \citet{Klunder}.
+Now we present the notation mainly borrowed from \citet{Cormen} and \citet{Klunder}.
 We denote $ G = ( N, A ) $ a weighted, directed graph,
 where $ N $ is the set of nodes (origins, destinations, and intersections)
 and $ A $ the set of arcs (roads).
