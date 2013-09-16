@@ -3,50 +3,56 @@
 \todoin[inline]{CHECK \LaTeX \ LOG!!}
 %\todoin[inline]{use italics and abbreviations}
 \todoin[inline]{Remove Terressa results}
+\todoin[inline]{sort out capatilazation and use of italics}
 
 \section{Introduction to traffic modelling}
-Nowadays a large portion of people's daily lives involve activities which relate to transportation,
+Nowadays a large portion of people's daily lives involve activities which relate to transportation.
 For example, most people need to travel between their workplace and residence twice a day,
-or buy goods from shops where they need to be delivered across the city.
+or buy goods from shops that need to be delivered across the city.
 In the meanwhile, 
-transportation networks expand and improve constantly to cater people's demand for an efficient transportation network,
-but the rate of improvement does not confront with the rate of population growth.
+transportation networks expand and improve constantly to cater for people's demand for an efficient transportation network,
+but the rate of improvement does not confront with the rate of population growth.\todo{separate sentence + reference}
 As a result,
-the network becomes inefficient, causing traffic congestion.
+the network becomes inefficient, resulting traffic congestion.
 
-Congestion lead to major economical losses due to time delays and increase usage of petrol.
-Congestion cause air pollutions that increase respiratory problems such as asthma, 
-And the exhaust gas exacerbates global warming.
-Congestion also increase noise pollution and cause frustration,
-which in turn accelerate traffic accidents.
+Congestion leads to major economical losses due to time delays and increased usage of petrol.
+Congestion causes air pollution that increases respiratory problems such as asthma, 
+and the exhaust gas exacerbates global warming.
+Congestion also increases noise pollution and causes frustration,
+which in turn accelerates traffic accidents.
 It is important for traffic designers to be able to reduce congestion problems,
 and eliminate its negative effects.
-The transportation network can be improved by for example,
-introduce road tolls to diverge traffic to less congested roads,
-or educate people to use public transports.
+The transportation network can be improved by, for example,
+introducing road tolls to diverge traffic to less congested roads,
+or by educating people to use public transport.
 
-Making improvements to the transportation network tend to be very costly,
-so an optimal plan is always necessary:
+Making improvements to the transportation network tends to be very costly,
+so an better plan is necessary:
 use the least amount of investment for the greatest change.
-In order to make optimal plans for traffic design,
-different mathematical models have been built to simulate the current and future behaviour of the transportation system.
+In order to make better plans for traffic design,
+different mathematical models have been built to estimate the current and future behaviour of the transportation system.
 One particular model called the transportation forecasting model is commonly used.
 The aim of this model is to estimate future traffic usage when the system is changed.
-For example, upgrading or adding roads, changing roundabouts to traffic lights or provide better public transports. 
+For example, changes to a transport system could include upgrading or adding roads, changing roundabouts to traffic lights, or providing better public transport. 
 
 The transportation forecasting model has 4 stages (shown in Figure~\ref{fig:model}):
-trip generation, trip distribution, mode choice and traffic assignment.
-In the model,
-each of the next stage can pass information to the previous stages to improve traffic design.
+trip generation, trip distribution, mode choice and traffic assignment \citep{Sheffi}.
+In the model, the solution of each stage can be passed to the previous ones to improve transportation forecasting and traffic design.
+So after numerous iterations of calibration,
+an accurate model that can estimate future traffic is established.
+\todo{not sure}
 In summary, 
 the model collects traffic demand data and 
-generates origins and destinations for travellers(trip generation),
-it then calculates the number of trips that are required between each origin and destination (trip distribution),
-and decides which transportation method should be used for each trip(mode choice),
-finally it decides the best route (e.g.\ shortest path) that each trip need to travel on (traffic assignment).
-The traffic assignment problem in the last stage of the forecast model is a very complicated problem.
-This is because congestion occur as traffic flows are assigned onto the network,
-and it is very difficult to find an equilibrium situation where everybody in the network find their best route.
+generates origins and destinations for travellers (trip generation).
+It then calculates the number of trips that are required between each origin and destination (trip distribution),
+and decides which transportation method should be used for each trip (mode choice).
+Finally it decides the route (e.g.\ the shortest path) that each trip needs to travel on (traffic assignment), 
+where traffic flow is estimated for every modelled road in the network.
+The traffic assignment problem in the last stage of the forecast model is a complicated problem.
+This is because congestion occurs as traffic flows are assigned onto the network,
+and it is very difficult to find an equilibrium situation where everybody in the network finds their best route.
+Generally the equilibrium situation happen when it is assumed that people are selfish,
+they always try to minimise travel times by travelling along their shortest paths.
 
 \begin{figure}[H]
     \centering
@@ -109,43 +115,43 @@ which allow city designers predict traffic further into the future and make bett
 \end{comment}
 
 \section{Purpose of this project}
-The transportation forecasting model has been implemented in many software for traffic design.
+The transportation forecasting model has been implemented in many software packages for traffic design.
 One key observation from these software is that,
-the traffic assignment problem takes days, or even weeks to solve.
+the traffic assignment problem takes hours, or even days to solve.
 It turns out that,
 the bottleneck is in the algorithm for solving the shortest path problem.
 This is because algorithms for solving the traffic assignment problem are usually iterative,
-where each iteration (sometimes there are hundreds of iterations) require to find millions of shortest paths between every origin and destination in the network.
-Although each shortest path calculation may take only a fraction of the time,
-but cumulatively the computation is huge.
-So the purpose of this project is to find a faster algorithm for solving the shortest path problem in an iterative environment.
+where each iteration requires to find millions of shortest paths between every origin and destination in the network.
+Although each shortest path calculation may take only a fraction of a second,
+cumulatively the computational time can be very long.
+Therefore the purpose of this project is to find a faster algorithm for solving the shortest path problem in an iterative environment.
 As a result, the traffic assignment will be solved faster
-for larger and more complicated road networks,
-and this will allow city designers estimate traffic flows further into the future and make better decisions on road network design.
+for larger and more complicated road networks.
+This will also allow city designers estimate traffic flows further into the future and make better decisions on road network design.
 
-\begin{comment}
-The algorithm that are going to be tested are:
+In summary,
+The algorithms that are going to be experimented are:
 \begin{itemize}
-    \item Bellman-Ford Label Correcting Algorithm,
-    \item Dijkstra Label Setting Algorithm (using different data structures),
-    \item Bidirectional Dijkstra,
-    \item A* Search,
+    \item Bellman-Ford's label correcting algorithm,
+    \item Dijkstra's label setting algorithm (using different data structures),
+    \item Bidirectional Dijkstra's algorithm,
+    \item A* search,
     \item Bidirectional A* search.
 \end{itemize}
 
-This project also aims to find and discuss techniques that can speed shortest path calculations in an iterative environment:
+We also aim to find and discuss the following techniques that can speed up shortest path calculations in an iterative environment:
 \begin{itemize}
-    \item network preprocessing,
-    \item using information from the previous iteration for the current iteration to avoid recalculating shortest paths that are not going to change.
+    \item preprocessing algorithms,
+    \item use information from the previous iterations,
+    \item avoid shortest path calculations.
 \end{itemize}
-\end{comment}
 
 \section{Structure of the report}
 Chapter~\ref{chap:ta} gives a short description of the traffic assignment problem
-and presents a specific algorithm (The Path Equilibration Algorithm) that solves it.
-This algorithm is going to be experimented for this project.
-Chapter~\ref{chap:solvingspp} introduces the shortest path problem and presents some of the well established algorithms that solves it very fast.
-Strategies for solving the shortest path problem faster in an iteration environment is also describe in this chapter.
+and presents a specific algorithm called the Path Equilibration algorithm that solves it.
+This algorithm the begin of our experiments for this project.
+Chapter~\ref{chap:solvingspp} introduces the shortest path problem and presents some of the well established algorithms that solve it.
+Strategies for solving the shortest path problem faster in an iterative environment are also described in this chapter.
 Implementation details are presented in Chapter~\ref{chap:implementation}.
-And Chapter~\ref{chap:results} shows the results and their discussions.
+Chapter~\ref{chap:results} shows and discusses results.
 Finally conclusions are drawn in Chapter~\ref{chap:conclusions}.

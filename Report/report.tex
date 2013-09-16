@@ -71,7 +71,7 @@
     pdfauthor={Boshen Chen}
 }
 
-\usepackage[disable, shadow, color=gray!15, linecolor=black]{todonotes} % disable, draft
+\usepackage[draft, shadow, color=gray!15, linecolor=black]{todonotes} % disable, draft
 \newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{ \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
 
 \titleformat{\chapter}[display]   
@@ -104,8 +104,8 @@
 \renewcommand\contentsname{Table of Contents}
 \tableofcontents 
 \listoffigures
-\listoftables
-\listofalgorithms
+%\listoftables
+%\listofalgorithms
 
 \newpage
 \pagenumbering{arabic}

@@ -1,13 +1,13 @@
-\chapter{The traffic assignment problem} \label{chap:ta}
+\chapter{The Traffic Assignment Problem} \label{chap:ta}
 
 In a transportation network,
 every traveller wishes to travel between different pairs of origins and destinations.
 As travellers start to travel in the network,
-congestion happen and travel speed tend to decrease rapidly due to more and more interactions between the travellers and increase in traffic volume.
-This lead to the problem of travellers wishing to find the fastest route to travel on,
-meanwhile taking account of congestion as every other traveller is trying to do the same.
-From the road design point of view,
-we wish to find a flow pattern in the network with a given travel demand between the origin-destination pairs. 
+congestion happens and travel speeds tend to decrease rapidly due to more and more interactions between the travellers and an increase in traffic volume.
+This leads to the problem of travellers wishing to find the fastest route to travel on,
+meanwhile taking account of congestion while every other traveller is trying to do the same.
+In transportation modelling point of view,
+we wish to find a traffic flow pattern in the network with a given travel demand between the origin and destination pairs. 
 This is called the Traffic Assignment Problem.
 
 The Traffic Assignment Problem is commonly solved by traffic equilibrium models.
@@ -19,24 +19,22 @@ His first principle states that ``the journey times on all routes actually used 
 The traffic flows that satisfy this principle are referred to as ``user optimal'' flows,
 as each traveller chooses the route which is the best for them.
 On the other hand,
-we can also solve for traffic flows that are ``system optimal'',
+we can also find traffic flows that are ``system optimal'',
 which is characterized by Wardrop's second principle, stating that ``the average journey time is minimum''.
 
 In this chapter,
 the network equilibrium model is first stated.
-Then a particular solution algorithm for solving such model is described.
-Finally the reason for needing a faster algorithm for solving the shortest path problem is briefly explained.
+Then a particular solution algorithm for solving such a model is described.
+Finally the motivation of this project in the context of solving the traffic assignment problem is brief explained.
 
 \section{The network equilibrium model}
-In this section,
-the deterministic symmetric network equilibrium model for solving the user optimal of the traffic assignment is summarised.
-This model assumes deterministic traffic demands,
-where the demands are fixed when the traffic assignment problem is getting solved.
-This model also assumes the network is symmetric,
-which does not mean the underlying graph of the network is symmetric or bidirectional,
-it means the change of travel time on any link does not depend on the change of traffic flows on the other links.
-These assumptions may not be realistic but they result a set of simple algorithms that are easier to analyse.
-
+%In this section,
+%the deterministic symmetric network equilibrium model for solving the user optimal of the traffic assignment is summarised.
+In order to formulate a model for solving the traffic assignment problem,
+two assumptions are made.
+We assume deterministic traffic flows and fixed demand,
+and the change of travel time on any link does not depend on the change of traffic flows on the other links.
+These assumptions may not be realistic \todo{keep?} but they allow us to formulate the traffic assignment model as a mathematical probram.
 %The model assumes the link cost functions are separable, i.e.\ the function values are only dependent on the flows on the link itself, not other flows that do not belong to that link.
 %The model also assumes the traffic demand of the network is fixed.
 
@@ -44,17 +42,17 @@ Using notations from \citet{Florian, Florian2008},
 we consider a transportation network represented as a graph $G = (N, A)$,
 where $N$ is a set of nodes and $A$ a set of directed links in the network.
 The number of vehicles (or flow) on link $a$ is $v_a$ ($a \in A)$,
-and the cost of travelling on a link is given by a user cost function $s_a(v)$ ($a \in A$),
+and the cost of travelling on a link is given by a link cost function $s_a(v)$ ($a \in A$),
 where $v$ is the vector of link flows over the entire network.
 
 Let $I$ be the set of origin-destination (O-D) pairs
 and $K_i$ be the set of cycle-free paths for O-D pair $i \in I$.
 The origin to destination traffic demands $g_i$ ($i \in I$) are distributed over directed paths $k \in K_i$,
-and it is assumed $k_i \neq \emptyset$ and $K = \cup_{i \in I} K_i$.
+and it is assumed $K_i \neq \emptyset$ and $K = \cup_{i \in I} K_i$.
 Let $h_k$ be the flows on paths $k$ that satisfy the conservation of flow and non-negativity constraints:
 \begin{align} \label{model_1}
-    \sum_{k \in K_i} h_k & = g_i, \quad \forall i \in I, k \in K, \\
-    h_k &\geq 0.
+    \sum_{k \in K_i} h_k & = g_i \quad \forall i \in I,  \\
+    h_k &\geq 0 \quad \forall k \in K.
 \end{align}
 The corresponding link flows $v_a$ are given by:
 \begin{equation}
@@ -69,7 +67,7 @@ where
     \end{cases}
 \end{equation}
 
-With constraints \ref{model_1} - \ref{model_4},
+With constraints \eqref{model_1} - \eqref{model_4},
 the user optimal objective is
 \begin{equation}
     \min S(v) = \sum_{a\in A} \int_0^{v_a} s_a(x) \mathrm{d} x.
@@ -97,20 +95,19 @@ and
 \end{equation}
 
 To elaborate, this condition means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
-Furthermore, this condition is under the assumption that the travellers have complete knowledge about the network,
+Furthermore, this condition assumes that the travellers have complete knowledge about the network,
 they always choose the best route to travel based on the current information about the network.
 This means the equilibrium is the result of everybody simultaneously attempting to minimize their own travel times.
 
-To model congestion effects,
-the \citet{BPR} (BPR) link cost function
-$s_a(v_a)$ is used to model the travel time on link $a \in A$.
+The \citet{BPR} (BPR) link cost function
+$s_a(v_a)$ is often used to model the travel time on link $a \in A$.
 The function is given by
 \begin{equation}
     s_a(v_a) = s_f \left(1 + B \left( \frac{v_a}{C_a} \right)^\alpha \right)
 \end{equation}
-where $B$ and $\alpha$ are the parameters for the level of congestion that can can be experienced,
+where $B$ and $\alpha$ are the parameters for the level of congestion that can be experienced,
 and $s_f$ and $C_a$ are the free-flow travel time and link capacity.
-It is important to note this cost function only depends on traffic flow on its own link, and it is strictly monotonic, continuous and differentiable,
+It is important to note this cost function only depends on traffic flow on its own link, and it is strictly monotonic, continuous and differentiable.
 An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
 
 \begin{figure}[H]
@@ -129,7 +126,7 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
                 every axis y label/.style={at={(current axis.above origin)},anchor=north east, xshift=-2pt},
                 every axis x label/.style={at={(current axis.right of origin)},anchor=north west, xshift=-2pt},
                 extra y ticks={20},
-                extra y tick labels={Freeflow time},
+                extra y tick labels={Freeflow time $(s_f)$},
                 extra y tick style={overlay},
                 xtick=\empty,
                 ytick=\empty,
@@ -137,7 +134,7 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
                 yticklabel=\empty,
                 scaled ticks=false,
                 extra x ticks={9000},
-                extra x tick style={xticklabel pos=right, xticklabels={Capacity}, xmajorgrids=true}
+                extra x tick style={xticklabel pos=right, xticklabels={Capacity $(C_a)$}, xmajorgrids=true}
             ]
             \addplot [->, black] {20+0.15*(x/2000)^4}; 
         \end{axis}
@@ -146,17 +143,18 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
     \label{fig:flowfunction}
 \end{figure}
 
-\section{The path equilibration algorithms}
+\section{The path equilibration algorithm}
 The deterministic symmetric network equilibrium model described in the previous section is equivalent to a convex cost differentiable optimization problem,
-where a wide range of algorithms exist for solving such problems.
+where a wide range of algorithms exists for solving such problems.
 They include, the linear approximation method,
 the linear approximation with parallel tangents method,
 the restricted simplicial decomposition method,
-and the path equilibration algorithm.
-All of these algorithm are described in \citet{Florian}.
+and the path equilibration algorithm,
+see \citet{Florian}.
 
 For this project,
 we focus on the path equilibration algorithm.
+\todo[inline]{why? reformat to a new section for solving TAP}
 The general approach of the algorithm is equivalent to
 Gauss-Seidel decomposition (an iterative method for solving a linear system of equations).
 In a step of the algorithm,
