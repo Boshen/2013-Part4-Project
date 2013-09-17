@@ -6,6 +6,8 @@ G = nx.DiGraph()
 
 origin = 170 #384
 destination = 142 #368
+origin = 384
+destination = 368
 numZones = 386
 with open("ChicagoSketch_node.txt", 'r') as f:
     f.readline()
@@ -42,7 +44,7 @@ with open("ChicagoSketch_net.txt", 'r') as f:
 
 tree = []
 path = []
-with open("chicago_astar_data2", 'r') as f:
+with open("chicago_dijkstra_data", 'r') as f:
     flag = False
     while True:
         line = f.readline()
@@ -64,16 +66,16 @@ plt.figure(figsize=(20,20),dpi=240)
 #nx.draw_networkx(G,pos,with_labels=True, alpha=0.1, node_size=1,widths=0.1, font_color='r',font_size=8,node_color='r',edge_color='k') 
 nx.draw_networkx_nodes(G, pos, nodelist=[origin,destination],node_size=100,node_color='r')
 p1 = nx.draw_networkx_edges(G, pos, edgelist=edgelist, edge_color='k', arrows=False, widths=0.1, alpha=0.1)
-p2 = nx.draw_networkx_edges(G, pos, edgelist=tree, edge_color='b', arrows=False, width=0.8, alpha=0.6)
-p3 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False, width=3)
+p2 = nx.draw_networkx_edges(G, pos, edgelist=tree, edge_color='b', arrows=False, width=2, alpha=0.8)
+p3 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False, width=5)
 #xmax=max(xx for xx,yy in pos.values())
 #ymax=max(yy for xx,yy in pos.values())
 #plt.xlim(0,xmax)
 #plt.ylim(0,ymax)
-plt.legend([p1, p2, p3],["unscanned arcs or\n arcs connecting zones", "scanned arcs", "shortest path"], bbox_to_anchor=(0, 0, 0.9, 0.9), loc=1, prop={"size":20}) 
+plt.legend([p1, p2, p3],["unscanned arcs or\n arcs connecting zones", "scanned arcs", "shortest path"], bbox_to_anchor=(0, 0, 0.95, 0.9), loc=1, prop={"size":26, "family":"serif"}) 
 x, y = pos[origin]
 plt.text(x-35000, y+10000, s="Origin", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 x, y = pos[destination]
 plt.text(x+8000, y-10000, s="Destination", bbox=dict(boxstyle="round", fc="1",alpha=1), fontsize=20)
 plt.axis("off")
-plt.savefig("chicago_astar2.pdf", bbox_inches="tight")    
+plt.savefig("chicago_dijkstra.pdf", bbox_inches="tight")    
