@@ -88,14 +88,13 @@ iters = [81, 83, 147, 152]
 index = [0,1,3,4]
 pylab.bar([0,1], y[0:2], width=0.5, align='center')
 pylab.bar([3,4], y[2:4], width=0.5, align='center')
-pylab.xticks(index, ['A*\n \t \t \t Philadelphia'.expandtabs(), '50%', 'A*\nChicago Regional', '50%'], size='small', fontproperties=font)
+pylab.xticks(index, ['A*\n \t \t \t Philadelphia'.expandtabs(), '50%', 'A*\n \t \t \t Chicago Regional'.expandtabs(), '50%'], size='small', fontproperties=font)
 
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
 #pylab.ylim([0, 25])
-pylab.title('A* search with skipping calculations when change occur on ChicagoSketch', fontproperties=font)
-pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
+pylab.title('Run times of A* search and with 50% random skipping\n on Philadelphia and Chicago Regional network', fontproperties=font)
 pylab.ylabel('Run time\n(hours)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
 

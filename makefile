@@ -4,7 +4,7 @@ CC = g++
 CFLAGS = -Wall  -g -O3 #-pg # for profile
 LDFLAGS = -Wall -g -O3 -Wextra # -pg
 
-BOOST_DIR = /usr/local/include/boost
+BOOST_DIR = /usr/include/boost_1_53_0 #/usr/local/include/boost
 SHPATH_DIR = Source/ShPath/
 
 DIR = Source

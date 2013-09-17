@@ -7,7 +7,7 @@ G = nx.DiGraph()
 origin = 170 #384
 destination = 142 #368
 numZones = 386
-with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
+with open("ChicagoSketch_node.txt", 'r') as f:
     f.readline()
     while True:
         line = f.readline()
@@ -21,7 +21,7 @@ with open("../Data/Instances/ChicagoSketch_node.txt", 'r') as f:
             G.add_node(node, pos=(X, Y))
 
 edgelist = []
-with open("../Data/Instances/ChicagoSketch_net.txt", 'r') as f:
+with open("ChicagoSketch_net.txt", 'r') as f:
     readData = False
     while True:
         line = f.readline()
@@ -65,7 +65,7 @@ plt.figure(figsize=(20,20),dpi=240)
 nx.draw_networkx_nodes(G, pos, nodelist=[origin,destination],node_size=100,node_color='r')
 p1 = nx.draw_networkx_edges(G, pos, edgelist=edgelist, edge_color='k', arrows=False, widths=0.1, alpha=0.1)
 p2 = nx.draw_networkx_edges(G, pos, edgelist=tree, edge_color='b', arrows=False, width=0.8, alpha=0.6)
-p3 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False, width=1.5)
+p3 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='r', arrows=False, width=3)
 #xmax=max(xx for xx,yy in pos.values())
 #ymax=max(yy for xx,yy in pos.values())
 #plt.xlim(0,xmax)
