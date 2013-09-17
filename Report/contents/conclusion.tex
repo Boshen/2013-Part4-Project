@@ -2,22 +2,25 @@
 To summarise,
 in this project we have studied the point-to-point shortest path problem embedded in the path equilibration algorithm for solving the traffic assignment problem.
 We have implemented Dijkstra's algorithm, A* search and their bidirectional versions.
+We also tested eight different priority queues for the shortest path algorithms.
 Two strategies were developed to improve the performance of these shortest path algorithms when they are used in the iterative path equilibration algorithm.
 The first strategy is to avoid the next few number of iterations
 when the shortest path of the previous two iterations are the same.
 The second strategy is to randomly skip the next shortest path calculation,
-where we hope for the shortest path in the current and previous iteration is going to be the same.
+with the hope that the shortest path in the current and previous iteration is going to be the same.
 In addition,
-we have also investigated the possibility of using preprocessing methods such as A* search with landmarks algorithm.
+we have also investigated the possibility of using preprocessing methods such as A* search with landmarks.
 
-We now conclude this project with the following points:
+\section{Conclusions}
+We now conclude this project with the following results:
 \begin{itemize}
-    \item The A* search algorithm using zero-flow travel times as heuristic estimates has the best performance.
-    \item Bidirectional versions of Dijkstra's algorithm and the A* search have worse performances. Bidirectional Dijkstra is worse because its need to check the stopping criterion at each step. Bidirectional A* is worse because its search area is larger than unidirectional A*.
-    \item The strategy of avoiding next few iterations of shortest path calculations is not viable as it is difficult to find the best number of iterations to skip.
-    \item The strategy of avoiding shortest path calculations randomly is viable. By using A* search and 50\% random skipping on large networks that require millions of shortest path calculations in each iteration, the run times are further improved by about 25\% compared to just using A* search.
+    \item The priority queue implementation from the C++ standard template library has the best performance compared to the six implementations from the C++ Boost library and binary search tree from the C++ standard template library.
+    \item A* search algorithm using zero-flow travel times as heuristic estimates has the best performance.
+    \item Bidirectional versions of Dijkstra's algorithm and A* search have worse performances. Bidirectional Dijkstra is worse because it has to check the stopping criterion at each step. Bidirectional A* is worse because its search area is larger than that of unidirectional A*.
+    \item The strategy of avoiding next few iterations of shortest path calculations is not viable as it is difficult to find the best number of iterations to skip.  \todo{is doable, but have to be careful}
+    \item The strategy of avoiding the shortest path calculations randomly is viable. By using A* search and 50\% random skipping on large networks that require millions of shortest path calculations in each iteration, the run times are further improved by about 25\% compared to just using A* search.
     %\item Preprocessing shortest path algorithms are not applicable for the traffic assignment problem, due to their long preprocessing time can slow down the whole traffic assignment process when the road network need to be changed frequently.
-    \item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model.
+    \item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. \todo{is applicable, need more research}
 \end{itemize}
 
 \section{Future work}
@@ -26,13 +29,22 @@ The algorithm can be improved by implementing a multi-threaded version developed
 by \citet{Inam}.
 The algorithm will run extremely fast as it is designed for GPGPU (General Purpose GPU) run on multi processors using many threads concurrently.
 The main modification of the algorithm is that  
-instead of sequentially update all emanating arcs from the labelled node,
+instead of sequentially updating all out-going arcs from the labelled node,
 we update them in parallel using multiple threads.
 
 A* search with landmarks algorithm can be investigated
 if we decide to concentrate on a specific road network.
-How many landmarks need to be used and where to place them need to be experimented in order to find the best combination of preprocessing run time and actual query time.
-
+How many landmarks need to be used and where to place them need to be 
+determined experimentally in order to find the best combination of preprocessing run time and actual query time.
 
 \todoin[inline]{SP and random skipping on different TA algorithms}
 \todoin[inline]{Run PE for a number of iterations, don't add any path until it is equilibrated}
+\todoin[inline]{one might also consider parallel shortest path runs in TA}
+
+Lifelong planning A*:\\
+A family of algorithms exists for dynamically changing graphs,
+including graphs that have moving nodes or changing arcs.
+One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A*, developed by \citet{LPA*}.
+\citet{LPA*} showed experimentally that LPA* is more efficient than A* if the change in arc costs is close to the destination.
+This means Lifelong Planning A* can be used for our problem if we can show that the only changes are close to the destination.
+\todo[inline]{need to be more clearer, see page 24 Olga fix}

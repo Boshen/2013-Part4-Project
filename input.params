@@ -7,11 +7,8 @@
  <PARSER>: {DEFAULT} // possible values: DEFAULT - for usual parsing
  			//            ART2 - for ART2
 
-<ShPathAlgo> :{AstarSTL} // LabelCorrectingAl, Dijkstra, Astar, DijkstraSTL, AstarSTL, DijkstraBidirectSTL, AstarBidirect
-<ShPathDataStruct> : {SkewHeap} // FibonacciHeap, BinaryHeap, TernaryHeap, SkewHeap, PairingHeap, BinomialHeap]
-
-//<OD_MATRIX>:{Data/Instances/berlin_center_ODflows.txt} 
-//<NETWORK>:{Data/Instances/berlin_center_net.txt}
+<OD_MATRIX>:{Data/Instances/berlin_center_trips.txt} 
+<NETWORK>:{Data/Instances/berlin_center_net.txt}
 
 //<OD_MATRIX>:{Data/Instances/Terrassa_trips.txt} 
 //<NETWORK>:{Data/Instances/Terrassa_net.txt}
@@ -43,7 +40,7 @@
 //<NETWORK>:{Data/Instances/Winnipeg_net2.txt}
 //<OD_MATRIX>:{Data/Instances/Winnipeg_trips2.txt} 
 
-<NETWORK>: {Data/Instances/ChicagoSketch_net.txt} // path to file with network
+//<NETWORK>: {Data/Instances/ChicagoSketch_net.txt} // path to file with network
 //Data/Instances/ChicagoRegional_net.txt
 //Data/Instances/ART2_fromKeith/art2.links
 
@@ -64,7 +61,7 @@
 <FNC_ART2> {Data/Instances/ART2_fromKeith/art2.fnc}
 //Data/Instances/ART_Data/ART2/art2.fnc
 
-<OD_MATRIX>: {Data/Instances/ChicagoSketch_trips.txt} //path to file with O-D matrix
+//<OD_MATRIX>: {Data/Instances/ChicagoSketch_trips.txt} //path to file with O-D matrix
 //Data/Instances/ChicagoRegional_trips.txt
 //Data/Instances/ART2_fromKeith/art2.demand
 //Data/Instances/ART_Data/ART2/art2.demand

@@ -1,6 +1,3 @@
-
-
-
 import pylab
 from matplotlib.font_manager import FontProperties
 from matplotlib.backends.backend_pdf import PdfPages
@@ -32,7 +29,7 @@ pdf.savefig(fig, bbox_inches='tight')
 
 #--------------------------------------------- 
 fig = pylab.figure(figsize=(9,5), dpi=200)
-x = [0, 0.3, 0.4, 0.5, 0.6, 0.7]
+x = ['none', 0.3, 0.4, 0.5, 0.6, 0.7]
 #y = [19.53, 18.71, 17.48, 18.18, 17.42, 16.53]
 y = [[19.53],[17.46, 17.50, 17.37, 17.78, 19.03, 18.98, 19.01, 19.19, 18.96, 18.98], [19.26, 18.89, 18.91, 19.00, 19.09, 18.91, 17.53, 17.10, 17.26, 17.48], [18.34, 17.23, 18.05, 18.07, 18.39, 18.44, 21.94, 26.55, 27.00, 26.55], [18.03, 18.10, 17.94, 20.96, 19.39, 18.27, 18.16, 18.16, 21.57, 18.93], [16.05, 16.02, 15.94, 16.18, 15.83, 15.69, 15.60, 15.64, 15.56, 15.60]]
 iters = [26, 25, 25, 31, 34, 34]
@@ -83,6 +80,23 @@ pylab.ylim([0, 25])
 pylab.title('A* search with skipping calculations when change occur on ChicagoSketch', fontproperties=font)
 pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pdf.savefig(fig, bbox_inches='tight')
+#--------------------------------------------- 
+fig = pylab.figure(figsize=(9,5), dpi=200)
+y = [7.96, 5.75, 33.26, 24.18]
+iters = [81, 83, 147, 152]
+index = [0,1,3,4]
+pylab.bar([0,1], y[0:2], width=0.5, align='center')
+pylab.bar([3,4], y[2:4], width=0.5, align='center')
+pylab.xticks(index, ['A*\n \t \t \t Philadelphia'.expandtabs(), '50%', 'A*\nChicago Regional', '50%'], size='small', fontproperties=font)
+
+for i, (xx,yy) in enumerate(zip(index,y)):
+    pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
+
+#pylab.ylim([0, 25])
+pylab.title('A* search with skipping calculations when change occur on ChicagoSketch', fontproperties=font)
+pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
+pylab.ylabel('Run time\n(hours)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
 
 pdf.close()
