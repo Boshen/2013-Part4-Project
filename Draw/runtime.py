@@ -26,6 +26,9 @@ for time, shape in zip(times, shapes):
 font = FontProperties()
 font.set_family('serif')
 font.set_size(38)
+font2 = FontProperties()
+font2.set_family('serif')
+font2.set_size(45)
 
 k = 0
 for (i, j) in zip([620000, 1437860, 1437860, 1437860, 1437860], [140, 65, 100, 18, 40]):
@@ -34,10 +37,10 @@ for (i, j) in zip([620000, 1437860, 1437860, 1437860, 1437860], [140, 65, 100, 1
             bbox=dict(boxstyle='round,pad=0.5',fc= 'white', alpha=0.2), fontproperties=font)
     k += 1
 
-pylab.title('Algorithm run times on different networks', fontproperties=font)
-pylab.ylabel('Run Time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pylab.title('Algorithm run times on different networks', fontproperties=font2)
+pylab.ylabel('Run Time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font2)
 #pylab.xlabel('Number of Origin-Destination Pairs', fontproperties=font)
-pylab.xlabel('Networks', fontproperties=font)
+pylab.xlabel('Networks', fontproperties=font2)
 x1, x2, y1, y2 = pylab.axis()
 #pylab.legend(algos)
 pylab.axis((x1, x2, y1, 160), fontproperties=font)

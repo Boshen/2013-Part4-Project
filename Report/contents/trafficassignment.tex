@@ -18,9 +18,10 @@ His first principle states that ``the journey times on all routes actually used 
 %The principle means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
 The traffic flows that satisfy this principle are referred to as ``user optimal'' flows,
 as each traveller chooses the route which is the best for them.
-On the other hand,
-we can also find traffic flows that are ``system optimal'',
-which is characterized by Wardrop's second principle, stating that ``the average journey time is minimum''.
+%On the other hand,
+%we can also find traffic flows that are ``system optimal'',
+%which is characterized by Wardrop's second principle, stating that ``the average journey time is minimum''.
+\todo[inline]{removed system optimal, the report does not mention system optimal anywhere anymore}
 
 In this chapter,
 the network equilibrium model is first stated.
@@ -34,7 +35,7 @@ In order to formulate a model for solving the traffic assignment problem,
 two assumptions are made.
 We assume deterministic traffic flows and fixed demand,
 and the change of travel time on any link does not depend on the change of traffic flows on the other links.
-These assumptions may not be realistic \todo{keep?} but they allow us to formulate the traffic assignment model as a mathematical program.
+These assumptions may not be realistic \todo{keep this realistic part?} but they allow us to formulate the traffic assignment model as a mathematical program.
 %The model assumes the link cost functions are separable, i.e.\ the function values are only dependent on the flows on the link itself, not other flows that do not belong to that link.
 %The model also assumes the traffic demand of the network is fixed.
 
@@ -67,12 +68,6 @@ where
     \end{cases}
 \end{equation}
 
-With constraints \eqref{model_1} - \eqref{model_4},
-the user optimal objective is
-\begin{equation} \label{eq:user_optimal}
-    \min S(v) = \sum_{a\in A} \int_0^{v_a} c_a(x) \mathrm{d} x.
-\end{equation}
-
 In order to solve for user equilibrium,
 the \citep{Wardrop} user equilibrium condition is applied:
 
@@ -97,7 +92,14 @@ and
 To elaborate, this condition means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
 Furthermore, this condition assumes that the travellers have complete knowledge about the network,
 they always choose the best route to travel based on the current information about the network.
-This means the equilibrium is the result of everybody simultaneously attempting to minimize their own travel times.
+This means the equilibrium is the result of everybody simultaneously attempting to minimise their own travel times.
+
+With constraints \eqref{model_1} - \eqref{model_4},
+the user optimal objective is
+\begin{equation} \label{eq:user_optimal}
+    \min S(v) = \sum_{a\in A} \int_0^{v_a} c_a(x) \mathrm{d} x.
+\end{equation}
+It has been shown in \citet{Florian} that Equation~\ref{eq:user_optimal} gives the result to the user-equilibrium solution.
 
 The \citet{BPR} (BPR) link cost function
 $c_a(v_a)$ is often used to model the travel time on link $a \in A$.
@@ -110,7 +112,7 @@ and $c_f$ and $C_a$ are the free-flow travel time and link capacity.
 It is important to note this cost function only depends on traffic flow on its own link, and it is strictly monotonic, continuous and differentiable.
 An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
     \begin{tikzpicture}
         \begin{axis}
@@ -143,7 +145,19 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
     \label{fig:flowfunction}
 \end{figure}
 
-\section{The path equilibration algorithm}
+\section{Solving the traffic assignment problem}
+\todo[inline]{this section is borrowed from Olga's paper ``A Computational Study of Traffic Assignment Algorithms''}
+
+Different methods exist for solving the traffic assignment problem.
+They are classified by how the solution is presented.
+They include link-based, path-based and origin-based.
+The solution variables for link-based are link flows,
+path-based are path flows,
+and origin-based are link flows coming from a particular origin.
+Summaries of these methods can be found in ~\citet{Zhou2010}.
+These solution methods, which have been widely studied,
+result different numerical accuracies and vary greatly in run time and memory requirement.
+
 The deterministic symmetric network equilibrium model described in the previous section is equivalent to a convex cost differentiable optimization problem,
 where a wide range of algorithms exists for solving such problems.
 They include, the linear approximation method,
@@ -152,10 +166,12 @@ the restricted simplicial decomposition method,
 and the path equilibration algorithm,
 see \citet{Florian}.
 
-For this project,
-we focus on the path equilibration algorithm.
-\todo[inline]{why? reformat to a new section for solving TAP}
-The general approach of the algorithm is equivalent to
+In this project, we focus on the path-based algorithm (also known as path equilibration algorithm) proposed in~\citet{Dafermos1969}.
+The algorithm have traditionally been discarded by transportation researchers as too memory-intensive and slow for large networks \citep{Jayakrishnan1994}.
+As a result, the development of path-based algorithm has only began in the last decade, thus there are lots of improvements can be done.
+
+\section{The path equilibration algorithm}
+The general approach of the path equilibration algorithm is equivalent to
 Gauss-Seidel decomposition (an iterative method for solving a linear system of equations).
 In a step of the algorithm,
 path flows $h_k \forall k \in K_i$ between a single O-D pair $i$ are considered by keeping the flows of all other O-D pairs fixed.
@@ -178,9 +194,9 @@ and flows $v_a^i$ are varied:
 
 The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated as follows.
 
-\begin{table}[H]
+\begin{table}[!ht]
     \begin{tabular}{ m{0.8\textwidth} }
-        \hspace{-.5cm}\emph{`cyclic decomposition' by O-D pair \citep{Florian}} \\
+        \hspace{-.5cm}\emph{`cyclic decomposition' by O-D pair} \citep{Florian} \\
         \emph{Step 0.} Given initial solution, set $l = 0$, $l' = 0$.\\
         \emph{Step 1.} If $l' = |I|$, stop; otherwise set $l = l \text{ mod } |I| + 1$ and continue.\\
         \emph{Step 2.} If the current solution is optimal for the $i$th sub-problem (\ref{eq:sb1})-(\ref{eq:sb5}), set $l' = l' + 1$ and return to step 1; otherwise solve the $l$th sub-problem, update the path flows, set $l' = 0$ and return to step 1.\\
@@ -188,45 +204,46 @@ The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated
 \end{table}
 
 The path equilibration algorithm for solving \eqref{eq:sb1}-\eqref{eq:sb5} 
-finds the solution of the traffic assignment problem by balancing path flows between each O-D pair.
-One such algorithm, proposed by \citet{Dafermos}, 
-finds the shortest and longest path and equalizes the travel times between them.
+finds the solution of the traffic assignment problem by balancing path flows between each O-D pair,
+it finds the shortest and longest path and equalizes the travel times between them.
 Let $K_i^{+} = \left\{ k \in K_i | h_k > 0 \right\}$ be the set of paths with positive flows.
 
 The algorithm for solving each O-D pair $i$ is stated as follows.
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
-        \hspace{-.5cm}\emph{Path Equilibration Algorithm \citep{Florian}} \\
-        \emph{Step 0}. All-or-nothing assignment: find an initial solution $v_a^i$; $c_a = c_a(v_a^i+\bar{v}_a)$ and the initial $K_i^+$.\\
+        \hspace{-.5cm}\emph{Path Equilibration Algorithm} \citep{Florian} \\
+        \emph{Step 0}. All-or-nothing assignment: find an initial solution $v_a^i$ and $\bar{v}_a$; $c_a = c_a(v_a^i+\bar{v}_a)$ and the initial $K_i^+$.\\
         \emph{Step 1}. Compute the costs of the currently used paths $c_k$, $k \in K_i^+$. Find $k_1$ such that $c_{k_1} = \displaystyle \min_{k \in K_i} \left[ c_k \right]$ and $k_2$ such that $c_{k_2} = \displaystyle \max_{k \in K_i^+} \left[c_k \right]$.\\
-        If $(c_{k_2} - c_{k_1}) \leq \epsilon$, go to step 4;
-        otherwise define the direction $d_{k_1} = (c_{k_2} - c_{k_1})$ for path flow $k_1$ and $d_{k_2} = (c_{k_1} - c_{k_2})$ for path flow $k_2$\\
-        \emph{Step 2}. Find the step size $\lambda$ which redistributes the flow $h_{h_1} + h_{k_2}$ between the paths $k_1$ and $k_2$ in such a way that their costs become equal, that is, solve
+        If $(c_{k_2} - c_{k_1}) \leq \varepsilon$, go to next O-D pair.\\
+        \emph{Step 2}. 
+        Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} \left[ c_k \right]$;
+        If $\tilde{s}_k < \displaystyle \min_{k \in K_i^+} \left[ c_k \right]$, then the path $\tilde{k}$ is added to the set of kept paths, $K_i^+ = K_i^+ \cup \tilde{k}$.\\
+        \emph{Step 3}.  Define the direction $d_{k_1} = (c_{k_2} - c_{k_1})$ for path flow $k_1$ and $d_{k_2} = (c_{k_1} - c_{k_2})$ for path flow $k_2$.
+         Find the step size $\lambda$ which redistributes the flow $h_{h_1} + h_{k_2}$ between the paths $k_1$ and $k_2$ using the defined directions $d_{k_1}$ and $d_{k_2}$ in such a way that their costs become equal. That is, shift flow from the longest path to the shortest path in the set of kept path $K_i^+$. \\
+        \emph{Step 4}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + \lambda y_a; c_a = c_a(v_a^i + \bar{v}_a)$. \\
     \end{tabular}
 \end{table}
-\vspace{-3em}
-\begin{align}
-    \min_\lambda & \quad \sum_{a \in A} \int_0^{v_a^i + \lambda y_a + \bar{v}_a} c_a(x) \mathrm{d}x \\
-    \text{s.t.} & \quad 0 \leq \lambda \leq \left( \frac{-h_{k_2}}{d_{k_2}} \right), \\
-    \text{where} & \quad y_a = \delta_{ak_1} d_{k_1} - \delta_{ak_2} d_{k_2}.
-\end{align}
-\vspace{-2em}
-\begin{table}[H]
-    \begin{tabular}{ m{0.8\textwidth} }
-        \emph{Step 3}. Using the $\lambda$ obtained, update $h_k = h_k + \lambda d_k, k = \left\{ k_1, k_2 \right\}; v_a^i = v_a^i + \lambda y_a; c_a = c_a(v_a^i + \bar{v}_a)$. \\
-        \emph{Step 4}. Compute the shortest path $\tilde{k}$ with cost $\tilde{s}_k = \displaystyle \min_{k \in K_i} \left[ c_k \right]$;
-        if $\tilde{s}_k < \displaystyle \min_{k \in K_i^+} \left[ c_k \right]$, then the path $\tilde{k}$ is added to the set of kept paths, $K_i^+ = K_i^+ \cup \tilde{k}$ and return to step 1; otherwise stop.
-    \end{tabular}
-\end{table}
-\todo[inline]{fix this, see page 8 Andrea fix}
 
 In step 0, a so called all-or-nothing assignment is performed for each of the O-D pairs,
-where it finds the shortest path and assigns all traffic flows along that path.
-In step 1 and 2, the algorithm finds the two paths that have the minimum and maximum cost,
-and balances the flow between them to equalize their costs.
-These two steps are equivalent to solving the Wardrop equilibrium shown in Equations~\eqref{wardrop1}-\eqref{wardrop3}.
-In step 4, the shortest path between the O-D pair is computed and added to the set of used paths for the all-or-nothing assignment and Wardrop equilibrium.
-\todo[inline]{rewrite}
+where it finds the shortest path for O-D pair $i$ and assigns all traffic supplies along that path to the destination.
+In step 1, the two paths that have the minimum and maximum costs are found.
+If costs of the two paths are the same, then we can go to the next O-D pair because all traffics have minimised their travel times.
+In step 2, since travel times have not been minimised, we improve the currently used paths set from step 1 by computing a new shortest path.
+In steps 3 and 4, traffic flows are redistributed between the longest and shortest paths, these steps are equivalent to solving the Wardrop equilibrium shown in Equation~\ref{wardrop1}-\ref{wardrop3}.
+
+Keep in mind the all-or-nothing assignment is different from the traffic assignment solution.
+The all-or-nothing assignment gives the solution where between every O-D pair,
+all traffic flows are assigned along the shortest path.
+Meanwhile the traffic assignment gives the solution where every individual traveller travel along their shortest path,
+so between O-D pairs, there is a set of paths with different traffic flows.
+This is presented by the set of kept path $K_i^+$ in the path equilibration algorithm.
+
+In summary, in each iteration of the path equilibration algorithm,
+it first computes shortest path with fixed traffic flows and link costs for O-D pair $i$, moves the traffic flow to satisfy the Wardrop equilibrium,
+updates all the link costs and finally continue with the next O-D pair.
+
+The path equilibration is said to be memory intensive is because for each O-D pair, it has to store all of the kept path $K_i^+$.
+On networks with millions of O-D pairs, the algorithm may require more than 10 gigabytes of memory.
 
 Now if we are given a large network and assume it requires many iterations to find the optimal solution,
 it can be shown that a large number of shortest path calculations are needed.
@@ -253,15 +270,15 @@ And the lower bound refers to the all-or-nothing (AON) assignment in step 0 of t
 The relative gap (RGAP) is computed as
 \begin{align}
     \text{RGAP} &= \frac{\text{UE} - \text{AON}}{\text{UE}} \\
-                &= \frac{\sum_{a \in A} v_a c_a - \sum_{i \in I} g_i c_{\tilde{k}_i}}{\sum_{a \in A} v_a c_a}.
+    &= \frac{\sum_{a \in A} v_a c_a - \sum_{i \in I} g_i c_{\tilde{k}_i}}{\sum_{a \in A} v_a c_a}.
 \end{align}
 The AON solution is the sum of travel times $c_{\tilde{k}_i}$ of each traffic demand $g_i$ travelling on their shortest path $\tilde{k}_i$.
 The UE solution is the sum of travel times over the entire network.
 These two values are improved from iteration to iteration during the path equilibration algorithm until they become identical, i.e.\ RGAP is converging towards 0.
 The traffic assignment problem is solved when RGAP is 0,
 but normally we stop the algorithm at some tolerance such as $10^{-6}$.
-\todo[inline]{it doesn't decrease monotonically though\ldots}
 
 It is worth to notice that the speed of convergence is highly dependent on how small we set the relative gap,
 as well as the size and complexity of the network and number of supply and demand nodes.
+The rate of convergence does not decrease monotonically. \todo{and \ldots}
 A smaller relative gap will result in more iterations for the traffic assignment algorithms.

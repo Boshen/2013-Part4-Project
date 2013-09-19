@@ -10,6 +10,7 @@ The second strategy is to randomly skip the next shortest path calculation,
 with the hope that the shortest path in the current and previous iteration is going to be the same.
 In addition,
 we have also investigated the possibility of using preprocessing methods such as A* search with landmarks.
+\todo[inline]{relate back to reality}
 
 \section{Conclusions}
 We now conclude this project with the following results:
@@ -22,6 +23,7 @@ We now conclude this project with the following results:
     %\item Preprocessing shortest path algorithms are not applicable for the traffic assignment problem, due to their long preprocessing time can slow down the whole traffic assignment process when the road network need to be changed frequently.
     \item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. \todo{is applicable, need more research}
 \end{itemize}
+
 
 \section{Future work}
 The current A* search algorithm only runs on a single thread.
@@ -41,10 +43,14 @@ determined experimentally in order to find the best combination of preprocessing
 \todoin[inline]{Run PE for a number of iterations, don't add any path until it is equilibrated}
 \todoin[inline]{one might also consider parallel shortest path runs in TA}
 
-Lifelong planning A*:\\
+
+\section{Lifelong planning A*}
 A family of algorithms exists for dynamically changing graphs,
 including graphs that have moving nodes or changing arcs.
 One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A*, developed by \citet{LPA*}.
 \citet{LPA*} showed experimentally that LPA* is more efficient than A* if the change in arc costs is close to the destination.
 This means Lifelong Planning A* can be used for our problem if we can show that the only changes are close to the destination.
-\todo[inline]{need to be more clearer, see page 24 Olga fix}
+
+\todo[inline]{decided not to implement because \ldots need to read the paper again}
+%This observation motivates us to find algorithms that are suitable for finding shortest path in an iterative environment.
+%Performance can be improved if we can use information from previous iterations.

@@ -204,7 +204,6 @@
     <bib_pages></bib_pages>
     <bib_year>2001</bib_year>
     <bib_extra key="edition">2nd</bib_extra>
-    <bib_extra key="Isbn">0070131511</bib_extra>
     <bib_extra key="publisher">McGraw-Hill Higher Education</bib_extra>
   </doc>
   <doc>
@@ -213,7 +212,7 @@
     <key>Fredman</key>
     <notes></notes>
     <bib_type>article</bib_type>
-    <bib_doi>10.1145/28869.28874</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>Fibonacci heaps and their uses in improved network optimization algorithms</bib_title>
     <bib_authors>Fredman, Michael L. and Tarjan, Robert Endre</bib_authors>
     <bib_journal>J. ACM</bib_journal>
@@ -221,10 +220,6 @@
     <bib_number>3</bib_number>
     <bib_pages>596-615</bib_pages>
     <bib_year>1987</bib_year>
-    <bib_extra key="Address">New York, NY, USA</bib_extra>
-    <bib_extra key="Issue_date">July 1987</bib_extra>
-    <bib_extra key="Month">jul</bib_extra>
-    <bib_extra key="Numpages">20</bib_extra>
     <bib_extra key="Publisher">ACM</bib_extra>
   </doc>
   <doc>
@@ -266,7 +261,7 @@
     <key>Dreyfus</key>
     <notes></notes>
     <bib_type>article</bib_type>
-    <bib_doi>10.2307/168375</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>An Appraisal of Some Shortest-Path Algorithms</bib_title>
     <bib_authors>Dreyfus, Stuart E.</bib_authors>
     <bib_journal>Operations Research</bib_journal>
@@ -282,7 +277,7 @@
     <key>Nicholson</key>
     <notes></notes>
     <bib_type>article</bib_type>
-    <bib_doi>10.1093/comjnl/9.3.275</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>Finding the Shortest Route between Two Points in a Network</bib_title>
     <bib_authors>Nicholson, T. A. J.</bib_authors>
     <bib_journal>The Computer Journal</bib_journal>
@@ -346,7 +341,7 @@
     <key>Astar</key>
     <notes></notes>
     <bib_type>article</bib_type>
-    <bib_doi>10.1109/tssc.1968.300136</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>A Formal Basis for the Heuristic Determination of Minimum Cost Paths</bib_title>
     <bib_authors>Hart, Peter and Nilsson, Nils and Raphael, Bertram</bib_authors>
     <bib_journal>IEEE Transactions on Systems Science and Cybernetics</bib_journal>
@@ -380,7 +375,7 @@
     <key>LPA*</key>
     <notes></notes>
     <bib_type>article</bib_type>
-    <bib_doi>10.1016/j.artint.2003.12.001</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>Lifelong planning A*</bib_title>
     <bib_authors>Koenig, Sven and Likhachev, Maxim and Furcy, David</bib_authors>
     <bib_journal>Artif. Intell.</bib_journal>
@@ -451,9 +446,9 @@
     <key>Florian2008</key>
     <notes></notes>
     <bib_type>incollection</bib_type>
-    <bib_doi>10.1007/978-0-387-77247-9_22</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>Traffic Assignment: Equilibrium Models</bib_title>
-    <bib_authors>Florian, Michael and Hearn, DonaldW.</bib_authors>
+    <bib_authors>Florian, Michael and Hearn, Donald W.</bib_authors>
     <bib_journal></bib_journal>
     <bib_volume>17</bib_volume>
     <bib_number></bib_number>
@@ -463,22 +458,6 @@
     <bib_extra key="Chapter">Springer Optimization and Its Applications</bib_extra>
     <bib_extra key="editor">Chinchuluun, Altannar and Pardalos, PanosM. and Migdalas, Athanasios and Pitsoulis, Leonidas</bib_extra>
     <bib_extra key="publisher">Springer New York</bib_extra>
-  </doc>
-  <doc>
-    <filename></filename>
-    <relative_filename></relative_filename>
-    <key>Dafermos</key>
-    <notes></notes>
-    <bib_type>article</bib_type>
-    <bib_doi></bib_doi>
-    <bib_title>An extended traffic assignment model with applications to two-way traffic</bib_title>
-    <bib_authors>Dafermos, Stella C.</bib_authors>
-    <bib_journal>Transportation Science</bib_journal>
-    <bib_volume>5</bib_volume>
-    <bib_number>4</bib_number>
-    <bib_pages>366-389</bib_pages>
-    <bib_year>1971</bib_year>
-    <bib_extra key="Publisher">INFORMS</bib_extra>
   </doc>
   <doc>
     <filename></filename>
@@ -534,7 +513,7 @@
     <key>Ertl1998</key>
     <notes></notes>
     <bib_type>article</bib_type>
-    <bib_doi>10.1007/BF01545524</bib_doi>
+    <bib_doi></bib_doi>
     <bib_title>Shortest path calculation in large road networks</bib_title>
     <bib_authors>Ertl, Gerhard</bib_authors>
     <bib_journal>Operations-Research-Spektrum</bib_journal>
@@ -576,6 +555,154 @@
     <bib_pages></bib_pages>
     <bib_year>2009</bib_year>
     <bib_extra key="school">Chalmers University of Technology</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Pape</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Implementation and efficiency of Moore-algorithms for the shortest route problem</bib_title>
+    <bib_authors>Pape, Uwe</bib_authors>
+    <bib_journal>Mathematical Programming</bib_journal>
+    <bib_volume>7</bib_volume>
+    <bib_number>1</bib_number>
+    <bib_pages>212-222</bib_pages>
+    <bib_year>1974</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Zhou2010</key>
+    <notes></notes>
+    <bib_type>misc</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Computational Study of Alternative Methods for Static Traffic Equilibrium Assignment</bib_title>
+    <bib_authors>Zhou, Zhong and Brignone, Alberto and Clarke, Michael</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>2010</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Frank1956</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>An algorithm for quadratic programming</bib_title>
+    <bib_authors>Frank, Marguerite and Wolfe, Philip</bib_authors>
+    <bib_journal>Naval Research Logistics Quarterly</bib_journal>
+    <bib_volume>3</bib_volume>
+    <bib_number>1-2</bib_number>
+    <bib_pages>95-110</bib_pages>
+    <bib_year>1956</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Dafermos1969</key>
+    <notes></notes>
+    <bib_type>inbook</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>The traffic assignment problem for a general network</bib_title>
+    <bib_authors>Dafermos, S. C. and Sparrow, F. T.</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume>73B</bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>91-118</bib_pages>
+    <bib_year>1969</bib_year>
+    <bib_extra key="publisher">Journal of Research of the National Bureau of Standards
+</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Jayakrishnan1994</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>A Faster Path-based Algorithm for Traffic Assignment</bib_title>
+    <bib_authors>Jayakrishnan, R. and Tsai, Wei K. and Prashker, Joseph and Rajadhyaksha, Subodh</bib_authors>
+    <bib_journal>Transportation Research Record</bib_journal>
+    <bib_volume>1443</bib_volume>
+    <bib_number></bib_number>
+    <bib_pages>75-83</bib_pages>
+    <bib_year>1994</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Fredman1986</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>The pairing heap: A new form of self-adjusting heap</bib_title>
+    <bib_authors>Fredman, Michael L. and Sedgewick, Robert and Sleator, DanielD. and Tarjan, RobertE.</bib_authors>
+    <bib_journal>Algorithmica</bib_journal>
+    <bib_volume>1</bib_volume>
+    <bib_number>1-4</bib_number>
+    <bib_pages>111-129</bib_pages>
+    <bib_year>1986</bib_year>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Vuillemin1978</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>A data structure for manipulating priority queues</bib_title>
+    <bib_authors>Vuillemin, Jean</bib_authors>
+    <bib_journal>Commun. ACM</bib_journal>
+    <bib_volume>21</bib_volume>
+    <bib_number>4</bib_number>
+    <bib_pages>309-315</bib_pages>
+    <bib_year>1978</bib_year>
+    <bib_extra key="Acmid">359478</bib_extra>
+    <bib_extra key="Address">New York, NY, USA</bib_extra>
+    <bib_extra key="Issn">0001-0782</bib_extra>
+    <bib_extra key="Issue_date">April 1978</bib_extra>
+    <bib_extra key="Keywords">binary trees, data structures, implementation of set operations, mergeable heaps, priority queues</bib_extra>
+    <bib_extra key="Month">apr</bib_extra>
+    <bib_extra key="Numpages">7</bib_extra>
+    <bib_extra key="Publisher">ACM</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Sleator1986</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Self adjusting heaps</bib_title>
+    <bib_authors>Sleator, Daniel Dominic and Tarjan, Robert Endre</bib_authors>
+    <bib_journal>SIAM J. Comput.</bib_journal>
+    <bib_volume>15</bib_volume>
+    <bib_number>1</bib_number>
+    <bib_pages>52-69</bib_pages>
+    <bib_year>1986</bib_year>
+    <bib_extra key="Publisher">Society for Industrial and Applied Mathematics</bib_extra>
+  </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Johnson1975</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>Priority queues with update and finding minimum spanning trees </bib_title>
+    <bib_authors>Johnson, Donald B.</bib_authors>
+    <bib_journal>Information Processing Letters </bib_journal>
+    <bib_volume>4</bib_volume>
+    <bib_number>3</bib_number>
+    <bib_pages>53-57</bib_pages>
+    <bib_year>1975</bib_year>
+    <bib_extra key="Issn">0020-0190</bib_extra>
+    <bib_extra key="Keywords">Graph algorithm; heap; minimum spanning tree; priority queue </bib_extra>
   </doc>
 </doclist>
 </library>

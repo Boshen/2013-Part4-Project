@@ -11,7 +11,7 @@ When solving the traffic assignment problem,
 the algorithm spends most of its time computing shortest paths.
 Significant amount of time is also spent on the convergence check step mentioned in Section~\ref{sec:convergence},
 where the algorithm requires to run the Bellman-Ford-Moore algorithm on all of the zones for the all-or-nothing solution.
-\todo[inline]{maybe need profile output support to support this statement?}
+\todo[inline]{maybe need profile output to support this statement? - no time for this :(}
 
 \section{Graph storage}
 To obtain information from the graph when running shortest path algorithms,
@@ -32,9 +32,10 @@ they include:
     \item $\langle$set$\rangle$ from the C++ standard template library,
     \item $\langle$heap$\rangle$ from the C++ Boost library.
 \end{itemize}
-\todo[inline]{explain notation?}
+Here we use the angled brackets to denote the names are specific implementations of the priority queue data structure.
+
 Each priority queue implementation has some advantages and disadvantages.
-For example some provide faster tree balancing while others provide faster Extract-Min or Delete operation.
+For example some provide faster tree balancing while others provide faster Extract-Min or Insert operation.
 All of these implementations are going to be studied for this project.
 
 First we examine the six variants of heap implementations from the C++ Boost $\langle$heap$\rangle$ library shown in Table~\ref{table:heaps}.
@@ -42,7 +43,7 @@ In the table, $N$ is the number of elements in the priority queue and
 the time complexities are measured in amortized time
 \footnote{Amortized time gives how much time is taken in total when an operation is repeated a million times. For example with different inputs, run time is averaged between the worst-case and the best-case.}.
 
-\begin{table}[H]
+\begin{table}[!ht]
     \centering
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l|cccccc}
                         & Insert    & Extract-Min      & Increase-Key & Decrease-Key \\ \midrule
@@ -56,7 +57,7 @@ the time complexities are measured in amortized time
     \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity \citep{BoostHeap}}
     \label{table:heaps}
 \end{table}
-\todo[inline]{explain breifly what these Heaps are}
+The descriptions, theories and analysis of these heap implementations can be found in \citet{Johnson1975} for Binary and Ternary, \citet{Vuillemin1978} for Binomial, \citet{Fredman} for Fibonacci, \citet{Fredman1986} for Pairing, and \citet{Sleator1986} for Skew.
 
 We are interested in using Boost library Heaps rather than the C++ standard library Heap due to one reason:
 the Decrease-Key (or Increase-Key) operation.
@@ -101,6 +102,6 @@ And for the ordering requirement,
 we can just order the nodes non-decreasingly by their distance labels,
 so the node with the minimum label always comes first.
 The advantage of $\langle$set$\rangle$ compared to $\langle$priority\_queue$\rangle$ is that nodes can be removed from anywhere in the data structure,
-so $\langle$set$\rangle$ may be faster than $\langle$priority\_queue$\rangle$ because the performance of the operations is heavily dependent on the number of nodes in the data structures.
+since the performance of the operations is heavily dependent on the number of elements in the data structures.,
+$\langle$set$\rangle$ can be faster than $\langle$priority\_queue$\rangle$ and require less memory compared to the other priority queues.
 
-\todo[inline]{how about storing data? e.g.\ shortest path trees?}

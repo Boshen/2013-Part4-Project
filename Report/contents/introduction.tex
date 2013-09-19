@@ -2,7 +2,6 @@
 
 \todoin[inline]{CHECK \LaTeX \ LOG!!}
 %\todoin[inline]{use italics and abbreviations}
-\todoin[inline]{Remove Terressa results}
 \todoin[inline]{sort out capatilazation and use of italics}
 
 \section{Introduction to traffic modelling}
@@ -11,7 +10,7 @@ For example, most people need to travel between their workplace and residence tw
 or buy goods from shops that need to be delivered across the city.
 In the meanwhile, 
 transportation networks expand and improve constantly to cater for people's demand for an efficient transportation network,
-but the rate of improvement does not confront with the rate of population growth.\todo{separate sentence + reference}
+but the rate of improvement does not confront with the rate of population growth.
 As a result,
 the network becomes inefficient, resulting traffic congestion.
 
@@ -38,9 +37,7 @@ For example, changes to a transport system could include upgrading or adding roa
 The transportation forecasting model has 4 stages (shown in Figure~\ref{fig:model}):
 trip generation, trip distribution, mode choice and traffic assignment \citep{Sheffi}.
 In the model, the solution of each stage can be passed to the previous ones to improve transportation forecasting and traffic design.
-So after numerous iterations of calibration,
-an accurate model that can estimate future traffic is established.
-\todo{not sure}
+This means the model can be calibrated in numerous iterations to establish an accurate model which can estimate future traffic behaviour.
 In summary, 
 the model collects traffic demand data and 
 generates origins and destinations for travellers (trip generation).
@@ -54,7 +51,7 @@ and it is very difficult to find an equilibrium situation where everybody in the
 Generally the equilibrium situation happen when it is assumed that people are selfish,
 they always try to minimise travel times by travelling along their shortest paths.
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
     \tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=2em]
     \tikzstyle{line} = [draw, -latex']
@@ -73,46 +70,6 @@ they always try to minimise travel times by travelling along their shortest path
     \caption{Transportation forecasting model}
     \label{fig:model}
 \end{figure}
-
-
-
-\begin{comment}
-A traffic model called the transportation forecasting model is built
-with the aim to reduce congestion and predict future traffic response when the behaviour of the traffic is changed.
-This model solves and estimates traffic flows for a given time period with the following four stages: trip generation,
-trip distribution, mode choice and traffic assignment (Figure~\ref{fig:model}).
-In short,
-this model generates origins and destinations for travellers to travel from and to in different parts of the road network,
-it then calculates the number of trips that are required for each origin and destination pair
-and computes the proportion of trips between each pair that use a particular transportation method,
-in the end it assumes all travellers choose the best trip with the least transportation cost and best transportation method (e.g.\ shortest path, least travel time or cheapest route) and
-assigns each traveller to their destination considering traffic congestion.
-
-The traffic assignment (TA) problem in the last stage of the forecast model is a very complicated problem, 
-this is because the problem is only solved when the network reaches user equilibrium,
-which means no traveller can lower their transportation cost through unilateral action: every traveller will strive to find the shortest path while ignoring all other travellers.
-\todo[inline]{reference user equilibrium - John Glen Wardrop principles of equilibrium}
-User equilibrium is difficult to find because in traffic assignment,
-travel times on different roads are modelled as nonlinear functions to capture congestion effects (more traffic flow results slower travel time).
-As different routes are assigned to the travellers,
-congestion happen differently for each road in a nonlinear manner,
-making the result of relocation of travellers hard to calculate.
-
-One method of solving the traffic problem is the Path Equilibration (PE) method \citep{Florian}.
-This method initially calculates the shortest paths between each trip origin and destination based on the zero-flow travel times.
-Traffic flows are assigned to these shortest paths and new travel times are updated accordingly.
-The method iteratively re-identifies new shortest path based on the new travel times and re-assigns traffic flows until user equilibration is reached.
-
-Both of these methods are iterative methods that require shortest path calculations for every trip origins in the network.
-It is not difficult to imagine that there would be many shortest path calculations if the network has hundreds of origins and destinations and takes some iterations to solve.
-Each shortest path calculation would also be very hard to solve if the network has a few hundred intersections and a few thousand roads for a realistic city road network.
-\citet{Sheffi} states that finding the shortest path is the most computation intensive component for the PE or Frank-Wolfe algorithms, 
-other components in the algorithms such as updating new values and convergence check only requires a few percentages of the total running time.
-Overall, speeding up shortest path calculations would significantly speed up the traffic assignment algorithms.
-As a result,
-traffic forecasting would be solved faster for larger and more complicated road networks,
-which allow city designers predict traffic further into the future and make better decisions on road network design.
-\end{comment}
 
 \section{Purpose of this project}
 The transportation forecasting model has been implemented in many software packages for traffic design.

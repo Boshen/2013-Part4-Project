@@ -5,6 +5,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 pdf = PdfPages('random_time.pdf')
 font = FontProperties()
 font.set_family('serif')
+font.set_size(18)
 
 #--------------------------------------------- 
 fig = pylab.figure(figsize=(9,5), dpi=200)
@@ -16,13 +17,14 @@ iters = [23,23,22,23,24,28]
 index = range(1, len(x)+1)
 pylab.boxplot(y, 0, '')
 #pylab.bar(index, y, width=0.5, align='center')
-pylab.xticks(index, x, size='small', fontproperties=font)
+pylab.xticks(index, x, fontproperties=font)
+pylab.yticks(fontproperties=font)
 
 for i, (xx,yy) in enumerate(zip(index,x)):
     pylab.annotate('%d iters' % iters[i], xy=(xx, 95), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
 pylab.ylim([94, 114])
-pylab.title('A* search with skipping calculations randomly on Berlin Center', fontproperties=font)
+pylab.title('Run times of A* search with\n random skipping on Berlin Center', fontproperties=font)
 pylab.xlabel('Probability of skipping a calculation', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
@@ -36,13 +38,14 @@ iters = [26, 25, 25, 31, 34, 34]
 index = range(1,len(x)+1)
 pylab.boxplot(y, 0, '')
 #pylab.bar(index, y, width=0.5, align='center')
-pylab.xticks(index, x, size='small', fontproperties=font)
+pylab.xticks(index, x, fontproperties=font)
+pylab.yticks(fontproperties=font)
 
 for i, (xx,yy) in enumerate(zip(index,x)):
     pylab.annotate('%d iters' % iters[i], xy=(xx, 14.5), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
 #pylab.ylim([0, 25])
-pylab.title('A* search with skipping calculations randomly on ChicagoSketch', fontproperties=font)
+pylab.title('Run times of A* search with\n random skipping on Chicago Sketch', fontproperties=font)
 pylab.xlabel('Probability of skipping a calculation', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
@@ -54,12 +57,13 @@ y = [100.62, 96.57, 115.13, 139.6, 164.76]
 iters = [23, 22, 30, 40, 50]
 index = range(len(x))
 pylab.bar(index, y, width=0.5, align='center')
-pylab.xticks(index, x, size='small', fontproperties=font)
+pylab.xticks(index, x, fontproperties=font)
+pylab.yticks(fontproperties=font)
 
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-pylab.title('A* search with skipping calculations when no change occur on Berlin Center', fontproperties=font)
+pylab.title('Run times of A* search with skipping\n next $n$ calculations on Berlin Center', fontproperties=font)
 pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
@@ -71,29 +75,34 @@ y = [19.53, 16.14, 16.03, 16.46, 17.94]
 iters = [26, 26, 35, 42, 53]
 index = range(len(x))
 pylab.bar(index, y, width=0.5, align='center')
-pylab.xticks(index, x, size='small', fontproperties=font)
+pylab.xticks(index, x, fontproperties=font)
+pylab.yticks(fontproperties=font)
 
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
 pylab.ylim([0, 25])
-pylab.title('A* search with skipping calculations when change occur on ChicagoSketch', fontproperties=font)
+pylab.title('Run times of A* search with skipping\n next $n$ calculations on Chicago Sketch', fontproperties=font)
 pylab.xlabel('Skipping the next $n$ calculations', fontproperties=font)
 pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')
 #--------------------------------------------- 
+font = FontProperties()
+font.set_family('serif')
+font.set_size(14)
 fig = pylab.figure(figsize=(9,5), dpi=200)
 y = [7.96, 5.75, 33.26, 24.18]
 iters = [81, 83, 147, 152]
 index = [0,1,3,4]
 pylab.bar([0,1], y[0:2], width=0.5, align='center')
 pylab.bar([3,4], y[2:4], width=0.5, align='center')
-pylab.xticks(index, ['A*\n \t \t \t Philadelphia'.expandtabs(), '50%', 'A*\n \t \t \t Chicago Regional'.expandtabs(), '50%'], size='small', fontproperties=font)
+pylab.xticks(index, ['A*\n \t \t Philadelphia'.expandtabs(), '50%', 'A*\n \t \t Chicago Regional'.expandtabs(), '50%'], fontproperties=font)
+pylab.yticks(fontproperties=font)
 
 for i, (xx,yy) in enumerate(zip(index,y)):
     pylab.annotate('%s iters' % str(iters[i]), xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)
 
-#pylab.ylim([0, 25])
+pylab.ylim([0, 40])
 pylab.title('Run times of A* search and with 50% random skipping\n on Philadelphia and Chicago Regional network', fontproperties=font)
 pylab.ylabel('Run time\n(hours)', {'rotation':'horizontal'}, fontproperties=font)
 pdf.savefig(fig, bbox_inches='tight')

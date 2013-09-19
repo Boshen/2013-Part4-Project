@@ -13,7 +13,7 @@
 \usepackage{fancyhdr}
 
 \usepackage[nottoc,notlof,notlot]{tocbibind}
-\usepackage[sort,authoryear]{natbib}
+\usepackage[sort,authoryear,round]{natbib}
 
 \usepackage[pdftex]{graphicx}
 
@@ -78,7 +78,7 @@
 {\normalfont\Huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}   
 \titlespacing*{\chapter}{0pt}{-20pt}{1.5em}
 
-\linespread{1.2}
+\linespread{1.1}
 
 \begin{document}
 
@@ -125,7 +125,7 @@
 \include{./contents/result}
 
 \newpage
-\include{./contents/discussion}
+\include{./contents/iterative}
 
 \newpage
 \include{./contents/conclusion}
@@ -134,7 +134,8 @@
 \include{./contents/appendix}
 
 \newpage
-\bibliographystyle{agsm}
+%\bibliographystyle{agsm}
+\bibliographystyle{plainnat}
 \renewcommand{\bibname}{References}
 \bibliography{citations}
 

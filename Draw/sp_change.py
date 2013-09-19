@@ -10,7 +10,7 @@ font.set_family('serif')
 font.set_size(15)
 font2 = FontProperties()
 font2.set_family('serif')
-font2.set_size(19)
+font2.set_size(24)
 #------------------------------ 
 counts =[]
 with open('chicago_sp_change', 'r') as f:
@@ -32,8 +32,8 @@ for xx,yy in zip(x,y):
 pylab.xticks(x, x, fontproperties=font2)
 pylab.yticks(fontproperties=font2)
 
-pylab.title('The percentage of shortest path changes for each O-D pair on ChicagoSketch', fontproperties=font2)
-pylab.xlabel('Number of times the shortest path for an O-D pair \nchanged 0, 1, 2, 3, $\ldots$ times, out of 26 iterations', fontproperties=font2)
+pylab.title('The percentage of shortest path changes\n for each O-D pair on Chicago Sketch', fontproperties=font2)
+pylab.xlabel('Number of times the shortest path for an O-D pair \nchanged 0, 1, 2, 3, $\ldots$, times, out of 26 iterations', fontproperties=font2)
 pylab.ylabel('Percentage of total number of O-D pairs', fontproperties=font2)
 
 pylab.autoscale(enable=True, axis='x')
@@ -63,8 +63,8 @@ for xx,yy in zip(x,y):
 pylab.xticks(x, x, fontproperties=font2)
 pylab.yticks(fontproperties=font2)
 
-pylab.title('The percentage of shortest path changes for each O-D pair on Berlin Center', fontproperties=font2)
-pylab.xlabel('Number of times the shortest path for an O-D pair \nchanged 0, 1, 2, 3, $\ldots$ times, out of 23 iterations', fontproperties=font2)
+pylab.title('The percentage of shortest path changes\n for each O-D pair on Berlin Center', fontproperties=font2)
+pylab.xlabel('Number of times the shortest path for an O-D pair \nchanged 0, 1, 2, 3, $\ldots$, times, out of 23 iterations', fontproperties=font2)
 pylab.ylabel('Percentage of total number of O-D pairs', fontproperties=font2)
 
 pylab.autoscale(enable=True, axis='x')

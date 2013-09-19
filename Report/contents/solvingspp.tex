@@ -1,13 +1,14 @@
 \chapter{Solving the Shortest Path Problem} \label{chap:solvingspp}
 
-Over the years,
-various algorithms have been developed 
+The previous chapter describes the details of the traffic assignment problem.
+Algorithms such as the path equilibration algorithm used to solve the traffic assignment requires to solve the shortest path problem on a static graph, where the graph does not change while the shortest path is getting solved.
+Thus in this chapter, we investigate 
+various standard algorithms which have been developed 
 to address the problem of finding the shortest path.
 This chapter states notation and definitions for the shortest path problem and discusses
 the theory of solving it.
 Algorithms that are applicable for the traffic assignment problem are summarised,
 including the discussion of their advantages and drawbacks.
-\todo[inline]{see comment p.23 Andrea fix for what to add here}
 
 \section{Notations and definitions}
 The Shortest Path Problem (SPP) is the problem of finding the shortest path from a given origin  to some destination.
@@ -50,7 +51,7 @@ Figure~\ref{fig:zonenodes} demonstrates how a zone node behaves under different 
 If the zone is an origin node, then only out-going arcs are allowed.
 If it is a destination node, then only in-coming arcs are allowed.
 And if it is neither, then no arcs can pass through it, otherwise an incorrect path is going to be created.
-\begin{figure}[H]
+\begin{figure}[!ht]
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
     \tikzstyle{line} = [->, draw]
     \centering
@@ -102,8 +103,6 @@ And if it is neither, then no arcs can pass through it, otherwise an incorrect p
     \caption{Behaviour of arcs on zone nodes acting as origin, destination or neither.}
     \label{fig:zonenodes}
 \end{figure}
-
-\todo[inline]{The following sections will use big O, $f \in O(g) : f \leq g$, f = O(g): f does not grow asymptotically faster than g.}
 
 \section{Generic shortest path algorithm}
 A family of algorithms exists for solving the shortest path problem.
@@ -195,10 +194,9 @@ or Bellman-Ford-Moore algorithm (credited to \citet{Bellman, Ford} and \citet{Mo
 The algorithm is addressed as the label correcting algorithm
 because the distance labels do not get permanently labelled when a node $u$ is retrieved from the queue,
 the distance label of node $u$ may be `corrected' by some other node $v$ when $v$ is retrieved from the queue and re-updates $u$.
-\todo[inline]{not sure}
+\todo[inline]{not sure if the above paragraph makes sense\ldots}
 
 One specific strategy for maintaining the queue is described in \citet{Sheffi}.
-\todo[inline]{ref THE D'ESOPO-PAPE ALGORITHM, implementation and efficiency of moore-algorithms for the shortest route problem}
 This strategy is shown to be very effective for computing shortest path on transportation networks.
 It avoids duplicating computation by not physically moving (or reordering) nodes in the queue,
 as well as not adding nodes to the queue if they are already in it.
@@ -206,11 +204,11 @@ The nodes in the queue are simply processed from front to end.
 Scanned nodes are firstly added to the end of the queue,
 and if the scanned node is already in the queue,
 then the node is put in front of the queue so they can be processed first.
-This strategy transforms the queue into a \emph{double-ended queue} (or \emph{deque}).
+This strategy, which is developed by \citet{Pape}, transforms the queue into a \emph{double-ended queue} (or \emph{deque}).
 
 In order to satisfy the Bellman's condition for all edges,
 the algorithm has to scan all edges $|N|-1$ times,
-resulting in a run time of $O(|N||A|)$.
+resulting in a run time of $O(|N||A|)$\footnote{Big-$O$ notation: if $f \in O(g)$, then $f \leq g$. This means $f $ does not grow asymptotically faster than $g$, it describes the worst-case scenario of $f$. In context, run time of $O(|N||A|)$ means the performance of the algorithm is directly proportional to the numbers nodes multiplied by the number of arcs.}.
 
 \section{Dijkstra's algorithm} \label{sec:dijkstra}
 The classic algorithm for solving the single-source shortest path problem is the label setting algorithm published by \citet{Dijkstra}.
@@ -228,10 +226,10 @@ The advantage of this algorithm is that,
 when the next labelled node is the destination node,
 the algorithm can be stopped for the point-to-point shortest path problem.
 This reduces the total run time as the algorithm does not have to scan the entire graph,
-which is desirable for the Path Equilibration algorithm described in the previous chapter.
+which is desirable for the path equilibration algorithm described in the previous chapter.
 
 \subsection{Priority queues} \label{sec:pq}
-\todo[inline]{draw a min-heap tree?}
+\todo[inline]{draw a min-heap tree if have time \ldots?}
 The run time performance of Dijkstra's algorithm depends heavily on the implementation of the queue for storing the scanned nodes.
 \citet{Cormen} suggests the use of priority queues.
 Priority queues are a collection of data structures
@@ -247,7 +245,7 @@ The Insert operation (line $2$ and $17$) is used for adding new nodes to the que
 The Extract-Min operation (line 8) is used for getting the element with the minimum distance label.
 The Decrease-Key (line 19) is used for updating the distance label if the node is already in the queue.
 
-\begin{algorithm}[H]
+\begin{algorithm}[!ht]
     \caption{Point to Point Dijkstra's Algorithm}
     \label{algo:p2pdijkstra}
     \begin{algorithmic}[1]
@@ -316,7 +314,8 @@ The advantage of using a binary search tree is that we do not have to keep track
 this is because when performing the Decrease-Key operation,
 we simply delete the node and add a new node with the updated value.
 
-\todo[inline]{Say I will be comparing all these}
+In this project, all of the mentioned priority queue implementations is tested.
+The results can be found in Section~\ref{sec:pq_results}.
 
 \section{Bidirectional Dijkstra's algorithm} \label{section:bidirectional}
 Dijkstra's algorithm can be imagined to be searching radially outward in a circle with the origin in the centre and destination on the boundary.
@@ -327,7 +326,7 @@ two smaller circles growing outward radially instead of a larger one.
 Figure~\ref{fig:bidirect} demonstrates the difference in search area between Dijkstra's algorithm and its bidirectional version on a planar graph using Euclidean distances.
 It is easy to see that the total search area of the bidirectional version is a lot smaller.
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
     \tikzstyle{big circle} = [circle, draw, dashed, text centered, minimum height=8em]
     \tikzstyle{small circle} = [circle, draw, dashed, text centered, minimum height=5em]
@@ -378,7 +377,7 @@ $\mathcal{R}^s$ have corresponding label distances $d_v^s$.
 Similarly, $\mathcal{R}^t$ contains the set of nodes $v$ in the backward search that are permanently labelled from the destination node $t$,
 $\mathcal{R}^t$ have corresponding label distances $d_v^t$.
 
-\begin{algorithm}[H]
+\begin{algorithm}[!ht]
     \caption{Bidirectional Dijkstra's Algorithm}
     \label{algo:bidirectional}
     \begin{algorithmic}[1]
@@ -399,7 +398,7 @@ $\mathcal{R}^t$ have corresponding label distances $d_v^t$.
 In recent years,
 \citet{Goldberg05} improved the bidirectional algorithm using a better termination condition,
 where step 3 of Algorithm~\ref{algo:bidirectional} is embedded during the searches.
-The termination condition is summarized as follows.
+The termination condition is summarised as follows.
 During the forward and backward search,
 we maintain an extra variable, $\mu$, to present the length of shortest path seen so far during the forward and backward search.
 Initially $\mu = \infty$.
@@ -418,7 +417,7 @@ The searches can be stopped if the sum of the two top priority queue values is g
 where $\text{top}_f$ and $\text{top}_r$ are the next minimum distance labels that have not been labelled in the forward and backward search.
 
 Overall, the bidirectional version of Dijkstra's algorithm can be faster than the single direction one if it is implemented correctly using the best termination criterion.
-\todo[inline]{also depends on the network?}
+\todo[inline]{Andrea asks if it also depends on the network. - so how do I say it needs a `nice' network?}
 
 \section{A* Search}\label{section:A*}
 Dijkstra's algorithm can be imagined as growing the shortest path tree radially out from the origin,
@@ -509,7 +508,7 @@ The bidirectional A* search can be described by two ellipsoids extending from th
 This is shown in Figure~\ref{fig:bidirectdiff},
 where bidirectional A* search potentially has a smaller search area than the unidirectional version.
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
     \tikzstyle{big circle} = [ellipse, draw, dashed, text centered, minimum width=8em, minimum height=5em]
     \tikzstyle{small circle} = [ellipse, draw, dashed, text centered, minimum width=5.5em, minimum height=3.5em]
@@ -603,8 +602,7 @@ $\text{top}_f$ and $\text{top}_r$ are the minimum distance labels in the forward
 Bidirectional A* search with Euclidean distance heuristic estimates has been tested by different academics, e.g.\ \citet{Klunder} and \citet{Goldberg05}.
 It is not evident whether bidirectional A* search can guarantee significant improvement,
 as the result is heavily dependent on the configuration of the road network and the quality of the heuristic estimates.
-
-\todo[inline]{nether the less, we implement and test this for traffic assignment}
+Nevertheless, bidirectional A* search is implement and tested, the results can be found in Section~\ref{sec:allresults}.
 
 \section{Preprocessing algorithms}
 In the last two decades,
@@ -641,9 +639,10 @@ The heuristic estimate to be used during A* search is the maximum over all landm
 With these formulations, \citet{GoldbergLandmarks} concluded that it is best to place the landmarks in front of the origins or behind the destinations,
 i.e.\ around the outer boundary of the graph.
 
+\todo[inline]{This is in colour!}
 \todo[inline]{How about data storage of trees? Check Michelle's report  on anything regarding under-estimation of time on trees}
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
     \tikzstyle{node} = [draw,circle,inner sep=0pt,outer sep=0pt, minimum width=3pt, fill=black]
     \tikzstyle{line} = [draw, decoration={markings, mark=at position 0.5 with {\arrow{>}}}, postaction={decorate}]
@@ -679,84 +678,18 @@ i.e.\ around the outer boundary of the graph.
 Although the preprocessing stage of the landmarks method can take a long time,
 it was shown that the shortest path solving times are significantly faster than A* search using Euclidean distance estimates (see results in \citet{GoldbergLandmarks}).
 
+\begin{comment}
 The landmarks method and similar preprocessing techniques have a few drawbacks that need to be considered.
 The first drawback is that the preprocessing time may be longer than the actual shortest path solving time,
 so combined running time may take longer.
+This is shown in \citet{GoldbergEPP},
+where a network with more than a million nodes takes 4 minutes to preprocess while the 
 \todo[inline]{you'd only do this once for 0-flows times though? And they are only a few SP trees - need to check with Goldberg's results}
-It also means that the preprocessing stage needs to be re-run whenever there is a physical change in the road network (e.g.\ a new road is added),
-which is undesirable for transportation planning because the road network changes constantly to improve congestion.
-Also both preprocessing and shortest path solving time are heavily dependent on the quantity and placement of the landmarks,
-which is another optimization problem where different strategies and algorithms need to be studied.
+\end{comment}
 
 For the equilibration algorithm of the traffic assignment,
 it is unknown whether landmarks using zero-flow travel times can provide better estimates compared to Euclidean distances.
-\todo[inline]{make this clearer:one could possibly use 0-flows landmarks, but we didn't look into that further}
+Furthermore, both preprocessing and shortest path solving time of this algorithm are heavily dependent on the quantity and placement of the landmarks,
+which is another optimization problem where different strategies and algorithms need to be studied.
 
-\section{Techniques for iterative calculations}
-\todo[inline]{reformat, see page 23 and 24 in both fixes}
-\todo[inline]{before talking about SP at beginning of chapter, should make it VERY clear that in each iteration a static SP is being solved, hence we use standard algos}
-So far we have only been dealing with solving the shortest path problem on static graphs.
-In this section we discuss solving the problem in the path equilibration algorithm where
-the graph dynamically changes its arc costs between iterations.
-%Better performance can be achieved if we are able to use information from previous iterations.
-%This observation motivates us to find algorithms that are suitable for finding shortest path in an iterative environment.
-%Performance can be improved if we can use information from previous iterations.
-
-\subsection{Avoiding shortest path calculations} \label{section:avoid}
-All of the shortest algorithms mentioned so far need to fully calculate the shortest path between every O-D pair in each iteration.
-It turns out that for every O-D pair in the path equilibration algorithm,
-their shortest path calculation can be avoided to reduce computational time by using solution from the previous iteration in the current iteration.
-Two situations can occur if we choose to do so.
-The first situation is when the shortest path between the previous and current iteration are the same,
-then we have successfully avoided the calculation and reduced the computational time.
-The second situation is when they are different,
-then the path equilibration algorithm is not going to converge further for the current iteration,
-which causes possible increase in total number of iterations and computational time.
-\todo[inline]{rewrite, see page 24 Olga fix}
-
-While traffic flows and arc costs change between iterations,
-if we can prove that shortest path do not change often between iterations,
-then some strategies can be used to avoid the calculations.
-The overall computational time is reduced when most shortest path calculations are avoided on the O-D pairs that are not going to change often.
-
-The first strategy is as follows.
-For each O-D pair,
-if its shortest path did not change in the last two iterations,
-then we can delay the next shortest path calculation by a few iterations.
-This strategy requires prior knowledge of how many iterations there is going to be during a standard run.
-This is because if we choose to skip more calculations than the total number of iterations,
-then there will be excessive iterations resulting in wasted time.
-If we skip too few iterations,
-then there may not be any impact on the computational time.
-
-The other strategy is to skip shortest path calculations randomly.
-That is, when it comes to calculate the shortest path for a given O-D pair,
-we generate a random number and decide whether to do the calculation based on that number.
-The advantage of this strategy is that we do not need to know how many iterations the algorithm will take.
-The disadvantage is that the computational time can vary between different runs,
-resulting unpredictable run times.
-\todo[inline]{rewrite, see page 24 Olga and Andrea fix}
-
-\begin{comment}
-    \section{Preprocessing and More}
-    Preprocessing - trade memory to get faster time.
-    We can either do a fast preprocessing between iterations to make query in each iteration (so combined speed is still faster) 
-    or do a long preprocessing at the start and use the computed heuristic values
-    \begin{itemize}
-        \item A* landmarks and triangle inequality (ALT)
-        \item Reach-based routing 
-        \item ALT + Reach
-        \item Geometric Containers
-        \item Arc Flags
-    \end{itemize}
-
-    If we have more data on the network we can use
-    algorithms that use hierarchies.
-    Consider roads with higher speed first: use a hierarchy of subgraphs.
-    \begin{itemize}
-        \item Radius search.
-        \item multi-level approach
-        \item highway hierarchies
-    \end{itemize}
-\end{comment}
-
+\todo[inline]{our A* is kind of like preprocessing\ldots we need run Dijkstra on every node in the graph \ldots }

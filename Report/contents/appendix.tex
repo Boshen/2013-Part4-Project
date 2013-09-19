@@ -2,16 +2,17 @@
 %\appendixpage
 \addappheadtotoc
 
-\chapter{Priority queue results} \label{appendix:pq_results}
+\chapter{Run time results}
+\section{Priority queue results} \label{appendix:pq_results}
 \begin{table}[H]
     \centering
     \scalebox{0.9}{
         \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l r r} \toprule
         Network & Priority Queue & Iterations & Time (seconds) \\ 
-        \cmidrule(lr){1-1}
+        \cmidrule(r){1-1}
         \cmidrule(lr){2-2}
         \cmidrule(lr){3-3}
-        \cmidrule(lr){4-4}
+        \cmidrule(l){4-4}
         %SiouxFalls    & Bellman-Ford     & 69 & & & 0.25 & \\
         %& Dijkstra $\langle$priority\_queue$\rangle$ & 86 & & & 0.08 & \\
         %& Dijkstra $\langle$set$\rangle$ & 54 & & & 0.08 & \\
@@ -26,7 +27,7 @@
                       & Binomial                & 127 & 165.8\\
                       & $\langle$priority\_queue$\rangle$  & 127 & 66.89\\
                       & $\langle$set$\rangle$                & 127 & 34.89\\ \\
-        ChicagoSketch & Fibonacci               & 25  & 155.14\\
+        Chicago Sketch & Fibonacci               & 25  & 155.14\\
                       & Binary                  & 25  & 130.22\\
                       & Ternary                 & 25  & 155.34\\
                       & Skew                    & 25  & 120.45\\
@@ -37,20 +38,20 @@
         \bottomrule
      \end{tabular*}
      \caption{Priority queues run time results on Winnipeg and Chicago Sketch network for Figure~\ref{fig:pq_runtime}}
-     \label{table:pqresults}
+     \label{table:pq_results}
  }
 \end{table}
 
-\chapter{Shortest path algorithms results} \label{appendix:sp_results}
+\section{Shortest path algorithms results} \label{appendix:sp_results}
 \begin{table}[H]
     \centering
     \scalebox{0.8}{
         \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l r r} \toprule
         Network & Algorithm & Iterations & Time (seconds) \\ 
-        \cmidrule(lr){1-1}
+        \cmidrule(r){1-1}
         \cmidrule(lr){2-2}
         \cmidrule(lr){3-3}
-        \cmidrule(lr){4-4}
+        \cmidrule(l){4-4}
         %SiouxFalls    & Bellman-Ford     & 69 & & & 0.25 & \\
         %& Dijkstra $\langle$priority\_queue$\rangle$ & 86 & & & 0.08 & \\
         %& Dijkstra $\langle$set$\rangle$ & 54 & & & 0.08 & \\
@@ -75,7 +76,7 @@
                       & Bidirectional Dijkstra  & 126 & 49.95\\
                       & A* search                      & 126 & 10.42\\
                       & Bidirectional A* search        & 127 & 24.81\\ \\
-        ChicagoSketch & Bellman-Ford            & 25 & 500.00\\
+        Chicago Sketch & Bellman-Ford            & 25 & 500.00\\
                       & Dijkstra $\langle$priority\_queue$\rangle$         & 25 & 87.52\\
                       & Dijkstra $\langle$set$\rangle$         & 25 & 149.95\\
                       & Bidirectional Dijkstra  & 25 & 157.75\\
@@ -83,7 +84,18 @@
                       & Bidirectional A* search        & 26 & 59.82\\ 
         \bottomrule
      \end{tabular*}
-     \caption{Shorest path algorithms run time results on all test networks for Figure~\ref{fig:allresults}}
+     \caption{Shortest path algorithms run time results on all test networks for Figure~\ref{fig:allresults}}
      \label{table:allresults}
      }
+\end{table}
+
+\section{Large network results using random skipping strategy} \label{appendix:large}
+\begin{table}[!ht]
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l | c c}
+        & Philadelphia & Chicago Regional \\ \midrule
+        A* search & 7.69 hours & 33.26 hours \\ 
+        A* search with 50\% random skipping & 5.75 hours & 24.18 hours\\
+    \end{tabular*}
+    \caption{Run time of A* search and the randomly skipping strategy on Philadelphia and Chicago Regional network for Figure~ref{ }}
+    \label{table:runtime_large_network}
 \end{table}

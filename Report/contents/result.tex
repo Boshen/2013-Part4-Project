@@ -1,20 +1,25 @@
 \chapter{Experimental Results}\label{chap:results}
-
+\todo[inline]{Andrea suggested to compare Dijkstra and Bellman for one-to-all SP. - Then I have to mention origin-based algo \ldots}
 In this chapter we present experimental results.
 All experiments are run under 12.04 Ubuntu Linux on an ASUS K46C laptop,
 which has four Intel Core i5-3317U CPU and 3.8GiB RAM.
-\todo[inline]{how do I say later I found out I need more RAM so switch to another computer?}
 
 Various algorithms (including the path equilibration algorithm) for solving
 the traffic assignment problem has already been implemented by Olga Perederieieva, the co-supervisor of this project.
+Specifically, only Bellman-Ford-Moore algorithm is available for computing the shortest path. 
+
+All results presented in this chapter are based on newly developed code.
 The algorithms are written in C++, compiled by the g++ compiler using the `-O3' optimization flag.
-
-\todo[inline]{Bellman was only SP algorithm available, all the results in this chapter are based on newly developed code.}
-
-All timed results are measured for a complete run of traffic assignment.
+All timed results are measured for a complete run of traffic assignment,
+where all algorithms are run on a single core of the CPU.
 All solutions will use $10^{-6}$ as the relative gap for the stopping criterion.
 
-\todo[inline]{see top of page 28 Andrea fix}
+In this chapter, we are going to
+\begin{enumerate}
+    \item first identify the best priority queue data structure to use in Dijkstra's algorithm in Section~\ref{sec:pq_results},
+    \item then compare different shortest path algorithms:Dijkstra's algorithm, A* search and their bidirectional versions in Section~\ref{sec:allresults}.
+\end{enumerate}
+
 \section{Road networks}
 
 Table~\ref{table:problemdata} shows the road networks used for this project, the network details are retrieved from \citet{ProblemData}.
@@ -25,8 +30,11 @@ Chicago Sketch is a medium sized network that is part of the Chicago Regional ne
 Berlin Center is a medium sized network.
 Philadelphia and Chicago Regional are two large networks that have over a million number of O-D pairs.
 
-\todo[inline]{see bottom of page 28 Andrea fix}
-\begin{table}[H]
+Note the complexity of the problems and the run time of the path equilibration algorithm are heavily influenced by the number of O-D pairs in the networks.
+For example, although the Philadelphia and Chicago Regional networks are similar in size,
+the Chicago Regional network is much more complex and hard to solve than Philadelphia as it has twice as many O-D pairs.
+
+\begin{table}[!ht]
     \centering
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l|c|rrrr|r} \toprule
         Network         & Category & Nodes & Arcs & Zones & O-D pairs & Iterations \\ \midrule
@@ -47,8 +55,10 @@ Philadelphia and Chicago Regional are two large networks that have over a millio
 \section{Results on priority queues} \label{sec:pq_results}
 In this section we study different priority queues discussed in Section~\ref{sec:pq_implementation}.
 The priority queues are used in Dijkstra's algorithm on the Winnipeg and Chicago Sketch networks.
-The results are shown in Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime}.
-The exact numerical results can be found in Appendix~\ref{appendix:pq_results}.
+The results are shown in Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime},
+where the run times are measured from a complete run of the traffic assignment.
+On the Winnipeg and Chicago Sketch network, a total of $547{,}344$ and $2{,}328{,}375$ shortest paths are solved respectively.
+The exact numerical results can be found in Table~\ref{table:pq_results} of Appendix~\ref{appendix:pq_results}.
 
 On both networks, 
 $\langle$priority\_queue$\rangle$ has the best performance and the Binomial heap has the worst performance.
@@ -58,22 +68,64 @@ $\langle$set$\rangle$ is significantly slower than $\langle$priority\_queue$\ran
 
 \todo[inline]{see page 29 Andrea fix, clarify results discussion}
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
     \includegraphics[page=1, width=\textwidth, height=.4\textheight]{img/pq_runtime}
-    \caption{Full traffic assignment run times using Dijkstra's algorithm with different priority queues on Winnipeg, with a total number of $547{,}344$ shortest paths solved.}
+    \caption{Full traffic assignment run times using Dijkstra's algorithm with different priority queues on Winnipeg, a total number of $547{,}344$ shortest paths are solved.}
     \label{fig:pq_runtime2}
 \end{figure}
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
     \includegraphics[page=2, width=\textwidth, height=.4\textheight]{img/pq_runtime}
-    \caption{Full traffic assignment run times using Dijkstra's algorithm with different priority queues on Chicago Sketch, with a total number of $2{,}328{,}375$ shortest paths solved.}
+    \caption{Full traffic assignment run times using Dijkstra's algorithm with different priority queues on Chicago Sketch, a total number of $2{,}328{,}375$ shortest paths are solved.}
     \label{fig:pq_runtime}
 \end{figure}
 
+\subsection{Discussion of priority queues}
+The priority queue implementation results showed that
+all of the heap implementations from the Boost library are worse than $\langle$priority\_queue$\rangle$.
+The reason behind this can be explained using the Binary heap implementation.
+It turns out that the implementation of $\langle$priority\_queue$\rangle$ is similar to Binary heap from the Boost library,
+the only difference is their underlying storage of node information.
+Nodes are stored using an array in the standard library version,
+where as the Boost library uses pointers to keep track of 
+the nodes.
+Due to computer cache coherence,
+it is known that accessing data from a nearby memory access memory (RAM) locations in a short period of time is faster than accessing from distant memory locations.
+This is due to cache memory access being much faster than RAM access,
+and internally a block of memory is pre-fetched into the cache in the hope they will be accessed in a short period of time.
+In the shortest path algorithms,
+the Heap tree needs to be searched over and over again in a short period of time when nodes are being scanned and inserted.
+The standard library version uses an array where data are stored linearly in a nearby location,
+so it is much faster than the pointer based version where memory is allocated in random locations when nodes are inserted.
+
+Run time of $\langle$set$\rangle$ is significantly slower than $\langle$priority\_queue$\rangle$.
+This is mainly due to the Extract-Min operation.
+There is a significant difference between the $O(|N|\log(|N|)$ Extract-Min from $\rangle$set$\langle$ and the $O(1)$ Extract-Min from $\rangle$priority\_queue$\langle$ when the network is large.
+Maintaining a small number of elements in the priority queues no longer reduces the run time in $\rangle$set$\langle$.
+
+\subsection{Discussion of Fibonacci heap}
+Here we discuss the reason behind Fibonacci heap not performing well despite its $O(1)$ amortized time Decrease-Key operation.
+As described in the two priority queue sections (Section~\ref{sec:pq} and \ref{sec:pq_implementation}),
+the Decrease-Key operation is used to change the distance label of a node when the node is already in the heap.
+It was discovered that the $O(1)$ time has a very high constant factor,
+\todo{I have no reference for this\ldots it's found on stackoverflow}
+and Fibonacci heap only works well if the underlying graph is large and dense (i.e.\ every node connects to almost every other node).
+This discovery comes from the fact that 
+the Decrease-Key operation is only used frequently when the graph is dense,
+so cumulatively its high constant $O(1)$ time will perform better compared to $O(\log(N))$ time in other heap implementations, where $N$ need to be a large number.
+
+we confirm our graph is indeed not dense and the Decrease-Key is not used frequent.
+We find that all of our graphs are very sparse.
+The degree of any node of any graph is no more than 5,
+as it is already really rare to have an intersection with 5 roads connected.
+The graphs only have about 0.4\% to 0.6\% of arcs in the corresponding complete graph (every node connects to every other node).
+We also find that in all of the experimented graphs when using Dijkstra's algorithm,
+the probability of using Decrease-Key on any node is only around 1 to 5 percent.
+
 \section{Results on shortest path algorithms} \label{sec:allresults}
-In Section~\ref{sec:pq_results} we have identified  $\langle$priority\_queue$\rangle$ to be the most suitable (efficient) data structure to be used in Dijkstra's algorithm
-Now we use $\langle$priority\_queue$\rangle$, implement and test the following algorithms:
+In Section~\ref{sec:pq_results} we have identified  $\langle$priority\_queue$\rangle$ to be the most suitable (efficient) data structure to be used in Dijkstra's algorithm.
+We use $\langle$priority\_queue$\rangle$, implement and test the following algorithms:
 \begin{itemize}
         \item Bellman-Ford-Moore algorithm (existing),
         \item Dijkstra's algorithm,
@@ -83,129 +135,141 @@ Now we use $\langle$priority\_queue$\rangle$, implement and test the following a
 \end{itemize}
 %Therefore we use $\langle$priority\_queue$\rangle$ from the C++ standard template library and implement Dijkstra's algorithms and A* search, as well as their bidirectional versions.
 Figure~\ref{fig:allresults} shows the performance of the mentioned algorithms on the Anaheim, Barcelona, Winnipeg and Chicago Sketch networks
-(see Appendix~\ref{appendix:sp_results} for exact numerical results).
+(see Table~\ref{table:allresults} of Appendix~\ref{appendix:sp_results} for exact numerical results).
 The networks are spaced out on the horizontal axis to show their relative sizes, i.e.\ the number of O-D pairs.
 
 Bellman-Ford-Moore algorithm has the worst performance while the A* search has the best performance on all networks.
 The bidirectional versions of Dijkstra's algorithm and A* search are more than twice slower than their unidirectional versions.
 
-\begin{figure}[H]
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{img/runtime}
     \caption{Run time performances of different algorithms on different networks}
     \label{fig:allresults}
 \end{figure}
-\todo[inline]{bigger axis label and remove line to different shapes}
 
-\section{Results on avoiding shortest path calculations}
-In Section~\ref{sec:allresults} we have identified A* search to be the most suitable (efficient) algorithm for solving the point-to-point shortest path problem.
-In this section, we consider avoiding shortest path calculations in the iterative path equilibration algorithm discussed in Section~\ref{section:avoid}.
-A* search is used to generate results for this section.
+\subsection{Discussion of shortest path algorithms}
+In this section we investigate the reason for the worse performances of the bidirectional algorithms compared to their unidirectional versions. 
 
-As mentioned in Section~\ref{section:avoid},
-in order to apply shortest path avoiding strategies,
-we need to first prove that most of the shortest paths do not change often.
+First we examine whether search areas of the algorithms are what is expected.
+Figure~\ref{fig:long_sptree} shows the shortest path trees of the point-to-point algorithms, 
+where the origin and destination nodes are placed on opposite sides of the Chicago Sketch network.
+It can be seen that Dijkstra's algorithm scans the entire network.
+Bidirectional Dijkstra scans almost the entire network with some nodes on the side left out.
+Bidirectional A* scans a slightly larger region near the origin and destination nodes,
+and the A* search scans just a few nodes along the shortest path.
+The behaviour of the algorithms is shown further in Figure~\ref{fig:short_sptree},
+where the origin and destination are placed close to each other.
+It is shown that both Dijkstra's algorithm and its bidirectional version scan almost half of the graph,
+where bidirectional search scans fewer nodes.
+A* and its bidirectional search scan a small portion of the graph,
+and they do not scan the area behind the origin and destination node compared to the Dijkstra's algorithm.
 
-Figure~\ref{fig:sp_change} shows 
-the histogram for the number of times the shortest path for an O-D pair changed 0,1,2,\ldots times on the Chicago Sketch network.
-It shows out of 26 iterations,
-the percentage of O-D pairs that changed their shortest path once, twice, three times etc.
-The figure shows that 60\% of O-D pairs have not changed their shortest path after the initial iteration,
-and 16\% of O-D pairs changed their shortest path only once.
-This means that after the first iterations,
-the algorithm spends most of its time changing only a dozen of O-D pairs' shortest path out of $93{,}135$.
-From these observations,
-it is assured that run time can be reduced if we avoid shortest path calculations on the paths that do not change between iterations.
+The search areas of the bidirectional Dijkstra's algorithms match what is expected,
+but not the run times when compared to the unidirectional.
+The reason for reduction in run time is due to our implementations.
+In both forward and backward search,
+the current shortest path $\mu$ needs to be updated every time a node is scanned,
+and the stopping criterion needs to be checked when a node is labelled.
+Furthermore,
+once the algorithm terminates,
+we need to retrieve the shortest path in both directions by following node predecessors and concatenate them together for the full shortest path.
+So it is concluded that these additional computations slow down the run times.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[page=1, height=.5\textheight]{img/sp_change}
-    \caption{The percentage of shortest path change for each O-D pair out of 26 iterations for Chicago Sketch}
-    \label{fig:sp_change}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[page=2, height=.5\textheight]{img/sp_change}
-    \caption{The percentage of shortest path change for each O-D pair out of 26 iterations for Chicago Sketch}
-    \label{fig:sp_change2}
-\end{figure}
-\todo{change title and axis label}
+For A* search,
+the bidirectional version always scans more nodes than the unidirectional version.
+This is due to the worse bounds of  heuristic estimates calculated in the bidirectional search compared to the unidirectional search,
+heuristic estimates need to be averaged from the forward and backward search in order to find the correct shortest path.
+And since the bidirectional version has similar stopping criterion compared to the bidirectional Dijkstra's algorithm,
+it is easy to understand why bidirectional A* has a worse performance.
 
-We now present the strategy of avoiding a pre-defined number of shortest path calculations for each O-D pair if the previous two iterations result in the identical shortest path trees.
-The results are shown in Figure~\ref{fig:skip_n},
-where the strategy is experimented on the Terrassa and Chicago Sketch network.
-On the Terrassa network,
-we choose to avoid the next 15, 25, 50, 100 and 200 iterations of shortest path calculations if the previous two are the same.
-And on the Chicago Sketch network,
-we choose to avoid the next 5, 10, 15 and 20 iterations.
-The strategy worked well on the Terrassa network,
-where run time is decreased by half for all of the chosen number of avoiding iterations.
-Due to small size of the network,
-the run time is not affected even though the total number of iterations increased to 563 when calculations are avoided by 200 iterations.
-The strategy also worked well on the Chicago Sketch network.
-Skipping 5 iterations resulted the same 26 iterations and the run time is decreased by 4 seconds.
-Run times are still reduced in cases where there is an increase in total number of iterations.
+Finally, there is one thing that need to be pointed out for A* search.
+It is known that A* search requires to run Dijkstra's algorithm on all nodes (not zones) in the network to obtain the heuristic estimates (zero-flow travel times from every node to every destination) and store the travel time values (not the paths).
+This procedure is similar to that of preprocessing algorithms,
+where we need to pre-process the network so subsequent queries can be made faster.
+Upon investigation, the run time of this preprocessing process is almost identical to one iteration of the path equilibration algorithms when using A* search,
+so the overall run time is still faster than all other tested algorithms.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{subfigure}{.5\textwidth}
         \centering
-        \includegraphics[page=3,width=\textwidth]{img/random_time}
-        \caption{Terrassa network}
-        \label{fig:terrassa_skip_n}
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/chicago_dijkstra}
+        \caption{Dijkstra}
+        \label{fig:chicago_dijkstra}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
         \centering
-        \includegraphics[page=4,width=\textwidth]{img/random_time}
-        \caption{Chicago Sketch network}
-        \label{fig:chicago_skip_n}
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/chicago_bidirect}
+        \caption{Bidirectional Dijkstra}
+        \label{fig:chicago_bidirect}
     \end{subfigure}
-    \caption{Run time for avoiding shortest path calculations if the previous two iteration did not change}
-    \label{fig:skip_n}
-\end{figure}
-
-The other strategy is to skip the next shortest path calculation randomly.
-%The advantage of this strategy is that it does not need the number of iterations it will compute,
-%but the disadvantage is that the run time may vary between different runs.
-Figure~\ref{fig:terrassa_random_n} shows the results on the Terrassa network, probabilities of 0.3, 0.4, 0.5, 0.6 and 0.7 for skipping the next shortest path calculation.
-The strategy reduced the run time quite significantly for all probabilities,
-especially 0.5.
-Figure~\ref{fig:chicago_random_n} shows effect of the same strategy on the Chicago Sketch network.
-This time all run times are reduced slightly, with 0.4 having the most reduction.
-
-\begin{figure}[H]
-    \centering
     \begin{subfigure}{.5\textwidth}
         \centering
-        \includegraphics[page=1,width=\textwidth]{img/random_time}
-        \caption{Terrassa network}
-        \label{fig:terrassa_random_n}
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar}
+        \caption{A* Search}
+        \label{fig:chicago_astar}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
         \centering
-        \includegraphics[page=2,width=\textwidth]{img/random_time}
-        \caption{ChicagoSketch network}
-        \label{fig:chicago_random_n}
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar_bidirect}
+        \caption{Bidirectional A* Search}
+        \label{fig:chicago_astar_bidirect}
     \end{subfigure}
-    \caption{Run time for skipping shortest path calculations randomly}
-    \label{fig:random_n}
+    \vspace{1em}
+    \caption{Shortest path tree between two distant nodes in the Chicago Sketch network}
+    \label{fig:long_sptree}
 \end{figure}
 
-The random strategy can be used before knowing the total number of iterations the path equilibration algorithm going to produce,
-Since only small networks have been tested so far,
-we now present the random strategy on the Philadelphia and Chicago Regional networks, where they have over a million number of O-D pairs.
-The run time comparisons are shown in Table~\ref{table:runtime_large_network},
-where the random skipping strategy uses 50\% probability to skip a shortest path calculation.
-The strategy has a 25\% and 27\% run time improvement on the Philadelphia and Chicago Regional networks respectively.
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/chicago_dijkstra2}
+        \caption{Dijkstra}
+        \label{fig:chicago_dijkstra2}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 120px,clip]{img/chicago_bidirect2}
+        \caption{Bidirectional Dijkstra}
+        \label{fig:chicago_bidirect2}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar2}
+        \caption{A* Search}
+        \label{fig:chicago_astar2}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,trim=120px 120px 48px 0px,clip]{img/chicago_astar_bidirect2}
+        \caption{Bidirectional A* Search}
+        \label{fig:chicago_astar_bidirect2}
+    \end{subfigure}
+    \vspace{1em}
+    \caption{Shortest path tree between two close nodes in the Chicago Sketch network}
+    \label{fig:short_sptree}
+\end{figure}
 
-\begin{table}[H]
-    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l | c c}
-        & Philadelphia & Chicago Regional \\ \midrule
-        A* search & 7.69 hours & 33.26 hours \\ 
-        A* search with 50\% random skipping & 5.75 hours & 24.18 hours\\
-    \end{tabular*}
-    \caption{Run time of A* search and the randomly skipping strategy on Philadelphia and Chicago Regional network}
-    \label{table:runtime_large_network}
-\end{table}
+\section{A* search with landmarks}
+A* search with landmarks algorithm is not implemented for this project.
+This is due to its sophisticated graph dependent implementation,
+where we need to either manually or dynamically decide the number of landmarks and their location placements.
+And also there is a high chance of not being able to work efficiently,
+as the algorithm is aimed at geographic node locations and Euclidean distances,
+not travel times based on traffic flows.
+Using zero-flow travel times may work but it was decided not to investigate this further.
 
-\todo[inline]{see page 34 Andrea fix}
+\begin{comment}
+Preprocessing algorithms are not really practical for the traffic assignment problem and the transportation forecasting model.
+This is because normally these algorithms tend to spend much longer time preprocessing than it takes to just run a standard shortest path algorithm.
+Since the purpose of the traffic assignment is to modify the network and resolve the problem to see its effect on congestion,
+it is not ideal to re-run the preprocessing algorithm every time the network is modified.
+\todo[inline]{delete this, this is wrong}
+It also means that the preprocessing stage needs to be re-run whenever there is a physical change in the road network (e.g.\ a new road is added),
+which is undesirable for transportation planning because the road network changes constantly to improve congestion.
+
+\todo[inline]{need to rewrite/ reconsider/ drop this? see page 37}
+\end{comment}
+
