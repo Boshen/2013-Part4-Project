@@ -5,11 +5,11 @@
 \todoin[inline]{sort out capatilazation and use of italics}
 
 \section{Introduction to traffic modelling}
-Nowadays a large portion of people's daily lives involve activities which relate to transportation.
+Nowadays a large portion of people's daily lives involve activities that relate to transportation.
 For example, most people need to travel between their workplace and residence twice a day,
 or buy goods from shops that need to be delivered across the city.
 In the meanwhile, 
-transportation networks expand and improve constantly to cater for people's demand for an efficient transportation network,
+transportation networks expand and improve constantly to cater for people's demand for efficient travelling.
 but the rate of improvement does not confront with the rate of population growth.
 As a result,
 the network becomes inefficient, resulting traffic congestion.
@@ -21,9 +21,9 @@ Congestion also increases noise pollution and causes frustration,
 which in turn accelerates traffic accidents.
 It is important for traffic designers to be able to reduce congestion problems,
 and eliminate its negative effects.
-The transportation network can be improved by, for example,
-introducing road tolls to diverge traffic to less congested roads,
-or by educating people to use public transport.
+%The transportation network can be improved by, for example,
+%introducing road tolls to diverge traffic to less congested roads,
+%or by educating people to use public transport.
 
 Making improvements to the transportation network tends to be very costly,
 so an better plan is necessary:
@@ -32,12 +32,12 @@ In order to make better plans for traffic design,
 different mathematical models have been built to estimate the current and future behaviour of the transportation system.
 One particular model called the transportation forecasting model is commonly used.
 The aim of this model is to estimate future traffic usage when the system is changed.
-For example, changes to a transport system could include upgrading or adding roads, changing roundabouts to traffic lights, or providing better public transport. 
+For example, changes to a transport system can include upgrading or adding roads, changing roundabouts to traffic lights, or providing better public transport. 
 
 The transportation forecasting model has 4 stages (shown in Figure~\ref{fig:model}):
 trip generation, trip distribution, mode choice and traffic assignment \citep{Sheffi}.
 In the model, the solution of each stage can be passed to the previous ones to improve transportation forecasting and traffic design.
-This means the model can be calibrated in numerous iterations to establish an accurate model which can estimate future traffic behaviour.
+This means the model can be calibrated numerous times to establish an accurate model which can estimate future traffic behaviour.
 In summary, 
 the model collects traffic demand data and 
 generates origins and destinations for travellers (trip generation).
@@ -48,8 +48,8 @@ where traffic flow is estimated for every modelled road in the network.
 The traffic assignment problem in the last stage of the forecast model is a complicated problem.
 This is because congestion occurs as traffic flows are assigned onto the network,
 and it is very difficult to find an equilibrium situation where everybody in the network finds their best route.
-Generally the equilibrium situation happen when it is assumed that people are selfish,
-they always try to minimise travel times by travelling along their shortest paths.
+Generally the equilibrium situation happens when it is assumed that people are selfish,
+everyone tries to minimise travel times by travelling along their shortest paths.
 
 \begin{figure}[!ht]
     \centering
@@ -87,7 +87,7 @@ for larger and more complicated road networks.
 This will also allow city designers estimate traffic flows further into the future and make better decisions on road network design.
 
 In summary,
-The algorithms that are going to be experimented are:
+The algorithms that are going to be studied are:
 \begin{itemize}
     \item Bellman-Ford's label correcting algorithm,
     \item Dijkstra's label setting algorithm (using different data structures),
@@ -105,10 +105,11 @@ We also aim to find and discuss the following techniques that can speed up short
 
 \section{Structure of the report}
 Chapter~\ref{chap:ta} gives a short description of the traffic assignment problem
-and presents a specific algorithm called the Path Equilibration algorithm that solves it.
-This algorithm the begin of our experiments for this project.
+and presents a specific algorithm called the path equilibration algorithm that solves it.
+This algorithm is the begin of our experiments for this project.
 Chapter~\ref{chap:solvingspp} introduces the shortest path problem and presents some of the well established algorithms that solve it.
-Strategies for solving the shortest path problem faster in an iterative environment are also described in this chapter.
 Implementation details are presented in Chapter~\ref{chap:implementation}.
-Chapter~\ref{chap:results} shows and discusses results.
-Finally conclusions are drawn in Chapter~\ref{chap:conclusions}.
+%Strategies for solving the shortest path problem faster in an iterative environment are also described in this chapter.
+Chapter~\ref{chap:results} shows the results and discussions for the algorithms described in Chapter~\ref{chap:solvingspp}.
+Chapter~\ref{chap:iterative} presents strategies and results for solving the shortest path problem in path equilibration algorithm of the traffic assignment.
+Finally conclusions and future work are drawn in Chapter~\ref{chap:conclusions}.

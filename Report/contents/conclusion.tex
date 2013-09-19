@@ -10,7 +10,6 @@ The second strategy is to randomly skip the next shortest path calculation,
 with the hope that the shortest path in the current and previous iteration is going to be the same.
 In addition,
 we have also investigated the possibility of using preprocessing methods such as A* search with landmarks.
-\todo[inline]{relate back to reality}
 
 \section{Conclusions}
 We now conclude this project with the following results:
@@ -18,39 +17,38 @@ We now conclude this project with the following results:
     \item The priority queue implementation from the C++ standard template library has the best performance compared to the six implementations from the C++ Boost library and binary search tree from the C++ standard template library.
     \item A* search algorithm using zero-flow travel times as heuristic estimates has the best performance.
     \item Bidirectional versions of Dijkstra's algorithm and A* search have worse performances. Bidirectional Dijkstra is worse because it has to check the stopping criterion at each step. Bidirectional A* is worse because its search area is larger than that of unidirectional A*.
-    \item The strategy of avoiding next few iterations of shortest path calculations is not viable as it is difficult to find the best number of iterations to skip.  \todo{is doable, but have to be careful}
+    \item The strategy of avoiding next few iterations of shortest path calculations is viable when small number of iterations are skipped.
     \item The strategy of avoiding the shortest path calculations randomly is viable. By using A* search and 50\% random skipping on large networks that require millions of shortest path calculations in each iteration, the run times are further improved by about 25\% compared to just using A* search.
     %\item Preprocessing shortest path algorithms are not applicable for the traffic assignment problem, due to their long preprocessing time can slow down the whole traffic assignment process when the road network need to be changed frequently.
-    \item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. \todo{is applicable, need more research}
+    %\item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. \todo{is applicable, need more research}
 \end{itemize}
 
-
 \section{Future work}
-The current A* search algorithm only runs on a single thread.
-The algorithm can be improved by implementing a multi-threaded version developed
-by \citet{Inam}.
-The algorithm will run extremely fast as it is designed for GPGPU (General Purpose GPU) run on multi processors using many threads concurrently.
-The main modification of the algorithm is that  
-instead of sequentially updating all out-going arcs from the labelled node,
-we update them in parallel using multiple threads.
+\begin{itemize}
+    \item In this project, only the path equilibration algorithm has been used to test the strategies of avoiding shortest path calculations.
+        The strategies may also be applicable for other iterative algorithms that solve the traffic assignment problem.
 
-A* search with landmarks algorithm can be investigated
-if we decide to concentrate on a specific road network.
-How many landmarks need to be used and where to place them need to be 
-determined experimentally in order to find the best combination of preprocessing run time and actual query time.
+    \item The current A* search algorithm only runs on a single thread.
+        The algorithm can be improved by implementing a multi-threaded version developed
+        by \citet{Inam}.
+        The algorithm will run extremely fast as it is designed for GPGPU (General Purpose Graph Processing Unit) run on multi processors using many threads concurrently.
+        The main modification of the algorithm is that instead of sequentially updating all out-going arcs from the labelled node,
+        we update them in parallel using multiple threads.
 
-\todoin[inline]{SP and random skipping on different TA algorithms}
+    \item A* search with landmarks algorithm may be applicable for our problem but need to be studied further.
+        This algorithm is difficult to implement. 
+        This is because the number of landmarks to use and deciding their placements is another optimisation problem.
+        Tests need to be done in order to find the best performance.
+
+    \item A family of algorithms exists for dynamically changing graphs,
+        including graphs that have moving nodes or changing arcs.
+        One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A*, developed by \citet{LPA*}.
+        This algorithm may be applicable to our traffic assignment problem but more study need to be done.
+\end{itemize}
+
+\todo[inline]{I'm deciding not to include the following future work, I don't know how to describe their details\ldots}
 \todoin[inline]{Run PE for a number of iterations, don't add any path until it is equilibrated}
 \todoin[inline]{one might also consider parallel shortest path runs in TA}
 
 
-\section{Lifelong planning A*}
-A family of algorithms exists for dynamically changing graphs,
-including graphs that have moving nodes or changing arcs.
-One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A*, developed by \citet{LPA*}.
-\citet{LPA*} showed experimentally that LPA* is more efficient than A* if the change in arc costs is close to the destination.
-This means Lifelong Planning A* can be used for our problem if we can show that the only changes are close to the destination.
-
-\todo[inline]{decided not to implement because \ldots need to read the paper again}
-%This observation motivates us to find algorithms that are suitable for finding shortest path in an iterative environment.
-%Performance can be improved if we can use information from previous iterations.
+%\todo[inline]{decided not to implement because \ldots need to read the paper again}

@@ -9,9 +9,9 @@ The algorithms are implemented in the C++ programming language.
 The existing implementation of the path equilibration algorithm uses Bellman-Ford-Moore algorithm for its shortest path calculations as suggested by \citet{Sheffi}.
 When solving the traffic assignment problem,
 the algorithm spends most of its time computing shortest paths.
-Significant amount of time is also spent on the convergence check step mentioned in Section~\ref{sec:convergence},
+Significant amount of time is also spent on the convergence check step described in Section~\ref{sec:convergence},
+\todo{maybe need profile output to support this statement? - no time for this :(}
 where the algorithm requires to run the Bellman-Ford-Moore algorithm on all of the zones for the all-or-nothing solution.
-\todo[inline]{maybe need profile output to support this statement? - no time for this :(}
 
 \section{Graph storage}
 To obtain information from the graph when running shortest path algorithms,
@@ -23,7 +23,7 @@ it also provides $O(1)$ access to all out-going arcs of a randomly chosen node.
 Using the Forward Star ensures the run time of accessing the graph can be neglected when analysing the shortest path algorithms.
 
 \section{Priority queue implementations} \label{sec:pq_implementation}
-As mentioned in the Dijkstra's algorithm section (Section~\ref{sec:dijkstra}),
+As mentioned in Dijkstra's algorithm section (Section~\ref{sec:dijkstra}),
 the performance of shortest path algorithms is heavily dependent on the implementation of the priority queue data structure.
 Various priority queue implementations exist,
 they include:
@@ -36,12 +36,12 @@ Here we use the angled brackets to denote the names are specific implementations
 
 Each priority queue implementation has some advantages and disadvantages.
 For example some provide faster tree balancing while others provide faster Extract-Min or Insert operation.
-All of these implementations are going to be studied for this project.
+All of these implementations are studied for this project.
 
-First we examine the six variants of heap implementations from the C++ Boost $\langle$heap$\rangle$ library shown in Table~\ref{table:heaps}.
+First we examine six variants of heap implementations from the C++ Boost $\langle$heap$\rangle$ library shown in Table~\ref{table:heaps}.
 In the table, $N$ is the number of elements in the priority queue and
 the time complexities are measured in amortized time
-\footnote{Amortized time gives how much time is taken in total when an operation is repeated a million times. For example with different inputs, run time is averaged between the worst-case and the best-case.}.
+%\footnote{Amortized time gives how much time is taken in total when an operation is repeated a million times. For example with different inputs, run time is averaged between the worst-case and the best-case.}.
 
 \begin{table}[!ht]
     \centering
@@ -54,30 +54,30 @@ the time complexities are measured in amortized time
         Pairing         & $O(2^{2\log(\log(N))})$ & $O(\log(N))$ & $O(2^{2\log(\log(N))})$ & $O(2^{2\log(\log(N))})$ \\
         Skew            & $O(\log(N))$ & $O(\log(N))$ & $O(\log(N))$ & $O(\log(N))$
     \end{tabular*}
-    \caption{C++ Boost Heap Implementations with Comparison of Amortized Complexity \citep{BoostHeap}}
+    \caption{C++ Boost heap implementations with comparison of amortized complexity \citep{BoostHeap}}
     \label{table:heaps}
 \end{table}
-The descriptions, theories and analysis of these heap implementations can be found in \citet{Johnson1975} for Binary and Ternary, \citet{Vuillemin1978} for Binomial, \citet{Fredman} for Fibonacci, \citet{Fredman1986} for Pairing, and \citet{Sleator1986} for Skew.
+All of these heaps are implemented as max-heap trees.
+Their descriptions, theories and analysis of these heap implementations can be found in \citet{Johnson1975} for Binary and Ternary, \citet{Vuillemin1978} for Binomial, \citet{Fredman} for Fibonacci, \citet{Fredman1986} for Pairing, and \citet{Sleator1986} for Skew.
 
-We are interested in using Boost library Heaps rather than the C++ standard library Heap due to one reason:
-the Decrease-Key (or Increase-Key) operation.
+We are interested in using Boost library heaps rather than the C++ standard library heap due to one reason:
+the Decrease-Key (or Increase-Key)\footnote{ The Decrease-Key operation is used for min-heap trees (minimum value on top) and the Increase-key operation is used for max-heap trees (maximum value on top).} operation.
 The operation is used to change the distance labels in the priority queue when a node is scanned and updated during the shortest path calculations.
-The Decrease-Key operation is used for min-heap trees (minimum value on top) and the Increase-key operation is used for max-heap trees (maximum value on top).
 In Dijkstra's algorithm,
 nodes are often scanned multiple times in the label updating step,
-so instead of adding the node again into the Heap tree with a difference value,
+so instead of adding the node again into the heap tree with a difference value,
 we can use the Decrease-Key operation.
-The advantage of using this operation is that we can reduce the size of the Heap tree, which results in a performance improvement as it takes less time to search and insert nodes to smaller heap trees.
+The advantage of using this operation is that we can reduce the size of the heap tree, which results in a performance improvement as it takes less time to search and insert nodes to smaller heap trees.
 
 In Table~\ref{table:heaps},
-we observe that the Fibonacci Heap has a very interesting time complexity.
+we observe that the Fibonacci heap has a very interesting time complexity.
 It has a constant amortized $O(1)$ time for the Insert and Increase-Key operation.
 This is very attractive for us,
 but the problem is that we do not know how much constant time it really uses behind its big $O$ notation.
 In order to use the Fibonacci $O(1)$ Increase-Key operation,
 all of the distance labels need to be negated when inserted into the heap because C++ Boost Library heaps are implemented as max-heaps.
 
-Next we examine $\langle$priority\_queue$\rangle$ from the C++ standard library,
+Next we examine $\langle$priority\_queue$\rangle$ from the C++ standard template library,
 which provides $O(\log(N))$ Insert and Extract-Min operation.
 This implementation neither has the Decrease-Key operation nor a way to change node values or delete a node somewhere other than the top of the heap tree.
 So when solving the shortest path problem,
@@ -86,7 +86,7 @@ This is not a problem for our shortest path algorithms.
 When a node is added to the queue more than once with different distance labels,
 the one with the smaller distance label is always going to be in front of the queue waiting to be labelled first,
 so when that node is labelled,
-all the other same nodes with larger distance labels in the queue will not affect find the shortest path,
+all the other same nodes with larger distance labels in the queue will not affect finding the shortest path,
 this is because the successors of those nodes have already been assigned with smaller distance labels.
 
 Finally we examine $\langle$set$\rangle$ from the C++ standard library.
@@ -96,11 +96,11 @@ This data structure can be used for our shortest path algorithms because it prov
 For our shortest path algorithms (i.e.\ Dijkstra's algorithm and A* search),
 we can modify them to accommodate the unique elements and specific ordering requirement.
 To meet the unique elements requirement,
-instead of using the Decrease-key operation whenever a node need to be updated,
+instead of using the Decrease-key operation whenever a node needs to be updated,
 we simply delete that node and insert the one with the new value.
 And for the ordering requirement,
 we can just order the nodes non-decreasingly by their distance labels,
-so the node with the minimum label always comes first.
+so the node with the minimum distance label always comes first.
 The advantage of $\langle$set$\rangle$ compared to $\langle$priority\_queue$\rangle$ is that nodes can be removed from anywhere in the data structure,
 since the performance of the operations is heavily dependent on the number of elements in the data structures.,
 $\langle$set$\rangle$ can be faster than $\langle$priority\_queue$\rangle$ and require less memory compared to the other priority queues.

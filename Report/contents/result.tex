@@ -12,12 +12,12 @@ All results presented in this chapter are based on newly developed code.
 The algorithms are written in C++, compiled by the g++ compiler using the `-O3' optimization flag.
 All timed results are measured for a complete run of traffic assignment,
 where all algorithms are run on a single core of the CPU.
-All solutions will use $10^{-6}$ as the relative gap for the stopping criterion.
+All solutions use $10^{-6}$ as the relative gap for the stopping criterion.
 
 In this chapter, we are going to
 \begin{enumerate}
     \item first identify the best priority queue data structure to use in Dijkstra's algorithm in Section~\ref{sec:pq_results},
-    \item then compare different shortest path algorithms:Dijkstra's algorithm, A* search and their bidirectional versions in Section~\ref{sec:allresults}.
+    \item then compare different shortest path algorithms: Dijkstra's algorithm, A* search and their bidirectional versions described in Section~\ref{sec:allresults}.
 \end{enumerate}
 
 \section{Road networks}
@@ -30,9 +30,9 @@ Chicago Sketch is a medium sized network that is part of the Chicago Regional ne
 Berlin Center is a medium sized network.
 Philadelphia and Chicago Regional are two large networks that have over a million number of O-D pairs.
 
-Note the complexity of the problems and the run time of the path equilibration algorithm are heavily influenced by the number of O-D pairs in the networks.
-For example, although the Philadelphia and Chicago Regional networks are similar in size,
-the Chicago Regional network is much more complex and hard to solve than Philadelphia as it has twice as many O-D pairs.
+Note the complexity of the traffic assignment problem and the run time of the path equilibration algorithm are heavily influenced by the number of O-D pairs in the networks.
+For example, although Philadelphia and Chicago Regional networks are similar in size,
+Chicago Regional is much more complex and hard to solve than Philadelphia as it has twice as many O-D pairs.
 
 \begin{table}[!ht]
     \centering
@@ -66,8 +66,6 @@ Skew heap has the best performance among the six heap implementations from the B
 Fibonacci heap has worse performance compared to some of the other implementations despite of its $O(1)$ Insert and Increase-Key operation.
 $\langle$set$\rangle$ is significantly slower than $\langle$priority\_queue$\rangle$.
 
-\todo[inline]{see page 29 Andrea fix, clarify results discussion}
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[page=1, width=\textwidth, height=.4\textheight]{img/pq_runtime}
@@ -83,26 +81,21 @@ $\langle$set$\rangle$ is significantly slower than $\langle$priority\_queue$\ran
 
 \subsection{Discussion of priority queues}
 The priority queue implementation results showed that
-all of the heap implementations from the Boost library are worse than $\langle$priority\_queue$\rangle$.
+all of the heap implementations from the Boost library and $\langle$set$\rangle$ are worse than $\langle$priority\_queue$\rangle$.
 The reason behind this can be explained using the Binary heap implementation.
 It turns out that the implementation of $\langle$priority\_queue$\rangle$ is similar to Binary heap from the Boost library,
 the only difference is their underlying storage of node information.
 Nodes are stored using an array in the standard library version,
-where as the Boost library uses pointers to keep track of 
+where as the Boost library uses pointer references to keep track of 
 the nodes.
 Due to computer cache coherence,
-it is known that accessing data from a nearby memory access memory (RAM) locations in a short period of time is faster than accessing from distant memory locations.
+it is known that accessing data from a nearby random access memory (RAM) locations in a short period of time is faster than accessing from distant memory locations.
 This is due to cache memory access being much faster than RAM access,
 and internally a block of memory is pre-fetched into the cache in the hope they will be accessed in a short period of time.
 In the shortest path algorithms,
-the Heap tree needs to be searched over and over again in a short period of time when nodes are being scanned and inserted.
+the heap tree needs to be searched over and over again in a short period of time when nodes are being scanned and inserted.
 The standard library version uses an array where data are stored linearly in a nearby location,
 so it is much faster than the pointer based version where memory is allocated in random locations when nodes are inserted.
-
-Run time of $\langle$set$\rangle$ is significantly slower than $\langle$priority\_queue$\rangle$.
-This is mainly due to the Extract-Min operation.
-There is a significant difference between the $O(|N|\log(|N|)$ Extract-Min from $\rangle$set$\langle$ and the $O(1)$ Extract-Min from $\rangle$priority\_queue$\langle$ when the network is large.
-Maintaining a small number of elements in the priority queues no longer reduces the run time in $\rangle$set$\langle$.
 
 \subsection{Discussion of Fibonacci heap}
 Here we discuss the reason behind Fibonacci heap not performing well despite its $O(1)$ amortized time Decrease-Key operation.
@@ -115,7 +108,7 @@ This discovery comes from the fact that
 the Decrease-Key operation is only used frequently when the graph is dense,
 so cumulatively its high constant $O(1)$ time will perform better compared to $O(\log(N))$ time in other heap implementations, where $N$ need to be a large number.
 
-we confirm our graph is indeed not dense and the Decrease-Key is not used frequent.
+We confirm our graph is indeed not dense and the Decrease-Key is not used frequent.
 We find that all of our graphs are very sparse.
 The degree of any node of any graph is no more than 5,
 as it is already really rare to have an intersection with 5 roads connected.
@@ -138,7 +131,7 @@ Figure~\ref{fig:allresults} shows the performance of the mentioned algorithms on
 (see Table~\ref{table:allresults} of Appendix~\ref{appendix:sp_results} for exact numerical results).
 The networks are spaced out on the horizontal axis to show their relative sizes, i.e.\ the number of O-D pairs.
 
-Bellman-Ford-Moore algorithm has the worst performance while the A* search has the best performance on all networks.
+Bellman-Ford-Moore algorithm has the worst performance while A* search has the best performance on all networks.
 The bidirectional versions of Dijkstra's algorithm and A* search are more than twice slower than their unidirectional versions.
 
 \begin{figure}[!ht]
@@ -153,20 +146,20 @@ In this section we investigate the reason for the worse performances of the bidi
 
 First we examine whether search areas of the algorithms are what is expected.
 Figure~\ref{fig:long_sptree} shows the shortest path trees of the point-to-point algorithms, 
-where the origin and destination nodes are placed on opposite sides of the Chicago Sketch network.
+where the origin and destination nodes are placed on opposite sides of Chicago Sketch network.
 It can be seen that Dijkstra's algorithm scans the entire network.
-Bidirectional Dijkstra scans almost the entire network with some nodes on the side left out.
+Bidirectional Dijkstra scans almost the entire network with some nodes left out on the sides of the network.
 Bidirectional A* scans a slightly larger region near the origin and destination nodes,
 and the A* search scans just a few nodes along the shortest path.
-The behaviour of the algorithms is shown further in Figure~\ref{fig:short_sptree},
+The behaviours of the algorithms are shown further in Figure~\ref{fig:short_sptree},
 where the origin and destination are placed close to each other.
-It is shown that both Dijkstra's algorithm and its bidirectional version scan almost half of the graph,
-where bidirectional search scans fewer nodes.
-A* and its bidirectional search scan a small portion of the graph,
+It can be seen that both Dijkstra's algorithm and its bidirectional version scan almost half of the graph,
+where the bidirectional version scans fewer nodes.
+A* search and its bidirectional search scan a small portion of the graph,
 and they do not scan the area behind the origin and destination node compared to the Dijkstra's algorithm.
 
 The search areas of the bidirectional Dijkstra's algorithms match what is expected,
-but not the run times when compared to the unidirectional.
+but not the run times when compared to the unidirectional version.
 The reason for reduction in run time is due to our implementations.
 In both forward and backward search,
 the current shortest path $\mu$ needs to be updated every time a node is scanned,
@@ -174,20 +167,21 @@ and the stopping criterion needs to be checked when a node is labelled.
 Furthermore,
 once the algorithm terminates,
 we need to retrieve the shortest path in both directions by following node predecessors and concatenate them together for the full shortest path.
-So it is concluded that these additional computations slow down the run times.
+So it is concluded that these additional computations slowed down the run times.
 
 For A* search,
 the bidirectional version always scans more nodes than the unidirectional version.
-This is due to the worse bounds of  heuristic estimates calculated in the bidirectional search compared to the unidirectional search,
-heuristic estimates need to be averaged from the forward and backward search in order to find the correct shortest path.
-And since the bidirectional version has similar stopping criterion compared to the bidirectional Dijkstra's algorithm,
+This is due to the worse bounds of heuristic estimates calculated in the bidirectional search compared to the unidirectional version,
+That is, heuristic estimates need to be averaged from the forward and backward search in order to find the correct shortest path.
+Since the bidirectional version has similar stopping criterion compared to the bidirectional Dijkstra's algorithm,
 it is easy to understand why bidirectional A* has a worse performance.
 
+\todo[inline]{new paragraph below}
 Finally, there is one thing that need to be pointed out for A* search.
-It is known that A* search requires to run Dijkstra's algorithm on all nodes (not zones) in the network to obtain the heuristic estimates (zero-flow travel times from every node to every destination) and store the travel time values (not the paths).
+A* search requires to run Dijkstra's algorithm on all nodes (not zones) in the network to obtain the heuristic estimates (zero-flow travel times from every node to every destination) and store the travel time values (not the paths).
 This procedure is similar to that of preprocessing algorithms,
 where we need to pre-process the network so subsequent queries can be made faster.
-Upon investigation, the run time of this preprocessing process is almost identical to one iteration of the path equilibration algorithms when using A* search,
+Upon investigation, the run time of this preprocessing process is almost identical to the subsequent iterations of the path equilibration algorithm using A* search,
 so the overall run time is still faster than all other tested algorithms.
 
 \begin{figure}
@@ -273,3 +267,4 @@ which is undesirable for transportation planning because the road network change
 \todo[inline]{need to rewrite/ reconsider/ drop this? see page 37}
 \end{comment}
 
+\todo[inline]{not sure if SP shown next page is identifiable or not with black and white print, I have thickened them but not sure if they need to be more thicker}

@@ -1,13 +1,12 @@
-\begin{center}
-\Huge Abstract
-\end{center}
-\vspace{1cm}
-The Traffic Assignment (TA) problem involves the selection the optimal path for every vehicle in a transportation network.
-One algorithm for solving TA is the Path Equilibration (PE) algorithm.
-PE requires solving shortest path repeatedly between every origin and destination pair in the network for a large number of iterations, while the edge costs change between iterations.
+\chapter*{Abstract}
+The Traffic Assignment (TA) problem involves the selection of optimal path for every vehicle in a transportation network that subjects to congestion.
+One method for solving TA is the Path Equilibration (PE) algorithm.
+PE requires to find the shortest path repeatedly between every origin and destination pair in the network for a large number of iterations,
+while the travel times of the roads change due to congestion.
 The aim of this project is to find a faster shortest path algorithm for PE.
-We implement Dijkstra's algorithm and A* search, their bidirectional versions and 8 different versions of priority queue data structures that improve these algorithms' performance.
-We develop two strategies for using these algorithms in the iterative environment of PE.
-The first strategy is to avoid next few numbers of iterations when the shortest path of the previous two iterations is the same.
-The second strategy is to randomly skip the next shortest path calculation, where we hope for the situation where the previous and current iteration is going to be the same.
-We present experimental results that demonstrate the run time differences between these priority queues, algorithms and strategies and show that A* search algorithm with random skipping strategy has the best performance.
+Dijkstra's algorithm, A* search and their bidirectional versions and eight different versions of priority queue data structures that improve these algorithms' performance are implemented.
+Two strategies for using these shortest path algorithms in the iterative environment of PE are also developed.
+The first strategy is to avoid the next few numbers of iterations when the shortest path of the previous two iterations are the same.
+The second strategy is to randomly skip the next shortest path calculation in the hope for the situation where the previous and current iteration is going to be the same.
+We present experimental results that demonstrate the run time differences between the priority queues, shortest path algorithms and strategies.
+We conclude A* search algorithm using the priority queue implementation from the C++ standard template library with random skipping strategy has the best performance.

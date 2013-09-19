@@ -1,4 +1,4 @@
-\chapter{Solving Shortest Path in Traffic Assignment}
+\chapter{Solving Shortest Path in Traffic Assignment} \label{chap:iterative}
 The previous chapter suggests the use of A* search with zero-flow travel times as heuristic estimates and the min-heap priority queue implementation from the C++ standard template library for solving the shortest path problem.
 
 So far we have only been dealing with solving the shortest path problem on static graphs,
@@ -6,10 +6,7 @@ in this chapter we discuss solving the problem in the path equilibration algorit
 the graph dynamically changes its arc costs between iterations.
 Better performance can be achieved if we are able to use information from previous iterations.
 
-
 \section{Avoiding shortest path calculations} \label{section:avoid}
-\todo[inline]{need more info on why avoiding sp still allow PE to converge.}
-\todo[inline]{need to outline the procedure}
 All of the shortest algorithms mentioned so far need to fully calculate the shortest path between every O-D pair in each iteration.
 It turns out for every O-D pair in the path equilibration algorithm,
 their shortest path calculation can be avoided to reduce computational time by using solution from the previous iteration in the current iteration.
@@ -28,8 +25,9 @@ then the path equilibration algorithm may not converge after the current iterati
 which causes possible increase in total number of iterations and computational time.
 Although the total number of iterations may vary,
 the path equilibration will still converge.
-This is because with a proper defined strategies, that is a new shortest path will be calculated eventually, then non-converging iterations will get corrected and converge when new shortest path is calculated.
+This is because with a proper defined strategy, where a new shortest path will be calculated eventually, then non-converging iterations will get corrected and converge when new shortest path is calculated.
 \todo[inline]{not sure \ldots I don't know how to explain this properly. And I don't understand the extract reason why sometimes the total number of iterations are decreased.}
+\todo[inline]{I also need better explaination on why avoiding sp still allow PE to converge.}
 
 While traffic flows and arc costs change between iterations,
 if we can prove that shortest path do not change often between iterations,
@@ -37,13 +35,13 @@ then some strategies can be used to avoid the calculations.
 The overall computational time is reduced when most shortest path calculations are avoided on the O-D pairs that are not going to change often.
 
 Figure~\ref{fig:sp_change} shows how often shortest path change between iterations for the Chicago Sketch and Berlin Center network (details of the networks can be found in Table~\ref{table:problemdata}).
-The histogram show the total number of times the shortest path for an O-D pair changed 0,1,2,\ldots times (in percentage out of all O-D pairs).
-The figure shows that 60\% of O-D pairs have not changed their shortest path after the initial iteration,
-and 16\% of O-D pairs changed their shortest path only once.
+The histogram show the total number of times the shortest path for an O-D pair changed 0,1,2,\ldots, times (in percentage out of all O-D pairs).
+The figure shows that on both networks, 60\% and 91\% of all O-D pairs have not changed their shortest path after the initial iteration,
+and 16\% and 3\% of all O-D pairs changed their shortest path only once.
 This means that after the first iterations,
-the algorithm spends most of its time changing only a dozen of O-D pairs' shortest path out of $93{,}135$.
+the algorithm spends most of its time changing only a dozen of O-D pairs' shortest path.
 From these observations,
-it is assured that run time can be reduced if we avoid shortest path calculations on the paths that do not change between iterations.
+it is assured that run time can be reduced if we avoid shortest path calculations that do not change between iterations.
 
 \begin{figure}[!ht]
     \centering
@@ -75,25 +73,28 @@ then there will be excessive iterations resulting in wasted time.
 If we skip too few iterations,
 then there may not be any impact on the computational time.
 
-This strategy requires to store the shortest path between every O-D pair,
-memory may become an issue if number of O-D pairs is large.
+This strategy requires to store the shortest path between iterations,
+memory may become an issue if the number of O-D pairs is large.
 This strategy also requires to compare the stored path and copy the stored path when iterations are skipped,
 this will increase the run time.
 
 \subsection{Avoiding the next shortest path calculation randomly}
 The other strategy is to skip shortest path calculations randomly.
 That is, when it comes to calculate the shortest path for a given O-D pair,
-we generate a random number and decide whether to do the calculation based on that number.
+we generate a random number and decide whether to perform the calculation based on that number.
 The advantage of this strategy is that we do not need to know how many iterations the algorithm will take,
 and shortest paths do not need to be stored.
 The disadvantage is that the computational time can vary between different runs,
 resulting unpredictable run times.
 
+This strategy also requires to store and copy shortest path between iterations,
+but paths do not need to be compared, so this strategy is faster than the first strategy.
+
 \section{Results on avoiding shortest path calculations}
-In this section, we consider avoiding shortest path calculations in the iterative path equilibration algorithm discussed in Section~\ref{section:avoid}.
+In this section, we consider avoiding shortest path calculations in the iterative path equilibration algorithm using strategies described in the previous sections.
 A* search is used to generate results for this section as it is identified to be the most efficient algorithm in Section~\ref{sec:allresults}.
 
-We present the strategy of avoiding a pre-defined number of shortest path calculations for each O-D pair if the previous two iterations result in the identical shortest path trees.
+We present the strategy of avoiding a pre-defined number of shortest path calculations for each O-D pair if the previous two iterations result identical shortest path.
 The results are shown in Figure~\ref{fig:skip_n},
 where the strategy is tested on the Berlin Center and Chicago Sketch network.
 On both networks,
@@ -107,6 +108,16 @@ the run time is heavily effected by the increase in total number of iterations.
 The strategy worked well on the Chicago Sketch network.
 Skipping 5 iterations resulted the same 26 iterations and the run time is decreased by 4 seconds.
 Run times are still reduced in cases where there is an increase in total number of iterations.
+Overall the run times become unpredictable when more iterations are skipped.
+
+%\todo[inline]{new paragraph, I Just realised all SP calculations may be skipped \ldots, resulting PE to stop}
+%Upon investigation,
+%it is realised that this strategy has an non-converging edge case for the path equilibration algorithm.
+%The edge case happens when all of the shortest path calculations are skipped in two consecutive iterations.
+%For example if half of the shortest path calculations are skipped for the next five iterations in the second iteration,
+%and the other half are skipped for the next five iterations in the third iteration,
+%then accidentally all calculations are skipped in the fourth and fifth iteration,
+%resulting the path equilibration algorithm to stop with reletative gap 
 
 \begin{figure}[!ht]
     \centering
@@ -126,16 +137,17 @@ Run times are still reduced in cases where there is an increase in total number 
     \label{fig:skip_n}
 \end{figure}
 
+
 The other strategy is to skip the next shortest path calculation randomly.
 %The advantage of this strategy is that it does not need the number of iterations it will compute,
 %but the disadvantage is that the run time may vary between different runs.
 Figure~\ref{fig:random_n} shows the results on both Berlin Center and Chicago Sketch, where probabilities of 0.3, 0.4, 0.5, 0.6 and 0.7 for skipping the next shortest path calculation are chosen.
 All of the probabilities are run 10 times so the average and extremes of the run times can be determined.
-On both networks, it seems the run times are really unpredictable,
+On both networks, run times are unpredictable,
 there are extremes where run times are increased by 10\% on Berlin Center and 30\% on Chicago Sketch. With 0.7 probability, the run time increased significantly on Berlin Center meanwhile decreased significantly on Chicago Sketch.
 Overall, the average run times can be reduced for probabilities 0.3 to 0.6.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{subfigure}{.5\textwidth}
         \centering
@@ -153,17 +165,17 @@ Overall, the average run times can be reduced for probabilities 0.3 to 0.6.
     \label{fig:random_n}
 \end{figure}
 
-The random strategy can be used before knowing the total number of iterations the path equilibration algorithm going to produce,
-Since only small networks have been tested so far,
-we now present the random strategy on the Philadelphia and Chicago Regional networks (details in Table~\ref{table:problemdata}), where they have over a million number of O-D pairs.
+%The random strategy can be used before knowing the total number of iterations the path equilibration algorithm going to produce,
+The random skipping strategy has a better performance than the other strategy,
+and since only small networks have been tested so far,
+we now present the random skipping strategy on the Philadelphia and Chicago Regional networks (details in Table~\ref{table:problemdata}), where they have over a million number of O-D pairs.
 
 Due to memory constraint, we switch to a computer with Intel Xeon CPU and 11.7 GiB RAM for the upcoming results.
 The run time comparisons are shown in Figure~\ref{table:runtime_large_network} (see Table~\ref{table:runtime_large_network} of Appendix~\ref{appendix:large} for extract results).
 where the random skipping strategy uses 50\% probability to skip a shortest path calculation.
 The strategy has a 25\% and 27\% run time improvement on the Philadelphia and Chicago Regional networks respectively.
 
-
-\begin{figure}[!ht]
+\begin{figure}[!hb]
     \centering
     \includegraphics[page=5,width=\textwidth]{img/random_time}
     \caption{Run times of A* search and 50\% random skipping on large networks}
@@ -173,10 +185,6 @@ The strategy has a 25\% and 27\% run time improvement on the Philadelphia and Ch
 From this chapter, we conclude the following:
 \begin{itemize}
     \item the random skipping strategy works well on the tested graphs,
-but there are extremes where the algorithm takes significantly longer to run using high probability such as 0.7.<
-    \item the skipping next $n$ strategy works well when we skip just a few iterations (e.g.\ 5 iterations), the run time becomes more unpredictable when we start skipping more iterations.
+but there are extremes where the algorithm takes significantly longer to run using high probability such as 0.7.
+    \item the skipping next few number of iterations strategy works well when just a few iterations are skipped (e.g.\ 5 iterations), the run time becomes unpredictable when more iterations are skipped.
 \end{itemize}
-
-\todo[inline]{I'm now running Chicago Regional with skipping the next 5 strategy \ldots hope it finishes in time}
-
-\todo[inline]{Andrea says that ``It would seem a natural next thing to test is a combination of the two previous strategies'' - I'm not sure what it means}
