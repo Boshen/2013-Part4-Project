@@ -503,7 +503,7 @@ The bidirectional A* search can be described by two ellipsoids extending from th
 This is shown in Figure~\ref{fig:bidirectdiff},
 where bidirectional A* search potentially has a smaller search area than the unidirectional version.
 
-\begin{figure}[!ht]
+\begin{figure}[b]
     \tikzstyle{main node} = [circle, draw, text centered, minimum height=2.5em]
     \tikzstyle{big circle} = [ellipse, draw, dashed, text centered, minimum width=8em, minimum height=5em]
     \tikzstyle{small circle} = [ellipse, draw, dashed, text centered, minimum width=5.5em, minimum height=3.5em]
@@ -597,11 +597,11 @@ It is not evident whether bidirectional A* search can guarantee significant impr
 as the result is heavily dependent on the configuration of the road network and the quality of the heuristic estimates.
 Nevertheless, bidirectional A* search is implement and tested, the results can be found in Section~\ref{sec:allresults}.
 
-\section{Preprocessing algorithms}
+\section{Pre-processing algorithms}
 In the last two decades,
 extensive research has been done on the idea of speeding up shortest path calculations using pre-calculated data.
 They include A* search with landmarks \citep{GoldbergLandmarks}, reach-based pruning \citep{Goldberg} and Hierarchical search \citep{Ertl1998, Pearson}, etc.
-These preprocessing techniques generally need to spend some time to pre-calculate the data required for speeding up the sub-sequent shortest path queries.
+These pre-processing techniques generally need to spend some time to pre-calculate the data required for speeding up the sub-sequent shortest path queries.
 
 The next section discusses the A* search with landmarks,
 and its drawback when applied to the traffic assignment problem.
@@ -666,11 +666,11 @@ i.e.\ around the outer boundary of the graph.
 \end{figure}
 
 The landmarks algorithm requires to store all shortest path distances for all landmarks, memory may be an issue if there are many landmarks and the network is large.
-Although the preprocessing stage of the landmarks algorithm can take a long time,
+Although the pre-processing stage of the landmarks algorithm can take a long time,
 it was shown that the shortest path solving times are significantly faster than A* search using Euclidean distance estimates (results can be found in \citet{GoldbergLandmarks}).
 
 For the equilibration algorithm of the traffic assignment,
 it is unknown whether landmarks using zero-flow travel times can provide better estimates compared to Euclidean distances.
-Furthermore, both preprocessing and shortest path solving time of this algorithm are heavily dependent on the quantity and placement of the landmarks,
+Furthermore, both pre-processing and shortest path solving time of this algorithm are heavily dependent on the quantity and placement of the landmarks,
 which is another optimisation problem where different strategies and algorithms need to be studied.
 Due to these two problems, landmarks algorithm is not investigated further for this project.

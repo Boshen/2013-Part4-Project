@@ -9,7 +9,7 @@ when the shortest path of the previous two iterations are the same.
 The second strategy is to randomly skip the next shortest path calculation,
 with the hope that the shortest path in the current and previous iteration is going to be the same.
 In addition,
-we have also investigated the possibility of using preprocessing methods such as A* search with landmarks.
+we have also investigated the possibility of using pre-processing methods such as A* search with landmarks.
 
 \section{Conclusions}
 We now conclude this project with the following results:
@@ -19,8 +19,6 @@ We now conclude this project with the following results:
     \item Bidirectional versions of Dijkstra's algorithm and A* search have worse performances. Bidirectional Dijkstra is worse because it has to check the stopping criterion at each step. Bidirectional A* is worse because its search area is larger than that of unidirectional A*.
     \item The strategy of avoiding the next few iterations of shortest path calculations is viable when small number of iterations are skipped.
     \item The strategy of avoiding the shortest path calculations randomly is viable. By using A* search and 50\% random skipping on large networks that require millions of shortest path calculations in each iteration, the run times are further improved by about 25\% compared to just using A* search.
-    %\item Preprocessing shortest path algorithms are not applicable for the traffic assignment problem, due to their long preprocessing time can slow down the whole traffic assignment process when the road network need to be changed frequently.
-    %\item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. 
 \end{itemize}
 
 \section{Future work}

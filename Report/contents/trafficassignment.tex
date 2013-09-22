@@ -186,8 +186,6 @@ and flows $v_a^i$ are varied:
     v_a^i = \sum_{k \in K_i} \delta_{ak} h_k.
 \end{equation}
 
-
-\newpage
 The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated as follows.
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
@@ -224,7 +222,7 @@ where it finds the shortest path for O-D pair $i$ and assigns all traffic suppli
 In step 1, the two paths that have the minimum and maximum costs are found.
 If costs of the two paths are the same, then we can go to the next O-D pair because all travellers have minimised their travel times.
 In step 2, since travel times have not been minimised, we improve the currently used paths set from step 1 by computing a new shortest path.
-In steps 3 and 4, traffic flows are redistributed between the longest and shortest paths, these steps are equivalent to solving the Wardrop equilibrium shown in Equation~\eqref{wardrop1}-\eqref{wardrop3}.
+In steps 3 and 4, traffic flows are redistributed between the longest and shortest paths, these steps are equivalent to solving the Wardrop equilibrium shown in Equations~\eqref{wardrop1}-\eqref{wardrop3}.
 
 Keep in mind the all-or-nothing assignment is different from the traffic assignment solution.
 The all-or-nothing assignment gives the solution where between every O-D pair,
@@ -263,10 +261,9 @@ Here the objective function is the user equilibrium (UE) solution of the traffic
 And the lower bound refers to the all-or-nothing (AON) assignment in step 0 of the path equilibrium algorithm.
 
 The relative gap (RGAP) is computed as
-\begin{align}
-    \text{RGAP} &= \frac{\text{UE} - \text{AON}}{\text{UE}} \nonumber \\
-    &= \frac{\sum_{a \in A} v_a c_a - \sum_{i \in I} g_i c_{\tilde{k}_i}}{\sum_{a \in A} v_a c_a}.
-\end{align}
+\begin{equation}
+    \text{RGAP} = \frac{\text{UE} - \text{AON}}{\text{UE}} = \frac{\sum_{a \in A} v_a c_a - \sum_{i \in I} g_i c_{\tilde{k}_i}}{\sum_{a \in A} v_a c_a}.
+\end{equation}
 The AON solution is the sum of travel times $c_{\tilde{k}_i}$ of each traffic demand $g_i$ travelling on their shortest path $\tilde{k}_i$.
 The UE solution is the sum of travel times over the entire network.
 These two values are improved from iteration to iteration during the path equilibration algorithm until they become identical, i.e.\ RGAP converges to 0.

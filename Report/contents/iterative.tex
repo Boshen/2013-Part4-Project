@@ -7,7 +7,7 @@ the graph dynamically changes its arc costs between iterations.
 Better performance can be achieved if we are able to use information from previous iterations, for example reusing shortest path from the previous iteration.
 
 \section{Avoiding shortest path calculations} \label{section:avoid}
-All of the shortest algorithms mentioned so far need to fully calculate the shortest path between every O-D pair in each iteration.
+All of the shortest path algorithms mentioned so far need to fully calculate the shortest path between every O-D pair in each iteration.
 It turns out for every O-D pair in the path equilibration algorithm,
 their shortest path calculation can be avoided to reduce computational time by using solution from the previous iteration in the current iteration.
 
@@ -63,7 +63,7 @@ it is assured that run time can be reduced if we avoid shortest path calculation
 \subsection{Avoiding a number of iterations}
 The first strategy is as follows.
 For each O-D pair,
-if its shortest path did not change in the last two iterations,
+if its shortest path did not change in the previous two iterations,
 then we can delay the next shortest path calculation by a few iterations.
 This strategy requires prior knowledge of how many iterations there is going to be during a standard run.
 This is because if we choose to skip more calculations than the total number of iterations,
@@ -80,8 +80,7 @@ this will increase the run time.
 The other strategy is to skip shortest path calculations randomly.
 That is, when it comes to calculate the shortest path for a given O-D pair,
 we generate a random number and decide whether to perform the calculation based on that number.
-The advantage of this strategy is that we do not need to know how many iterations the algorithm will take,
-and shortest paths do not need to be stored.
+The advantage of this strategy is that we do not need to know how many iterations the algorithm will take.
 The disadvantage is that the computational time can vary between different runs,
 resulting in unpredictable run times.
 

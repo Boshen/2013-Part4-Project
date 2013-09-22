@@ -20,7 +20,6 @@ In this chapter, we are going to
 \end{enumerate}
 
 \section{Road networks}
-
 Table~\ref{table:problemdata} shows the road networks used for this project, the network details are retrieved from \citet{ProblemData}.
 The table has an extra column showing the minimum number of iterations the path equilibration algorithm takes to solve the networks.
 Compared to other networks in the table,
@@ -52,7 +51,7 @@ Chicago Regional is much more complex and hard to solve than Philadelphia as it 
 \end{table}
 
 \section{Results on priority queues} \label{sec:pq_results}
-In this section we study different priority queues discussed in Section~\ref{sec:pq_implementation}.
+In this section we test different priority queues discussed in Section~\ref{sec:pq_implementation}.
 The priority queues are used in Dijkstra's algorithm on the Winnipeg and Chicago Sketch networks.
 The results are shown in Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime},
 where the run times are measured from a complete run of the traffic assignment.
@@ -96,23 +95,23 @@ the heap tree needs to be searched over and over again in a short period of time
 The standard library version uses an array where data are stored linearly in a nearby location,
 so it is much faster than the pointer based version where memory is allocated in random locations when nodes are inserted.
 
-\subsection{Discussion of Fibonacci heap}
-Here we discuss the reason behind Fibonacci heap not performing well despite its $O(1)$ amortized time Decrease-Key operation.
+\subsection{Discussion on Fibonacci heap}
+Here we discuss the reason behind Fibonacci heap not performing well despite its $O(1)$ amortized time Increase-Key operation.
 As described in the two priority queue sections (Section~\ref{sec:pq} and \ref{sec:pq_implementation}),
-the Decrease-Key operation is used to change the distance label of a node when the node is already in the heap.
+the Increase-Key operation is used to increase the value of distance label of a node when the node is already in the max-heap.
 It was discovered that the $O(1)$ time has a very high constant factor,
 and Fibonacci heap only works well if the underlying graph is large and dense (i.e.\ every node connects to almost every other node).
 This discovery comes from the fact that 
-the Decrease-Key operation is only used frequently when the graph is dense,
+the Increase-Key operation is only used frequently when the graph is dense,
 so cumulatively its high constant $O(1)$ time will perform better compared to $O(\log(N))$ time in other heap implementations, where $N$ need to be a large number.
 
-We confirm our graph is indeed not dense and the Decrease-Key is not used frequent.
+We confirm our graph is indeed not dense and the Increase-Key is not used frequent.
 We find that all of our graphs are very sparse.
 The degree of any node of any graph is no more than 5,
 as it is already really rare to have an intersection with 5 roads connected.
 The graphs only have about 0.4\% to 0.6\% of arcs in the corresponding complete graph (every node connects to every other node).
 We also find that in all of the experimented graphs when using Dijkstra's algorithm,
-the probability of using Decrease-Key on any node is only around 1 to 5 percent.
+the probability of using Increase-Key on any node is only around 1 to 5 percent.
 
 \section{Results on shortest path algorithms} \label{sec:allresults}
 In Section~\ref{sec:pq_results} we have identified  $\langle$priority\_queue$\rangle$ to be the most suitable (efficient) data structure to be used in Dijkstra's algorithm.
@@ -125,7 +124,7 @@ We use $\langle$priority\_queue$\rangle$, implement and test the following algor
         \item Bidirectional A* search.
 \end{itemize}
 %Therefore we use $\langle$priority\_queue$\rangle$ from the C++ standard template library and implement Dijkstra's algorithms and A* search, as well as their bidirectional versions.
-\begin{figure}[t]
+\begin{figure}[!ht]
     \centering
     \includegraphics[trim=0 2em 0 10em, clip, width=\textwidth]{img/runtime}
     \caption{Run time performances of different algorithms on different networks}
@@ -139,7 +138,7 @@ The networks are spaced out on the horizontal axis to show their relative sizes,
 Bellman-Ford-Moore algorithm has the worst performance while A* search has the best performance on all networks.
 The bidirectional versions of Dijkstra's algorithm and A* search are more than twice slower than their unidirectional versions.
 
-\subsection{Discussion of shortest path algorithms}
+\subsection{Discussion on shortest path algorithms}
 In this section we investigate the reason for the worse performances of the bidirectional algorithms compared to their unidirectional versions. 
 
 First we examine whether search areas of the algorithms are what is expected.
@@ -153,7 +152,7 @@ The behaviour of the algorithms are shown further in Figure~\ref{fig:short_sptre
 where the origin and destination are placed close to each other.
 It can be seen that both Dijkstra's algorithm and its bidirectional version scan almost half of the graph,
 where the bidirectional version scans fewer nodes.
-A* search and its bidirectional search scan a small portion of the graph,
+A* search and its bidirectional version scan a small portion of the graph,
 and they do not scan the area behind the origin and destination node compared to the Dijkstra's algorithm.
 
 The search areas of the bidirectional Dijkstra's algorithms match what is expected,
