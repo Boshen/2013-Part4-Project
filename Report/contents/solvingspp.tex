@@ -422,16 +422,12 @@ The use of heuristic estimates was first described by \citet{Astar},
 where the algorithm is given the name A* search.
 A* search is a goal directed search where the direction of search is aimed towards the destination.
 
-%In traditional road networks,
-%straight Euclidean distances are used for the heuristic estimates.
-
 Let $h_v$ be the heuristic estimate for the shortest path distance between node $v$ to destination $t$.
 We apply Bellman's condition such that an optimal solution exists, that is 
 \begin{align}
     &h_v \leq h_u + c_{uv} \quad \forall(u,v) \in A, \label{eq:A*1}\\
     &h(t) = 0. \label{eq:A*2}
 \end{align}
-
 Although $h_v$ is a heuristic function,
 optimal solutions (i.e.\ shortest path) can still be obtained under the following conditions.
 \citet{Astar} state that the heuristic estimate function $h$ must be admissible and consistent.
@@ -441,7 +437,7 @@ These two conditions mean that
 if the heuristic estimate is smaller than or equal to the actual distance going to the destination,
 then the optimal shortest path can always be found. 
 In graphs that are measured by Euclidean distances,
-the heuristic estimate $h_u$ is the straight Euclidean distance between node $u$ and destination $t$.
+the heuristic estimate $h_v$ is the straight Euclidean distance between node $v$ and destination $t$.
 
 %Note a consistent heuristic is also admissible but not the opposite.
 %\citet{Astar} proves if the heuristic function (such as using geographical coordinates and Euclidean distance) is admissible and consistent,
