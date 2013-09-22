@@ -125,19 +125,19 @@ We use $\langle$priority\_queue$\rangle$, implement and test the following algor
         \item Bidirectional A* search.
 \end{itemize}
 %Therefore we use $\langle$priority\_queue$\rangle$ from the C++ standard template library and implement Dijkstra's algorithms and A* search, as well as their bidirectional versions.
+\begin{figure}[t]
+    \centering
+    \includegraphics[trim=0 2em 0 10em, clip, width=\textwidth]{img/runtime}
+    \caption{Run time performances of different algorithms on different networks}
+    \label{fig:allresults}
+\end{figure}
+
 Figure~\ref{fig:allresults} shows the performance of the mentioned algorithms on the Anaheim, Barcelona, Winnipeg and Chicago Sketch networks
 (see Table~\ref{table:allresults} of Appendix~\ref{appendix} for exact numerical results).
 The networks are spaced out on the horizontal axis to show their relative sizes, i.e.\ the number of O-D pairs.
 
 Bellman-Ford-Moore algorithm has the worst performance while A* search has the best performance on all networks.
 The bidirectional versions of Dijkstra's algorithm and A* search are more than twice slower than their unidirectional versions.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\textwidth]{img/runtime}
-    \caption{Run time performances of different algorithms on different networks}
-    \label{fig:allresults}
-\end{figure}
 
 \subsection{Discussion of shortest path algorithms}
 In this section we investigate the reason for the worse performances of the bidirectional algorithms compared to their unidirectional versions. 
@@ -180,7 +180,18 @@ This procedure is similar to that of pre-processing algorithms,
 where we need to pre-process the network so subsequent queries can be made faster.
 In our A* search results, the run times included the pre-processing and the overall run time is still faster than all the other tested algorithms.
 
-\begin{figure}
+\section{A* search with landmarks}
+A* search with landmarks algorithm is not implemented for this project.
+This is due to its sophisticated graph dependent implementation,
+where we need to either manually or dynamically decide the number of landmarks and their location placements.
+And also there is a high chance of not being able to work efficiently,
+as the algorithm is aimed at geographic node locations and Euclidean distances,
+not travel times based on traffic flows.
+Using zero-flow travel times may work but it was decided not to investigate this further.
+Instead, we focus on strategies that avoid some of the shortest path computations altogether in the path equilibration algorithm.
+
+
+\begin{figure}[H]
     \centering
     \begin{subfigure}{.5\textwidth}
         \centering
@@ -211,7 +222,7 @@ In our A* search results, the run times included the pre-processing and the over
     \label{fig:long_sptree}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}{.5\textwidth}
         \centering
@@ -241,14 +252,4 @@ In our A* search results, the run times included the pre-processing and the over
     \caption{Shortest path tree between two close nodes in the Chicago Sketch network}
     \label{fig:short_sptree}
 \end{figure}
-
-\section{A* search with landmarks}
-A* search with landmarks algorithm is not implemented for this project.
-This is due to its sophisticated graph dependent implementation,
-where we need to either manually or dynamically decide the number of landmarks and their location placements.
-And also there is a high chance of not being able to work efficiently,
-as the algorithm is aimed at geographic node locations and Euclidean distances,
-not travel times based on traffic flows.
-Using zero-flow travel times may work but it was decided not to investigate this further.
-Instead, we focus on strategies that avoid some of the shortest path computations altogether in the path equilibration algorithm.
 

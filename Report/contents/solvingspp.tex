@@ -161,7 +161,7 @@ updates its distance label if Bellman's condition is violated for all its emanat
     \While{ $\mathcal{Q} \neq \emptyset$ }
     \State $ u \gets \text{next}(\mathcal{Q}) $ \Comment{select next node}
     \State $ \mathcal{Q} \gets \mathcal{Q} \setminus \{u\} $
-    \If{$u \text{ is not zone } \text{\bfseries or } u = s$}
+    \If{$u \text{ is not zone } \text{\textbf or } u = s$}
     \ForAll {$v : (u, v) \in A$} \Comment{check Bellman's condition for all successors of $u$}
     \If {$d_u + c_{vw} < d_v$}
     \State $d_v \gets d_u + c_{vw}$
@@ -259,7 +259,7 @@ The Decrease-Key (line 19) is used for updating the distance label if the node i
     \If{$u = t$}
     \State $\text{Terminate Procedure}$ \Comment{finish if next node is the destination}
 \EndIf
-    \If{$u \text{ is not zone } \text{\bfseries or } u = s$}
+    \If{$u \text{ is not zone } \text{\textbf or } u = s$}
 \ForAll {$v : (u, v) \in A$} \Comment{check Bellman's condition for all successors of $u$}
 \If {$d_u + c_{vw} < d_v$}
 \State $d_v \gets d_u + c_{vw}$
@@ -639,20 +639,20 @@ i.e.\ around the outer boundary of the graph.
     \tikzstyle{line} = [draw, decoration={markings, mark=at position 0.5 with {\arrow{>}}}, postaction={decorate}]
     \begin{subfigure}[t]{.4\textwidth}
         \centering
-        \begin{tikzpicture}[>=stealth', line width=1pt]
+        \begin{tikzpicture}[>=stealth', line width=1pt, auto, scale=0.9]
             \node [node, label={[xshift=5pt, yshift=0pt]$v$}] (v) at (0,0) {};
             \node [node, label={[xshift=5pt, yshift=0pt]$t$}] (t) at (4,0) {};
             \node [node, label={[xshift=5pt, yshift=0pt]$L$}] (L) at (-2,1) {};
             \path [line,blue] (L) -- (t);
             \path [line,blue] (L) -- (v);
             \path [line, dashed] (v) -- (t);
-        \end{tikzpicture}%
+        \end{tikzpicture}
         \caption{Landmark placed before $v$}
     \end{subfigure}
     \hspace{1cm}
     \begin{subfigure}[t]{.4\textwidth}
         \centering
-        \begin{tikzpicture}[>=stealth', line width=1pt]
+        \begin{tikzpicture}[>=stealth', line width=1pt ,auto, scale=0.9]
             \node [node, label={[xshift=5pt, yshift=0pt]$v$}] (v) at (0,0) {};
             \node [node, label={[xshift=5pt, yshift=0pt]$t$}] (t) at (4,0) {};
             \node [node, label={[xshift=5pt, yshift=0pt]$L$}] (L) at (6,1) {};

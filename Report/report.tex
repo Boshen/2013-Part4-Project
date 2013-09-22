@@ -14,6 +14,8 @@
 
 \usepackage[nottoc,notlof,notlot]{tocbibind}
 \usepackage[sort,authoryear,round]{natbib}
+\usepackage{etoolbox}
+\apptocmd{\sloppy}{\hbadness 10000\relax}{}{}
 
 \usepackage[pdftex]{graphicx}
 
@@ -52,14 +54,14 @@
 \setcounter{tocdepth}{3}
 %\setlength\parindent{0pt}
 
-\setlength{\marginparwidth}{2cm}
-\reversemarginpar
+%\setlength{\marginparwidth}{2cm}
+%\reversemarginpar
 
-\lstset{
-    language=C++, numbers=left, numberstyle=\tiny, stepnumber=1,
-    frame=single, breaklines=true, showstringspaces=false, tabsize=4,
-    commentstyle=\itshape\color{gray}, basicstyle=\footnotesize\ttfamily\bfseries, morekeywords={def}
-}
+%\lstset{
+%    language=C++, numbers=left, numberstyle=\tiny, stepnumber=1,
+%    frame=single, breaklines=true, showstringspaces=false, tabsize=4,
+%    commentstyle=\itshape\color{gray}, basicstyle=\footnotesize\ttfamily\bfseries, morekeywords={def}
+%}
 
 \usepackage{url}
 \usepackage[bookmarks]{hyperref}
@@ -71,8 +73,8 @@
     pdfauthor={Boshen Chen}
 }
 
-\usepackage[draft, shadow, color=gray!15, linecolor=black]{todonotes} % disable, draft
-\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{ \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
+%\usepackage[draft, shadow, color=gray!15, linecolor=black]{todonotes} % disable, draft
+%\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{ \begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
 
 \titleformat{\chapter}[display]   
 {\normalfont\Huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}   

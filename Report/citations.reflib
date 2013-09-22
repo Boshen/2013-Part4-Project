@@ -662,14 +662,6 @@
     <bib_number>4</bib_number>
     <bib_pages>309-315</bib_pages>
     <bib_year>1978</bib_year>
-    <bib_extra key="Acmid">359478</bib_extra>
-    <bib_extra key="Address">New York, NY, USA</bib_extra>
-    <bib_extra key="Issn">0001-0782</bib_extra>
-    <bib_extra key="Issue_date">April 1978</bib_extra>
-    <bib_extra key="Keywords">binary trees, data structures, implementation of set operations, mergeable heaps, priority queues</bib_extra>
-    <bib_extra key="Month">apr</bib_extra>
-    <bib_extra key="Numpages">7</bib_extra>
-    <bib_extra key="Publisher">ACM</bib_extra>
   </doc>
   <doc>
     <filename></filename>
@@ -709,7 +701,7 @@
     <relative_filename></relative_filename>
     <key>Olga2013</key>
     <notes></notes>
-    <bib_type>article</bib_type>
+    <bib_type>misc</bib_type>
     <bib_doi></bib_doi>
     <bib_title>A Computational Study of Traffic Assignment Algorithms</bib_title>
     <bib_authors>Olga Perederieieva and Matthias Ehrgott and Judith Y. T. Wang and Andrea Raith</bib_authors>

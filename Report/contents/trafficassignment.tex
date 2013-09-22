@@ -172,9 +172,9 @@ In a step of the algorithm,
 path flows $h_k$ ($\forall k \in K_i$) between a single O-D pair $i \in I$ are considered by keeping the flows of all other O-D pairs fixed.
 The algorithm iteratively solves each O-D pair sub-problem until any of them cannot be improved.
 
-The sub-problem for solving each O-D pair $i \in I$ is another fixed-demand network equilibrium problem.
+The sub-problem for solving each O-D pair $i \in I$ is another fixed-demand network equilibrium problem:
 \begin{align} \label{eq:sb1}
-    \min & \quad \sum_{a \in A} \int_0^{v_a^i + \bar{v}_a} c_a(x) \mathrm{d} x \\
+    \min & \quad \sum_{a \in A} \int_0^{v_a^i + \bar{v}_a} c_a(x) \mathrm{d} x.\\
     \text{s.t.} &\quad \sum_{k \in K_i} h_k = \bar{g}_i, \quad i \in I, \\
     & \quad h_k \geq 0, \quad k \in K_i,
 \end{align}
@@ -187,6 +187,8 @@ and flows $v_a^i$ are varied:
     v_a^i = \sum_{k \in K_i} \delta_{ak} h_k.
 \end{equation}
 
+
+\newpage
 The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated as follows.
 \begin{table}[H]
     \begin{tabular}{ m{0.8\textwidth} }
