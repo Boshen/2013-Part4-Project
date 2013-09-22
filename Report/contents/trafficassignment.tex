@@ -8,16 +8,16 @@ This leads to the problem of travellers wishing to find the fastest route to tra
 meanwhile taking account of congestion while every other traveller is trying to do the same.
 In transportation modelling point of view,
 we wish to find a traffic flow pattern in the network with a given travel demand between the origin and destination pairs. 
-This is called the Traffic Assignment Problem.
+This is called the \emph{traffic assignment problem}.
 
-The Traffic Assignment Problem is commonly solved by traffic equilibrium models.
+The traffic assignment problem is commonly solved by traffic equilibrium models.
 The notion of traffic equilibrium was first formalized by \cite{Wardrop},
 where he introduced the postulate of the minimisation of the total travel costs.
 His first principle states that ``the journey times on all routes actually used are equal and less than those which would be experienced by a simple vehicle of any unused route.''
 %Under the assumption that the travellers have complete knowledge about the network and they always choose the best route to travel based on the current information about the network,
 %The principle means that the traffic is in equilibrium when no traveller in the network can find a faster route than the one that is already being travelled on.
 The traffic flows that satisfy this principle are referred to as ``user optimal'' flows,
-as each traveller chooses the route which is the best for them.
+as each traveller chooses the route that is the best for them.
 %On the other hand,
 %we can also find traffic flows that are ``system optimal'',
 %which is characterized by Wardrop's second principle, stating that ``the average journey time is minimum''.
@@ -30,11 +30,11 @@ Finally the motivation of this project in the context of solving the traffic ass
 \section{The deterministic network equilibrium model}
 %In this section,
 %the deterministic symmetric network equilibrium model for solving the user optimal of the traffic assignment is summarised.
-In order to formulate a model for solving the traffic assignment problem,
-two assumptions are made.
+In order to formulate a mathematical model for solving the traffic assignment problem,
+two assumptions are commonly made.
 We assume deterministic traffic flows and fixed demand,
 and the change of travel time on any link does not depend on the change of traffic flows on the other links.
-These assumptions are commonly made, they allow us to formulate the traffic assignment model as a mathematical program.
+%These assumptions are commonly made, they allow us to formulate the traffic assignment model as a mathematical program.
 %The model assumes the link cost functions are separable, i.e.\ the function values are only dependent on the flows on the link itself, not other flows that do not belong to that link.
 %The model also assumes the traffic demand of the network is fixed.
 
@@ -46,7 +46,7 @@ and the cost of travelling on a link is given by the link cost function $c_a(v)$
 where $v$ is the vector of link flows over the entire network.
 
 Let $I$ be the set of origin-destination (O-D) pairs
-and $K_i$ be the set of cycle-free paths for O-D pair $i \in I$.
+and $K_i$ be the set of cycle-free paths for O-D pair $\forall i \in I$.
 The origin to destination traffic demands $g_i$ ($i \in I$) are distributed over directed paths $k \in K_i$,
 and it is assumed $K_i \neq \emptyset$ and $K = \cup_{i \in I} K_i$.
 Let $h_k$ be the flows on paths $k$ that satisfy the conservation of flow and non-negativity constraints:
@@ -68,7 +68,7 @@ where
 \end{equation}
 
 In order to solve for user-optimal flows,
-the \citep{Wardrop} user-equilibrium condition is applied:
+the \citet{Wardrop} user-equilibrium condition is applied:
 \begin{equation} \label{wardrop1}
     c_k(v^{\ast}) - u_i^{\ast} 
     \begin{cases}
@@ -143,7 +143,6 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
 \end{figure}
 
 \section{Solving the traffic assignment problem}
-
 Different methods exist for solving the traffic assignment problem.
 They are classified by how the solution is presented.
 They include link-based, path-based and origin-based.
@@ -167,7 +166,7 @@ As a result, the development of path-based algorithm has only began in the last 
 
 \section{The path equilibration algorithm}
 The general approach of the path equilibration algorithm is equivalent to
-Gauss-Seidel decomposition (an iterative method for solving a linear system of equations).
+Gauss-Seidel decomposition, which is an iterative method for solving a linear system of equations.
 In a step of the algorithm,
 path flows $h_k$ ($\forall k \in K_i$) between a single O-D pair $i \in I$ are considered by keeping the flows of all other O-D pairs fixed.
 The algorithm iteratively solves each O-D pair sub-problem until any of them cannot be improved.
@@ -199,7 +198,7 @@ The Gauss-Seidel decomposition (or `cyclic decomposition' by O-D pair) is stated
     \end{tabular}
 \end{table}
 
-The path equilibration algorithm for solving \eqref{eq:sb1}-\eqref{eq:sb5} 
+The path equilibration algorithm for solving the sub-problem \eqref{eq:sb1}-\eqref{eq:sb5} 
 finds the solution of the traffic assignment problem by balancing path flows between each O-D pair,
 it finds the shortest and longest path and equalizes the travel times between them.
 Let $K_i^{+} = \left\{ k \in K_i | h_k > 0 \right\}$ be the set of paths with positive flows.
@@ -265,7 +264,7 @@ And the lower bound refers to the all-or-nothing (AON) assignment in step 0 of t
 
 The relative gap (RGAP) is computed as
 \begin{align}
-    \text{RGAP} &= \frac{\text{UE} - \text{AON}}{\text{UE}} \\
+    \text{RGAP} &= \frac{\text{UE} - \text{AON}}{\text{UE}} \nonumber \\
     &= \frac{\sum_{a \in A} v_a c_a - \sum_{i \in I} g_i c_{\tilde{k}_i}}{\sum_{a \in A} v_a c_a}.
 \end{align}
 The AON solution is the sum of travel times $c_{\tilde{k}_i}$ of each traffic demand $g_i$ travelling on their shortest path $\tilde{k}_i$.

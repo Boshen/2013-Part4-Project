@@ -16,7 +16,7 @@
 \usepackage[center,labelformat=empty, font=normal]{caption}
 \usepackage[labelformat=empty, font=normal]{subcaption}
 
-\beamertemplategridbackground[1cm]
+%\beamertemplategridbackground[1em]
 
 
 \begin{document}
@@ -44,26 +44,36 @@
                 \end{itemize}
             \end{block}
 
-            \begin{block}{}
+            \begin{block}{Shortest Path Algorithms}
+                \begin{itemize}
+                    \item find path with least distance in network
+                    \item scan nodes in network in some order until destination is found
+                    \item need a data structure called \alert{priority queue} to keep the scanned nodes in order so we can find the next node to scan easily
+                \end{itemize}
+                \begin{itemize}
+                    \item in PE, can avoid shortest path calculations to speed up overall performance
+                    \item first strategy: avoid the next few iterations if the shortest path of the previous two iterations are the same
+                    \item second strategy: randomly avoid the next shortest path calculation in the hope that path of previous and current iteration are the same
+                \end{itemize}
             \end{block}
 
         \end{column}
         \begin{column}{.4\linewidth}
 
-            \begin{block}{Shortest Path Algorithms}
+            \begin{block}{Search Areas of Shortest Path Algorithms}
                     \vspace{2em}
                 \begin{figure}
                     \centering
                     \begin{subfigure}{.5\linewidth}
                         \centering
-                        {\bf Dijkstra's algorithm }
+                        {\bfseries Dijkstra's algorithm }
                         \includegraphics[width=\linewidth,trim=120px 120px 48px 60px,clip]{img/dijkstra}
                         \caption{searches the entire network}
                     \vspace{2em}
                     \end{subfigure}%
                     \begin{subfigure}{.5\linewidth}
                         \centering
-                        {\bf Bidirectional Dijkstra's algorithm}
+                        {\bfseries Bidirectional Dijkstra's algorithm}
                         \includegraphics[width=\linewidth,trim=120px 120px 48px 60px,clip]{img/dijkstra_bidirect}
                         \caption{searches from both ends simultaneously}
                     \vspace{2em}
@@ -71,13 +81,13 @@
                     \begin{subfigure}{.5\linewidth}
                         \vspace{-1.5em}
                         \centering
-                        {\bf A* Search}
+                        {\bfseries A* Search}
                         \includegraphics[width=\linewidth,trim=120px 120px 48px 60px,clip]{img/astar}
                         \caption{searches along the expected shortest path}
                     \end{subfigure}%
                     \begin{subfigure}{.5\linewidth}
                         \centering
-                        {\bf Bidirectional A* Search}
+                        {\bfseries Bidirectional A* Search}
                         \includegraphics[width=\linewidth,trim=120px 120px 48px 60px,clip]{img/astar_bidirect}
                         \caption{searches along the expected shortest path from both ends simultaneously} 
                     \end{subfigure}
@@ -87,13 +97,28 @@
         \end{column}
         \begin{column}{.28\linewidth}
             
-            \begin{block}{Recommendations}
-            \end{block}
-
             \begin{block}{Results}
+                \begin{figure}
+                    \centering
+                    {\bfseries \qquad Run times of shortest path algorithms on a test network}
+                    \includegraphics[width=\linewidth]{img/runtime}
+                \end{figure}
+                \begin{figure}
+                    \centering
+                    {\bfseries \qquad Run times of Dijkstra's algorithm run times\\ \qquad using different priority queues}
+                    \includegraphics[width=\linewidth]{img/pq_runtime}
+                \end{figure}
+                \begin{figure}
+                    \centering
+                    {\bfseries \qquad Run times of A* search using avoiding\\ \qquad shortest path calculation strategies}
+                    \includegraphics[width=\linewidth]{img/random_runtime}
+                \end{figure}
             \end{block}
 
             \begin{block}{Conclusions}
+                \begin{itemize}
+                    \item best performance : A* search algorithm with random skipping strategy
+                \end{itemize}
             \end{block}
 
         \end{column}

@@ -18,7 +18,7 @@ times = [[1.2, 60, 190, 500],
         [0.1, 2.99, 10.42, 18.75],
         [0.28, 8.02, 24.81, 59.82]]
 
-pylab.figure(figsize=(30,20),dpi=300)
+pylab.figure(figsize=(32,20),dpi=300)
 
 for time, shape in zip(times, shapes):
     pylab.plot(zones, time, shape, markersize=30)

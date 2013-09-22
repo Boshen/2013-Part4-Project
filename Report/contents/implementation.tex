@@ -40,7 +40,7 @@ All of these implementations are studied for this project.
 First we examine six variants of heap implementations from the C++ Boost $\langle$heap$\rangle$ library shown in Table~\ref{table:heaps}.
 In the table, $N$ is the number of elements in the priority queue and
 the time complexities are measured in amortized time.
-Extract-Max and Increase-Key are referred to as Extract-Min and Decrease-Key in Chapter~\ref{chap:solvingspp}.
+Extract-Max and Increase-Key are referred as Extract-Min and Decrease-Key in Chapter~\ref{chap:solvingspp}.
 Extract-Max and Increase-Key are used because
 all Boost library heaps are implemented as max-heap trees,
 elements are ordered from large to small in the tree so
@@ -63,13 +63,13 @@ the largest element is extracted first.
 \end{table}
 Theories and analysis of these heap implementations can be found in \citet{Johnson1975} for Binary and Ternary, \citet{Vuillemin1978} for Binomial, \citet{Fredman} for Fibonacci, \citet{Fredman1986} for Pairing, and \citet{Sleator1986} for Skew.
 
-We are interested in using Boost library heaps rather than the C++ standard library heap due to one reason:
+We are interested in using Boost library heaps rather than the C++ standard template library heap due to one reason:
 the Increase-Key operation.
-The operation is used to change the distance labels in the priority queue when a node is scanned and updated during the shortest path calculations.
+The operation is used to change the distance labels in the priority queue when a node is scanned and updated during shortest path calculations.
 In Dijkstra's algorithm,
 nodes are often scanned multiple times in the label updating step,
 so instead of adding the node again into the heap tree with a difference value,
-we can use the Increase-Key operation.
+we can use the Increase-Key operation to increase the value of the node's distance label.
 The advantage of using this operation is that we can reduce the size of the heap tree, which results in a performance improvement as it takes less time to search and insert nodes to smaller heap trees.
 Since Boost library heaps are max-heap trees,
 all distance labels need to be negated when inserting them into the heap
@@ -81,23 +81,24 @@ It has a constant amortized $O(1)$ time for the Insert and Increase-Key operatio
 This is very attractive for us,
 but the problem is that we do not know how much constant time it really uses behind its big $O$ notation.
 
-Next we examine $\langle$priority\_queue$\rangle$ from the C++ standard template library,
-which provides $O(\log(N))$ Insert and Extract-Min operation.
-This implementation neither has the Increase-Key operation nor a way to change node values or delete a node somewhere other than the top of the heap tree.
+Next we examine $\langle$priority\_queue$\rangle$ from the C++ standard template library.
+$\langle$priority\_queue$\rangle$ is implemented as binary min-heap tree.
+It provides $O(\log(N))$ Insert and Extract-Min operation.
+This implementation neither has the Decrease-Key operation nor a way to change node values or delete a node somewhere other than the top of the heap tree.
 So when solving the shortest path problem,
-the priority queue is going to contain many nodes several times but with different distance labels.
+the priority queue is going to contain the same nodes several times but with different distance labels.
 This is not a problem for our shortest path algorithms.
 When a node is added to the queue more than once with different distance labels,
-the one with the smaller distance label is always going to be in front of the queue waiting to be labelled first,
+the one with the smaller distance label is always going to be in front of the queue waiting to be extracted and labelled first,
 so when that node is labelled,
 all the other same nodes with larger distance labels in the queue will not affect finding the shortest path,
 this is because the successors of those nodes have already been assigned with smaller distance labels.
 
-Finally we examine $\langle$set$\rangle$ from the C++ standard library.
+Finally we examine $\langle$set$\rangle$ from the C++ standard template library.
 A \emph{set} is a data structure used to store unique elements that follow a specific order.
-In the C++ standard library, it is implemented as a red-black binary search tree.
+In the C++ standard template library, it is implemented as a red-black binary search tree.
 This data structure can be used for our shortest path algorithms because it provides $O(\log(N))$ insert, search and delete operations.
-For our shortest path algorithms (i.e.\ Dijkstra's algorithm and A* search),
+For our shortest path algorithms,
 we can modify them to accommodate the unique elements and specific ordering requirement.
 To meet the unique elements requirement,
 instead of using the Increase-key operation whenever a node needs to be updated,

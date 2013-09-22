@@ -1,12 +1,13 @@
 \chapter*{Abstract}
+\thispagestyle{empty}
 The Traffic Assignment (TA) problem involves the selection of optimal path for every vehicle in a transportation network subject to congestion.
 One method for solving TA is the Path Equilibration (PE) algorithm.
 PE requires to find the shortest path repeatedly between every origin and destination pair in the network for a large number of iterations,
 while the travel times of the roads change due to congestion.
 The aim of this project is to find a faster shortest path algorithm for PE.
 Dijkstra's algorithm, A* search and their bidirectional versions and eight different versions of priority queue data structures that improve these algorithms' performance are implemented.
-Two strategies for skipping shortest paths altogether in the iterative environment of PE are also developed.
+Two strategies for avoiding shortest paths altogether in the iterative environment of PE are also developed.
 The first strategy is to avoid the next few iterations when the shortest path of the previous two iterations are the same.
 The second strategy is to randomly skip the next shortest path calculation in the hope for the situation where the previous and current iteration is going to be the same.
-We present experimental results that demonstrate the run time differences between the priority queues, shortest path algorithms and path calculation skipping strategies.
-We conclude A* search algorithm using the priority queue implementation from the C++ standard template library with random skipping strategy has the best performance.
+We present experimental results that demonstrate the run time differences between the priority queues, shortest path algorithms and path calculation avoiding strategies.
+We conclude A* search algorithm using the priority queue implementation from the C++ standard template library with random avoiding strategy has the best performance.

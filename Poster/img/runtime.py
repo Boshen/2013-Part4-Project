@@ -1,19 +1,23 @@
 import pylab
 from matplotlib.font_manager import FontProperties
+import matplotlib.gridspec as gridspec
 
 font = FontProperties()
 #font.set_family('serif')
-font.set_size(18)
+font.set_size(26)
 
 times =  [500, 87.52, 157.75, 18.75, 59.82, 0.001]
 
 algos = ['Bellman-Ford\n(existing)', 'Dijkstra', 'Bidirectional\nDijkstra', 'A* search', 'Bidirectional\nA* search', '']
 
-index = range(1, len(times)+1)
+index = [1,2,3,4,5,5.7]
 
-#pylab.figure(figsize=(20,20),dpi=150)
+fig = pylab.figure(figsize=(18,8),dpi=150)
 
-fig,(ax,ax2) = pylab.subplots(2, 1, sharex=True, figsize=(16,16),dpi=150)
+gs = gridspec.GridSpec(2, 1, height_ratios=[1,2])
+
+ax =  pylab.subplot(gs[0])
+ax2 = pylab.subplot(gs[1], sharex=ax)
 
 p1 = ax.bar(index, times, width=0.5, align='center')
 p2 = ax2.bar(index, times, width=0.5, align='center')
@@ -21,19 +25,19 @@ p2 = ax2.bar(index, times, width=0.5, align='center')
 pylab.setp(p1, color='#0044FF')
 pylab.setp(p2, color='#0044FF')
 
-ax.set_ylabel('Run Time\n(seconds)', {'rotation':'horizontal'},ha='left', va = 'top', fontproperties=font)#fontsize = 9)
+ax.set_ylabel('Run\nTime\n(seconds)', {'rotation':'horizontal'},ha='left', va = 'top', fontproperties=font)#fontsize = 9)
 
 ax.set_ylim(400, 500)
 ax2.set_ylim(0, 200)
 
 pylab.xticks(index, algos, fontproperties=font)
 
-ax.yaxis.set_tick_params(labelsize=18)
-ax2.yaxis.set_tick_params(labelsize=18)
+ax.yaxis.set_tick_params(labelsize=24)
+ax2.yaxis.set_tick_params(labelsize=24)
 
-ax.yaxis.set_label_coords(-0.13, -0.06)
+ax.yaxis.set_label_coords(-0.13, -.3)
 
-ax.yaxis.set_ticks(range(300,550,50))
+ax.yaxis.set_ticks(range(400,550,50))
 ax2.yaxis.set_ticks(range(0,250,50))
 
 ax.spines['bottom'].set_visible(False)

@@ -11,6 +11,8 @@
 \usepackage{parskip}
 \usepackage[pagestyles]{titlesec}
 \usepackage{fancyhdr}
+\usepackage{perpage}
+\MakePerPage{footnote}
 
 \usepackage[nottoc,notlof,notlot]{tocbibind}
 \usepackage[sort,authoryear,round]{natbib}
@@ -97,9 +99,7 @@
 \pagenumbering{roman}
 
 \newpage
-\thispagestyle{empty}
 \include{./contents/abstract}
-\thispagestyle{empty}
 \include{./contents/acknowledgement}
 \setcounter{page}{3}
 
