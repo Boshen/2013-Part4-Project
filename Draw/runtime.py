@@ -38,7 +38,7 @@ for (i, j) in zip([620000, 1437860, 1437860, 1437860, 1437860], [140, 65, 100, 1
     k += 1
 
 pylab.title('Algorithm run times on different networks', fontproperties=font2)
-pylab.ylabel('Run Time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font2)
+pylab.ylabel('Run Time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
 #pylab.xlabel('Number of Origin-Destination Pairs', fontproperties=font)
 pylab.xlabel('Networks', fontproperties=font2)
 x1, x2, y1, y2 = pylab.axis()

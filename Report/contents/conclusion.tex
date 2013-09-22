@@ -4,7 +4,7 @@ in this project we have studied the point-to-point shortest path problem embedde
 We have implemented Dijkstra's algorithm, A* search and their bidirectional versions.
 We also tested eight different priority queues for the shortest path algorithms.
 Two strategies were developed to improve the performance of these shortest path algorithms when they are used in the iterative path equilibration algorithm.
-The first strategy is to avoid the next few number of iterations
+The first strategy is to avoid the next few iterations
 when the shortest path of the previous two iterations are the same.
 The second strategy is to randomly skip the next shortest path calculation,
 with the hope that the shortest path in the current and previous iteration is going to be the same.
@@ -17,10 +17,10 @@ We now conclude this project with the following results:
     \item The priority queue implementation from the C++ standard template library has the best performance compared to the six implementations from the C++ Boost library and binary search tree from the C++ standard template library.
     \item A* search algorithm using zero-flow travel times as heuristic estimates has the best performance.
     \item Bidirectional versions of Dijkstra's algorithm and A* search have worse performances. Bidirectional Dijkstra is worse because it has to check the stopping criterion at each step. Bidirectional A* is worse because its search area is larger than that of unidirectional A*.
-    \item The strategy of avoiding next few iterations of shortest path calculations is viable when small number of iterations are skipped.
+    \item The strategy of avoiding the next few iterations of shortest path calculations is viable when small number of iterations are skipped.
     \item The strategy of avoiding the shortest path calculations randomly is viable. By using A* search and 50\% random skipping on large networks that require millions of shortest path calculations in each iteration, the run times are further improved by about 25\% compared to just using A* search.
     %\item Preprocessing shortest path algorithms are not applicable for the traffic assignment problem, due to their long preprocessing time can slow down the whole traffic assignment process when the road network need to be changed frequently.
-    %\item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. \todo{is applicable, need more research}
+    %\item A* search with landmarks is not applicable unless we decide to concentrate on a specific road network, for example the Auckland Regional Transport model. 
 \end{itemize}
 
 \section{Future work}
@@ -35,20 +35,17 @@ We now conclude this project with the following results:
         The main modification of the algorithm is that instead of sequentially updating all out-going arcs from the labelled node,
         we update them in parallel using multiple threads.
 
-    \item A* search with landmarks algorithm may be applicable for our problem but need to be studied further.
-        This algorithm is difficult to implement. 
-        This is because the number of landmarks to use and deciding their placements is another optimisation problem.
+    \item A* search with landmarks algorithm may be applicable for our problem but needs to be studied further.
+        This algorithm is difficult to implement,
+        this is because the number of landmarks to use and deciding their placements is another optimisation problem.
         Tests need to be done in order to find the best performance.
 
     \item A family of algorithms exists for dynamically changing graphs,
         including graphs that have moving nodes or changing arcs.
-        One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A*, developed by \citet{LPA*}.
-        This algorithm may be applicable to our traffic assignment problem but more study need to be done.
+        One particular algorithm that tackles the problem of changing arc costs is the Lifelong Planning A* (LPA*), developed by \citet{LPA*}.
+        \citet{LPA*} were able to show experimentally that LPA* is more efficient than A* if the change in arc costs are close to the destination.
+        This means LPA* may be applicable for traffic assignment but more study needs to be done.
 \end{itemize}
 
-\todo[inline]{I'm deciding not to include the following future work, I don't know how to describe their details\ldots}
-\todoin[inline]{Run PE for a number of iterations, don't add any path until it is equilibrated}
-\todoin[inline]{one might also consider parallel shortest path runs in TA}
-
-
-%\todo[inline]{decided not to implement because \ldots need to read the paper again}
+%\todoin[inline]{Run PE for a number of iterations, don't add any path until it is equilibrated}
+%\todoin[inline]{one might also consider parallel shortest path runs in TA}

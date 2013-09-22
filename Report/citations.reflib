@@ -704,5 +704,20 @@
     <bib_extra key="Issn">0020-0190</bib_extra>
     <bib_extra key="Keywords">Graph algorithm; heap; minimum spanning tree; priority queue </bib_extra>
   </doc>
+  <doc>
+    <filename></filename>
+    <relative_filename></relative_filename>
+    <key>Olga2013</key>
+    <notes></notes>
+    <bib_type>article</bib_type>
+    <bib_doi></bib_doi>
+    <bib_title>A Computational Study of Traffic Assignment Algorithms</bib_title>
+    <bib_authors>Olga Perederieieva and Matthias Ehrgott and Judith Y. T. Wang and Andrea Raith</bib_authors>
+    <bib_journal></bib_journal>
+    <bib_volume></bib_volume>
+    <bib_number></bib_number>
+    <bib_pages></bib_pages>
+    <bib_year>2013</bib_year>
+  </doc>
 </doclist>
 </library>

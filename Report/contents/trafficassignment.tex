@@ -21,7 +21,6 @@ as each traveller chooses the route which is the best for them.
 %On the other hand,
 %we can also find traffic flows that are ``system optimal'',
 %which is characterized by Wardrop's second principle, stating that ``the average journey time is minimum''.
-\todo[inline]{removed system optimal, the report does not mention system optimal anywhere anymore}
 
 In this chapter,
 the network equilibrium model is first stated.
@@ -29,14 +28,13 @@ Then a particular solution algorithm for solving such a model is described.
 Finally the motivation of this project in the context of solving the traffic assignment problem is brief explained.
 
 \section{The deterministic network equilibrium model}
-\todo[inline]{excluded ` symmetric', it is too confusing}
 %In this section,
 %the deterministic symmetric network equilibrium model for solving the user optimal of the traffic assignment is summarised.
 In order to formulate a model for solving the traffic assignment problem,
 two assumptions are made.
 We assume deterministic traffic flows and fixed demand,
 and the change of travel time on any link does not depend on the change of traffic flows on the other links.
-These assumptions may not be realistic \todo{keep this realistic part?} but they allow us to formulate the traffic assignment model as a mathematical program.
+These assumptions are commonly made, they allow us to formulate the traffic assignment model as a mathematical program.
 %The model assumes the link cost functions are separable, i.e.\ the function values are only dependent on the flows on the link itself, not other flows that do not belong to that link.
 %The model also assumes the traffic demand of the network is fixed.
 
@@ -52,8 +50,8 @@ and $K_i$ be the set of cycle-free paths for O-D pair $i \in I$.
 The origin to destination traffic demands $g_i$ ($i \in I$) are distributed over directed paths $k \in K_i$,
 and it is assumed $K_i \neq \emptyset$ and $K = \cup_{i \in I} K_i$.
 Let $h_k$ be the flows on paths $k$ that satisfy the conservation of flow and non-negativity constraints:
-\begin{align} \label{model_1}
-    \sum_{k \in K_i} h_k & = g_i \quad \forall i \in I,  \\
+\begin{align} \label{eq:ta1}
+    \sum_{k \in K_i} h_k & = g_i \quad \forall i \in I, \\
     h_k &\geq 0 \quad \forall k \in K.
 \end{align}
 The corresponding link flows $v_a$ are given by:
@@ -61,7 +59,7 @@ The corresponding link flows $v_a$ are given by:
     v_a = \sum_{k \in K} \delta_{ak} h_k \quad \forall a \in A,
 \end{equation}
 where
-\begin{equation} \label{model_4}
+\begin{equation} \label{eq:ta4}
     \delta_{ak} = 
     \begin{cases}
         1 & \text{if link $a$ is on path $k$},\\
@@ -71,7 +69,6 @@ where
 
 In order to solve for user-optimal flows,
 the \citep{Wardrop} user-equilibrium condition is applied:
-
 \begin{equation} \label{wardrop1}
     c_k(v^{\ast}) - u_i^{\ast} 
     \begin{cases}
@@ -94,12 +91,12 @@ Furthermore, this condition assumes that the travellers have complete knowledge 
 they always choose the best route to travel based on the current information about the network.
 This means the equilibrium is the result of everybody simultaneously attempting to minimise their own travel costs.
 
-With constraints \eqref{model_1} - \eqref{model_4},
-the user optimal objective is
+With constraints \eqref{eq:ta1} - \eqref{eq:ta4},
+the user optimal optimisation problem has objective
 \begin{equation} \label{eq:user_optimal}
     \min S(v) = \sum_{a\in A} \int_0^{v_a} c_a(x) \mathrm{d} x.
 \end{equation}
-It has been shown in \citet{Florian} that Equation~\ref{eq:user_optimal} gives the result to the user-equilibrium solution.
+It has been shown in \citet{Florian} that optimisation problem~\eqref{eq:user_optimal}, \eqref{eq:ta1}-\eqref{eq:ta4} has the user-equilibrium solution as the optimal solution.
 
 The \citet{BPR} (BPR) link cost function
 $c_a(v_a)$ is often used to model the travel time on link $a \in A$.
@@ -146,7 +143,6 @@ An example of this link cost function is shown in Figure~\ref{fig:flowfunction}
 \end{figure}
 
 \section{Solving the traffic assignment problem}
-\todo[inline]{this section is inspired by Olga's article ``A Computational Study of Traffic Assignment Algorithms''}
 
 Different methods exist for solving the traffic assignment problem.
 They are classified by how the solution is presented.
@@ -156,9 +152,9 @@ path-based are path flows,
 and origin-based are link flows coming from a particular origin.
 Summaries of these methods can be found in ~\citet{Zhou2010}.
 These solution methods, which have been widely studied,
-result different numerical accuracies and vary greatly in run time and memory requirement.
+result different numerical accuracies and vary greatly in run time and memory requirement \citep{Olga2013}.
 
-The deterministic network equilibrium model described in the previous section is equivalent to a convex cost differentiable optimization problem,
+The deterministic network equilibrium model described in the previous section is equivalent to a convex cost differentiable optimisation problem,
 where a wide range of algorithms exists for solving such problem.
 They include, the linear approximation method,
 the linear approximation with parallel tangents method,
@@ -166,8 +162,8 @@ the restricted simplicial decomposition method,
 and the path equilibration algorithm \citep{Florian}.
 
 In this project, we focus on the path-based algorithm (also known as path equilibration algorithm) proposed in~\citet{Dafermos1969}.
-The algorithm have traditionally been discarded by transportation researchers as too memory-intensive and slow for large networks \citep{Jayakrishnan1994}.
-As a result, the development of path-based algorithm has only began in the last decade, and there exist lots of areas for improvement.
+The algorithm has traditionally been discarded by transportation researchers as too memory-intensive and slow for large networks \citep{Jayakrishnan1994}.
+As a result, the development of path-based algorithm has only began in the last decade, and there exist lots of areas for improvement \citep{Olga2013}.
 
 \section{The path equilibration algorithm}
 The general approach of the path equilibration algorithm is equivalent to
@@ -225,23 +221,23 @@ The algorithm for solving the $l^\text{th}$ sub-problem of each O-D pair $i \in 
 In step 0, a so called all-or-nothing assignment is performed for each of the O-D pairs,
 where it finds the shortest path for O-D pair $i$ and assigns all traffic supplies along that path to the destination.
 In step 1, the two paths that have the minimum and maximum costs are found.
-If costs of the two paths are the same, then we can go to the next O-D pair because all traffics have minimised their travel times.
+If costs of the two paths are the same, then we can go to the next O-D pair because all travellers have minimised their travel times.
 In step 2, since travel times have not been minimised, we improve the currently used paths set from step 1 by computing a new shortest path.
 In steps 3 and 4, traffic flows are redistributed between the longest and shortest paths, these steps are equivalent to solving the Wardrop equilibrium shown in Equation~\eqref{wardrop1}-\eqref{wardrop3}.
 
 Keep in mind the all-or-nothing assignment is different from the traffic assignment solution.
 The all-or-nothing assignment gives the solution where between every O-D pair,
 all traffic flows are assigned along the shortest path.
-Meanwhile the traffic assignment gives the solution where every individual traveller travel along their shortest path,
+Meanwhile the traffic assignment gives the solution where every individual traveller travels along their shortest path,
 so between O-D pairs, there is a set of paths with different traffic flows.
 This is presented by the set of kept path $K_i^+$ in the path equilibration algorithm.
 
 In summary, in each iteration of the path equilibration algorithm,
-it first computes the shortest path with fixed traffic flows and link costs for O-D pair $i \in I$, moves the traffic flow to satisfy the Wardrop equilibrium,
-updates all the link costs and finally continue with the next O-D pair.
+it first computes the shortest path with fixed traffic flows and link costs for O-D pair $i \in I$, moves the traffic flow closer to satisfying the Wardrop equilibrium,
+updates all the link costs and finally continues with the next O-D pair.
 
-The path equilibration is said to be memory intensive is because for each O-D pair, it has to store all of the kept path $K_i^+$.
-On networks with millions of O-D pairs, the algorithm may require more than 10 gigabytes of memory.
+Path equilibration is said to be memory intensive because for each O-D pair, it has to store all of the kept path $K_i^+$.
+On networks with millions of O-D pairs, the algorithm may require more than 10 gigabytes of memory, as our algorithms show.
 
 If we are given a large network and assume it requires many iterations to find the optimal solution,
 it can be shown that a large number of shortest path calculations are needed.
@@ -253,7 +249,7 @@ In reality,
 networks may contain millions of O-D pairs.
 Thus for this project we wish to
 investigate and find a faster shortest path algorithm,
-and also investigate other ways of improving it for the traffic assignment problem.
+and also investigate other ways of improving solution time for the traffic assignment problem.
 
 \section{Convergence and stopping criterion} \label{sec:convergence}
 For completeness, the convergence criterion for the traffic assignment is discussed in this section.
@@ -278,5 +274,4 @@ but normally we stop the algorithm at some tolerance such as $10^{-6}$.
 
 It is worth to note that the speed of convergence is highly dependent on how small the relative gap is set,
 as well as the size and complexity of the network.
-The rate of convergence does not decrease monotonically. \todo{\ldots how do I describe the convergence behaviour? }
 A smaller relative gap will result in more iterations for the traffic assignment algorithms.

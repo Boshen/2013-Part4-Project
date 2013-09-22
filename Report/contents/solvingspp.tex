@@ -1,12 +1,12 @@
 \chapter{Solving the Shortest Path Problem} \label{chap:solvingspp}
 The previous chapter describes the details of the traffic assignment problem.
-Algorithms such as the path equilibration algorithm used to solve the traffic assignment requires to solve the shortest path problem on a static graph, where the graph does not change while the shortest path is getting solved.
+Algorithms such as the path equilibration algorithm used to solve the traffic assignment require to solve the shortest path problem on a static graph, where the graph does not change while the shortest path is getting solved.
 Thus in this chapter, we investigate 
 various standard algorithms which have been developed 
 to address the problem of finding the shortest path.
 This chapter states notation and definitions for the shortest path problem and discusses
 the theory of solving it.
-Algorithms that are applicable for the traffic assignment problem are summarised,
+Shortest path algorithms that are applicable for the traffic assignment problem are summarised,
 including the discussion of their advantages and drawbacks.
 
 \section{Notations and definitions}
@@ -193,7 +193,6 @@ or Bellman-Ford-Moore algorithm (credited to \citet{Bellman, Ford} and \citet{Mo
 The algorithm is addressed as the label correcting algorithm
 because the distance labels do not get permanently labelled when a node $u$ is retrieved from the queue,
 the distance label of node $u$ may be `corrected' by some other node $v$ when $v$ is retrieved from the queue and re-updates $u$.
-\todo[inline]{not sure if the above paragraph makes sense\ldots}
 
 One specific strategy for maintaining the queue is described in \citet{Sheffi}.
 This strategy is shown to be very effective for computing shortest path on transportation networks.
@@ -228,7 +227,6 @@ This reduces the total run time as the algorithm does not have to scan the entir
 which is desirable for the path equilibration algorithm described in the previous chapter.
 
 \subsection{Priority queues} \label{sec:pq}
-\todo[inline]{draw a min-heap tree if have time \ldots?}
 The run time performance of Dijkstra's algorithm depends heavily on the implementation of the queue $\mathcal{Q}$ for storing the scanned nodes.
 \citet{Cormen} suggests the use of priority queues.
 Priority queues are a collection of data structures
@@ -415,7 +413,6 @@ The searches can be stopped if the sum of the two top priority queue values is g
 Here $\text{top}_f$ and $\text{top}_r$ are the next minimum distance labels that have not been labelled in the forward and backward search.
 
 Overall, the bidirectional version of Dijkstra's algorithm can be faster than the single direction one if it is implemented correctly using the best termination criterion.
-\todo[inline]{Andrea asks if it also depends on the network. - so how do I say it needs a `nice' network?}
 
 \section{A* Search}\label{section:A*}
 Dijkstra's algorithm can be imagined as growing the shortest path tree radially out from the origin,
@@ -465,7 +462,7 @@ nodes that are closer to the destination are now labelled first.
 In our traffic assignment problem,
 geographical coordinates and Euclidean distances cannot be used.
 This is because the length of the arcs are determined by the BPR link cost function,
-where it determines the travel time on the link based on the traffic flow.
+where travel time on the link is based on the traffic flow in the current iteration.
 It is important to note here that in the path equilibration algorithm for solving the traffic assignment problem,
 the traffic flow changes in each iteration of the algorithm and so does the travel time.
 When the traffic assignment is getting solved,
@@ -481,7 +478,6 @@ where some of the arc travel times from the previous iteration is longer than th
 Using these longer travel times from the previous iteration will overestimate the travel time for the current iteration,
 the resulting shortest path is not guaranteed to be optimal any more.
 
-\todo[inline]{below is a re-written paragraph }
 Another option is to use zero-flow travel times for the heuristic estimates.
 The estimates $h_u$ can be obtained from computing the shortest path tree for every node $u$ where the traffic flow of the entire network is set to 0.
 So when solving for the shortest path of any O-D ($s-t$) pair when there are traffic flows,
@@ -495,7 +491,7 @@ This means zero-flow travel times can be used for the heuristic estimates, and t
 
 Overall, A* search does not improve the worst case time complexity compared to Dijkstra's algorithm,
 but it can improve the average case by scanning less nodes in the network.
-It can be see that when $h_u = 0 \forall u \in N$, A* search is equivalent to Dijkstra's algorithm.
+It can be see that when $h_u = 0$ ($\forall u \in N$), A* search is equivalent to Dijkstra's algorithm.
 A* search has been tested in various studies.
 In the case of using road networks,
 \citet{GoldbergLandmarks} conclude that A* search with Euclidean distance estimates does not improve the run time compared to Dijkstra's algorithm when using Euclidean distance estimates.
@@ -569,7 +565,6 @@ it can cause either wrong shortest path to be calculated or having the two searc
     \caption{Heuristic values for bidirectional A* search}
     \label{fig:bidirect_heuristic}
 \end{figure}
-\todoin[inline]{add $\pi_f(t) and \pi_r(s)$ for figure}
 \end{comment}
 
 %The strategy is described as follows.
@@ -638,8 +633,6 @@ The heuristic estimate to be used during A* search is the maximum over all landm
 With these formulations, \citet{GoldbergLandmarks} concluded that it is best to place the landmarks in front of the origins or behind the destinations,
 i.e.\ around the outer boundary of the graph.
 
-\todo[inline]{This page is in colour!}
-
 \begin{figure}[!ht]
     \centering
     \tikzstyle{node} = [draw,circle,inner sep=0pt,outer sep=0pt, minimum width=3pt, fill=black]
@@ -677,16 +670,8 @@ The landmarks algorithm requires to store all shortest path distances for all la
 Although the preprocessing stage of the landmarks algorithm can take a long time,
 it was shown that the shortest path solving times are significantly faster than A* search using Euclidean distance estimates (results can be found in \citet{GoldbergLandmarks}).
 
-\begin{comment}
-The landmarks method and similar preprocessing techniques have a few drawbacks that need to be considered.
-The first drawback is that the preprocessing time may be longer than the actual shortest path solving time,
-so combined running time may take longer.
-This is shown in \citet{GoldbergEPP},
-where a network with more than a million nodes takes 4 minutes to pre-process while the 
-\todo[inline]{you'd only do this once for 0-flows times though? And they are only a few SP trees - need to check with Goldberg's results}
-\end{comment}
-
 For the equilibration algorithm of the traffic assignment,
 it is unknown whether landmarks using zero-flow travel times can provide better estimates compared to Euclidean distances.
 Furthermore, both preprocessing and shortest path solving time of this algorithm are heavily dependent on the quantity and placement of the landmarks,
-which is another optimization problem where different strategies and algorithms need to be studied.
+which is another optimisation problem where different strategies and algorithms need to be studied.
+Due to these two problems, landmarks algorithm is not investigated further for this project.

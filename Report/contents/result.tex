@@ -1,5 +1,4 @@
 \chapter{Experimental Results}\label{chap:results}
-\todo[inline]{Andrea suggested to compare Dijkstra and Bellman for one-to-all SP. - Then I have to mention origin-based algo \ldots}
 In this chapter we present experimental results.
 All experiments are run under 12.04 Ubuntu Linux on an ASUS K46C laptop,
 which has four Intel Core i5-3317U CPU and 3.8GiB RAM.
@@ -9,7 +8,7 @@ the traffic assignment problem has already been implemented by Olga Perederieiev
 Specifically, only Bellman-Ford-Moore algorithm is available for computing the shortest path. 
 
 All results presented in this chapter are based on newly developed code.
-The algorithms are written in C++, compiled by the g++ compiler using the `-O3' optimization flag.
+The algorithms are written in C++, compiled by the g++ compiler using the `-O3' optimisation flag.
 All timed results are measured for a complete run of traffic assignment,
 where all algorithms are run on a single core of the CPU.
 All solutions use $10^{-6}$ as the relative gap for the stopping criterion.
@@ -28,7 +27,7 @@ Compared to other networks in the table,
 Anaheim, Barcelona and Winnipeg are small networks.
 Chicago Sketch is a medium sized network that is part of the Chicago Regional network.
 Berlin Center is a medium sized network.
-Philadelphia and Chicago Regional are two large networks that have over a million number of O-D pairs.
+Philadelphia and Chicago Regional are two large networks that have over a million O-D pairs.
 
 Note the complexity of the traffic assignment problem and the run time of the path equilibration algorithm are heavily influenced by the number of O-D pairs in the networks.
 For example, although Philadelphia and Chicago Regional networks are similar in size,
@@ -58,7 +57,7 @@ The priority queues are used in Dijkstra's algorithm on the Winnipeg and Chicago
 The results are shown in Figure~\ref{fig:pq_runtime2} and~\ref{fig:pq_runtime},
 where the run times are measured from a complete run of the traffic assignment.
 On the Winnipeg and Chicago Sketch network, a total of $547{,}344$ and $2{,}328{,}375$ shortest paths are solved respectively.
-The exact numerical results can be found in Table~\ref{table:pq_results} of Appendix~\ref{appendix:pq_results}.
+The exact numerical results can be found in Table~\ref{table:pq_results} of Appendix~\ref{appendix}.
 
 On both networks, 
 $\langle$priority\_queue$\rangle$ has the best performance and the Binomial heap has the worst performance.
@@ -79,14 +78,14 @@ $\langle$set$\rangle$ is significantly slower than $\langle$priority\_queue$\ran
     \label{fig:pq_runtime}
 \end{figure}
 
-\subsection{Discussion of priority queues}
-The priority queue implementation results showed that
+\subsection{Discussion on priority queues}
+The priority queue implementation results show that
 all of the heap implementations from the Boost library and $\langle$set$\rangle$ are worse than $\langle$priority\_queue$\rangle$.
 The reason behind this can be explained using the Binary heap implementation.
 It turns out that the implementation of $\langle$priority\_queue$\rangle$ is similar to Binary heap from the Boost library,
 the only difference is their underlying storage of node information.
 Nodes are stored using an array in the standard library version,
-where as the Boost library uses pointer references to keep track of 
+whereas the Boost library uses pointer references to keep track of 
 the nodes.
 Due to computer cache coherence,
 it is known that accessing data from a nearby random access memory (RAM) locations in a short period of time is faster than accessing from distant memory locations.
@@ -102,7 +101,6 @@ Here we discuss the reason behind Fibonacci heap not performing well despite its
 As described in the two priority queue sections (Section~\ref{sec:pq} and \ref{sec:pq_implementation}),
 the Decrease-Key operation is used to change the distance label of a node when the node is already in the heap.
 It was discovered that the $O(1)$ time has a very high constant factor,
-\todo{I have no reference for this\ldots it's found on stackoverflow}
 and Fibonacci heap only works well if the underlying graph is large and dense (i.e.\ every node connects to almost every other node).
 This discovery comes from the fact that 
 the Decrease-Key operation is only used frequently when the graph is dense,
@@ -128,7 +126,7 @@ We use $\langle$priority\_queue$\rangle$, implement and test the following algor
 \end{itemize}
 %Therefore we use $\langle$priority\_queue$\rangle$ from the C++ standard template library and implement Dijkstra's algorithms and A* search, as well as their bidirectional versions.
 Figure~\ref{fig:allresults} shows the performance of the mentioned algorithms on the Anaheim, Barcelona, Winnipeg and Chicago Sketch networks
-(see Table~\ref{table:allresults} of Appendix~\ref{appendix:sp_results} for exact numerical results).
+(see Table~\ref{table:allresults} of Appendix~\ref{appendix} for exact numerical results).
 The networks are spaced out on the horizontal axis to show their relative sizes, i.e.\ the number of O-D pairs.
 
 Bellman-Ford-Moore algorithm has the worst performance while A* search has the best performance on all networks.
@@ -151,7 +149,7 @@ It can be seen that Dijkstra's algorithm scans the entire network.
 Bidirectional Dijkstra scans almost the entire network with some nodes left out on the sides of the network.
 Bidirectional A* scans a slightly larger region near the origin and destination nodes,
 and the A* search scans just a few nodes along the shortest path.
-The behaviours of the algorithms are shown further in Figure~\ref{fig:short_sptree},
+The behaviour of the algorithms are shown further in Figure~\ref{fig:short_sptree},
 where the origin and destination are placed close to each other.
 It can be seen that both Dijkstra's algorithm and its bidirectional version scan almost half of the graph,
 where the bidirectional version scans fewer nodes.
@@ -176,13 +174,11 @@ That is, heuristic estimates need to be averaged from the forward and backward s
 Since the bidirectional version has similar stopping criterion compared to the bidirectional Dijkstra's algorithm,
 it is easy to understand why bidirectional A* has a worse performance.
 
-\todo[inline]{new paragraph below}
-Finally, there is one thing that need to be pointed out for A* search.
+Finally, there is one thing that needs to be pointed out for A* search.
 A* search requires to run Dijkstra's algorithm on all nodes (not zones) in the network to obtain the heuristic estimates (zero-flow travel times from every node to every destination) and store the travel time values (not the paths).
-This procedure is similar to that of preprocessing algorithms,
+This procedure is similar to that of pre-processing algorithms,
 where we need to pre-process the network so subsequent queries can be made faster.
-Upon investigation, the run time of this preprocessing process is almost identical to the subsequent iterations of the path equilibration algorithm using A* search,
-so the overall run time is still faster than all other tested algorithms.
+In our A* search results, the run times included the pre-processing and the overall run time is still faster than all the other tested algorithms.
 
 \begin{figure}
     \centering
@@ -254,17 +250,5 @@ And also there is a high chance of not being able to work efficiently,
 as the algorithm is aimed at geographic node locations and Euclidean distances,
 not travel times based on traffic flows.
 Using zero-flow travel times may work but it was decided not to investigate this further.
+Instead, we focus on strategies that avoid some of the shortest path computations altogether in the path equilibration algorithm.
 
-\begin{comment}
-Preprocessing algorithms are not really practical for the traffic assignment problem and the transportation forecasting model.
-This is because normally these algorithms tend to spend much longer time preprocessing than it takes to just run a standard shortest path algorithm.
-Since the purpose of the traffic assignment is to modify the network and resolve the problem to see its effect on congestion,
-it is not ideal to re-run the preprocessing algorithm every time the network is modified.
-\todo[inline]{delete this, this is wrong}
-It also means that the preprocessing stage needs to be re-run whenever there is a physical change in the road network (e.g.\ a new road is added),
-which is undesirable for transportation planning because the road network changes constantly to improve congestion.
-
-\todo[inline]{need to rewrite/ reconsider/ drop this? see page 37}
-\end{comment}
-
-\todo[inline]{not sure if SP shown next page is identifiable or not with black and white print, I have thickened them but not sure if they need to be more thicker}
