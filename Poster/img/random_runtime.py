@@ -7,16 +7,24 @@ font = FontProperties()
 #font.set_family('serif')
 font.set_size(26)
 
-fig = pylab.figure(figsize=(18,8),dpi=150)
+fig = pylab.figure(figsize=(18,6),dpi=300)
+ax = fig.add_subplot(111)
 y = [19.53, 17.14, 16.04]
-index = range(1, 4)
-p1 = pylab.bar(index, y, width=0.2, align='center')
+index = [1, 1.5, 2]
+p1 = ax.bar(index, y, width=0.1, align='center')
 pylab.setp(p1, color='#0044FF')
+pylab.setp(p1[-1], color='#FF5E29')
 
 pylab.xticks(index, ['A* search', 'avoid next 5', 'avoid randomly with \n 50% probability'], fontproperties=font)
 pylab.yticks(fontproperties=font)
 
+ax.spines["right"].set_visible(False)
+ax.spines["top"].set_visible(False)
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
+ax.tick_params(bottom='off') 
+
 #pylab.title('Run times of A* search and with 50% random skipping\n on Philadelphia and Chicago Regional network', fontproperties=font)
-pylab.ylabel('Run time\n(seconds)', {'rotation':'horizontal'}, fontproperties=font)
+pylab.ylabel('seconds', {'rotation':'horizontal'}, fontproperties=font)
 
 pylab.savefig('random_runtime.pdf', bbox_inches='tight')
