@@ -29,7 +29,7 @@
 \begin{document}
 \begin{frame}{ }
     \begin{columns}[t]
-        \begin{column}{.28\linewidth}
+        \begin{column}{.26\linewidth}
 
             \begin{block}{Introduction}
                 \begin{itemize}
@@ -74,7 +74,7 @@
                     \item in PE, can \alert{avoid} shortest path calculations to speed up overall performance
                     \item use shortest path from previous iteration if calculation in current iteration is avoided
                     \item first strategy: avoid the \alert{next few} iterations if the shortest path of the \alert{previous two} iterations are \alert{identical}
-                    \item second strategy: \alert{randomly} avoid the next shortest path calculation in the hope that path of \alert{previous and current} iteration are \alert{identical}
+                    \item second strategy: \alert{randomly avoid} the next shortest path calculation in the hope that path of \alert{previous and current} iteration are \alert{identical}
                 \end{itemize}
             \end{block}
 
@@ -128,7 +128,7 @@
             \end{block}
 
         \end{column}
-        \begin{column}{.28\linewidth}
+        \begin{column}{.26\linewidth}
             \begin{block}{Results on Medium Sized Network}
                 \begin{itemize}
                     \itemsep.5em
@@ -153,7 +153,7 @@
             \begin{block}{Conclusion}
                 \begin{itemize}
                     \itemsep.5em
-                    \item \alert{best performance} : A* search algorithm using min-heap tree with random skipping strategy
+                    \item \alert{best performance}: A* search algorithm using min-heap tree with random avoiding strategy
                     \item overall more than \alert{3000\% improvement} compared to the existing shortest path algorithm
                 \end{itemize}
             \end{block}
