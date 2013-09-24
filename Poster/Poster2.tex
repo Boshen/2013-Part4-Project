@@ -129,10 +129,10 @@
 
     \end{column}
     \begin{column}{.26\linewidth}
-        \begin{block}{Results on medium sized network}
+        \begin{block}{Results}
             \begin{itemize}
                 \itemsep.4em
-                \item 8 different priority queues were tested, 4 shortest path algorithms were implemented and 2 strategies for avoiding shortest path calculation in PE were tested
+                \item 8 different priority queues were tested, 4 shortest path algorithms were implemented and 2 strategies for avoiding shortest path calculation in PE were tested on the same part of the Chicago regional network
             \end{itemize}
             \begin{figure}
                 \centering
@@ -141,7 +141,7 @@
             \end{figure}
             \begin{figure}
                 \centering
-                {\bfseries \qquad Run times of shortest path algorithms\\ using min-heap tree}
+                {\bfseries \qquad Run times of shortest path algorithms\\ using binary min-heap tree}
                 \includegraphics[width=\linewidth]{img/runtime}
             \end{figure}
             \begin{figure}
@@ -153,7 +153,7 @@
         \begin{block}{Conclusions}
             \begin{itemize}
                 \itemsep.4em
-                \item A* search algorithm using min-heap tree with random avoiding strategy has the \alert{best performance}
+                \item A* search algorithm using binary min-heap tree with random avoiding strategy has the \alert{best performance}
                 \item \alert{30 times faster} than the existing implemented shortest path algorithm
              %   \item A \alert{30 times improvement} was observed compared to the existing implemented shortest path algorithm
             \end{itemize}

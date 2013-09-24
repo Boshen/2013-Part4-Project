@@ -27,6 +27,6 @@ ax.tick_params(bottom='off')
 
 #pylab.title('Dijkstra\'s algorithm run times using different priority queues', fontproperties=font)
 #pylab.xlabel('Priority Queues', fontproperties=font)
-pylab.ylabel('seconds', {'rotation':'horizontal'}, fontproperties=font)
+pylab.ylabel('seconds', fontproperties=font)
 
 pylab.savefig('pq_runtime.pdf', bbox_inches='tight')
