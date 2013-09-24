@@ -355,8 +355,8 @@ It is easy to see that the total search area of the bidirectional version is a l
 It is common to conclude that the shortest path is found when the two searches meet somewhere in the middle,
 but this is not actually the case.
 There may exist another arc connecting the two frontiers of the searches that has a shorter path (proof can be found in \citet{Klunder}).
-The correct termination criteria was first designed and tested by \citet{Pohl} based on research presented by \citet{Dantzig, Nicholson} and \citet{Dreyfus}.
-The procedure and algorithm are summarised in \citet{Klunder}, and the termination criteria is presented by \citet{Pohl}.
+The correct termination criteria was first designed and tested in \citet{Pohl} based on research presented in \citet{Dantzig, Nicholson} and \citet{Dreyfus}.
+The procedure and algorithm are summarised in \citet{Klunder}, and the termination criteria is presented in \citet{Pohl}.
 
 The bidirectional search algorithm is shown in Algorithm~\ref{algo:bidirectional}.
 Two independent Dijkstra's algorithms are performed alternatively on the forward and reverse graph (forward and backward search).
@@ -405,10 +405,10 @@ The algorithm terminates when a node is permanently labelled in both directions,
 where $\mu$ gives the length of the shortest path.
 
 \citet{GoldbergEPP} showed and proved a stronger termination condition on top of the previous one.
-The searches can be stopped if the sum of the two top priority queue values is greater than $\mu$
-\[
+The searches can be stopped if the sum of the two top priority queue values is greater than $\mu$:
+\begin{equation}
     \text{top}_f + \text{top}_r \geq \mu.
-\]
+\end{equation}
 Here $\text{top}_f$ and $\text{top}_r$ are the next minimum distance labels that have not been labelled in the forward and backward search.
 
 Overall, the bidirectional version of Dijkstra's algorithm can be faster than the single direction one if it is implemented correctly using the best termination criterion.
@@ -418,7 +418,7 @@ Dijkstra's algorithm can be imagined as growing the shortest path tree radially 
 the location of the destination does not affect how the shortest path tree is grown.
 In fact, heuristic estimates can be used to guide the shortest path tree towards the destination,
 forming an ellipsoid shape.
-The use of heuristic estimates was first described by \citet{Astar},
+The use of heuristic estimates was first described in \citet{Astar},
 where the algorithm is given the name A* search.
 A* search is a goal directed search where the direction of search is aimed towards the destination.
 

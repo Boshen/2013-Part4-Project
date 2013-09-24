@@ -9,7 +9,7 @@ font = FontProperties()
 font.set_size(26)
 
 y = [369.10, 155.14, 130.22, 155.34, 140.55, 120.45, 149.95, 87.52]
-fig = pylab.figure(figsize=(18,6), dpi=300)
+fig = pylab.figure(figsize=(18,7), dpi=300)
 index = map(lambda t:t+0.5, range(len(x)))
 ax = fig.add_subplot(111)
 p = ax.bar(index, y, width=0.5, align='center')

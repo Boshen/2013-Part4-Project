@@ -3,21 +3,15 @@
 %\usefonttheme[onlymath]{serif}
 \usefonttheme{default}
 
+\usepackage[orientation=landscape,size=a1]{beamerposter} 
 \usepackage{microtype}
 \usepackage{fixltx2e}
-
-%\usepackage[T1]{fontenc}
-%\usepackage{lmodern}
-
-\usepackage[orientation=landscape,size=a1]{beamerposter} 
-\usepackage{exscale}
-\usepackage{booktabs, array}
 \usepackage[english]{babel}
-\usepackage[latin1]{inputenc}
+%\usepackage[T1]{fontenc}
 \usepackage{amsmath,amsthm, amssymb, latexsym}
 \usepackage{graphicx}
-\usepackage[center,labelformat=empty, font=normal]{caption}
-\usepackage[labelformat=empty, font=normal]{subcaption}
+\usepackage{caption}
+\usepackage{subcaption}
 
 
 %\beamertemplategridbackground[1em]
@@ -37,16 +31,14 @@
                     \item transportation forecasting model
                     \item mathematically describes the behaviour of traffic
                     \item people wish to travel on shortest path with least travel time
-                    \item \alert{goal}: find a \alert{faster} algorithm for solving the \alert{shortest path} problem between origins and a destinations in transportation network
+                    \item \alert{goal}: find a \alert{faster} algorithm to solve the \alert{shortest path problem} between origins and destinations in a transportation network
                 \end{itemize}
             \end{block}
 
-            \hspace{25em}
-
-            \begin{block}{Traffic Assignment}
+            \begin{block}{Traffic assignment}
                 \begin{itemize}
                     \itemsep.5em
-                    \item \alert{Traffic Assignment (TA)} deals with selection of \alert{shortest path} for everyone in the network to \alert{minimise} their \alert{travel times}
+                    \item \alert{Traffic Assignment (TA)} deals with selection of \alert{shortest path} for travellers in the network to \alert{minimise} their \alert{travel times}
                     \item a \alert{non-linear} problem, travel times increase dramatically when \alert{congestion} happens
                     \item an \alert{iterative algorithm} called \alert{Path Equilibration (PE)} algorithm is used to solve TA
                     \item \alert{PE} requires to find \alert{millions} of \alert{shortest paths}
@@ -55,20 +47,16 @@
                 \end{itemize}
             \end{block}
 
-            \hspace{25em}
-
-            \begin{block}{Shortest Path Algorithms}
+            \begin{block}{Shortest path algorithms}
                 \begin{itemize}
                     \itemsep.5em
                     \item find path with least distance in network
-                    \item scan nodes in network in some order until destination is found
-                    \item need a data structure called \alert{priority queue} to keep the scanned nodes in sequence so the next node to scan can be easily found
+                    \item search nodes in network in some order until destination is found
+                    \item need a data structure called \alert{priority queue} to keep the searched nodes in sequence so the next node to search can be found easily
                 \end{itemize}
             \end{block}
 
-            \hspace{25em}
-
-            \begin{block}{Faster in Traffic Assignment}
+            \begin{block}{Faster in traffic assignment}
                 \begin{itemize}
                     \itemsep.5em
                     \item in PE, can \alert{avoid} shortest path calculations to speed up overall performance
@@ -81,12 +69,12 @@
         \end{column}
         \begin{column}{.4\linewidth}
 
-            \begin{block}{Search Areas of Shortest Path Algorithms}
+            \begin{block}{Search areas of shortest path algorithms}
                 \begin{itemize}
                     \itemsep.5em
                     \item performance of shortest path algorithms is heavily dependent on the \alert{search area}
-                    \item \alert{search less} area should be \alert{faster}
-                    \item the following figures demonstrate search areas of the implemented shortest path algorithms on a \alert{medium sized} network with $546$ nodes and $2{,}950$ arcs
+                    \item less searched areas may result faster computational time
+                    \item the following figures demonstrate search areas of the implemented shortest path algorithms on a \alert{medium sized network} with $546$ nodes and $2{,}950$ arcs
                 \end{itemize}
                 \vspace{1em}
                 \begin{figure}
@@ -95,27 +83,39 @@
                         \centering
                         {\bfseries Dijkstra's algorithm }
                         \includegraphics[width=\linewidth,trim=120px 280px 48px 60px,clip]{img/dijkstra}
-                        \caption{searches the \alert{entire network}}
+                        \begin{itemize}
+                        \centering
+                            \item searches the \alert{entire network}
+                        \end{itemize}
                     \end{subfigure}%
                     \begin{subfigure}{.5\linewidth}
                         \vspace{.1em}
                         \centering
                         {\bfseries Bidirectional Dijkstra's algorithm}
                         \includegraphics[width=\linewidth,trim=120px 280px 48px 60px,clip]{img/dijkstra_bidirect}
-                        \caption{searches from \alert{both ends simultaneously}}
+                        \begin{itemize}
+                        \centering
+                            \item searches from \alert{both ends alternatively}
+                        \end{itemize}
                     \end{subfigure}
                     \begin{subfigure}{.5\linewidth}
                         \centering
                         {\bfseries A* Search}
                         \includegraphics[width=\linewidth,trim=120px 280px 48px 60px,clip]{img/astar}
-                        \caption{searches \alert{along the expected} shortest path}
+                        \begin{itemize}
+                        \centering
+                            \item searches \alert{along the expected} shortest path
+                        \end{itemize}
                     \end{subfigure}%
                     \begin{subfigure}{.5\linewidth}
                         \vspace{1.3em}
                         \centering
                         {\bfseries Bidirectional A* Search}
                         \includegraphics[width=\linewidth,trim=120px 280px 48px 60px,clip]{img/astar_bidirect}
-                        \caption{searches \alert{along the expected} shortest path from \alert{both ends simultaneously}} 
+                        \begin{itemize}
+                        \centering
+                            \item searches \alert{along the expected} shortest path from \alert{both ends alternatively}
+                        \end{itemize}
                     \end{subfigure}
                 \end{figure}
                 \begin{itemize}
@@ -129,7 +129,7 @@
 
         \end{column}
         \begin{column}{.26\linewidth}
-            \begin{block}{Results on Medium Sized Network}
+            \begin{block}{Results on medium sized network}
                 \begin{itemize}
                     \itemsep.5em
                     \item tested \alert{8 different priority queues}, implemented \alert{4 shortest path algorithms} and experimented \alert{2 strategies} for traffic assignment
@@ -150,11 +150,11 @@
                     \includegraphics[width=\linewidth]{img/random_runtime}
                 \end{figure}
             \end{block}
-            \begin{block}{Conclusion}
+            \begin{block}{Conclusions}
                 \begin{itemize}
                     \itemsep.5em
                     \item \alert{best performance}: A* search algorithm using min-heap tree with random avoiding strategy
-                    \item overall more than \alert{3000\% improvement} compared to the existing shortest path algorithm
+                    \item overall more than \alert{30 times improvement} compared to the existing shortest path algorithm
                 \end{itemize}
             \end{block}
         \end{column}

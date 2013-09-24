@@ -12,7 +12,7 @@ algos = ['Bellman-Ford\n(existing)', 'Dijkstra', 'Bidirectional\nDijkstra', 'A* 
 
 index = map(lambda t:t+0.5, range(len(times)))
 
-fig = pylab.figure(figsize=(18,6),dpi=300)
+fig = pylab.figure(figsize=(18,7),dpi=300)
 
 gs = gridspec.GridSpec(2, 1, height_ratios=[1,2])
 
