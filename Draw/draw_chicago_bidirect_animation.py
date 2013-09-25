@@ -45,7 +45,6 @@ with open("ChicagoSketch_net.txt", 'r') as f:
                 #G.add_edge(fr, to)
         if len(ss) != 0 and ss[0] == '~':
             readData = True
-    
 _forwardtree = []
 _backwardtree = []
 _path = []
@@ -91,9 +90,9 @@ for i in xrange(7):
     nx.draw_networkx_nodes(G, pos, nodelist=[origin,destination],node_size=100,node_color='r')
 
     p1 = nx.draw_networkx_edges(G, pos, edgelist=edgelist, edge_color='k', arrows=False, widths=1, alpha=0.1)
-    p2 = nx.draw_networkx_edges(G, pos, edgelist=forwardtree, edge_color='b', arrows=False, width=2, alpha=0.6)
-    p3 = nx.draw_networkx_edges(G, pos, edgelist=backwardtree, edge_color='g', arrows=False, width=0.8, alpha=0.6)
-    p4 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='#FF5E29', arrows=False, width=1.5)
+    p2 = nx.draw_networkx_edges(G, pos, edgelist=forwardtree, edge_color='b', arrows=False, width=2)
+    p3 = nx.draw_networkx_edges(G, pos, edgelist=backwardtree, edge_color='g', arrows=False, width=2)
+    p4 = nx.draw_networkx_edges(G, pos, edgelist=path, edge_color='#FF5E29', arrows=False, width=5)
     plt.legend([p1, p2, p3, p4],["unsearched areas", "forward search", "backward search", "shortest path"], bbox_to_anchor=(0, 0, 0.99, 0.9), loc=1, prop={"size":35}, frameon=False) 
 
     x, y = pos[origin]

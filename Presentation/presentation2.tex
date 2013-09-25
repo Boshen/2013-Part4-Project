@@ -5,6 +5,9 @@
 \useoutertheme{infolines} 
 \usecolortheme{whale}
 
+\definecolor{i6colorscheme1}{cmyk}{0,0.7,0.839,0}
+\setbeamercolor{alerted text}{fg=i6colorscheme1}
+
 \setbeamertemplate{footline}
 {
   \leavevmode%
@@ -68,7 +71,7 @@
     \begin{itemize}
         \item transportation network with supply and demand nodes
         \item minimise travel times
-        \item arcs have non-linear travel times for capturing congestion effects
+        \item arcs have \alert{non-linear} travel times for capturing \alert{congestion} effects
     \end{itemize}
 
 \end{frame}
@@ -145,7 +148,7 @@
     }
 \end{frame}
 
-\begin{frame}{Priority queues results}
+\begin{frame}{Priority Queues Results}
     \includegraphics[width=\textwidth, keepaspectratio]{img/pq_runtime}
 \end{frame}
 
@@ -161,7 +164,7 @@
     }
 \end{frame}
 
-\begin{frame}[shrink]{A* Search (Best-First Search)}
+\begin{frame}[shrink]{A* Search (Goal-Directed Search)}
     \begin{itemize}
         \item Visit the next node that is on the expected shortest path.
     \end{itemize}
@@ -184,7 +187,7 @@
     }
 \end{frame}
 
-\begin{frame}{Shortest path algorithm results}
+\begin{frame}{Shortest Path Algorithm Results}
     \includegraphics[width=\textwidth, keepaspectratio]{img/runtime}
 \end{frame}
 
@@ -201,7 +204,7 @@
 
 
 
-\begin{frame}{Avoiding shortest path calculation results}
+\begin{frame}{Avoiding Shortest Path Calculation Results}
     \includegraphics[width=\textwidth, keepaspectratio]{img/random_runtime}
 \end{frame}
 
@@ -216,7 +219,7 @@
         \item preprocessing
             \begin{itemize}
                 \item multi-thread on GPU
-                \item use the avoiding stratey on similar algorithms that solve the traffic assignment problem
+                \item use the avoiding strategy on similar algorithms that solve the traffic assignment problem
             \end{itemize}
     \end{itemize}
 \end{frame}
