@@ -22,8 +22,8 @@ ax2 = pylab.subplot(gs[1], sharex=ax)
 p1 = ax.bar(index, times, width=0.3, align='center')
 p2 = ax2.bar(index, times, width=0.3, align='center')
 
-pylab.setp(p1, color='#0044FF')
-pylab.setp(p2, color='#0044FF')
+pylab.setp(p1, color='#3333B3')
+pylab.setp(p2, color='#3333B3')
 pylab.setp(p2[3], color='#FF5E29')
 
 ax.set_ylabel('seconds', ha='left', va = 'top', fontproperties=font)#fontsize = 9)

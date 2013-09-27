@@ -47,8 +47,8 @@ with open("ChicagoSketch_net.txt", 'r') as f:
     
 for i in xrange(5):
     tree, path = [], []
-    with open("chicago_astar_data", 'r') as f:
-    #with open("chicago_dijkstra_data", 'r') as f:
+    #with open("chicago_astar_data", 'r') as f:
+    with open("chicago_dijkstra_data", 'r') as f:
         flag = False
         j = 0
         while True:

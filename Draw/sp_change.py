@@ -23,8 +23,10 @@ x, y = map(list,zip(*Counter(counts).items()))
 y = map(lambda t:100*t/93135.0, y)
 
 fig = pylab.figure(figsize=(14,10),dpi=240)
+ax = pylab.subplot(111)
 
-pylab.bar(x,y, align='center')
+p1 = ax.bar(x,y, align='center')
+pylab.setp(p1, color='#3333B3')
 
 for xx,yy in zip(x,y):
     pylab.annotate('%.2f' % yy, xy=(xx, yy), xytext=(0,2), textcoords='offset points', ha='center', va='bottom', fontproperties=font)

@@ -12,7 +12,7 @@ ax = fig.add_subplot(111)
 y = [19.53, 17.14, 16.04]
 index = [1, 1.5, 2]
 p1 = ax.bar(index, y, width=0.1, align='center')
-pylab.setp(p1, color='#0044FF')
+pylab.setp(p1, color='#3333B3')
 pylab.setp(p1[-1], color='#FF5E29')
 
 pylab.xticks(index, ['A* search', 'avoid next 5 iterations', 'avoid randomly with \n 50% probability'], fontproperties=font)
