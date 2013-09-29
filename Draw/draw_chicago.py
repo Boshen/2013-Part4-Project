@@ -45,7 +45,8 @@ with open("ChicagoSketch_net.txt", 'r') as f:
 # get shortest path tree
 tree = []
 path = []
-with open("chicago_dijkstra_data", 'r') as f:
+#with open("chicago_dijkstra_data", 'r') as f:
+with open("astar_reverse_data", 'r') as f:
     flag = False
     while True:
         line = f.readline()
@@ -74,4 +75,5 @@ plt.text(x-26000, y-30000, s="Origin", fontsize=35)
 x, y = pos[destination]
 plt.text(x-54000, y+12000, s="Destination", fontsize=35)
 plt.axis("off")
-plt.savefig("chicago_dijkstra.pdf", bbox_inches="tight")    
+#plt.savefig("chicago_dijkstra.pdf", bbox_inches="tight")    
+plt.savefig("astar_reverse.pdf", bbox_inches="tight")    
